@@ -1,0 +1,12 @@
+.projectTitle {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 42px;
+  align-items: center;
+  color: #ffffff;
+}
+
+.navBar {
+  border-bottom: 1px solid #ffffff66;
+}
