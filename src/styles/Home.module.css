@@ -9,4 +9,101 @@
 
 .navBar {
   border-bottom: 1px solid #ffffff66;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  margin-top: 38px;
+}
+
+.menus {
+  display: flex;
+  gap: 78px;
+  font-size: 32px;
+  color: #ffffff66;
+}
+
+.menu {
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.menu:hover {
+  color: #ffffff;
+}
+
+.isRecruiting {
+  font-size: 20px;
+  display: flex;
+  gap: 19px;
+}
+
+.toggleBtn {
+  width: 68px;
+  height: 30px;
+  background-color: #7090b0;
+  border-radius: 15px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggleDot {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 4px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggleBtn.active {
+  background-color: #e1ecf6;
+}
+
+.toggleDot.active {
+  background-color: black;
+  left: calc(100% - 24px);
+}
+
+.mozipzoong {
+  color: white;
+}
+
+.filterBox {
+  margin-top: 15px;
+  color: white;
+}
+
+.filterBox div {
+  font-weight: 500;
+}
+
+.filterFlex {
+  display: flex;
+  gap: 35px;
+  margin-bottom: 15px;
+}
+
+.filterFlex div {
+  background-color: rgba(112, 144, 176, 0.25);
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.filteredItems {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+  height: 10px;
+}
+
+.filteredItems img {
+  width: 16px;
+  height: 15px;
 }
