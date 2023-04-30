@@ -1,0 +1,13 @@
+.flexCol1 {
+  display: flex;
+  flex-direction: column;
+  gap: 47px;
+}
+
+.flexCol2 {
+  display: flex;
+  flex-direction: column;
+  gap: 47px;
+  position: relative;
+  top: 150px;
+}
