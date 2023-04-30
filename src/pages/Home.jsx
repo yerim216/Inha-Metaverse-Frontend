@@ -3,6 +3,7 @@ import Dot from "../components/Dot";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
+import ExamplePage from "./Top";
 
 export default function Home() {
   // 우측 상단의 모집중 필터 버튼.
@@ -52,6 +53,7 @@ export default function Home() {
 
   return (
     <>
+      <ExamplePage />
       <section>
         <div className={styles.projectTitle}>
           <Dot />
@@ -135,7 +137,6 @@ export default function Home() {
             })}
           </div>
         </div>
-
         <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
       </section>
     </>
