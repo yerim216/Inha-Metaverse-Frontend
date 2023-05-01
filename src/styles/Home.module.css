@@ -1,12 +1,16 @@
-/* Nav 바 스타일 */
 .navbar {
   display: flex;
   justify-content: space-between;
+  /* 
+    width 100vw를 주니 스크롤 생기는 문제 발생. 
+    body의 overflow-x에 hidden으로 임시(?) 조치
+  */
   width: 100vw;
   overflow: hidden;
   height: 64px;
   background-color: rgba(39, 39, 39, 0.2);
   overflow: hidden;
+  padding: 0 5vw;
 }
 
 .navLink {
@@ -60,7 +64,7 @@
 }
 
 .image {
-  border-radius: 40px;
+  border-radius: 0 40px 40px 0;
   margin-right: 16px;
   cursor: pointer;
   width: 50vw;

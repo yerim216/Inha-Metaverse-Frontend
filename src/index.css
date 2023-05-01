@@ -9,6 +9,7 @@ body {
   background-color: #323232;
   @apply flex flex-col items-center;
   @apply pb-72 px-10;
+  overflow-x: hidden;
 }
 
 code {
@@ -17,5 +18,5 @@ code {
 }
 
 .maxWidth {
-  @apply w-full max-w-screen-xl;
+  @apply w-full max-w-screen-xl m-auto;
 }
