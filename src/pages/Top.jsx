@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import View from "../components/View";
 import Dot from "../components/Dot";
-import styles from '../styles/Top.module.css';
+import styles from "../styles/Top.module.css";
 import Slider from "../components/Slider";
 
 function ExamplePage() {
-
   const [count, setCount] = useState(0);
 
   function handleClick() {
@@ -14,19 +13,14 @@ function ExamplePage() {
 
   return (
     <section>
-
       <div>
         <nav className={styles.navbar}>
-          <span className={styles.navLink}>
-            Contact
-          </span>
+          <span className={styles.navLink}>Contact</span>
           <button className={styles.loginButton}>
             <span>Login</span>
             <Dot />
           </button>
-          <span className={styles.navLink}>
-            Profile
-          </span>
+          <span className={styles.navLink}>Profile</span>
         </nav>
 
         <img
@@ -50,22 +44,19 @@ function ExamplePage() {
           <hr />
         </div>
         <img
-        src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
-        className={styles.vector}
-        alt='Views'
+          src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
+          className={styles.vector}
+          alt="Views"
         />
       </div>
       <section>
         <div className={styles.projectTitle}>
-            <Dot />
-            <h3>Map</h3>
+          <Dot />
+          <h3>Map</h3>
         </div>
         <Slider />
       </section>
-
-
     </section>
-
   );
 }
 

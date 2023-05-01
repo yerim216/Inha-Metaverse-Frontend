@@ -1,6 +1,5 @@
 .wrapper {
   display: flex;
-  width: 100vw;
   height: 500px;
   padding: 50px;
   margin-top: 20px;
@@ -9,4 +8,3 @@
 .im {
   height: 300px;
 }
-
