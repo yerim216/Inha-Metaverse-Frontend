@@ -1,3 +1,127 @@
+/* Nav 바 스타일 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  overflow: hidden;
+  height: 64px;
+  background-color: rgba(39, 39, 39, 0.2);
+  overflow: hidden;
+}
+
+.navLink {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  padding-top: 19px;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+
+/* 이미지 스타일 */
+.exampleImg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 367px;
+}
+
+.loginButton {
+  display: flex;
+  width: 98px;
+  height: 44px;
+  top: 10px;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  line-height: 20px;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.2); /* 버튼 배경색 */
+  border: none; /* 버튼 테두리 없음 */
+  color: white; /* 버튼 글자색 */
+  padding: 12px 0px 12px 11px; /* 버튼 내부 패딩 */
+  text-align: center; /* 버튼 텍스트 중앙 정렬 */
+  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+  font-size: 15px; /* 버튼 글자 크기 */
+  margin: 10px 0 10px 0; /* 버튼 바깥쪽 여백 없음 */
+  border-radius: 35.5px;
+}
+
+.container {
+  display: flex;
+  margin: 121px 0 193px 0;
+  gap: 80px;
+}
+
+.image {
+  border-radius: 40px;
+  margin-right: 16px;
+  cursor: pointer;
+  width: 50vw;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-rows: 0.2fr 0.8fr 0.6fr 1fr 1fr;
+  /* grid-row-gap: 10px 60px 30px ; */
+  padding-top: 130px;
+  padding-right: 0;
+  margin-right: 0;
+  cursor: pointer;
+}
+
+.text {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.tHot {
+  width: 111pt;
+  height: 33px;
+  color: white;
+  font-family: "Avenir";
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.hotName {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 55px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+.vector {
+  width: 24px;
+  height: 41px;
+  margin: 250px 30px 0 0;
+  cursor: pointer;
+}
+
+hr {
+  margin: 0;
+  width: 400px;
+}
+
+.projectTitle {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 42px;
+  align-items: center;
+  color: #ffffff;
+}
+
 .projectTitle {
   display: flex;
   justify-content: center;
@@ -107,4 +231,3 @@
   width: 16px;
   height: 15px;
 }
-

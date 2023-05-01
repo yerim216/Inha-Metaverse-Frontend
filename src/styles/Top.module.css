@@ -1,12 +1,12 @@
 /* Nav 바 스타일 */
 .navbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100vw;
   overflow: hidden;
   height: 64px;
   background-color: rgba(39, 39, 39, 0.2);
   overflow: hidden;
-  gap: 489px;
 }
 
 .navLink {

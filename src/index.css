@@ -11,11 +11,11 @@ body {
   @apply pb-72 px-10;
 }
 
-#root {
-  @apply w-full max-w-screen-xl;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.maxWidth {
+  @apply w-full max-w-screen-xl;
 }

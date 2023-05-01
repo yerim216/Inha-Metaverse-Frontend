@@ -3,9 +3,15 @@ import Dot from "../components/Dot";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
-import ExamplePage from "./Top";
+import Slider from "../components/Slider";
 
 export default function Home() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
   // 우측 상단의 모집중 필터 버튼.
   const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(false);
 
@@ -53,8 +59,52 @@ export default function Home() {
 
   return (
     <>
-      <ExamplePage />
       <section>
+        <div>
+          <nav className={styles.navbar}>
+            <span className={styles.navLink}>Contact</span>
+            <button className={styles.loginButton}>
+              <span>Login</span>
+              <Dot />
+            </button>
+            <span className={styles.navLink}>Profile</span>
+          </nav>
+
+          <img
+            src="https://via.placeholder.com/1536x864.jpg"
+            alt="Example Image"
+            className={styles.exampleImg}
+          />
+        </div>
+
+        <div className={styles.container}>
+          <img
+            className={styles.image}
+            src="https://via.placeholder.com/783x600.jpg"
+            alt="예시 이미지"
+          />
+          <div className={styles.wrapper} onClick={handleClick}>
+            <Dot />
+            <p className={styles.tHot}>Today Hot</p>
+            <p className={styles.hotName}>Ping Pong Track</p>
+            <view />
+            <hr />
+          </div>
+          <img
+            src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
+            className={styles.vector}
+            alt="Views"
+          />
+        </div>
+        <section className="maxWidth">
+          <div className={styles.projectTitle}>
+            <Dot />
+            <h3>Map</h3>
+          </div>
+          <Slider />
+        </section>
+      </section>
+      <section className="maxWidth">
         <div className={styles.projectTitle}>
           <Dot />
           <h3>Project</h3>
