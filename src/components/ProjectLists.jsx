@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ProjectBox from "./ProjectBox";
+import styles from "../styles/ProjectLists.module.css";
 
 export default function ProjectLists({ recruitmentBtnActive }) {
   // 아래의 두 요소들의 데이터는 추후 db에서 받아올 예정.
@@ -26,9 +27,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     "Ping Pong Track9",
   ]);
   return (
-    <div
-      className={`mt-12 grid gap-12 grid-cols-1 md:grid-cols-2 2xl:grid-cols-3`}
-    >
+    <div className={styles.ProjectBox}>
       {recruitmentBtnActive
         ? recruitingProjects.map((item) => {
             return <ProjectBox projectName={item} isRecruiting={true} />;
