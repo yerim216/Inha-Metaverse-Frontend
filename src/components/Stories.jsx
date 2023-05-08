@@ -11,9 +11,7 @@ export default function Stories() {
     setMoreBtnActivated(true);
     setSelectedStoryDb(selectedStoryDb);
   }
-
   const forHidden = useRef();
-  // forHidden을 처음에는 숨겼다가, 0.7초가 지나면 바로 보여 주기.
 
   useEffect(() => {
     setStoryDatabases([

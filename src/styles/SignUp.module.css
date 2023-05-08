@@ -1,0 +1,12 @@
+.loginContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.loginBox {
+  width: 50vw;
+  height: 70%;
+  background-color: white;
+  border-radius: 80px;
+}
