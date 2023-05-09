@@ -26,3 +26,8 @@ code {
 .maxWidth {
   @apply w-full max-w-screen-xl m-auto;
 }
+
+/* collapse 효과 세팅 */
+.ReactCollapse--collapse {
+  transition: height 350ms;
+}

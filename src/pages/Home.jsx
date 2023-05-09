@@ -228,3 +228,41 @@ export default function Home() {
     </>
   );
 }
+
+// import React, { useState } from "react";
+// import { Collapse } from "react-collapse";
+
+// export default function Home() {
+//   const [trueOrFalse, setTrueOrFalse] = useState(true);
+//   return (
+//     <>
+//       <button
+//         onClick={() => {
+//           setTrueOrFalse(!trueOrFalse);
+//         }}
+//       >
+//         test
+//       </button>
+//       <Collapse isOpened={trueOrFalse}>
+//         <div>
+//           <div className="text-white">Random content</div>
+//           <br />
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//         </div>
+//       </Collapse>
+//       ;
+//     </>
+//   );
+// }
