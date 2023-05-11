@@ -12,6 +12,20 @@ body {
   overflow-x: hidden;
 }
 
+html.profileOnly body{   
+  background: linear-gradient(
+      to top,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0) 25%,
+      rgba(20, 20, 20, 0) 50%,
+      rgba(20, 20, 20, 0.15) 75%,
+      rgba(20, 20, 20, 0.75) 100%
+    ), url('../public/public_assets/header.png');
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -80,13 +80,27 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 768px) {
+	.container {
+		flex-direction: column;
+    align-items: center;
+	}
+  .image {
+    width: 90vw;
+    border-radius: 40px;
+  }
+
+}
+
+
+
 .text {
   font-size: 16px;
   line-height: 1.5;
 }
 
 .tHot {
-  width: 111pt;
+  width: 111px;
   height: 33px;
   color: white;
   font-family: "Avenir";

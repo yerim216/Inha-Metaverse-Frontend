@@ -62,12 +62,12 @@ export default function Home() {
       <section>
         <div>
           <nav className={styles.navbar}>
-            <span className={styles.navLink}>Contact</span>
+            <button className={styles.navLink}>Contact</button>
             <button className={styles.loginButton}>
               <span>Login</span>
               <Dot />
             </button>
-            <span className={styles.navLink}>Profile</span>
+            <button button onclick="location.href='Profile /'" className={styles.navLink}>Profile</button>
           </nav>
 
           <img
@@ -90,6 +90,7 @@ export default function Home() {
             <view />
             <hr />
           </div>
+          
           <img
             src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
             className={styles.vector}

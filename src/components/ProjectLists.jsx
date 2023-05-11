@@ -17,7 +17,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
   const [notRecruitingProjects, setNotRecruitingProjects] = useState([
     "Ping Pong Track1",
     "Ping Pong Track2",
-    "Ping Pong Track3",
+    "Ping Pong Track3", 
     "Ping Pong Track4",
     "Ping Pong Track5",
     "Ping Pong Track6",
