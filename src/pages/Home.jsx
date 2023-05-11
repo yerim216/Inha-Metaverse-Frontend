@@ -75,10 +75,7 @@ export default function Home() {
       <section>
         <div>
           <nav className={styles.navbar}>
-<<<<<<< HEAD
-            <button className={styles.navLink}>Contact</button>
-            <button className={styles.loginButton}>
-=======
+
             <span className={styles.navLink}>Contact</span>
             <button
               className={styles.loginButton}
@@ -86,7 +83,6 @@ export default function Home() {
                 navigate("/signup");
               }}
             >
->>>>>>> feature/story
               <span>Login</span>
               <Dot />
             </button>

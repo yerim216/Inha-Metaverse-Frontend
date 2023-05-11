@@ -1,15 +1,9 @@
 import React from "react";
-<<<<<<< HEAD
-import styles from "../styles/Slider.module.css";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import dummy from "../db/map.json";
-=======
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "../styles/Slider.module.css";
 import "../styles/Slider.css";
->>>>>>> feature/story
 
 export default function Slider() {
   const settings = {

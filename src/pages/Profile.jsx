@@ -479,8 +479,8 @@ export default function Profile() {
         </div>
 
         <div className = {styles.lab2}>
-          <div className={styles.footerLogo2}><img src={`${process.env.PUBLIC_URL}/public_assets/mail.png`}/></div>
-          <div className={styles.footerLogo3}><img src={`${process.env.PUBLIC_URL}/public_assets/call.png`}/></div>
+          <div className={styles.footerLogo2}><img src={`${process.env.PUBLIC_URL}/public_assets/mail2.png`}/></div>
+          <div className={styles.footerLogo3}><img src={`${process.env.PUBLIC_URL}/public_assets/call2.png`}/></div>
           <div className={styles.footerLogo4}><img src={`${process.env.PUBLIC_URL}/public_assets/facebook.png`}/></div>
 
         </div>
