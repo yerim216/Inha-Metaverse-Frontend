@@ -70,6 +70,10 @@ export default function Home() {
     }
   }, [filteredItems, filterNum]);
 
+  const handleButtonClick = () => {
+    window.location.href = '/profile';
+  };
+
   return (
     <>
       <section>
@@ -86,7 +90,7 @@ export default function Home() {
               <span>Login</span>
               <Dot />
             </button>
-            <button button onclick="location.href='Profile /'" className={styles.navLink}>Profile</button>
+            <button onClick={handleButtonClick} className={styles.navLink}>Profile</button>
           </nav>
 
           <img
