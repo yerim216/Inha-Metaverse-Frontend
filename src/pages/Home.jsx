@@ -6,11 +6,11 @@ import ProjectLists from "../components/ProjectLists";
 import Slider from "../components/Slider";
 import Stories from "../components/Stories";
 import View from "../components/View";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   // max-width가 필요한 굿엔 maxWidth 클래스명을 적용해 주면 됨.
   const [count, setCount] = useState(0);
-
   function handleClick() {
     setCount(count + 1);
   }
@@ -20,6 +20,8 @@ export default function Home() {
 
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
+
+  const navigate = useNavigate();
 
   // 기획/개발/디자인/기타 등,
   // 추후에 db에서 가져 옴. 현재는 임시로 설정해 둠.
@@ -74,7 +76,12 @@ export default function Home() {
         <div>
           <nav className={styles.navbar}>
             <span className={styles.navLink}>Contact</span>
-            <button className={styles.loginButton}>
+            <button
+              className={styles.loginButton}
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
               <span>Login</span>
               <Dot />
             </button>
@@ -90,12 +97,15 @@ export default function Home() {
         </div>
 
         <div className={styles.container}>
-          <img
-            className={`${styles.image}`}
-            // src="https://via.placeholder.com/783x600.jpg"
-            src="/public_assets/image1.png"
-            alt="예시 이미지"
-          />
+          <div className={styles.imageContainer}>
+            <h1 className={styles.letsJoin}>Let's Join</h1>
+            <img
+              className={`${styles.image}`}
+              // src="https://via.placeholder.com/783x600.jpg"
+              src="/public_assets/todayHot.png"
+              alt="예시 이미지"
+            />
+          </div>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Today Hot</p>

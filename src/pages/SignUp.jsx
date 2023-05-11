@@ -35,6 +35,7 @@ export default function SignUp() {
       )
     );
   };
+  const [nickName, setNickName] = useState();
 
   useEffect(() => {
     const screensList = document.querySelectorAll(".screen");
@@ -109,6 +110,10 @@ export default function SignUp() {
                     type="text"
                     placeholder="닉네임"
                     className="input ml-auto mr-auto"
+                    value={nickName}
+                    onChange={(e) => {
+                      setNickName(e.target.value);
+                    }}
                   />
                   <button
                     onClick={() => {
@@ -123,7 +128,9 @@ export default function SignUp() {
                 </section>
               </li>
               <li className="screen thirdScreen">
-                <h1 className="title">닉네임 님의 관심 분야를 알려주세요!</h1>
+                <h1 className="title">
+                  {nickName} 님의 관심 분야를 알려주세요!
+                </h1>
                 <ul className="flex ml-auto mr-auto gap-10">
                   <li className="relative">
                     <button
@@ -143,7 +150,7 @@ export default function SignUp() {
                       </ul>
                     </Collapse>
                   </li>
-                  <li>
+                  <li className="relative">
                     <button
                       className={`fieldBtn ${
                         buttons && buttons[1].value && "coloredFieldBtn"
@@ -161,7 +168,7 @@ export default function SignUp() {
                       </ul>
                     </Collapse>
                   </li>
-                  <li>
+                  <li className="relative">
                     <button
                       className={`fieldBtn ${
                         buttons && buttons[2].value && "coloredFieldBtn"
@@ -179,7 +186,7 @@ export default function SignUp() {
                       </ul>
                     </Collapse>
                   </li>
-                  <li>
+                  <li className="relative">
                     <button
                       className={`fieldBtn ${
                         buttons && buttons[3].value && "coloredFieldBtn"

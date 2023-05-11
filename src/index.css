@@ -29,5 +29,7 @@ code {
 
 /* collapse 효과 세팅 */
 .ReactCollapse--collapse {
+  position: absolute;
   transition: height 350ms;
+  width: 100%;
 }

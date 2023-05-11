@@ -1,22 +1,22 @@
 import React from "react";
-import styles from "../styles/Slider.module.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import styles from "../styles/Slider.module.css";
+import "../styles/Slider.css";
 
 export default function Slider() {
   return (
-    <div className={styles.wrapper}>
+    <div className="wrapper">
       <Carousel showThumbs={false}>
-        <span className={styles.im}>
+        <span>
           <img
             src={`${process.env.PUBLIC_URL}/public_assets/image1.png`}
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -24,10 +24,9 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -35,24 +34,22 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
         </span>
 
-        <span className={styles.im}>
+        <span>
           <img
             src={`${process.env.PUBLIC_URL}/public_assets/image1.png`}
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -60,10 +57,9 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -71,23 +67,21 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
         </span>
-        <span className={styles.im}>
+        <span>
           <img
             src={`${process.env.PUBLIC_URL}/public_assets/image1.png`}
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -95,10 +89,9 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
           <img
@@ -106,10 +99,9 @@ export default function Slider() {
             className={styles.images}
             alt="Views"
             style={{
-              height: "400px",
               width: "30%",
               margin: "15px",
-              paddingBottom: "90px",
+              paddingBottom: "50px",
             }}
           />
         </span>
