@@ -63,11 +63,48 @@
   gap: 80px;
 }
 
-.image {
-  border-radius: 0 40px 40px 0;
+.imageContainer {
+  border-radius: 0px 40px 40px 0px;
   margin-right: 16px;
   cursor: pointer;
   width: 50vw;
+  /* transition: all 0.5s ease-in-out; */
+  /* opacity: 0; */
+  position: relative;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  border: 1px solid black;
+}
+
+.imageContainer:hover {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  border: 1px solid #ffffff;
+  /* background: black; */
+  /* opacity: 1; */
+}
+
+.letsJoin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 64px;
+  /* transition: all 0.3s ease-in-out; */
+  opacity: 0;
+}
+
+.imageContainer:hover .letsJoin {
+  opacity: 1;
+}
+
+.image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .wrapper {
@@ -187,6 +224,7 @@ hr {
   border-radius: 15px;
   position: relative;
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .toggleDot {
@@ -198,7 +236,6 @@ hr {
   top: 50%;
   left: 4px;
   border-radius: 100%;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
@@ -248,4 +285,28 @@ hr {
 .filteredItems img {
   width: 16px;
   height: 15px;
+}
+
+.footer {
+  margin-top: 50px;
+  width: 100vw;
+  height: 300px;
+  background-color: #727272;
+}
+
+.contact {
+  border-bottom: 1px solid #c9c9c9;
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 80px;
+}
+
+.footerContents {
+  padding: 50px 0px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: rgba(112, 144, 176, 1);
 }

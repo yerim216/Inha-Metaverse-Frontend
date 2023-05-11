@@ -1,5 +1,4 @@
-/* 1536px보다 클 경우 container가 column 세 줄을 가짐. 이 때만 적용되도록 */
-@media screen and (min-width: 1536px) {
+@media screen and (min-width: 1280px) {
   .pjb:nth-child(2),
   .pjb:nth-child(5),
   .pjb:nth-child(8) {

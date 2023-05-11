@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  height: 500px;
+  margin-top: 20px;
+}
+
+.carousel-status {
+  display: none;
+}
+
+.control-arrow {
+  height: 88%;
+  border-radius: 10px;
+}

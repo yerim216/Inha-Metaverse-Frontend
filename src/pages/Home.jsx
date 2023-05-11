@@ -4,10 +4,13 @@ import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
 import Slider from "../components/Slider";
+import Stories from "../components/Stories";
+import View from "../components/View";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  // max-width가 필요한 굿엔 maxWidth 클래스명을 적용해 주면 됨.
   const [count, setCount] = useState(0);
-
   function handleClick() {
     setCount(count + 1);
   }
@@ -18,12 +21,22 @@ export default function Home() {
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
 
+  const navigate = useNavigate();
+
   // 기획/개발/디자인/기타 등,
   // 추후에 db에서 가져 옴. 현재는 임시로 설정해 둠.
   const [filter, setFilter] = useState([
     ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
-    ["웹 개발", "모바일 개발", "게임 개발", "알고리즘 개발"],
-    ["건축 디자인", "인테리어 디자인", "UX/UI 디자인"],
+    [
+      "프론트엔드",
+      "백엔드",
+      "머신러닝",
+      "AI 개발",
+      "QA 엔진",
+      "IOS 개발",
+      "Android 개발",
+    ],
+    ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
     ["일렉 기타", "어쿠스틱 기타", "클래식 기타"],
   ]);
   const [filterNum, setFilterNum] = useState(0);
@@ -62,8 +75,18 @@ export default function Home() {
       <section>
         <div>
           <nav className={styles.navbar}>
+<<<<<<< HEAD
             <button className={styles.navLink}>Contact</button>
             <button className={styles.loginButton}>
+=======
+            <span className={styles.navLink}>Contact</span>
+            <button
+              className={styles.loginButton}
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+>>>>>>> feature/story
               <span>Login</span>
               <Dot />
             </button>
@@ -71,23 +94,28 @@ export default function Home() {
           </nav>
 
           <img
-            src="https://via.placeholder.com/1536x864.jpg"
-            alt="Example Image"
+            src="/public_assets/geometry.png"
+            // src="https://via.placeholder.com/1536x864.jpg"
+            alt="Example"
             className={styles.exampleImg}
           />
         </div>
 
         <div className={styles.container}>
-          <img
-            className={styles.image}
-            src="https://via.placeholder.com/783x600.jpg"
-            alt="예시 이미지"
-          />
+          <div className={styles.imageContainer}>
+            <h1 className={styles.letsJoin}>Let's Join</h1>
+            <img
+              className={`${styles.image}`}
+              // src="https://via.placeholder.com/783x600.jpg"
+              src="/public_assets/todayHot.png"
+              alt="예시 이미지"
+            />
+          </div>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Today Hot</p>
             <p className={styles.hotName}>Ping Pong Track</p>
-            <view />
+            <View />
             <hr />
           </div>
           
@@ -150,14 +178,14 @@ export default function Home() {
               className={`${styles.toggleBtn} ${
                 recruitmentBtnActive && styles.active
               }`}
+              onClick={() => {
+                setRecruitmentBtnActive(!recruitmentBtnActive);
+              }}
             >
               <div
                 className={`${styles.toggleDot} ${
                   recruitmentBtnActive && styles.active
                 }`}
-                onClick={() => {
-                  setRecruitmentBtnActive(!recruitmentBtnActive);
-                }}
               ></div>
             </div>
             <div className={styles.mozipzoong}>모집중</div>
@@ -190,6 +218,67 @@ export default function Home() {
         </div>
         <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
       </section>
+      <section className="mt-10 xl:mt-44 maxWidth">
+        <div className={styles.projectTitle}>
+          <Dot />
+          <h3>Story</h3>
+        </div>
+        <Stories />
+      </section>
+      <footer className={`${styles.footer}`}>
+        <div className={`${styles.footerContents} maxWidth`}>
+          <div>©2022 Archifree, Inc. All Rights Reserved</div>
+          <div className={styles.contact}>
+            <img src="/public_assets/mail.png" alt="mail" />
+            <img src="/public_assets/call.png" alt="call" />
+            <img src="/public_assets/facebook.png" alt="facebook" />
+          </div>
+          <div>
+            <p>스타트업 아키프리</p>
+            <p className="text-white">
+              인천광역시 미추홀구 경인남길 102번길 14
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
+
+// import React, { useState } from "react";
+// import { Collapse } from "react-collapse";
+
+// export default function Home() {
+//   const [trueOrFalse, setTrueOrFalse] = useState(true);
+//   return (
+//     <>
+//       <button
+//         onClick={() => {
+//           setTrueOrFalse(!trueOrFalse);
+//         }}
+//       >
+//         test
+//       </button>
+//       <Collapse isOpened={trueOrFalse}>
+//         <div>
+//           <div className="text-white">Random content</div>
+//           <br />
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//           <br />
+
+//           <div className="text-white">Random content</div>
+//         </div>
+//       </Collapse>
+//       ;
+//     </>
+//   );
+// }
