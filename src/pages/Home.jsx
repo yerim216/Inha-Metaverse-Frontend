@@ -71,7 +71,7 @@ export default function Home() {
   }, [filteredItems, filterNum]);
 
   const handleButtonClick = () => {
-    window.location.href = '/profile';
+    window.location.href = '/myprofile';
   };
 
   return (
