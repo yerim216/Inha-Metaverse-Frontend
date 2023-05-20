@@ -338,9 +338,10 @@
 .first-input {
   display: flex;
   flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
+  padding-left: 100px;
+  padding-right: 100px;
   gap: 12px;
+  margin-top: 30px;
 }
 
 input {
@@ -410,4 +411,29 @@ input {
   gap: 10px;
   margin-top: 20px;
   color: #808080;
+}
+
+.nicknameDuplicated {
+  position: absolute;
+  color: #7090b0;
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  top: 50px;
+  left: 0;
+}
+
+@keyframes vibration {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
+  }
+}
+
+.secondScreen.vibration {
+  animation: vibration 0.1s infinite;
 }

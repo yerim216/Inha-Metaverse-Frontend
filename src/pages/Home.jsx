@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Dot from "../components/Dot";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
@@ -7,8 +7,11 @@ import Slider from "../components/Slider";
 import Stories from "../components/Stories";
 import View from "../components/View";
 import { useNavigate } from "react-router-dom";
+import { UserInfoContext } from "../contexts/UserInfoProvider";
 
 export default function Home() {
+  const { userInfo, userInfoSet } = useContext(UserInfoContext);
+
   // max-width가 필요한 굿엔 maxWidth 클래스명을 적용해 주면 됨.
   const [count, setCount] = useState(0);
   function handleClick() {
@@ -71,7 +74,7 @@ export default function Home() {
   }, [filteredItems, filterNum]);
 
   const handleButtonClick = () => {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   };
 
   return (
@@ -79,27 +82,47 @@ export default function Home() {
       <section>
         <div>
           <nav className={styles.navbar}>
-
-            <span className={styles.navLink}>Contact</span>
-            <button
-              className={styles.loginButton}
-              onClick={() => {
-                navigate("/signup");
-              }}
-            >
-              <span>Login</span>
-              <Dot />
+            <span className={styles.navLink}>Home</span>
+            {userInfo ? (
+              <button
+                className={styles.loginButton}
+                onClick={() => {
+                  userInfoSet();
+                }}
+              >
+                <span>Logout</span>
+                <img src="/public_assets/profileImg.png" alt="profile" />
+              </button>
+            ) : (
+              <button
+                className={styles.loginButton}
+                onClick={() => {
+                  navigate("/signin");
+                }}
+              >
+                <span>Login</span>
+                <Dot />
+              </button>
+            )}
+            <button onClick={handleButtonClick} className={styles.navLink}>
+              Profile
             </button>
-            <button onClick={handleButtonClick} className={styles.navLink}>Profile</button>
           </nav>
 
           <img
-            src="/public_assets/geometry.png"
-            // src="https://via.placeholder.com/1536x864.jpg"
-            alt="Example"
-            className={styles.exampleImg}
+            src="/public_assets/darkmodeBg.png"
+            alt="darkModeBg"
+            className={styles.bg}
           />
         </div>
+
+        {/* <div className="relative">
+          <img
+            src="/public_assets/VP.png"
+            alt="darkModeBg"
+            className={styles.VP}
+          />
+        </div> */}
 
         <div className={styles.container}>
           <div className={styles.imageContainer}>
@@ -118,7 +141,7 @@ export default function Home() {
             <View />
             <hr />
           </div>
-          
+
           <img
             src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
             className={styles.vector}
@@ -227,15 +250,18 @@ export default function Home() {
       </section>
       <footer className={`${styles.footer}`}>
         <div className={`${styles.footerContents} maxWidth`}>
-          <div>©2022 Archifree, Inc. All Rights Reserved</div>
+          <div className={styles.rights}>
+            <img src="/public_assets/icons/archifree.svg" alt="archifree" />
+            ©2022 Archifree, Inc. All Rights Reserved
+          </div>
           <div className={styles.contact}>
-            <img src="/public_assets/mail.png" alt="mail" />
-            <img src="/public_assets/call.png" alt="call" />
-            <img src="/public_assets/facebook.png" alt="facebook" />
+            <img src="/public_assets/icons/mail.svg" alt="mail" />
+            <img src="/public_assets/icons/phone.svg" alt="phone" />
+            <img src="/public_assets/icons/facebook.svg" alt="facebook" />
           </div>
           <div>
-            <p>스타트업 아키프리</p>
-            <p className="text-white">
+            <p className={styles.companyName}>스타트업 아키프리</p>
+            <p className={styles.companyAddress}>
               인천광역시 미추홀구 경인남길 102번길 14
             </p>
           </div>
@@ -244,41 +270,3 @@ export default function Home() {
     </>
   );
 }
-
-// import React, { useState } from "react";
-// import { Collapse } from "react-collapse";
-
-// export default function Home() {
-//   const [trueOrFalse, setTrueOrFalse] = useState(true);
-//   return (
-//     <>
-//       <button
-//         onClick={() => {
-//           setTrueOrFalse(!trueOrFalse);
-//         }}
-//       >
-//         test
-//       </button>
-//       <Collapse isOpened={trueOrFalse}>
-//         <div>
-//           <div className="text-white">Random content</div>
-//           <br />
-//           <div className="text-white">Random content</div>
-//           <br />
-
-//           <div className="text-white">Random content</div>
-//           <br />
-
-//           <div className="text-white">Random content</div>
-//           <br />
-
-//           <div className="text-white">Random content</div>
-//           <br />
-
-//           <div className="text-white">Random content</div>
-//         </div>
-//       </Collapse>
-//       ;
-//     </>
-//   );
-// }
