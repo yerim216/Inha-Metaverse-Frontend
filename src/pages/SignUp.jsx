@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/SignUp.module.css";
 import "../styles/SignUp.css";
 import "../components/javascript/signUp";
 import { Collapse } from "react-collapse";
+import axios from "axios";
 
 export default function SignUp() {
+  const [hide, setHide] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [index, setIndex] = useState(0);
   const [screens, setScreens] = useState();
   const [field, setField] = useState([
@@ -21,7 +25,6 @@ export default function SignUp() {
     ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
     ["일렉 기타", "어쿠스틱 기타", "클래식 기타"],
   ]);
-
   const [buttons, setButtons] = useState([
     { id: 0, value: false },
     { id: 1, value: false },
@@ -35,7 +38,27 @@ export default function SignUp() {
       )
     );
   };
-  const [nickName, setNickName] = useState();
+  const [nickName, setNickName] = useState("");
+  const [nicknameDuplicated, setnicknameDuplicated] = useState(false);
+
+  const secondScreen = useRef();
+
+  axios.defaults.baseURL = "http://app.vpspace.net/";
+
+  const checkNicknameDuplicated = async () => {
+    return axios
+      .post("/account/check-duplication", {
+        name: nickName,
+      })
+      .then(function (response) {
+        setnicknameDuplicated(false);
+        return false;
+      })
+      .catch(function (error) {
+        setnicknameDuplicated(true);
+        return true;
+      });
+  };
 
   useEffect(() => {
     const screensList = document.querySelectorAll(".screen");
@@ -65,60 +88,88 @@ export default function SignUp() {
           <div className="walkthrough-body">
             <ul className="screens animate">
               <li className="screen active z-10">
-                <h1 className="title">방문을 환영해요</h1>
+                <h1 className="title">시작해볼까요?</h1>
                 <section className="first-input">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="input firstInput"
-                  />
-                  <div className="flex items-center">
+                  <form className={styles.signUpInputBox}>
+                    <span className="mr-auto">이메일</span>
                     <input
-                      type="password"
-                      placeholder="Password"
-                      className="input"
-                    />
-                    <button
-                      onClick={() => {
-                        setIndex((cur) => {
-                          return cur + 1;
-                        });
+                      type="text"
+                      className={styles.emailInput}
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
                       }}
-                      className="button"
-                    >
-                      &gt;
-                    </button>
-                  </div>
-                  <div className="flex">
-                    <input type="checkbox" id="checkId" className="mr-1 ml-3" />
-                    <label htmlFor="checkId">아이디 저장</label>
-                  </div>
-                </section>
-                <section className="otherSignUp">
-                  <div className="flex gap-10">
-                    <img src="/public_assets/naver.png" alt="naver" />
-                    <img src="/public_assets/google.png" alt="google" />
-                    <img src="/public_assets/kakao.png" alt="kakao" />
-                  </div>
-                  <div className="mt-6">이메일가입</div>
+                    />
+                    <span className="hidden">gd</span>
+                    <div className="flex justify-between mt-5">
+                      <span>비밀번호</span>
+                      <div
+                        className="flex gap-1 cursor-pointer"
+                        onClick={() => {
+                          setHide(!hide);
+                        }}
+                      >
+                        {hide ? (
+                          <img
+                            src="/public_assets/icons/hide.svg"
+                            alt="kakao"
+                          />
+                        ) : (
+                          <img
+                            src="/public_assets/icons/hide.svg"
+                            alt="kakao"
+                          />
+                        )}
+                        <span>숨기기</span>
+                      </div>
+                    </div>
+                    <input
+                      type={hide ? "password" : "text"}
+                      className={styles.passwordInput}
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    />
+                  </form>
                 </section>
               </li>
-              <li className="screen secondScreen">
+              <li className="screen secondScreen" ref={secondScreen}>
                 <h1 className="title">닉네임을 정해보아요</h1>
                 <section>
-                  <input
-                    type="text"
-                    placeholder="닉네임"
-                    className="input ml-auto mr-auto"
-                    value={nickName}
-                    onChange={(e) => {
-                      setNickName(e.target.value);
-                    }}
-                  />
+                  <span className="relative">
+                    <input
+                      type="text"
+                      placeholder="닉네임"
+                      className="input ml-auto mr-auto"
+                      value={nickName}
+                      onChange={(e) => {
+                        setNickName(e.target.value);
+                      }}
+                    />
+                    {nicknameDuplicated && (
+                      <span className="nicknameDuplicated">
+                        !아쉽지만 중복되는 닉네임이네요
+                      </span>
+                    )}
+                  </span>
                   <button
                     onClick={() => {
-                      setIndex((cur) => {
-                        return cur + 1;
+                      // 닉네임 중복 api 호출.
+                      // 중복되지 않을 시 setIndex를 통해 다음 슬라이드로 넘어 감.
+                      // 중복될 시 nicknameDuplicated를 true로 만들어 주고, 간단한 진동 효과 넣어 줌.
+                      checkNicknameDuplicated().then((duplicated) => {
+                        if (duplicated) {
+                          secondScreen.current.classList.add("vibration");
+
+                          setTimeout(function () {
+                            secondScreen.current.classList.remove("vibration");
+                          }, 300);
+                        } else {
+                          setIndex((cur) => {
+                            return cur + 1;
+                          });
+                        }
                       });
                     }}
                     className="button"
@@ -129,7 +180,7 @@ export default function SignUp() {
               </li>
               <li className="screen thirdScreen">
                 <h1 className="title">
-                  {nickName} 님의 관심 분야를 알려주세요!
+                  {nickName} <br /> 님의 관심 분야를 알려주세요!
                 </h1>
                 <ul className="flex ml-auto mr-auto gap-10">
                   <li className="relative">

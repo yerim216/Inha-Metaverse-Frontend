@@ -1,317 +1,300 @@
 .nav {
-    float: left; 
-    padding: 0;
-    width: 100vw;
+  float: left;
+  padding: 0;
+  width: 100vw;
 }
 
 .navItems {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-
-
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
 }
 
 .logoContainer {
-    display: flex;
-    padding: 45px 0 0 50px;
-    flex: 9 1;
-
+  display: flex;
+  padding: 45px 0 0 50px;
+  flex: 9 1;
 }
 .textContainer {
-    display:flex;
-    padding: 48px 68px 48px 48px;
-    justify-content: space-between;
+  display: flex;
+  padding: 48px 68px 48px 48px;
+  justify-content: space-between;
 }
 
 .navLink {
-    font-family: 'Avenir';
-    float: left;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-    line-height: 25px;
-    padding-left: 56px;
+  font-family: "Avenir";
+  float: left;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 25px;
+  padding-left: 56px;
 
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
 
 .loginButton {
-    margin-left: 77px;
-    font-family: "Avenir";
-    font-style: normal;
-    font-weight: 800;
-    line-height: 20px;
+  margin-left: 77px;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  line-height: 20px;
 
-    border: none; /* 버튼 테두리 없음 */
-    color: white; /* 버튼 글자색 */
-    font-size: 15px; /* 버튼 글자 크기 */
-  }
+  border: none; /* 버튼 테두리 없음 */
+  color: white; /* 버튼 글자색 */
+  font-size: 15px; /* 버튼 글자 크기 */
+}
 
-  .backgroundImage {
-    height: 0;
-    padding-bottom: 22%; /* 468 / 1536 * 100 */
-  }
-  
+.backgroundImage {
+  height: 0;
+  padding-bottom: 22%; /* 468 / 1536 * 100 */
+}
+
+.profileImage {
+  position: relative;
+  top: -125px;
+  height: 251px;
+  width: 251px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 768px) {
   .profileImage {
-    position:relative;
-    top: -125px;
-    height: 251px;
-    width: 251px;
-    left: 50%;
-    transform: translateX(-50%);
-
+    height: 150px;
+    width: 150px;
+    top: -140px;
   }
+}
+.nameContainer {
+  display: flex;
+  align-items: center;
+  margin-top: -80px;
+  margin-left: -30px;
+  justify-content: center;
+}
+.name {
+  margin-left: 29.86px;
+  color: white;
 
-  @media screen and (max-width: 768px) {
-    .profileImage{
-        height: 150px;
-        width: 150px;
-        top: -140px;
-    }
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  padding: 0;
+}
+.texts {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #808080;
+}
+.limit {
+  margin: 20px;
+  max-width: 392px;
+}
 
-}
-.nameContainer{
-    display: flex;
-    align-items: center;
-    margin-top: -80px;
-    margin-left: -30px;
-    justify-content: center;
-}
-.name{
-    margin-left: 29.86px;
-    color: white;
-
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 32px;
-    padding:0;
-    
-}
-.texts{
-    padding: 10px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #808080;
-
-}
-.limit{
-    margin:20px;
-    max-width: 392px;
-}
-  
 .loginButton2 {
-    display: block;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    width: 129.18px;
-    height: 59px;
-    top: 10px;
+  display: block;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  width: 129.18px;
+  height: 59px;
+  top: 10px;
 
-    align-items: center;
+  align-items: center;
 
-    background-color: #7090B0; /* 버튼 배경색 */
-    border: none; /* 버튼 테두리 없음 */
-    color: white; /* 버튼 글자색 */
-    padding: auto;
-    text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-    border-radius: 35.5px;
-  }
- 
-  .loginButton3 {
-    display: block;
-    margin-top: 15px;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    width: 183px;
-    height: 59px;
-    top: 10px;
+  background-color: #7090b0; /* 버튼 배경색 */
+  border: none; /* 버튼 테두리 없음 */
+  color: white; /* 버튼 글자색 */
+  padding: auto;
+  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+  border-radius: 35.5px;
+}
 
-    align-items: center;
+.loginButton3 {
+  display: block;
+  margin-top: 15px;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  width: 183px;
+  height: 59px;
+  top: 10px;
 
-    background-color: #7090B0; /* 버튼 배경색 */
-    border: none; /* 버튼 테두리 없음 */
-    color: white; /* 버튼 글자색 */
-    padding: auto;
-    text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-    border-radius: 35.5px;
-  }
-  
-  .profileButton{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin: 30px;
-  }
+  align-items: center;
 
-  .characteristics{
-    padding-top:50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    height: 50px;
-    max-width: 707.92px;
-    margin: auto;
-    gap: 10px;
-    text-align: center;
-  }
+  background-color: #7090b0; /* 버튼 배경색 */
+  border: none; /* 버튼 테두리 없음 */
+  color: white; /* 버튼 글자색 */
+  padding: auto;
+  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+  border-radius: 35.5px;
+}
 
-  .charItem1{
-    height: 50px;
-    width: 206px;
-    border-radius: 35.5px;
-    background-color: white;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    text-align: center;
-    padding : 12px 0;
+.profileButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 30px;
+}
 
-  }
-  .charItem2{
-    height: 50px;
-    width: 180px;
-    border-radius: 35.5px;
-    background-color: white;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    text-align: center;
-    padding : 12px 0;
+.characteristics {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 50px;
+  max-width: 707.92px;
+  margin: auto;
+  gap: 10px;
+  text-align: center;
+}
 
-  }
-  .charItem3{
-    height: 50px;
-    width: 165.92px;
-    border-radius: 35.5px;
-    background-color: white;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    text-align: center;
-    padding : 12px 0;
+.charItem1 {
+  height: 50px;
+  width: 206px;
+  border-radius: 35.5px;
+  background-color: white;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  padding: 12px 0;
+}
+.charItem2 {
+  height: 50px;
+  width: 180px;
+  border-radius: 35.5px;
+  background-color: white;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  padding: 12px 0;
+}
+.charItem3 {
+  height: 50px;
+  width: 165.92px;
+  border-radius: 35.5px;
+  background-color: white;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  padding: 12px 0;
+}
+.charItem4 {
+  height: 50px;
+  width: 126px;
+  border-radius: 35.5px;
+  background-color: white;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  padding: 12px 0;
+}
 
+.recruit {
+  border-radius: 25px;
+  background-color: white;
+  width: 707px;
+  height: 203px;
+  margin: auto;
+  margin-top: 120px;
+  padding-top: 28px;
+}
 
-  }
-  .charItem4{
-    height: 50px;
-    width: 126px;
-    border-radius: 35.5px;
-    background-color: white;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-    text-align: center;
-    padding : 12px 0;
-  }
- 
-  .recruit {
-    border-radius: 25px;
-    background-color: white;
-    width: 707px;
-    height: 203px;
-    margin: auto;
-    margin-top: 120px;
-    padding-top: 28px;
+.vec {
+  width: 20px;
+  height: 20px;
+  margin-left: 28px;
+}
 
-  }
+.lan {
+  display: block;
+}
 
-  .vec{
-    width:20px;
-    height: 20px;
-    margin-left: 28px;
-  }
+.recruit2 {
+  border-radius: 25px;
+  background-color: white;
+  width: 707px;
+  height: 203px;
+  margin: auto;
+  margin-top: 30px;
+  padding-top: 28px;
+}
 
-  .lan{
-    display: block;
-  }
+.memSearch {
+  width: 1087px;
+  height: 380px;
 
-  .recruit2 {
-    border-radius: 25px;
-    background-color: white;
-    width: 707px;
-    height: 203px;
-    margin: auto;
-    margin-top: 30px;
-    padding-top: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  padding-top: 56px;
 
-  }
+  margin: auto;
+  margin-top: 86px;
+}
 
-  .memSearch {
-    width: 1087px;
-    height: 380px;
+.txt {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 33px;
+  /* identical to box height */
 
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.06em;
 
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    padding-top: 56px;
+  color: #ffffff;
+  padding: 5px;
+  margin-left: 105px;
+}
+.userName {
+  font-weight: 1600;
+  font-size: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
-    margin: auto;
-    margin-top: 86px;
-  }
-
-  .txt{
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 24px;
-    line-height: 33px;
-    /* identical to box height */
-
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.06em;
-
-    color: #FFFFFF;
-    padding: 5px;
-    margin-left: 105px;
-  }
-  .userName{
-    font-weight: 1600;
-    font-size: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-
-  .recruit3 {
-    border-radius: 25px;
-    background-color: white;
-    width: 707px;
-    height: 203px;
-    margin: auto;
-    margin-top: 120px;
-    padding-top: 28px;
-
-  }
+.recruit3 {
+  border-radius: 25px;
+  background-color: white;
+  width: 707px;
+  height: 203px;
+  margin: auto;
+  margin-top: 120px;
+  padding-top: 28px;
+}
 
 .wrapp {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
 
   width: 1087px;
   height: 270px;
-
 
   border-radius: 50px;
   padding-top: 56px;
@@ -319,70 +302,63 @@
   margin: auto;
   padding-left: 55px;
   color: #112031;
-   /* 가로 스크롤 */
+  /* 가로 스크롤 */
   overflow: auto;
-
 }
 
-
-.wrapp::-webkit-scrollbar{
+.wrapp::-webkit-scrollbar {
   margin-top: -40px;
   height: 8px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
   display: none;
-
 }
 
 /* 스크롤바 막대 설정*/
-.wrapp::-webkit-scrollbar-thumb{
+.wrapp::-webkit-scrollbar-thumb {
   width: 30%;
-  background-color: rgba(255,255,255,1);
+  background-color: rgba(255, 255, 255, 1);
   /* 스크롤바 둥글게 설정    */
-  border-radius: 10px;    
-  
+  border-radius: 10px;
 }
 
 .wrapp::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-footer{
+footer {
   margin-bottom: 0;
   padding-bottom: 0;
 }
 
-.footer{
-
+.footer {
   background-color: #323232;
   height: 290px;
   width: 100vw;
   margin-top: 96px;
   padding-top: 50px;
-  color: #7090B0;
-
-
+  color: #7090b0;
 }
 
-.lab{
+.lab {
   display: flex;
   align-items: center;
 }
 
-.footerLogo{
+.footerLogo {
   display: inline-block;
 
   width: 15.68px;
   height: 15.68px;
-  margin-left:171px;
+  margin-left: 171px;
 }
 
-.rights{
+.rights {
   margin-left: 10px;
   display: inline-block;
 }
 
-.lab2{
+.lab2 {
   display: flex;
   justify-content: flex-end;
   margin-right: 171.2px;
@@ -390,51 +366,50 @@ footer{
   margin-top: 60px;
 }
 
-.footerLogo2{
+.footerLogo2 {
   display: inline-block;
 
   width: 25px;
   height: 19.55px;
 }
 
-.footerLogo3{
+.footerLogo3 {
   display: inline-block;
 
   width: 20px;
   height: 19.55px;
 }
 
-.footerLogo4{
+.footerLogo4 {
   display: inline-block;
 
   width: 12.8px;
   height: 24.24px;
 }
 
-.last{
-  font-family: 'Avenir';
-font-style: normal;
-font-weight: 500;
-font-size: 12px;
-line-height: 16px;
-letter-spacing: 0.06em;
+.last {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.06em;
 
-color: #808080;
+  color: #808080;
 }
-.last2{
-  font-family: 'Avenir';
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 22px;
-/* identical to box height */
+.last2 {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
 
-letter-spacing: 0.06em;
+  letter-spacing: 0.06em;
 
-color: #7090B0;
+  color: #7090b0;
 }
-.last3{
-  margin-left:171px;
+.last3 {
+  margin-left: 171px;
   margin-top: 30px;
 }
-

@@ -9,7 +9,7 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #323232;
+  background: #111111;
 }
 
 #root {
@@ -18,7 +18,7 @@ body {
   overflow-x: hidden;
 }
 
-html.profileOnly body{   
+html.profileOnly body {
   background: linear-gradient(
       to top,
       rgba(20, 20, 20, 0) 10%,
@@ -26,7 +26,8 @@ html.profileOnly body{
       rgba(20, 20, 20, 0) 50%,
       rgba(20, 20, 20, 0.15) 75%,
       rgba(20, 20, 20, 0.75) 100%
-    ), url('../public/public_assets/header.png');
+    ),
+    url("../public/public_assets/header.png");
   background-repeat: no-repeat;
   background-color: black;
   background-size: 100%;
