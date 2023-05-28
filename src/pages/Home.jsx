@@ -6,7 +6,6 @@ import ProjectLists from "../components/ProjectLists";
 import Slider from "../components/Slider";
 import Stories from "../components/Stories";
 import View from "../components/View";
-// import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoProvider";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";

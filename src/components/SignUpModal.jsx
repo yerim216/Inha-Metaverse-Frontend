@@ -6,6 +6,7 @@ import { Collapse } from "react-collapse";
 import "../components/javascript/signUp";
 import FilterButton from "./FilterButton";
 import FilteredItems from "./FilteredItems";
+import "../styles/SignUp.css";
 
 export default function SignUpModal(props) {
   const [hide, setHide] = useState(true);
