@@ -6,11 +6,50 @@ import ProjectLists from "../components/ProjectLists";
 import Slider from "../components/Slider";
 import Stories from "../components/Stories";
 import View from "../components/View";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../contexts/UserInfoProvider";
+import SignInModal from "../components/SignInModal";
+import SignUpModal from "../components/SignUpModal";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
+
+  const blockScroll = () => {
+    document.body.style.overflowY = "hidden";
+    document.body.style.paddingRight = "16px";
+    document.body.style.backgroundColor = "white";
+  };
+
+  const freeScroll = () => {
+    document.body.style.overflowY = "auto";
+    document.body.style.paddingRight = "0px";
+
+    // 다크모드와 화이트모드 다르게 설정 필요
+    document.body.style.backgroundColor = "#111111";
+  };
+
+  // 로그인창 팝업 관리 state
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const openSignInModal = () => {
+    setSignInModalOpen(true);
+    blockScroll();
+  };
+  const closeSignInModal = () => {
+    setSignInModalOpen(false);
+    freeScroll();
+  };
+
+  // 회원가입창 팝업 관리 state
+  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+
+  const openSignUpModal = () => {
+    setSignUpModalOpen(true);
+    blockScroll();
+  };
+  const closeSignUpModal = () => {
+    setSignUpModalOpen(false);
+    freeScroll();
+  };
 
   // max-width가 필요한 굿엔 maxWidth 클래스명을 적용해 주면 됨.
   const [count, setCount] = useState(0);
@@ -24,7 +63,7 @@ export default function Home() {
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 기획/개발/디자인/기타 등,
   // 추후에 db에서 가져 옴. 현재는 임시로 설정해 둠.
@@ -79,6 +118,15 @@ export default function Home() {
 
   return (
     <>
+      <SignInModal
+        open={signInModalOpen}
+        close={closeSignInModal}
+        openSignUpModal={openSignUpModal}
+      ></SignInModal>
+      <SignUpModal
+        open={signUpModalOpen}
+        close={closeSignUpModal}
+      ></SignUpModal>
       <section>
         <div>
           <nav className={styles.navbar}>
@@ -94,12 +142,7 @@ export default function Home() {
                 <img src="/public_assets/profileImg.png" alt="profile" />
               </button>
             ) : (
-              <button
-                className={styles.loginButton}
-                onClick={() => {
-                  navigate("/signin");
-                }}
-              >
+              <button className={styles.loginButton} onClick={openSignInModal}>
                 <span>Login</span>
                 <Dot />
               </button>
@@ -116,13 +159,14 @@ export default function Home() {
           />
         </div>
 
-        {/* <div className="relative">
+        {/* 이미지 크기 이슈 해결 후 추가 예정 */}
+        <div className="relative">
           <img
             src="/public_assets/VP.png"
             alt="darkModeBg"
             className={styles.VP}
           />
-        </div> */}
+        </div>
 
         <div className={styles.container}>
           <div className={styles.imageContainer}>

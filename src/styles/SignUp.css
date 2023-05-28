@@ -333,6 +333,12 @@
   font-weight: 800;
   font-size: 35px;
   line-height: 48px;
+  transition: all ease-in-out 0.5s;
+  transition-delay: 3s;
+}
+.title.up {
+  transform: translateY(-10vh);
+  opacity: 0;
 }
 
 .first-input {
@@ -363,8 +369,11 @@ input {
   border-radius: 100%;
   position: relative;
   left: 10px;
-  color: white;
-  font-weight: 800;
+  transition: transform ease-in-out 0.65s;
+  transition-delay: 3s;
+}
+.button.up {
+  transform: translateY(15vh);
 }
 
 .otherSignUp {
@@ -387,6 +396,14 @@ input {
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+}
+
+.filterContainer {
+  transition: transform ease-in-out 0.65s;
+  transition-delay: 3s;
+}
+.filterContainer.up {
+  transform: translateY(-25vh);
 }
 
 .fieldBtn:hover {
@@ -413,7 +430,7 @@ input {
   color: #808080;
 }
 
-.nicknameDuplicated {
+.nickNameWarning {
   position: absolute;
   color: #7090b0;
   font-family: "SF Pro Text";

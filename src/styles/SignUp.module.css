@@ -25,16 +25,32 @@
   gap: 10px;
 }
 
-.emailInput {
-  border: 1px solid rgba(102, 102, 102, 0.35);
-  border-radius: 12px;
-  padding: 10px;
-  color: black;
-}
-
+.emailInput,
 .passwordInput {
   border: 1px solid rgba(102, 102, 102, 0.35);
   border-radius: 12px;
   padding: 10px;
   color: black;
+  width: 100%;
+}
+
+.warning {
+  position: absolute;
+  left: 0;
+  top: 55px;
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ee1d52;
+}
+
+.thirdScreenBtn {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.buttonHidden {
+  visibility: hidden;
 }

@@ -39,7 +39,7 @@ export default function Story({
           <div className={styles.rightHeader}>{date}</div>
         </div>
         <div className={styles.title}>{title}</div>
-        <p className={`text-white line-clamp-4`}>{content}</p>
+        <p className={`text-white line-clamp-4 ${styles.content}`}>{content}</p>
         <button
           className={styles.more}
           onClick={() => {
