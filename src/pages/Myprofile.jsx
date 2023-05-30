@@ -1,21 +1,39 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Myprofile.module.css";
 import Gdot from "../components/Gdot";
+import StarRating from "../components/StarRating";
 
 import project from "../db/project.json";
 import user from "../db/user.json";
 import member from "../db/member.json";
-
-
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Profile() {
-  useEffect(()=>{
-    document.documentElement.classList.add("profileOnly");
-    return ()=>{
-    document.documentElement.classList.remove("profileOnly");
-    }
-  },[])
-
+    useEffect(()=>{
+        document.documentElement.classList.add("profileOnly");
+        return ()=>{
+        document.documentElement.classList.remove("profileOnly");
+        }
+      },[])
+    
+    const [userData, setUsers] = useState([]);
+    useEffect(() => {
+        axios.post('http://43.201.166.82:3000/userinfo', {
+            "email": "jimin"
+        })
+  
+        .then(function (res){
+            const myArray = Object.values(res.data);
+            console.log(myArray);
+            setUsers(myArray);
+            console.log("성공");
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    },[])
+      
   const part = {
     fontFamily: "'Avenir'",
     fontStyle: "normal",
@@ -73,9 +91,8 @@ export default function Profile() {
     display:"flex",
     flexDirection: "column",
     paddingTop:'13px',
-    gap:'30.29px',
-    textAlign: "left",
     height: "98px",
+    marginTop: '7px',
   }
 
   const pImage ={
@@ -323,7 +340,37 @@ export default function Profile() {
     flexWrap: "wrap",
     gap: "10px",
   }
-  
+
+  const toolss = {
+    marginTop:"19.17px",
+    width: "180px",
+    display:"flex",
+    flexDirection: "row",
+    gap: "31px",
+  }
+  const csss ={
+    height: "46px",
+    marginTop: '-5px',
+
+  }
+  const htmll ={
+    marginLeft: '3px',
+    height: "40px",
+  }
+  const vs ={
+    height: "32px",
+    marginTop:"3px",
+  }
+  const extool = {
+    height: '40px',
+  }
+
+  const star ={
+    display: 'inline-block',
+    marginTop: '-88px',
+    marginLeft: '10px',
+  }
+
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -361,12 +408,12 @@ export default function Profile() {
       />
       <div className={styles.nameContainer}>
           <Gdot />
-          <p className={styles.name}>닉네임</p>
+          <p className={styles.name}>{userData[0]}</p>
 
       </div>
       <div className={styles.texts}>
           <p>Game / ENT</p>
-          <p className={styles.limit}>서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명</p>
+          <p className={styles.limit}>{userData[2]}</p>
       
       </div>
       <div className ={styles.profileButton}>
@@ -400,11 +447,15 @@ export default function Profile() {
                   <div style={part}>
                     <p className = {styles.part}>직무</p> <span style={data}>{item.part}</span>
                   </div>
+
                   <div style={part}>
-                    <p className = {styles.careerpart}>경력</p><span style={data}>{item.career}</span>
+                    <p className = {styles.careerpart}>경력</p>
+                    <span style={data}>{userData[1]}년차</span>
                   </div>
                   <div style={part}>
                     <p className = {styles.mannerpart}>매너점수</p><span style={data}>{item.manners}</span>
+                    
+                    <span style={star}><StarRating /></span>
                   </div>
                   <div style={inpart}>
                     <p className = {styles.interestpart}>관심분야</p>
@@ -417,15 +468,27 @@ export default function Profile() {
                     <div style={recruitContainer2}>
                         <img
                         src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
-                        className={styles.tool}
+                        style={extool}
                         alt="Views"
                         />
-                        
+                        <div style={toolss}>
                         <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/lan.png`}
-                        className={styles.toolss}
+                        src={`${process.env.PUBLIC_URL}/public_assets/html.png`}
+                        style={htmll}
+
                         alt="Views"
                         />
+                        <img
+                        src={`${process.env.PUBLIC_URL}/public_assets/css.png`}
+                        style={csss}
+                        alt="Views"
+                        />
+                        <img
+                        src={`${process.env.PUBLIC_URL}/public_assets/vscode.png`}
+                        style={vs}
+                        alt="Views"
+                        />
+                        </div>
                     </div>
                   </div>
                 </div>

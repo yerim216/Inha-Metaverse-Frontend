@@ -490,6 +490,7 @@ margin-top: 10px;
 
 }
 .skillpart{
+  margin-top: 20px;
   font-family: 'Avenir';
   font-style: normal;
   font-weight: 800;
@@ -498,4 +499,10 @@ margin-top: 10px;
   /* identical to box height */
   letter-spacing: 0.08em;
   margin-right: 115px;
+}
+
+
+.starRating {
+  width: 18px;
+  height:18px;
 }
