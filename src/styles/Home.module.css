@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+.bg {
+  width: 100%;
+}
+
+.VP {
+  width: 100%;
+  max-height: 1500px;
+  position: absolute;
+  z-index: -1;
+}
+
+>>>>>>> 6f87364a (회원가입 창 구현중)
 .navbar {
   display: flex;
   justify-content: space-between;

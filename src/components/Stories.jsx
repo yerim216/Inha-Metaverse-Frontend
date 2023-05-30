@@ -139,7 +139,7 @@ export default function Stories() {
                 <div className={styles.title}>
                   {selectedStoryDb && selectedStoryDb.title}
                 </div>
-                <p className={`text-white`}>
+                <p className={`text-white ${styles.content}`}>
                   {selectedStoryDb && selectedStoryDb.content}
                 </p>
               </div>

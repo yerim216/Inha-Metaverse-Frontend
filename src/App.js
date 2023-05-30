@@ -1,19 +1,14 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import Profile from './pages/Profile'
-import Myprofile from './pages/Myprofile'
-
+import Profile from "./pages/Profile";
+import UserInfoProvider from "./contexts/UserInfoProvider";
+import Myprofile from "./pages/Myprofile";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
   },
   {
     path: "/profile",
