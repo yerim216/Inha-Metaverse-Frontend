@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {AiOutlineStar} from 'react-icons/ai';
 import { useState, useEffect } from "react";
 
 function StarRate() {

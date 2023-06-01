@@ -8,7 +8,6 @@ export default function FilteredItems({ selectedFilters }) {
         <div className={styles.warning}>* 최대 6개 분야</div>
         <div className={styles.filterBox}>
           {selectedFilters.map((selectedFilter) => {
-
             return <div className={styles.filterBtn}>{selectedFilter} X</div>;
           })}
         </div>

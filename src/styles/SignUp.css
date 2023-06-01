@@ -344,9 +344,10 @@
 .first-input {
   display: flex;
   flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
+  padding-left: 100px;
+  padding-right: 100px;
   gap: 12px;
+  margin-top: 30px;
 }
 
 input {
@@ -370,6 +371,9 @@ input {
   left: 10px;
   transition: transform ease-in-out 0.65s;
   transition-delay: 3s;
+}
+.button.up {
+  transform: translateY(15vh);
 }
 .button.up {
   transform: translateY(15vh);

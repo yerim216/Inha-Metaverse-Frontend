@@ -1,14 +1,20 @@
+import React, {useEffect, useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import UserInfoProvider from "./contexts/UserInfoProvider";
 import Myprofile from "./pages/Myprofile";
+import {RecoilRoot} from "recoil";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <UserInfoProvider>
+        <Home />
+      </UserInfoProvider>
+    ),
   },
   {
     path: "/profile",
@@ -21,7 +27,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+      <RecoilRoot>
+        <RouterProvider router={router}></RouterProvider>     
+      </RecoilRoot>
+    );
 }
 
 export default App;

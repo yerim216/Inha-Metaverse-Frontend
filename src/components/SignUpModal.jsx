@@ -8,7 +8,6 @@ import FilterButton from "./FilterButton";
 import FilteredItems from "./FilteredItems";
 import "../styles/SignUp.css";
 
-
 export default function SignUpModal(props) {
   const [hide, setHide] = useState(true);
   const [email, setEmail] = useState("");
@@ -99,12 +98,12 @@ export default function SignUpModal(props) {
         name: nickName,
       })
       .then(function (response) {
-
+        // setnicknameDuplicated(false);
         setNickNameWarning("");
         return false;
       })
       .catch(function (error) {
-
+        // setnicknameDuplicated(true);
         setNickNameWarning("!아쉽지만 중복되는 닉네임이네요");
         return true;
       });
@@ -121,7 +120,7 @@ export default function SignUpModal(props) {
     }
   };
 
-
+  //
   const checkEmailDuplicated = async () => {
     return axios
       .post("/account/check-email-duplication", {
@@ -135,7 +134,6 @@ export default function SignUpModal(props) {
         return true;
       });
   };
-
 
   const checkPasswordValid = () => {
     const pattern =
@@ -211,7 +209,6 @@ export default function SignUpModal(props) {
         //   </footer>
         // </section>
         <section className={styles.loginBox} ref={modalRef}>
-
           <div className="walkthrough show reveal">
             <div className="walkthrough-body">
               <ul className="screens animate">
@@ -338,6 +335,9 @@ export default function SignUpModal(props) {
                   </section>
                 </li>
 
+                {/* 세번째 와면 진입 시 "관심 분야를 알려주세요"와 필터는 위로(20%), 버튼은 아래로(20%), 3초 후 */}
+                {/* 기존 button의 up을 li로 옮겨야 함. */}
+
                 <li className="screen thirdScreen" ref={thirdScreen}>
                   <h1 className={`title ${secondNextBtnClicked && "up"}`}>
                     {nickName} <br /> 님의 관심 분야를 알려주세요!
@@ -392,7 +392,6 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
-
                               />
                             ))}
                         </ul>
@@ -420,7 +419,6 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
-
                               />
                             ))}
                         </ul>
@@ -448,7 +446,6 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
-
                               />
                             ))}
                         </ul>
@@ -457,7 +454,6 @@ export default function SignUpModal(props) {
                   </ul>
                   {/* 선택된 필터들 보여주는 곳 */}
                   {selectedFilters && selectedFilters.length !== 0 && (
-
                     <FilteredItems selectedFilters={selectedFilters} />
                   )}
                   <button
@@ -466,7 +462,6 @@ export default function SignUpModal(props) {
                         return cur + 1;
                       });
                     }}
-
                     className={`button ${styles.thirdScreenBtn}
                     ${secondNextBtnClicked && "up"}
                     `}

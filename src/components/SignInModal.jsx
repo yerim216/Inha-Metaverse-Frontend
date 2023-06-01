@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserInfoContext } from "../contexts/UserInfoProvider";
 import "../styles/signInModal.css";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 export default function SignInModal(props) {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -16,6 +18,8 @@ export default function SignInModal(props) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState();
+  const [user, setUser] = useRecoilState(userState);
+
   axios.defaults.baseURL = "http://app.vpspace.net/";
 
   const checkLogin = () => {
@@ -35,6 +39,8 @@ export default function SignInModal(props) {
       })
       .then(function (response) {
         setErrorMsg();
+        console.log(response.data)
+        setUser(response.data)
         navigate("/");
         return response.data;
       })
