@@ -1,16 +1,21 @@
 import React from "react";
 import "../styles/FilterButton.css";
 
-export default function FilterButton({ item, addFilterItem }) {
+export default function FilterButton({
+  item,
+  addFilterItem,
+  colored,
+  deleteFilter,
+}) {
   return (
     <button
+      className={colored && "filterSelected"}
       onClick={(e) => {
         const targetClassList = e.target.classList;
         if (targetClassList.contains("filterSelected")) {
-          e.target.classList.remove("filterSelected");
+          deleteFilter(item);
         } else {
-          if (addFilterItem(item) !== false)
-            e.target.classList.add("filterSelected");
+          addFilterItem(item);
         }
       }}
     >

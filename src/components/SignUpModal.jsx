@@ -7,6 +7,7 @@ import "../components/javascript/signUp";
 import FilterButton from "./FilterButton";
 import FilteredItems from "./FilteredItems";
 import "../styles/SignUp.css";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function SignUpModal(props) {
   const [hide, setHide] = useState(true);
@@ -59,6 +60,10 @@ export default function SignUpModal(props) {
     });
   };
 
+  const deleteFilter = (item) => {
+    setSelectedFilters((arr) => arr.filter((data) => data !== item));
+  };
+
   const [passwordWarning, setPasswordWarning] = useState("");
 
   const handleToggle = (id) => {
@@ -98,12 +103,10 @@ export default function SignUpModal(props) {
         name: nickName,
       })
       .then(function (response) {
-        // setnicknameDuplicated(false);
         setNickNameWarning("");
         return false;
       })
       .catch(function (error) {
-        // setnicknameDuplicated(true);
         setNickNameWarning("!아쉽지만 중복되는 닉네임이네요");
         return true;
       });
@@ -120,7 +123,6 @@ export default function SignUpModal(props) {
     }
   };
 
-  //
   const checkEmailDuplicated = async () => {
     return axios
       .post("/account/check-email-duplication", {
@@ -132,6 +134,23 @@ export default function SignUpModal(props) {
       .catch((error) => {
         setEmailWarning("! 이미 존재하는 이메일이에요");
         return true;
+      });
+  };
+
+  const signUp = async () => {
+    return axios
+      .post("/account/put", {
+        id: email,
+        pw: password,
+        name: nickName,
+        field_index: 1,
+      })
+      .then((response) => {
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
       });
   };
 
@@ -209,6 +228,14 @@ export default function SignUpModal(props) {
         //   </footer>
         // </section>
         <section className={styles.loginBox} ref={modalRef}>
+          <button
+            className="absolute right-14 top-14 z-10"
+            onClick={() => {
+              close();
+            }}
+          >
+            <img src="/public_assets/icons/XButton.svg" alt="XButton" />
+          </button>
           <div className="walkthrough show reveal">
             <div className="walkthrough-body">
               <ul className="screens animate">
@@ -335,9 +362,6 @@ export default function SignUpModal(props) {
                   </section>
                 </li>
 
-                {/* 세번째 와면 진입 시 "관심 분야를 알려주세요"와 필터는 위로(20%), 버튼은 아래로(20%), 3초 후 */}
-                {/* 기존 button의 up을 li로 옮겨야 함. */}
-
                 <li className="screen thirdScreen" ref={thirdScreen}>
                   <h1 className={`title ${secondNextBtnClicked && "up"}`}>
                     {nickName} <br /> 님의 관심 분야를 알려주세요!
@@ -365,6 +389,12 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
+                                colored={
+                                  selectedFilters &&
+                                  selectedFilters.includes(item) &&
+                                  true
+                                }
+                                deleteFilter={deleteFilter}
                               />
                             ))}
                         </ul>
@@ -392,6 +422,12 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
+                                colored={
+                                  selectedFilters &&
+                                  selectedFilters.includes(item) &&
+                                  true
+                                }
+                                deleteFilter={deleteFilter}
                               />
                             ))}
                         </ul>
@@ -419,6 +455,12 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
+                                colored={
+                                  selectedFilters &&
+                                  selectedFilters.includes(item) &&
+                                  true
+                                }
+                                deleteFilter={deleteFilter}
                               />
                             ))}
                         </ul>
@@ -446,6 +488,12 @@ export default function SignUpModal(props) {
                               <FilterButton
                                 item={item}
                                 addFilterItem={addFilterItem}
+                                colored={
+                                  selectedFilters &&
+                                  selectedFilters.includes(item) &&
+                                  true
+                                }
+                                deleteFilter={deleteFilter}
                               />
                             ))}
                         </ul>
@@ -454,7 +502,10 @@ export default function SignUpModal(props) {
                   </ul>
                   {/* 선택된 필터들 보여주는 곳 */}
                   {selectedFilters && selectedFilters.length !== 0 && (
-                    <FilteredItems selectedFilters={selectedFilters} />
+                    <FilteredItems
+                      selectedFilters={selectedFilters}
+                      deleteFilter={deleteFilter}
+                    />
                   )}
                   <button
                     onClick={() => {
@@ -462,19 +513,41 @@ export default function SignUpModal(props) {
                         return cur + 1;
                       });
                     }}
-                    className={`button ${styles.thirdScreenBtn}
+                    className={`button bigButton ${styles.thirdScreenBtn}
                     ${secondNextBtnClicked && "up"}
                     `}
                   >
                     <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
                   </button>
                 </li>
-                <li className="screen">gdgdgdgd</li>
+                <li className="screen">
+                  <h1 className="title">시작해 볼까요?</h1>
+                  <form className="mr-auto ml-auto">
+                    <ReCAPTCHA
+                      sitekey="6Le3O0gmAAAAAB8LLeVt7j2v_Q4wa2v_gbGcRE3v"
+                      // onChange={(value) => {
+                      //   console.log("Captcha value:", value);
+                      // }}
+                      className="recaptcha"
+                    />
+                  </form>
+                  <button
+                    className="mr-auto ml-auto mt-8"
+                    onClick={() => {
+                      if (signUp() !== false)
+                        setIndex((cur) => {
+                          return cur + 1;
+                        });
+                    }}
+                  >
+                    <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
+                  </button>
+                </li>
+                <li className="screen">
+                  <h1 className="title">가입이 완료되었어요!</h1>
+                </li>
               </ul>
             </div>
-            {/* <button className="button finish close" disabled="true">
-            Finish
-          </button> */}
           </div>
         </section>
       ) : null}

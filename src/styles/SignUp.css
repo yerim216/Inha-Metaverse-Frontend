@@ -372,6 +372,11 @@ input {
   transition: transform ease-in-out 0.65s;
   transition-delay: 3s;
 }
+.bigButton {
+  width: 45px;
+  height: 45px;
+}
+
 .button.up {
   transform: translateY(15vh);
 }
