@@ -14,7 +14,7 @@ body {
 
 #root {
   @apply flex flex-col items-center;
-  @apply px-12;
+  /* @apply px-12; */
   overflow-x: hidden;
 }
 

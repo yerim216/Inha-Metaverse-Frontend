@@ -1,0 +1,93 @@
+import React, { useEffect, useRef } from "react";
+import styles from "../styles/modules/TD.module.css";
+import { BsFillTrashFill } from "react-icons/bs";
+
+export default function Todo({
+  todoData: {
+    todo_title,
+    todo_date,
+    todo_manager,
+    todo_status,
+    todo_content,
+    todo_writer,
+    updated_at,
+  },
+}) {
+  const innerContent = useRef();
+  const container = useRef();
+  return (
+    <div
+      className={`${styles.TD} cursor-pointer transition-all`}
+      ref={container}
+      onClick={(e) => {
+        if (e.target === container.current) {
+          innerContent.current.classList.toggle("hidden");
+        }
+      }}
+    >
+      <div className="mr-auto">{todo_title}</div>
+      <div
+        className="border-2 w-full p-2 rounded-md flex flex-col gap-2 hidden cursor-auto"
+        ref={innerContent}
+      >
+        <pre className="mr-auto">{todo_content}</pre>
+        <div className="mr-auto flex items-center gap-1">
+          <img src="/public_assets/pro.png" alt="profile" className="w-7 h-7" />
+          {todo_writer}/작성자
+        </div>
+        <div className="flex items-center justify-between">
+          <div className={styles.changeButton}>
+            <span className="mr-1">상태 변경</span>
+            <div
+              className="w-3 h-3 bg-gray-600 rounded-full transition-all hover:scale-125 cursor-pointer"
+              onClick={() => {
+                const returnVal = window.confirm(
+                  "해당 리스트를 '시작 안함' 상태로 전환하시겠어요?"
+                );
+                if (returnVal === true) {
+                  // '시작 안함' 상태로 db 변동.
+                }
+              }}
+            ></div>
+            <div
+              className="w-3 h-3 bg-blue-500 rounded-full transition-all hover:scale-125 cursor-pointer"
+              onClick={() => {
+                const returnVal = window.confirm(
+                  "해당 리스트를 '진행중' 상태로 전환하시겠어요?"
+                );
+                if (returnVal === true) {
+                  // '진행중' 상태로 db 변동.
+                }
+              }}
+            ></div>
+            <div
+              className="w-3 h-3 bg-green-600 rounded-full transition-all hover:scale-125 cursor-pointer"
+              onClick={() => {
+                const returnVal = window.confirm(
+                  "해당 리스트를 '완료됨' 상태로 전환하시겠어요?"
+                );
+                if (returnVal === true) {
+                  // '완료됨' 상태로 db 변동.
+                }
+              }}
+            ></div>
+          </div>
+          <BsFillTrashFill
+            className="transition-all hover:scale-125 cursor-pointer"
+            onClick={() => {
+              const returnVal = window.confirm("해당 리스트를 삭제하시겠어요?");
+              if (returnVal === true) {
+                // db에서 해당 todo 삭제
+              }
+            }}
+          />
+        </div>
+      </div>
+      <div className="mr-auto flex items-center gap-1">
+        <img src="/public_assets/pro.png" alt="profile" className="w-7 h-7" />
+        {todo_manager}/담당자
+      </div>
+      <span className="mr-auto text-sm">{todo_date}</span>
+    </div>
+  );
+}

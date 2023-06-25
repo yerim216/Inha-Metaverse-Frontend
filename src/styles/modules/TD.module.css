@@ -1,0 +1,20 @@
+.TD {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.changeButton {
+  background: #f1f0ef;
+  border-radius: 10px;
+  padding: 2px 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

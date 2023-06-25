@@ -20,7 +20,7 @@
   width: 100vw;
   overflow: hidden;
   height: 64px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   overflow: hidden;
   padding: 0 5vw;
 }
@@ -69,14 +69,13 @@
   border-radius: 35.5px;
 }
 
-.loginModal{
+.loginModal {
   height: 44px;
   width: 61px;
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
-
 }
 
 .container {
@@ -140,18 +139,15 @@
 }
 
 @media screen and (max-width: 768px) {
-	.container {
-		flex-direction: column;
+  .container {
+    flex-direction: column;
     align-items: center;
-	}
+  }
   .image {
     width: 90vw;
     border-radius: 40px;
   }
-
 }
-
-
 
 .text {
   font-size: 16px;
