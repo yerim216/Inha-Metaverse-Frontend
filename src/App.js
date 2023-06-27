@@ -5,6 +5,10 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import UserInfoProvider from "./contexts/UserInfoProvider";
 import Myprofile from "./pages/Myprofile";
+import Calendar from "./pages/Calendar";
+import Calendar2 from "./pages/Calendar2";
+
+
 import {RecoilRoot} from "recoil";
 
 const router = createBrowserRouter([
@@ -24,6 +28,14 @@ const router = createBrowserRouter([
     path: "/myprofile",
     element: <Myprofile />,
   },
+  {
+    path: "/calendar",
+    element: <Calendar />,
+  },
+  {
+    path: "/calendar2",
+    element: <Calendar2 />,
+  }
 ]);
 
 function App() {
