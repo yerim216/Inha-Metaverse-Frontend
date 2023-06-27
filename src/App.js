@@ -7,6 +7,7 @@ import UserInfoProvider from "./contexts/UserInfoProvider";
 import Myprofile from "./pages/Myprofile";
 import { RecoilRoot } from "recoil";
 import ToDo from "./pages/ToDo";
+import Calendar2 from "./pages/Calendar2";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
     path: "todo",
     element: <ToDo />,
   },
+  {
+    path: "/calendar2",
+    element: <Calendar2 />,
+  }
 ]);
 
 function App() {
