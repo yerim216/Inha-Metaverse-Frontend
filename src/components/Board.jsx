@@ -4,18 +4,28 @@ import PlusTodoBtn from "../components/PlusTodoBtn";
 import TD from "../components/TD";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
-import Manager from "./Member";
 import Member from "./Member";
 
 export default function Board() {
+  // 씨팔 담당자선택 공유됨
   const [addTodo_notStart, setAddTodo_notStart] = useState({
     time: "",
     title: "",
     todo: "",
     fullScreen: false,
   });
-  const [addTodo_inProgress, setAddTodo_inProgress] = useState("");
-  const [addTodo_done, setAddTodo_done] = useState("");
+  const [addTodo_inProgress, setAddTodo_inProgress] = useState({
+    time: "",
+    title: "",
+    todo: "",
+    fullScreen: false,
+  });
+  const [addTodo_done, setAddTodo_done] = useState({
+    time: "",
+    title: "",
+    todo: "",
+    fullScreen: false,
+  });
   const [userEmail, setUserEmail] = useState();
   const [teamIndex, setTeamIndex] = useState();
 
@@ -106,7 +116,47 @@ export default function Board() {
             console.log(err);
           });
       } else if (filterName === "inProgress") {
+        console.log(teamIndex);
+        console.log(addTodo_inProgress.title);
+        console.log(addTodo_inProgress.todo);
+        console.log(addTodo_inProgress.time);
+        axios
+          .post("/todo/put", {
+            //
+            team: teamIndex,
+            title: addTodo_inProgress.title,
+            content: addTodo_inProgress.todo,
+            writer: 1,
+            date: addTodo_inProgress.time,
+          })
+          .then(() => {
+            console.log("getdatabase");
+            getDatabase();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else if (filterName === "done") {
+        console.log(teamIndex);
+        console.log(addTodo_done.title);
+        console.log(addTodo_done.todo);
+        console.log(addTodo_done.time);
+        axios
+          .post("/todo/put", {
+            //
+            team: teamIndex,
+            title: addTodo_done.title,
+            content: addTodo_done.todo,
+            writer: 1,
+            date: addTodo_done.time,
+          })
+          .then(() => {
+            console.log("getdatabase");
+            getDatabase();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
@@ -121,7 +171,16 @@ export default function Board() {
   };
   const showAddTodo = (filterName) => {
     const toShow = document.querySelector(`.${filterName}`);
-    const time = document.querySelector(".notStart_time");
+    let time;
+
+    if (filterName === "notStart") {
+      time = document.querySelector(".notStart_time");
+    } else if (filterName === "inProgress") {
+      time = document.querySelector(".inProgress_time");
+    } else if (filterName === "done") {
+      time = document.querySelector(".done_time");
+    }
+
     toShow.style.display = "flex";
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -176,8 +235,13 @@ export default function Board() {
 
   useEffect(() => {
     checkPlaceholderVisible("notStart");
-    // 나머지 두개도 필요
-  }, [addTodo_notStart.todo, addTodo_inProgress.todo, addTodo_done.todo]);
+  }, [addTodo_notStart.todo]);
+  useEffect(() => {
+    checkPlaceholderVisible("inProgress");
+  }, [addTodo_inProgress.todo]);
+  useEffect(() => {
+    checkPlaceholderVisible("done");
+  }, [addTodo_done.todo]);
 
   return (
     <div className={styles.bg}>
@@ -199,36 +263,7 @@ export default function Board() {
                   title: e.target.value,
                 });
               }}
-              //   onKeyUp={(e) => {
-              //     if (e.key === "Enter") {
-              //       setTodo_notStart((cur) => {
-              //         resetAddTodo("notStart");
-              //         hideAddTodo("notStart");
-              //         return [addTodo_notStart, ...cur];
-              //       });
-              //     }
-              //   }}
             />
-            {/* <input
-              type=""
-              placeholder="무엇을 해야 하나요?"
-              value={addTodo_notStart.todo}
-              onChange={(e) => {
-                setAddTodo_notStart({
-                  ...addTodo_notStart,
-                  todo: e.target.value,
-                });
-              }}
-              //   onKeyUp={(e) => {
-              //     if (e.key === "Enter") {
-              //       setTodo_notStart((cur) => {
-              //         resetAddTodo("notStart");
-              //         hideAddTodo("notStart");
-              //         return [addTodo_notStart, ...cur];
-              //       });
-              //     }
-              //   }}
-            /> */}
             <div className={styles.textarea_container}>
               <textarea
                 className={styles.textarea}
@@ -282,17 +317,6 @@ export default function Board() {
             />
           </div>
           <div className={styles.todosContainer}>
-            {/* {todo_notStart.map((item) => {
-              return (
-                <TD
-                  title={item.title}
-                  time={item.time}
-                  todo={item.todo}
-                  uid={`id_${v4().replace(/-/g, "")}`}
-                />
-              );
-            })} */}
-            {/* 여기에 추가 */}
             {todos &&
               todos.map((item) => {
                 if (item.todo_status === 0) {
@@ -308,6 +332,73 @@ export default function Board() {
             <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
             <span className="text-white">진행중</span>
           </div>
+          <div className={`${styles.addTodo} inProgress relative`}>
+            <input
+              className={styles.addTodoTitle}
+              type="text"
+              placeholder="제목을 입력해주세요!"
+              value={addTodo_inProgress.title}
+              onChange={(e) => {
+                setAddTodo_inProgress({
+                  ...addTodo_inProgress,
+                  title: e.target.value,
+                });
+              }}
+            />
+
+            <div className={styles.textarea_container}>
+              <textarea
+                className={styles.textarea}
+                value={addTodo_inProgress.todo}
+                onChange={(e) => {
+                  setAddTodo_inProgress({
+                    ...addTodo_inProgress,
+                    todo: e.target.value,
+                  });
+                }}
+              ></textarea>
+              <span
+                className={`${styles.textarea_placeholder} inProgressPlaceholder`}
+              >
+                무엇을 해야 하나요?
+              </span>
+            </div>
+            <div className="mr-auto flex items-center gap-1">
+              <span>담당자 선택</span>
+              <div
+                className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
+              >
+                {memberList &&
+                  memberList.map((member) => {
+                    return (
+                      <Member
+                        memberName={member.name}
+                        activated={selectedManager.includes(member.name)}
+                        addManager={() => {
+                          addManager(member.name);
+                        }}
+                        deleteManager={() => {
+                          deleteManager(member.name);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+            {/* inProgress_time */}
+            <span className="mr-auto text-sm inProgress_time">
+              0월 00일 00 : 00
+            </span>
+            <AiOutlinePlusCircle
+              className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
+              onClick={() => {
+                // 세개 다 inProgress로 변경
+                resetAddTodo("inProgress");
+                hideAddTodo("inProgress");
+                addTodoAtDB("inProgress");
+              }}
+            />
+          </div>
           <div className={styles.todosContainer}>
             {todos &&
               todos.map((item) => {
@@ -316,13 +407,77 @@ export default function Board() {
                 }
                 return null;
               })}
-            <PlusTodoBtn />
+            {/* filterName inProgress */}
+            <PlusTodoBtn showAddTodo={showAddTodo} filterName={"inProgress"} />
           </div>
         </section>
         <section className={`${styles.done} ${styles.toDoSection}`}>
           <div className={styles.doneBadge}>
             <div className="w-3 h-3 bg-green-600 rounded-full"></div>
             <span className="text-white">완료됨</span>
+          </div>
+          <div className={`${styles.addTodo} done relative`}>
+            <input
+              className={styles.addTodoTitle}
+              type="text"
+              placeholder="제목을 입력해주세요!"
+              value={addTodo_done.title}
+              onChange={(e) => {
+                setAddTodo_done({
+                  ...addTodo_done,
+                  title: e.target.value,
+                });
+              }}
+            />
+
+            <div className={styles.textarea_container}>
+              <textarea
+                className={styles.textarea}
+                value={addTodo_done.todo}
+                onChange={(e) => {
+                  setAddTodo_done({
+                    ...addTodo_done,
+                    todo: e.target.value,
+                  });
+                }}
+              ></textarea>
+              <span
+                className={`${styles.textarea_placeholder} donePlaceholder`}
+              >
+                무엇을 해야 하나요?
+              </span>
+            </div>
+            <div className="mr-auto flex items-center gap-1">
+              <span>담당자 선택</span>
+              <div
+                className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
+              >
+                {memberList &&
+                  memberList.map((member) => {
+                    return (
+                      <Member
+                        memberName={member.name}
+                        activated={selectedManager.includes(member.name)}
+                        addManager={() => {
+                          addManager(member.name);
+                        }}
+                        deleteManager={() => {
+                          deleteManager(member.name);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+            <span className="mr-auto text-sm done_time">0월 00일 00 : 00</span>
+            <AiOutlinePlusCircle
+              className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
+              onClick={() => {
+                resetAddTodo("done");
+                hideAddTodo("done");
+                addTodoAtDB("done");
+              }}
+            />
           </div>
           <div className={styles.todosContainer}>
             {todos &&
@@ -332,7 +487,7 @@ export default function Board() {
                 }
                 return null;
               })}
-            <PlusTodoBtn />
+            <PlusTodoBtn showAddTodo={showAddTodo} filterName={"done"} />
           </div>
         </section>
       </section>

@@ -66,19 +66,19 @@ export default function ToDo() {
       setAddTodo_done({ time: "", title: "", todo: "" });
   };
 
-  const checkPlaceholderVisible = (filterName) => {
-    const placeholder = document.querySelector(`.${filterName}Placeholder`);
-    if (filterName === "notStart") {
-      if (addTodo_notStart.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    } else if (filterName === "inProgress") {
-      if (addTodo_inProgress.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    } else if (filterName === "done") {
-      if (addTodo_done.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    }
-  };
+  // const checkPlaceholderVisible = (filterName) => {
+  //   const placeholder = document.querySelector(`.${filterName}Placeholder`);
+  //   if (filterName === "notStart") {
+  //     if (addTodo_notStart.todo === "") placeholder.style.display = "inline";
+  //     else placeholder.style.display = "none";
+  //   } else if (filterName === "inProgress") {
+  //     if (addTodo_inProgress.todo === "") placeholder.style.display = "inline";
+  //     else placeholder.style.display = "none";
+  //   } else if (filterName === "done") {
+  //     if (addTodo_done.todo === "") placeholder.style.display = "inline";
+  //     else placeholder.style.display = "none";
+  //   }
+  // };
 
   // useEffect(() => {
   //   checkPlaceholderVisible("notStart");
