@@ -8,16 +8,13 @@ import Manager from "./Member";
 import Member from "./Member";
 
 export default function Board() {
-  const [todo_notStart, setTodo_notStart] = useState([]);
   const [addTodo_notStart, setAddTodo_notStart] = useState({
     time: "",
     title: "",
     todo: "",
     fullScreen: false,
   });
-  const [todo_inProgress, setTodo_inProgress] = useState([]);
   const [addTodo_inProgress, setAddTodo_inProgress] = useState("");
-  const [todo_done, setTodo_done] = useState([]);
   const [addTodo_done, setAddTodo_done] = useState("");
   const [userEmail, setUserEmail] = useState();
   const [teamIndex, setTeamIndex] = useState();
@@ -98,7 +95,7 @@ export default function Board() {
             team: teamIndex,
             title: addTodo_notStart.title,
             content: addTodo_notStart.todo,
-            writer: 10,
+            writer: 1,
             date: addTodo_notStart.time,
           })
           .then(() => {
@@ -126,23 +123,31 @@ export default function Board() {
     const toShow = document.querySelector(`.${filterName}`);
     const time = document.querySelector(".notStart_time");
     toShow.style.display = "flex";
-    let curTime = new Date();
-    time.innerHTML = curTime.toLocaleString();
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const hours = String(currentDate.getHours()).padStart(2, "0");
+    const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+    const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    time.innerHTML = formattedDate;
 
     if (filterName === "notStart")
       setAddTodo_notStart({
         ...addTodo_notStart,
-        time: curTime.toLocaleString(),
+        time: formattedDate,
       });
     else if (filterName === "inProgress")
       setAddTodo_inProgress({
         ...addTodo_inProgress,
-        time: curTime.toLocaleString(),
+        time: formattedDate,
       });
     else if (filterName === "done")
       setAddTodo_done({
         ...addTodo_done,
-        time: curTime.toLocaleString(),
+        time: formattedDate,
       });
   };
 
