@@ -1,3 +1,6 @@
+.Calendar2_wrapper__YHdHw{
+  margin-left: 100px;
+}
 .fc-day-sun a {
     color: red;
     text-decoration: none;
@@ -10,7 +13,6 @@
 
 #calendar {
   max-width: 900px;
-  margin: 40px auto;
 }
 
 .fc-col-header-cell-cushion{
@@ -84,4 +86,8 @@ body {
 
 .fc-popover-body {
   background-color: black;
+}
+
+.fc-scrollgrid  fc-scrollgrid-liquid{
+  border-radius: 20px;
 }

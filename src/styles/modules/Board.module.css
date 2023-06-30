@@ -1,7 +1,7 @@
 .bg {
   width: 100%;
-  height: 100vh;
-  background-color: white;
+  height: 100%;
+  display: flex;
 }
 
 .toDoSectionContainer {
@@ -14,12 +14,21 @@
 }
 
 .toDoSection {
-  width: 30%;
+  width: 31%;
   height: 750px;
   border: 1px solid rgba(0, 0, 0, 1);
   border-radius: 15px;
   padding: 10px;
   height: 100%;
+  color: #9b9b9b;
+  text-align: center;
+  font-size: 12px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+  border: 1px solid #313131;
+  background-color: rgb(21, 20, 20);
 }
 
 .notStart {
@@ -28,11 +37,9 @@
 .notStartBadge {
   display: flex;
   align-items: center;
-  background-color: #f1f0ef;
   width: 90px;
   gap: 5px;
   padding: 0px 5px;
-  border-radius: 20px;
 }
 
 .inProgress {
@@ -41,11 +48,9 @@
 .inProgressBadge {
   display: flex;
   align-items: center;
-  background-color: #d3e5ef;
   width: 70px;
   gap: 5px;
   padding: 2px 5px;
-  border-radius: 20px;
 }
 
 .done {
@@ -54,11 +59,9 @@
 .doneBadge {
   display: flex;
   align-items: center;
-  background-color: #dbeddb;
   width: 70px;
   gap: 5px;
   padding: 2px 5px;
-  border-radius: 20px;
 }
 
 .addTodo {
@@ -71,6 +74,7 @@
   margin-top: 8px;
   padding: 10px;
   gap: 10px;
+  background: #323232;
 }
 
 .addTodo input {
@@ -95,10 +99,31 @@
   width: 100%;
   resize: none;
   outline: none;
+  background: none;
+}
+
+.textarea::-webkit-scrollbar {
+  background-color: black;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 2px;
 }
 
 .todosContainer {
-  margin-top: 10px;
   height: 95%;
   overflow: auto;
+}
+
+.addTodoTitle {
+  background: none;
+}
+
+.addTodoTitle::placeholder {
+  opacity: 40%;
+}
+
+.managerSelector::-webkit-scrollbar {
+  display: none;
 }

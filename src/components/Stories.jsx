@@ -143,7 +143,7 @@ export default function Stories() {
                   {selectedStoryDb && selectedStoryDb.content}
                 </p>
               </div>
-              <div className={styles.commentTopBorder}>
+              {/* <div className={styles.commentTopBorder}>
                 <div className={styles.comment}>
                   <textarea
                     type="text"
@@ -162,7 +162,7 @@ export default function Stories() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

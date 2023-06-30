@@ -3,13 +3,15 @@ import styles from "../styles/modules/TD.module.css";
 import { BsFillTrashFill } from "react-icons/bs";
 
 export default function Todo({
+  // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
+
   todoData: {
     todo_title,
     todo_date,
-    todo_manager,
+    managers,
     todo_status,
     todo_content,
-    todo_writer,
+    writer,
     updated_at,
   },
 }) {
@@ -25,15 +27,15 @@ export default function Todo({
         }
       }}
     >
-      <div className="mr-auto">{todo_title}</div>
+      <div className="mr-auto text-lg">{todo_title}</div>
       <div
         className="border-2 w-full p-2 rounded-md flex flex-col gap-2 hidden cursor-auto"
         ref={innerContent}
       >
-        <pre className="mr-auto">{todo_content}</pre>
+        <pre className="mr-auto text-base">{todo_content}</pre>
         <div className="mr-auto flex items-center gap-1">
           <img src="/public_assets/pro.png" alt="profile" className="w-7 h-7" />
-          {todo_writer}/작성자
+          {writer}/작성자
         </div>
         <div className="flex items-center justify-between">
           <div className={styles.changeButton}>
@@ -84,10 +86,22 @@ export default function Todo({
         </div>
       </div>
       <div className="mr-auto flex items-center gap-1">
-        <img src="/public_assets/pro.png" alt="profile" className="w-7 h-7" />
-        {todo_manager}/담당자
+        <div className="flex gap-2">
+          {managers.map((manager) => {
+            return (
+              <div className="flex items-center gap-1">
+                <img
+                  src="/public_assets/pro.png"
+                  alt="profile"
+                  className="w-7 h-7"
+                />
+                <span>{manager}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <span className="mr-auto text-sm">{todo_date}</span>
+      <span className="mr-auto text-xs">{todo_date}</span>
     </div>
   );
 }

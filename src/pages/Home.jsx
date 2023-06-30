@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import Dot from "../components/Dot";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
@@ -125,7 +125,7 @@ export default function Home() {
 
   const handleButtonClick = () => {
     window.location.href = "/myprofile";
-  };  
+  };
   const [isOpen, setIsOpen] = useState(false);
 
   const onClickButton = () => {
@@ -151,18 +151,24 @@ export default function Home() {
               <button
                 className={styles.loginModal}
                 onClick={() => {
-                  onClickButton()
+                  onClickButton();
                 }}
               >
-            {isOpen && (<OnLogModal
-                open={isOpen}
-                onClose={() => {
-                  setIsOpen(false);
-                }}
-              />)}                
-                <img src="/public_assets/profileImg.png" width="44" height='44' alt="profile" />
+                {isOpen && (
+                  <OnLogModal
+                    open={isOpen}
+                    onClose={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                )}
+                <img
+                  src="/public_assets/profileImg.png"
+                  width="44"
+                  height="44"
+                  alt="profile"
+                />
                 <img src="/public_assets/modal.png" alt="profile" />
-
               </button>
               
             ) : (

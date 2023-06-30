@@ -7,6 +7,9 @@ import UserInfoProvider from "./contexts/UserInfoProvider";
 import Myprofile from "./pages/Myprofile";
 import { RecoilRoot } from "recoil";
 import ToDo from "./pages/ToDo";
+import Board from "./components/Board";
+import Calendar from "./components/Calendar";
+import ProjectManagerTools from "./pages/ProjectManagerTools";
 import Calendar2 from "./pages/Calendar2";
 
 const router = createBrowserRouter([
@@ -31,9 +34,20 @@ const router = createBrowserRouter([
     element: <ToDo />,
   },
   {
-    path: "/calendar2",
-    element: <Calendar2 />,
-  }
+    path: "projectmanagertools",
+    element: <ProjectManagerTools />,
+    children: [
+      {
+        index: true,
+        element: <Board />,
+      },
+      { path: "board", element: <Board /> },
+      {
+        path: "calendar2",
+        element: <Calendar2 />,
+      },
+    ],
+  },
 ]);
 
 function App() {
