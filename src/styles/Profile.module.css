@@ -215,19 +215,16 @@
 }
 
 .recruit {
-  border-radius: 25px;
-  background-color: white;
-  width: 707px;
-  height: 203px;
-  margin: auto;
-  margin-top: 120px;
-  padding-top: 28px;
+  width: 100%;
+  height: max-content;
+  padding: 18px 0 18px 0;
+  border-radius: 10px;
 }
 
 .vec {
   width: 20px;
   height: 20px;
-  margin-left: 28px;
+
 }
 
 .lan {
@@ -253,24 +250,61 @@
   padding-top: 56px;
 
   margin: auto;
-  margin-top: 86px;
+  margin-top: 56px;
 }
 
+.memSearch2{
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 0px rgba(225, 225, 225, 0.2);
+
+  width: 1087px;
+  height: 358x;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  margin: auto;
+  margin-top: 56px;
+}
+
+.memNav {
+  width: 100%;
+  display: flex;
+  color: white;
+  text-align: center;
+  border-bottom:1px solid gray;
+  padding: 20px 0 20px 0;
+}
+
+.item1{
+  flex-grow: 2;
+}
+.item2{
+  flex-grow: 2.2;
+}
+.item3{
+  flex-grow: 0.7;
+}
+.item4{
+  flex-grow: 0.7;
+}
+.item5{
+  flex-grow: 2;
+}
 .txt {
+  margin-top: 120px;
+  text-align: center;
+  color: #000;
+  font-size: 60px;
+  font-family: Avenir;
+  font-weight: 800;
   font-family: "Avenir";
   font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
   line-height: 33px;
   /* identical to box height */
-
-  display: flex;
-  align-items: center;
   letter-spacing: 0.06em;
 
   color: #ffffff;
   padding: 5px;
-  margin-left: 105px;
 }
 .userName {
   font-weight: 1600;

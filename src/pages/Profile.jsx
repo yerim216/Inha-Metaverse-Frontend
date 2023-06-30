@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Profile.module.css";
 import Gdot from "../components/Gdot";
-
+import { Link } from 'react-router-dom';
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 import project from "../db/project.json";
 import profile from "../db/project.json";
 import member from "../db/member.json";
-
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Profile() {
@@ -16,24 +18,41 @@ export default function Profile() {
     }
   },[])
 
+  const [userLogin, setUserLogin] = useRecoilState(userState);
+  const navigate = useNavigate(); 
+
+  const logout = () => {
+    window.localStorage.clear();
+    setUserLogin(null) 
+    navigate('/')
+
+  }
+
   const recruitingNum = {
-    marginLeft: "auto",
     display: "inline-block",
-    height: "33px",
-    width: "63px",
     borderRadius: "100px",
-    backgroundColor: "black",
+    fontFamily: "'Avenir'",
+    fontStyle: "normal",
+    fontWeight: "800",
+    fontSize: "25px",
+    color: "white",
+    lineHeight: '43px',
+    paddingLeft: '20px',
+  }
+
+  const recruitingNum2 = {
+    display: "inline-block",
+    borderRadius: "100px",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
     fontWeight: "400",
-    fontSize: "15px",
+    fontSize: "25px",
     color: "white",
-    lineHeight: '19px',
-    paddingTop:'7px',
+    lineHeight: '43px',
   }
-  const recruitList = {
+
+  const cate = {
     display:"inline-block",
-    marginRight: "103px",
     fontFamily: 'Avenir',
     fontStyle: 'normal',
     fontWeight: '800',
@@ -41,19 +60,50 @@ export default function Profile() {
     lineHeight: '19px',
     alignItems: 'center',
     letterSpacing: '0.04em',
+    flexGrow: '2.2',
+    color: '#ffffff',
+  }
+  const state = {
+    display: 'flex',
+    width: "165px",
+    height: "69px",
+    borderRadius: "36.5px",
+    background: "#F4F6F8",
+    fontSize: '25px',
+    fontFamily: 'Avenir',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    lineHeight: '43px',
+    letterSpacing: '0.15px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
 
-    color: '#000000',
+  }
+  const recruitList = {
+    display:"inline-block",
+    fontFamily: 'Avenir',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '25px',
+    lineHeight: '43px',
+    alignItems: 'center',
+    letterSpacing: '0.15px',
+    flexGrow: '2',
+    color: '#ffffff',
   }
 
+
   const recruitContainer ={
-    paddingRight: "25%",
-    display:"flex",
-    textAlign: "center",
-    flexDirection: "row",
-    marginLeft: "30%",
-    paddingTop:'13px',
+    display:"grid",
+    gridTemplateColumns: "1.8fr 2fr 0.7fr 0.7fr 1.8fr",
+    width: "100%",
+    margin: 'auto',
+    paddingBottom:'13px',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
+    
   }
   const recruitContainer2 ={
     display:"flex",
@@ -296,17 +346,25 @@ export default function Profile() {
                 height: "36px",
                 width: "52px",
               }}
+              onClick={() => window.location.href = "/"}
             />
-        
         </div>
         <div className={styles.textContainer}>
           <a className={styles.navLink}>프로필</a>
 
           <a className={styles.navLink}>지원</a>
 
-          <button className={styles.loginButton}>
+          {userLogin ? (
+              <button className={styles.loginButton} onClick={logout}>
+              <span>로그아웃</span>
+            </button>
+            ) : (
+              <button className={styles.loginButton}>
                 <span>로그인</span>
-          </button>
+              </button>
+            )}
+
+          
         </div>
       </div>
       <div className={styles.backgroundImage}></div>
@@ -327,14 +385,7 @@ export default function Profile() {
           <p className={styles.limit}>서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명</p>
       
       </div>
-      <div className ={styles.profileButton}>
-          <button className={styles.loginButton2}>
-            <a className={styles.toInvite}>초대하기</a>
-          </button>
-          <button className={styles.loginButton3}>
-            <a className={styles.toSocial}>메세지보내기</a>
-          </button>
-      </div>
+      
       <div className = {styles.characteristics}>
         <div className={styles.charItem1}>
           #그래픽디자이너
@@ -350,26 +401,8 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className ={styles.recruit}>
-        {profile.recruiting.map(item => (
-            
-              <span key={item.id}>
-                <div style={recruitContainer}>
-                  <div style={recruitList}>
-                    {item.part}
-                  </div>
-                  <div style={recruitingNum}>
-                    {item.gathering}/{item.capacity}
-                  </div>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/public_assets/vec.png`}
-                    className={styles.vec}
-                    alt="Views"
-                  />
-                </div>
-              </span>
-          ))}
-      </div>
+      <p className={styles.txt}> Skills</p>
+
       <div className ={styles.recruit2}>      
           <div style={recruitContainer2}>
             <img
@@ -386,8 +419,9 @@ export default function Profile() {
           </div>
       </div>
 
+      <p className={styles.txt}> Team Member</p>
+
       <div className={styles.memSearch}>
-        <p className={styles.txt}> 🔍<span className={styles.userName}>닉네임 </span> 님이 찾으시는 팀원들이 여기있어요!</p>
         <div className={styles.wrapp}>
           {member.member.map(member => (
               
@@ -424,50 +458,41 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className={styles.memSearch}>
-        <p className={styles.txt}> 🔍<span className={styles.userName}>닉네임 </span> 님이 진행하시는 프로젝트</p>
-        <div className={styles.wrapp}>
-          {project.progress.map(project => (
-              
-                <span key={project.id} style ={no}>
+      <p className={styles.txt}> Recruiting </p>
 
-                  <div style={projects}>
-                    
-                    <div style={con3}>
+      <div className={styles.memSearch2}>
+        <div className={styles.memNav}>
 
-                      <div style={wrappp}>
-                        <div style={progressP}>
-                          <div style = {parts2}>
-                              {project.part}
-                          </div>
-                          <div style = {parts2}>
-                              {project.part2}
-                          </div>
-                        </div>
-                        <div style={namee2}>{project.title}</div>
-                        <div style={tools2}><img src={`${process.env.PUBLIC_URL}/public_assets/tools2.png`}/></div>                      
-                      </div>
-                      
-                      <div style={wrappp2}>
-                        <div style={viewss}>
-                          <div style={eyes}><img src={`${process.env.PUBLIC_URL}/public_assets/blackeye.png`}/></div>                      
-                          {project.views}
-                        </div>
-                        <div style={whole2}>
-                          <div style = {dot3}></div>
-                          <div style = {con4}>
-                            {project.recruit} ( 0 / {project.maxmem} )
-                          </div>
-                        </div>
-                      </div>
-                      
+          <div className={styles.item1}>대분류</div>
+          <div className={styles.item2}>소분류</div>
+          <div className={styles.item3}>모집인원</div>
+          <div className={styles.item4}>총원</div>
+          <div className={styles.item5}>상태</div>
+        </div>
 
-                    </div>
+        <div className ={styles.recruit}>
+        {profile.recruiting.map(item => (
+            
+              <span key={item.id}>
+                <div style={recruitContainer}>
+                  <div style={cate}>
+                    {item.cate}
                   </div>
-                  
-                </span>
-
-            ))}
+                  <div style={recruitList}>
+                    {item.part}
+                  </div>
+                  <div style={recruitingNum2}>
+                    {item.capacity}
+                  </div>
+                  <div style={recruitingNum}>
+                    {item.gathering}
+                  </div>
+                  <Link to ='/'style={state}>
+                    지원하기
+                  </Link>
+                </div>
+              </span>
+          ))}
         </div>
       </div>
       </div>

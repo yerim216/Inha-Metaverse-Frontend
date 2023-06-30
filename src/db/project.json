@@ -1,8 +1,8 @@
 {
     "recruiting" : [
-        {"id":1, "part": "그래픽 디자이너", "capacity": "22","gathering": "10" },
-        {"id":2, "part": "프론트엔드", "capacity": "23","gathering": "19" },
-        {"id":3, "part": "서비스 기획", "capacity": "24","gathering": "12" }
+        {"id":1, "cate": "디자이너","part": "그래픽 디자이너", "capacity": "22","gathering": "10" },
+        {"id":2, "cate": "개발자", "part": "프론트엔드", "capacity": "23","gathering": "19" },
+        {"id":3,  "cate": "기획","part": "서비스 기획", "capacity": "24","gathering": "12" }
     ],
 
     "progress" : [

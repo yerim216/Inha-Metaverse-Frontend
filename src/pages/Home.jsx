@@ -16,6 +16,14 @@ import OnLogModal from "../components/OnLogModal";
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
+  const email = user;
+  const room = 'forum';
+
+  const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(email)}&&room=${encodeURIComponent(room)}`;
+
+  const LogClickAlert = () => {
+    alert('로그인을 해주세요!');
+  };
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -156,15 +164,23 @@ export default function Home() {
                 <img src="/public_assets/modal.png" alt="profile" />
 
               </button>
+              
             ) : (
               <button className={styles.loginButton} onClick={openSignInModal}>
                 <span>Login</span>
                 <Dot />
               </button>
             )}
-            <button onClick={handleButtonClick} className={styles.navLink}>
+            {user ? (
+              <button onClick={handleButtonClick} className={styles.navLink}>
               Profile
             </button>
+            ) : (
+              <button onClick={LogClickAlert}>
+              Profile             
+              </button>
+            )}
+            
           </nav>
 
           <img
@@ -193,6 +209,7 @@ export default function Home() {
         </div>
 
         <div className={styles.container}>
+          <a href={url}>
           <div className={styles.imageContainer}>
             <h1 className={styles.letsJoin}>Let's Join</h1>
             <img
@@ -202,6 +219,7 @@ export default function Home() {
               alt="예시 이미지"
             />
           </div>
+          </a>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Today Hot</p>
