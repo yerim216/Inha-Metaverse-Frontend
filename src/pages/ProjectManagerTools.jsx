@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import styles from "../styles/modules/ProjectManager.module.css";
+import styles from "../styles/modules/ProjectManagerTools.module.css";
 
-export default function ProjectManager() {
+export default function ProjectManagerTools() {
   // 버튼 따라 현재 활성화된 프로젝트 관리 툴 실행 : 현재는 투두(board), 캘린더 존재
   const [activated, setActivated] = useState("board");
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ export default function ProjectManager() {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "20px 0px",
+          zIndex: "1",
           borderRight: "1px solid #373737",
         }}
       >
@@ -87,7 +88,6 @@ export default function ProjectManager() {
           justifyContent: "center",
           alignItems: "center",
           borderBottom: "1px solid #373737",
-          zIndex: "-1",
           paddingLeft: "60px",
         }}
       >
@@ -95,6 +95,14 @@ export default function ProjectManager() {
           {activated === "board" && "board"}
           {activated === "calendar" && "calendar"}
         </h5>
+        <button
+          className="text-white absolute right-8 cursor-pointer z-10"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          HOME
+        </button>
       </div>
     </>
   );

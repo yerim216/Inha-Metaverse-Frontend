@@ -74,6 +74,7 @@
   margin-top: 8px;
   padding: 10px;
   gap: 10px;
+  background: #323232;
 }
 
 .addTodo input {
@@ -98,9 +99,31 @@
   width: 100%;
   resize: none;
   outline: none;
+  background: none;
+}
+
+.textarea::-webkit-scrollbar {
+  background-color: black;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 2px;
 }
 
 .todosContainer {
   height: 95%;
   overflow: auto;
+}
+
+.addTodoTitle {
+  background: none;
+}
+
+.addTodoTitle::placeholder {
+  opacity: 40%;
+}
+
+.managerSelector::-webkit-scrollbar {
+  display: none;
 }

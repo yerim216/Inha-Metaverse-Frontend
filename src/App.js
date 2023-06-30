@@ -7,9 +7,9 @@ import UserInfoProvider from "./contexts/UserInfoProvider";
 import Myprofile from "./pages/Myprofile";
 import { RecoilRoot } from "recoil";
 import ToDo from "./pages/ToDo";
-import ProjectManager from "./pages/ProjectManager";
 import Board from "./components/Board";
 import Calendar from "./components/Calendar";
+import ProjectManagerTools from "./pages/ProjectManagerTools";
 
 const router = createBrowserRouter([
   {
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
     element: <ToDo />,
   },
   {
-    path: "projectmanager",
-    element: <ProjectManager />,
+    path: "projectmanagertools",
+    element: <ProjectManagerTools />,
     children: [
       {
         index: true,

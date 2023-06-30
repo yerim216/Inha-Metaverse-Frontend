@@ -3,8 +3,9 @@ import styles from "../styles/modules/Board.module.css";
 import PlusTodoBtn from "../components/PlusTodoBtn";
 import TD from "../components/TD";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import todos from "../db/todos.json";
 import axios from "axios";
+import Manager from "./Member";
+import Member from "./Member";
 
 export default function Board() {
   const [todo_notStart, setTodo_notStart] = useState([]);
@@ -18,14 +19,103 @@ export default function Board() {
   const [addTodo_inProgress, setAddTodo_inProgress] = useState("");
   const [todo_done, setTodo_done] = useState([]);
   const [addTodo_done, setAddTodo_done] = useState("");
+  const [userEmail, setUserEmail] = useState();
+  const [teamIndex, setTeamIndex] = useState();
+
+  const [memberList, setMemberList] = useState();
+  // addTodo에서 manager를 할당해야 하는데, 그때의 선택된 리스트.
+  const [selectedManager, setSelectedManager] = useState([]);
 
   const [todos, setTodos] = useState();
-  useEffect(() => {
-    console.log(todos);
-    axios.get("/db/todos.json").then((res) => {
-      console.log(res.data.todos);
-      setTodos(res.data.todos);
+
+  axios.defaults.baseURL = "http://app.vpspace.net/";
+
+  // 팀 인덱스를 가져오는 변수 : 로컬스토리지에 저장된 이메일을 이용해서 가져 옴.
+  const getTeamIndex = () => {
+    return new Promise((resolve, reject) => {
+      if (
+        JSON.parse(localStorage.getItem("recoil-persist")).userState === null
+      ) {
+        reject("User state is null");
+        return;
+      }
+
+      const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
+        .userState.email;
+      axios
+        .post("/team/emailtoteam", { email: userEmail })
+        .then((res) => {
+          const teamIndex = res.data[0].team_index;
+          resolve(teamIndex);
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
+  };
+
+  const getDatabase = () => {
+    // 팀 인덱스 가져오는 코드
+    getTeamIndex().then((teamIndex) => {
+      // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date로 구성됨.
+      axios
+        .post("/todo/todolist", {
+          index: teamIndex,
+        })
+        .then((res) => {
+          setTodos(res.data);
+        });
+
+      // 담당자(매니저) 리스트를 가져오는 메소드 : 결국 팀 멤버들을 가져오면 됨. 배열 속 name으로 구성됨.
+      axios
+        .post("/team/member/teamidx", {
+          index: teamIndex,
+        })
+        .then((res) => {
+          setMemberList(res.data);
+        });
+    });
+  };
+
+  const addManager = (memberName) => {
+    setSelectedManager((cur) => {
+      return [...cur, memberName];
+    });
+  };
+  const deleteManager = (memberName) => {
+    setSelectedManager((cur) => cur.filter((data) => data !== memberName));
+  };
+  const addTodoAtDB = (filterName) => {
+    getTeamIndex().then((teamIndex) => {
+      if (filterName === "notStart") {
+        console.log(teamIndex);
+        console.log(addTodo_notStart.title);
+        console.log(addTodo_notStart.todo);
+        console.log(addTodo_notStart.time);
+        axios
+          .post("/todo/put", {
+            //
+            team: teamIndex,
+            title: addTodo_notStart.title,
+            content: addTodo_notStart.todo,
+            writer: 10,
+            date: addTodo_notStart.time,
+          })
+          .then(() => {
+            console.log("getdatabase");
+            getDatabase();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (filterName === "inProgress") {
+      } else if (filterName === "done") {
+      }
+    });
+  };
+
+  useEffect(() => {
+    getDatabase();
   }, []);
 
   const hideAddTodo = (filterName) => {
@@ -79,10 +169,10 @@ export default function Board() {
     }
   };
 
-  // useEffect(() => {
-  //   checkPlaceholderVisible("notStart");
-  //   // 나머지 두개도 필요
-  // }, [addTodo_notStart.todo, addTodo_inProgress.todo, addTodo_done.todo]);
+  useEffect(() => {
+    checkPlaceholderVisible("notStart");
+    // 나머지 두개도 필요
+  }, [addTodo_notStart.todo, addTodo_inProgress.todo, addTodo_done.todo]);
 
   return (
     <div className={styles.bg}>
@@ -94,6 +184,7 @@ export default function Board() {
           </div>
           <div className={`${styles.addTodo} notStart relative`}>
             <input
+              className={styles.addTodoTitle}
               type="text"
               placeholder="제목을 입력해주세요!"
               value={addTodo_notStart.title}
@@ -151,12 +242,27 @@ export default function Board() {
               </span>
             </div>
             <div className="mr-auto flex items-center gap-1">
-              <img
-                src="/public_assets/pro.png"
-                alt="profile"
-                className="w-7 h-7"
-              />
-              권태훈
+              <span>담당자 선택</span>
+              <div
+                className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
+              >
+                {memberList &&
+                  memberList.map((member) => {
+                    return (
+                      <Member
+                        memberName={member.name}
+                        // selectedManager state에 해당 이름이 존재한다면 activated가 true, 아니라면 false
+                        activated={selectedManager.includes(member.name)}
+                        addManager={() => {
+                          addManager(member.name);
+                        }}
+                        deleteManager={() => {
+                          deleteManager(member.name);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
             </div>
             <span className="mr-auto text-sm notStart_time">
               0월 00일 00 : 00
@@ -164,11 +270,9 @@ export default function Board() {
             <AiOutlinePlusCircle
               className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
               onClick={() => {
-                setTodo_notStart((cur) => {
-                  resetAddTodo("notStart");
-                  hideAddTodo("notStart");
-                  return [addTodo_notStart, ...cur];
-                });
+                resetAddTodo("notStart");
+                hideAddTodo("notStart");
+                addTodoAtDB("notStart");
               }}
             />
           </div>

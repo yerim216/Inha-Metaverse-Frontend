@@ -124,5 +124,5 @@
   display: -webkit-box;
   overflow: auto;
   -webkit-line-clamp: 4;
-  max-height: 112px;
+  /* max-height: 112px; */
 }
