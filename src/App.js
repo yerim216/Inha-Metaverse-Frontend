@@ -10,6 +10,7 @@ import ToDo from "./pages/ToDo";
 import Board from "./components/Board";
 import Calendar from "./components/Calendar";
 import ProjectManagerTools from "./pages/ProjectManagerTools";
+import Calendar2 from "./pages/Calendar2";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       },
       { path: "board", element: <Board /> },
       { path: "calendar", element: <Calendar /> },
+      {
+        path: "/calendar2",
+        element: <Calendar2 />,
+      },
     ],
   },
 ]);

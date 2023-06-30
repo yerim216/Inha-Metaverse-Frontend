@@ -1,0 +1,87 @@
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
+
+.fc-day-sat a {
+  color: blue;
+  text-decoration: none;
+}
+
+#calendar {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.fc-col-header-cell-cushion{
+  color: #fff;
+
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  background-color: black;
+}
+
+.fc-day-mon a {
+  color: white;
+  text-decoration: none;
+}
+
+.fc-day-tue a {
+  color: white;
+  text-decoration: none;
+}
+
+.fc-day-wed a {
+  color: white;
+  text-decoration: none;
+}
+
+.fc-day-thu a {
+  color: white;
+  text-decoration: none;
+}
+
+.fc-day-fri a {
+  color: white;
+  text-decoration: none;
+}
+
+.Calendar2_child__rwtPZ{
+  width: 100%
+}
+
+.fc-daygrid-day-bottom a {
+  color: #B9D6E9;
+}
+
+.fc-event-time{
+  color: white;
+}
+
+.fc-event-title{
+  color: white;
+}
+
+.fc-toolbar-title{
+  color: white;
+}
+
+.fc-daygrid-event-dot{
+  background-color: #A6CBE3;
+}
+
+.fc-daygrid-day-number a{
+  color: #800000;
+}
+
+.fc-popover-title{
+  color: black;
+}
+
+.fc-popover-body {
+  background-color: black;
+}

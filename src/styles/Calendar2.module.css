@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh; /* 컨테이너의 높이 설정 */
+    width: 80vw;
+}
+
+.child {
+}
