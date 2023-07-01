@@ -7,6 +7,7 @@ import Dot from "../components/Dot";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -15,9 +16,62 @@ export default function CreateProject() {
   const [user, setUser] = useRecoilState(userState);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [inputs, setInputs] = useState({
+    name: "",
+    introduction: "",
+    description: "",
+    recruitment: null,
+  });
 
   const onClickButton = () => {
     setIsOpen(true);
+  };
+
+  const createTeam = async () => {
+    try {
+      await axios.post("http://app.vpspace.net/team", {
+        name: inputs.name,
+        introduction: inputs.introduction,
+        description: inputs.description,
+        recruitment: inputs.recruitment,
+      });
+      return inputs.name; // inputs.name 변수 리턴
+    } catch (error) {
+      console.error("Error creating team:", error);
+    }
+  };
+
+  const getUserName = async () => {
+    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+      return Promise.resolve(); // 빈 Promise를 리턴
+    }
+
+    const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
+      .userState.email;
+
+    return axios
+      .post("http://app.vpspace.net/userinfo", {
+        email: userEmail,
+      })
+      .then((res) => {
+        console.log(res.data);
+        return res.data.name;
+      });
+  };
+
+  const addTeamMember = (teamName) => {
+    const userName = getUserName();
+    userName.then((userName) => {
+      axios
+        .post("http://app.vpspace.net/team/member", {
+          team_name: teamName,
+          user_name: userName,
+        })
+        .then(() => {})
+        .catch((error) => {
+          console.error("Error add team member:", error);
+        });
+    });
   };
 
   const blockScroll = () => {
@@ -113,26 +167,81 @@ export default function CreateProject() {
         </button>
       </nav>
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
-      <section className={styles.paddingSection}>
+      <form className={styles.paddingSection}>
         <h1 className={styles.title}>프로젝트 만들기</h1>
-        <div>
+        <div className="flex items-center gap-6 pb-4 border-b">
           <span className={styles.middleFont}>팀 이름</span>
-          {/* 관심기술 목록 API 호출 */}
+          <input
+            type="text"
+            className="rounded-md p-2"
+            required
+            value={inputs.name}
+            onChange={(e) => {
+              setInputs((cur) => {
+                return { ...cur, name: e.target.value };
+              });
+            }}
+          />
         </div>
-        <div>
+        <div className="flex items-center gap-6 pb-4 border-b">
           <span className={styles.middleFont}>팀 소개</span>
+          <input
+            type="text"
+            className="rounded-md p-2 w-96"
+            required
+            value={inputs.introduction}
+            onChange={(e) => {
+              setInputs((cur) => {
+                return { ...cur, introduction: e.target.value };
+              });
+            }}
+          />
         </div>
-        <div>
+        <div className="flex flex-col items-start gap-6 pb-4 border-b">
           <span className={styles.middleFont}>프로젝트 설명</span>
+          <textarea
+            className="rounded-md w-96 resize-none p-2 outline-none h-44"
+            required
+            value={inputs.description}
+            onChange={(e) => {
+              setInputs((cur) => {
+                return { ...cur, description: e.target.value };
+              });
+            }}
+          ></textarea>
         </div>
-        <div>
+        <div className="flex items-center gap-6 pb-4 border-b">
           <span className={styles.middleFont}>모집 인원</span>
+          <input
+            type="number"
+            className="rounded-md p-2"
+            required
+            value={inputs.recruitment}
+            onChange={(e) => {
+              setInputs((cur) => {
+                return { ...cur, recruitment: e.target.value };
+              });
+            }}
+          />
         </div>
         <div className="flex w-full justify-center gap-8">
-          <button className={styles.changeBtn}>수정반영</button>
-          <button className={styles.leaveBtn}>탈퇴</button>
+          <button
+            className={styles.changeBtn}
+            onClick={(e) => {
+              e.preventDefault();
+              const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
+              if (returnVal === true) {
+                createTeam().then((teamName) => {
+                  addTeamMember(teamName);
+                });
+                window.location.reload();
+              }
+            }}
+          >
+            팀 개설
+          </button>
         </div>
-      </section>
+      </form>
     </>
   );
 }
