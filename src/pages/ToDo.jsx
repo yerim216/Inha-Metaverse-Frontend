@@ -107,15 +107,6 @@ export default function ToDo() {
                   title: e.target.value,
                 });
               }}
-              //   onKeyUp={(e) => {
-              //     if (e.key === "Enter") {
-              //       setTodo_notStart((cur) => {
-              //         resetAddTodo("notStart");
-              //         hideAddTodo("notStart");
-              //         return [addTodo_notStart, ...cur];
-              //       });
-              //     }
-              //   }}
             />
             {/* <input
               type=""

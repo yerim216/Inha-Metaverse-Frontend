@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "../styles/ProjectBox.module.css";
 
-export default function ProjectBox({ projectName, isRecruiting }) {
+export default function ProjectBox({
+  projectName,
+  isRecruiting,
+  recruitmentNumber,
+  views,
+  introduction,
+}) {
+  console.log(recruitmentNumber);
   return (
     <div
       style={{
@@ -52,13 +59,14 @@ export default function ProjectBox({ projectName, isRecruiting }) {
       >
         {projectName}
       </h1>
-      <div className={styles.iconBox}>
+      <div className="my-2">{introduction}</div>
+      {/* <div className={styles.iconBox}>
         <img src="1.png" alt="아이콘" />
         <img src="2.png" alt="아이콘" />
         <img src="3.png" alt="아이콘" />
         <img src="4.png" alt="아이콘" />
         <img src="5.png" alt="아이콘" />
-      </div>
+      </div> */}
       <div className={styles.info}>
         <div style={{ display: "flex" }}>
           <div
@@ -67,13 +75,10 @@ export default function ProjectBox({ projectName, isRecruiting }) {
               alignItems: "center",
               marginRight: "15px",
             }}
-          >
-            <img src="6.png" alt="아이콘" />
-            <span>100</span>
-          </div>
+          ></div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <img src="6.png" alt="아이콘" />
-            <span>100</span>
+            <span>{views}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -85,12 +90,12 @@ export default function ProjectBox({ projectName, isRecruiting }) {
                   backgroundColor: "lightgreen",
                 }}
               ></div>
-              <span>recruiting ( 0/20 )</span>
+              <span>recruiting ( 0/{recruitmentNumber} )</span>
             </>
           ) : (
             <>
               <div className="w-3 h-3 bg-white rounded-full"></div>
-              <span>not recruiting ( 0/20 )</span>
+              <span>not recruiting ( 0/{recruitmentNumber} )</span>
             </>
           )}
         </div>

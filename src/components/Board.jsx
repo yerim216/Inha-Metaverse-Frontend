@@ -112,7 +112,6 @@ export default function Board() {
           index: teamIndex,
         })
         .then((res) => {
-          console.log(res.data);
           setMemberList(res.data);
         });
     });
@@ -133,13 +132,15 @@ export default function Board() {
       });
   };
 
-  const addManager = (memberName) => {
+  const addManager = (memberName, memberIdx) => {
     setSelectedManager((cur) => {
-      return [...cur, memberName];
+      return [...cur, { memberName, memberIdx }];
     });
   };
   const deleteManager = (memberName) => {
-    setSelectedManager((cur) => cur.filter((data) => data !== memberName));
+    setSelectedManager((cur) =>
+      cur.filter((data) => data.memberName !== memberName)
+    );
   };
   const addTodoAtDB = async (filterName) => {
     const userIndex = await getUserIndex();
@@ -155,15 +156,18 @@ export default function Board() {
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
-            axios
-              .post("/todo/manager", {
-                todo_index: todoIndex,
-                todo_manager: 1,
-              })
-              .then(() => {
-                console.log("getdatabase");
-                getDatabase();
-              });
+            selectedManager.map((manager) => {
+              console.log(manager);
+              axios
+                .post("/todo/manager", {
+                  todo_index: todoIndex,
+                  todo_manager: manager.memberIdx,
+                })
+                .then(() => {
+                  console.log("getdatabase");
+                  getDatabase();
+                });
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -171,7 +175,6 @@ export default function Board() {
       } else if (filterName === "inProgress") {
         axios
           .post("/todo/put", {
-            //
             team: teamIndex,
             title: addTodo_inProgress.title,
             content: addTodo_inProgress.todo,
@@ -180,15 +183,18 @@ export default function Board() {
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
-            axios
-              .post("/todo/manager", {
-                todo_index: todoIndex,
-                todo_manager: 1,
-              })
-              .then(() => {
-                console.log("getdatabase");
-                getDatabase();
-              });
+            selectedManager.map((manager) => {
+              console.log(manager);
+              axios
+                .post("/todo/manager", {
+                  todo_index: todoIndex,
+                  todo_manager: manager.memberIdx,
+                })
+                .then(() => {
+                  console.log("getdatabase");
+                  getDatabase();
+                });
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -204,15 +210,18 @@ export default function Board() {
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
-            axios
-              .post("/todo/manager", {
-                todo_index: todoIndex,
-                todo_manager: 1,
-              })
-              .then(() => {
-                console.log("getdatabase");
-                getDatabase();
-              });
+            selectedManager.map((manager) => {
+              console.log(manager);
+              axios
+                .post("/todo/manager", {
+                  todo_index: todoIndex,
+                  todo_manager: manager.memberIdx,
+                })
+                .then(() => {
+                  console.log("getdatabase");
+                  getDatabase();
+                });
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -351,9 +360,11 @@ export default function Board() {
                     return (
                       <Member
                         memberName={member.name}
-                        activated={selectedManager.includes(member.name)}
+                        activated={selectedManager.some(
+                          (item) => item.memberName === member.name
+                        )}
                         addManager={() => {
-                          addManager(member.name);
+                          addManager(member.name, member.index);
                         }}
                         deleteManager={() => {
                           deleteManager(member.name);
@@ -375,6 +386,10 @@ export default function Board() {
                 )
                   return;
 
+                if (selectedManager.length === 0) {
+                  alert("담당자를 1명 이상 선택해 주세요!");
+                  return;
+                }
                 resetAddTodo("notStart");
                 hideAddTodo("notStart");
                 addTodoAtDB("notStart");
@@ -444,9 +459,11 @@ export default function Board() {
                     return (
                       <Member
                         memberName={member.name}
-                        activated={selectedManager.includes(member.name)}
+                        activated={selectedManager.some(
+                          (item) => item.memberName === member.name
+                        )}
                         addManager={() => {
-                          addManager(member.name);
+                          addManager(member.name, member.index);
                         }}
                         deleteManager={() => {
                           deleteManager(member.name);
@@ -468,6 +485,10 @@ export default function Board() {
                 )
                   return;
 
+                if (selectedManager.length === 0) {
+                  alert("담당자를 1명 이상 선택해 주세요!");
+                  return;
+                }
                 resetAddTodo("inProgress");
                 hideAddTodo("inProgress");
                 addTodoAtDB("inProgress");
@@ -537,9 +558,11 @@ export default function Board() {
                     return (
                       <Member
                         memberName={member.name}
-                        activated={selectedManager.includes(member.name)}
+                        activated={selectedManager.some(
+                          (item) => item.memberName === member.name
+                        )}
                         addManager={() => {
-                          addManager(member.name);
+                          addManager(member.name, member.index);
                         }}
                         deleteManager={() => {
                           deleteManager(member.name);
@@ -558,6 +581,11 @@ export default function Board() {
                   addTodo_done.todo.trim() === ""
                 )
                   return;
+
+                if (selectedManager.length === 0) {
+                  alert("담당자를 1명 이상 선택해 주세요!");
+                  return;
+                }
 
                 resetAddTodo("done");
                 hideAddTodo("done");

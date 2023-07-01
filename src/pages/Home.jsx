@@ -73,7 +73,7 @@ export default function Home() {
   }
 
   // 우측 상단의 모집중 필터 버튼.
-  const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(false);
+  const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(true);
 
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
