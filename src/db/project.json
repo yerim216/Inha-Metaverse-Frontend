@@ -6,10 +6,10 @@
     ],
 
     "progress" : [
-        {"id":1, "title": "Ping Pong Track1", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20" },
-        {"id":2, "title": "Ping Pong Track2", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "30" },
-        {"id":3, "title": "Ping Pong Track3", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20" },
-        {"id":4, "title": "Ping Pong Track4", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20" }
+        {"id":1, "title": "Ping Pong Track1", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20","exp":"imi efd aerj fdia eirnbfhdfsba urha  dfuhurga  asudhfebfk sf." },
+        {"id":2, "title": "Ping Pong Track2", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "30","exp":"imi efd aerj fdia eirnbfhdfsba urha  dfuhurga  asudhfebfk sf." },
+        {"id":3, "title": "Ping Pong Track3", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20","exp":"imi efd aerj fdia eirnbfhdfsba urha  dfuhurga  asudhfebfk sf." },
+        {"id":4, "title": "Ping Pong Track4", "part": "Game", "part2": "UX/UI", "views": "100", "recruit": "not recruiting", "maxmem": "20","exp":"imi efd aerj fdia eirnbfhdfsba urha  dfuhurga  asudhfebfk sf." }
 
     ]
 }

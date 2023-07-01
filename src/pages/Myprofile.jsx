@@ -52,7 +52,7 @@ export default function Profile() {
     },[])
 
     useEffect(() => {
-      axios.post('http://43.201.166.82:3000/team/emailtoteam', {
+      axios.post('http://43.201.166.82:3000/team/emailtoteam', { //내가 속한 팀 불러오기 
           "email": userLoginString
       })
 
@@ -261,7 +261,7 @@ export default function Profile() {
   }
 
   const namee2 = {
-    marginTop: "5px",
+    marginTop: "-25px",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
     fontWeight: "500",
@@ -301,7 +301,7 @@ export default function Profile() {
   }
   const whole2 = {
     display: "inline-block",
-    marginLeft: "270px",
+    marginLeft: "200px",
     zIndex: '1',
     paddingBottom: "30px",
 
@@ -325,7 +325,8 @@ export default function Profile() {
     fontStyle: "normal",
     fontWeight: "500",
     fontSize: "14px",
-    marginBottom: "100px",
+    marginBottom:"5px",
+    marginTop:"-35px",
   }
 
   const dot3 = {
@@ -551,23 +552,19 @@ export default function Profile() {
                           <div style = {parts2}>
                               {project.part2}
                           </div>
-                        </div>
-                        <div style={namee2}>{project.title}</div>
-                        <div style={tools2}><img src={`${process.env.PUBLIC_URL}/public_assets/tools2.png`}/></div>                      
-                      </div>
-                      
-                      <div style={wrappp2}>
-                        <div style={viewss}>
-                          <div style={eyes}><img src={`${process.env.PUBLIC_URL}/public_assets/blackeye.png`}/></div>                      
-                          {project.views}
-                        </div>
-                        <div style={whole2}>
-                          <div style = {dot3}></div>
-                          <div style = {con4}>
-                            {project.recruit} ( 0 / {project.maxmem} )
+                          <div style={whole2}>
+                            <div style = {dot3}></div>
+                            <div style = {con4}>
+                              {project.recruit} ( 0 / {project.maxmem} )
+                            </div>
                           </div>
                         </div>
+                        <div style={namee2}>{project.title}</div>
+                        
+                        <div style={tools2}> {project.exp}</div>                      
                       </div>
+                      
+                     
                       
 
                     </div>

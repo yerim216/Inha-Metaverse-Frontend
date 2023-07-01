@@ -350,6 +350,8 @@ export default function Profile() {
             />
         </div>
         <div className={styles.textContainer}>
+          <Link to ='/projectmanagertools'><a className={styles.navLink}>관리</a></Link>
+
           <a className={styles.navLink}>프로필</a>
 
           <a className={styles.navLink}>지원</a>
