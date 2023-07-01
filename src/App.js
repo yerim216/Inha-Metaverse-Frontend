@@ -12,6 +12,7 @@ import Calendar from "./components/Calendar";
 import ProjectManagerTools from "./pages/ProjectManagerTools";
 import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
+import GenMyprofile from "./pages/GenMyprofile";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "createproject",
     element: <CreateProject />,
+  },
+  {
+    path: "createmyprofile",
+    element: <GenMyprofile />,
   },
   {
     path: "projectmanagertools",

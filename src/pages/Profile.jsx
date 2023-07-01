@@ -385,21 +385,6 @@ export default function Profile() {
           <p className={styles.limit}>서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명서비스설명</p>
       
       </div>
-      
-      <div className = {styles.characteristics}>
-        <div className={styles.charItem1}>
-          #그래픽디자이너
-        </div>
-        <div className={styles.charItem2}>
-          #개발자구함
-        </div>
-        <div className={styles.charItem3}>
-          #올빼미족
-        </div>
-        <div className={styles.charItem4}>
-          #istp
-        </div>
-      </div>
 
       <p className={styles.txt}> Skills</p>
 
