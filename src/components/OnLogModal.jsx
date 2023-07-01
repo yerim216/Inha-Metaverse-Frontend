@@ -3,6 +3,7 @@ import styled from "styled-components";
 import useOutSideClick from "../hooks/useOutsideClick";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
+import { Link } from "react-router-dom";
 
 function Modal({ onClose }) {
   const modalRef = useRef(null)
@@ -24,10 +25,9 @@ function Modal({ onClose }) {
             <i className="fa-solid fa-xmark"></i>
           </LogoutButton>
           <Contents>
-            <p>Profile</p>
+            <Link to = '/myprofile'><p>Profile</p></Link>
             <div>내 프로젝트</div>
             <div>프로젝트 만들기</div>
-            <div><span></span>내 소식</div>
             <Button onClick={logout}>로그아웃</Button>
           </Contents>
         </ModalWrap>
@@ -38,7 +38,7 @@ function Modal({ onClose }) {
 const Overlay = styled.div`
   position: fixed;
   width: 217px;
-  height: 324px;
+  height: 300px;
   margin: auto;
   margin-top: 92px;
   top: 0;
@@ -53,7 +53,7 @@ const ModalWrap = styled.div`
 
   display: felx;
   width: 217px;
-  height: 324px;
+  height: 270px;
   border-radius: 15px;
   background-color: #fff;
   position: absolute;

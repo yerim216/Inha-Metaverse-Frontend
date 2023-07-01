@@ -43,7 +43,6 @@ const router = createBrowserRouter([
         element: <Board />,
       },
       { path: "board", element: <Board /> },
-      { path: "calendar", element: <Calendar /> },
       {
         path: "calendar2",
         element: <Calendar2 />,

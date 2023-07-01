@@ -63,7 +63,7 @@ export default function ProjectManagerTools() {
             className="transition-all hover:scale-125"
             onClick={() => {
               setActivated("calendar");
-              navigate("calendar");
+              navigate("calendar2");
             }}
           >
             <img

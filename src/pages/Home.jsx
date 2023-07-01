@@ -18,6 +18,16 @@ export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+  const email = user;
+  const room = "forum";
+
+  const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+    email
+  )}&&room=${encodeURIComponent(room)}`;
+
+  const LogClickAlert = () => {
+    alert("로그인을 해주세요!");
+  };
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -177,9 +187,13 @@ export default function Home() {
                 <Dot />
               </button>
             )}
-            <button onClick={handleButtonClick} className={styles.navLink}>
-              Profile
-            </button>
+            {user ? (
+              <button onClick={handleButtonClick} className={styles.navLink}>
+                Profile
+              </button>
+            ) : (
+              <button onClick={LogClickAlert}>Profile</button>
+            )}
           </nav>
 
           <img
@@ -199,18 +213,20 @@ export default function Home() {
         </div>
 
         <div className={styles.container}>
-          <div className={styles.imageContainer}>
-            <h1 className={styles.letsJoin}>Let's Join</h1>
-            <img
-              className={`${styles.image}`}
-              // src="https://via.placeholder.com/783x600.jpg"
-              src="/public_assets/todayHot.png"
-              alt="예시 이미지"
-            />
-          </div>
+          <a href={url}>
+            <div className={styles.imageContainer}>
+              <h1 className={styles.letsJoin}>Let's Join</h1>
+              <img
+                className={`${styles.image}`}
+                // src="https://via.placeholder.com/783x600.jpg"
+                src="/public_assets/todayHot.png"
+                alt="예시 이미지"
+              />
+            </div>
+          </a>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
-            <p className={styles.tHot}>Today Hot</p>
+            <p className={styles.tHot}>Office</p>
             <p className={styles.hotName}>Ping Pong Track</p>
             <View />
             <hr />

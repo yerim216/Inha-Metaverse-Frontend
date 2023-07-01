@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Myprofile.module.css";
 import Gdot from "../components/Gdot";
 import StarRating from "../components/StarRating";
-
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 import project from "../db/project.json";
 import user from "../db/user.json";
 import member from "../db/member.json";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function Profile() {
     useEffect(()=>{
@@ -18,14 +22,27 @@ export default function Profile() {
       },[])
     
     const [userData, setUsers] = useState([]);
+    const [userLogin, setUserLogin] = useRecoilState(userState);
+    const [dataa, setData] = useState([]);
+    const [team,setTeam] = useState([]);
+    const navigate = useNavigate(); 
+
+    const userLoginString = userLogin.email.toString();
+    
+    const logout = () => {
+      window.localStorage.clear();
+      setUserLogin(null) 
+      navigate('/')
+    }
+    
     useEffect(() => {
         axios.post('http://43.201.166.82:3000/userinfo', {
-            "email": "jimin"
+            "email": userLoginString
         })
   
         .then(function (res){
             const myArray = Object.values(res.data);
-            console.log(myArray);
+            console.log('myArray = '+ myArray);
             setUsers(myArray);
             console.log("성공");
         })
@@ -33,6 +50,35 @@ export default function Profile() {
             console.log(error);
         })
     },[])
+
+    useEffect(() => {
+      axios.post('http://43.201.166.82:3000/team/emailtoteam', {
+          "email": userLoginString
+      })
+
+      .then(function (res){
+          const myArray = Object.values(res.data);
+          console.log('Team myArray = '+ myArray);
+          setTeam(myArray);
+          console.log("성공");
+      })
+      .catch(function (error){
+          console.log(error);
+      })
+  },[])
+
+    // useEffect(() => {
+    //   axios.get('http://43.201.166.82:3000/userinfo/skill')
+    //     .then(response => {
+    //       setData(response.data);
+
+    //       console.log('get 요청 = ' + response)
+    //     })
+    //     .catch(error => {
+    //       // 요청 실패 시 처리할 코드
+    //       console.error(error);
+    //     });
+    // }, [])
       
   const part = {
     fontFamily: "'Avenir'",
@@ -377,6 +423,7 @@ export default function Profile() {
 
       <div className={styles.navItems}>
         <div className={styles.logoContainer}>
+        <Link to = '/'>
         <img
               src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
               className={styles.nav}
@@ -385,17 +432,27 @@ export default function Profile() {
                 height: "36px",
                 width: "52px",
               }}
+              onClick={() => window.location.href = "/"}
             />
+        </Link>
+       
         
         </div>
         <div className={styles.textContainer}>
           <a className={styles.navLink}>프로필</a>
 
           <a className={styles.navLink}>지원</a>
-
-          <button className={styles.loginButton}>
+          
+          {userLogin ? (
+              <button className={styles.loginButton} onClick = {logout}>
+              <span>로그아웃</span>
+            </button>
+            ) : (
+              <button className={styles.loginButton}>
                 <span>로그인</span>
-          </button>
+              </button>
+            )}
+          
         </div>
       </div>
       <div className={styles.backgroundImage}></div>
@@ -416,14 +473,7 @@ export default function Profile() {
           <p className={styles.limit}>{userData[2]}</p>
       
       </div>
-      <div className ={styles.profileButton}>
-          <button className={styles.loginButton2}>
-            <a className={styles.toInvite}>초대하기</a>
-          </button>
-          <button className={styles.loginButton3}>
-            <a className={styles.toSocial}>메세지보내기</a>
-          </button>
-      </div>
+
       <div className = {styles.characteristics}>
         <div className={styles.charItem1}>
           #그래픽디자이너
@@ -495,44 +545,6 @@ export default function Profile() {
                 
               </span>
           ))}
-      </div>
-
-      <div className={styles.memSearch}>
-        <p className={styles.txt}> 🔍<span className={styles.userName}>닉네임 </span> 님이 찾으시는 팀원들이 여기있어요!</p>
-        <div className={styles.wrapp}>
-          {member.member.map(member => (
-              
-                <span key={member.id} style ={no}>
-
-                  <div style={pIntro}>
-                    <div style={pImage}><img src={`${process.env.PUBLIC_URL}/public_assets/pro.png`} alt={member.name} /></div>
-                    <div style={con}>
-                      <div style={hahaha}>
-                        <div style= {dot}></div>
-                        <div style={namee}>{member.name}</div>
-                      </div>
-                      <br/>
-                      <div style={whole}>
-                        <div style = {con2}>
-                          {member.intro}
-                        </div>
-                        <div style = {lab}>
-                          <div style = {parts}>
-                            #{member.part1}
-                          </div>
-                          <div style = {parts}>
-                            #{member.part2}
-                          </div>
-                          <div style={more}><img src={`${process.env.PUBLIC_URL}/public_assets/more.png`}/></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </span>
-
-            ))}
-        </div>
       </div>
 
       <div className={styles.memSearch}>
