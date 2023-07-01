@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 
 function StarRate() {
-    const AVR_RATE = 88; // 상품 평균 평점. 실제로는 데이터에서 패치할 것 입니다.
+    const AVR_RATE = 70; // 상품 평균 평점. 실제로는 데이터에서 패치할 것 입니다.
     const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last']; // 다섯개의 별을 따로 컨트롤하기 위해서는 고유 id를 각각 가지고 있어야 합니다. 이 고유 아이디를 쉽게 생성해 주기 위한 리스트 입니다.
     const [ratesResArr, setRatesResArr] = useState([0, 0, 0, 0, 0]);    // 별점 리스트 상태입니다.
     const calcStarRates = () => {

@@ -23,6 +23,8 @@ export default function Profile() {
     
     const [userData, setUsers] = useState([]);
     const [userLogin, setUserLogin] = useRecoilState(userState);
+    const [dataa, setData] = useState([]);
+    const [team,setTeam] = useState([]);
     const navigate = useNavigate(); 
 
     const userLoginString = userLogin.email.toString();
@@ -40,7 +42,7 @@ export default function Profile() {
   
         .then(function (res){
             const myArray = Object.values(res.data);
-            console.log(myArray);
+            console.log('myArray = '+ myArray);
             setUsers(myArray);
             console.log("성공");
         })
@@ -48,6 +50,35 @@ export default function Profile() {
             console.log(error);
         })
     },[])
+
+    useEffect(() => {
+      axios.post('http://43.201.166.82:3000/team/emailtoteam', {
+          "email": userLoginString
+      })
+
+      .then(function (res){
+          const myArray = Object.values(res.data);
+          console.log('Team myArray = '+ myArray);
+          setTeam(myArray);
+          console.log("성공");
+      })
+      .catch(function (error){
+          console.log(error);
+      })
+  },[])
+
+    // useEffect(() => {
+    //   axios.get('http://43.201.166.82:3000/userinfo/skill')
+    //     .then(response => {
+    //       setData(response.data);
+
+    //       console.log('get 요청 = ' + response)
+    //     })
+    //     .catch(error => {
+    //       // 요청 실패 시 처리할 코드
+    //       console.error(error);
+    //     });
+    // }, [])
       
   const part = {
     fontFamily: "'Avenir'",

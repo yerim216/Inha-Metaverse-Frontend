@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import FullCalendar from '@fullcalendar/react';
@@ -10,6 +11,7 @@ import styles from "../styles/Calendar2.module.css";
 import "../styles/calendar2.css";
 
 const Calendar = () => {
+  
 
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
@@ -17,7 +19,8 @@ const Calendar = () => {
   const userLoginString = userLogin.email.toString();
 
   const [events, setEvents] = useState([]);
-
+  const [index,setIndex] = useState([]);
+  
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -29,22 +32,32 @@ const Calendar = () => {
       }); // 이벤트를 저장하는 API 엔드포인트로 변경, userLoginString과 newEvent를 요청에 포함
 
       const index = response.data[0].team_index; // 받아온 인덱스 처리
-      
+      setIndex(index)
+
       console.log('Team index loaded successfully with:', index);
 
       const response2 = await axios.post('http://43.201.166.82:3000/schedule/list', { //팀인덱스에 따라 db events 불러오기 
         "index": index,
       });
 
-
+      // const eventDataTransform = (event) => {
+      //   if (event.allDay) {
+      //       event.end = moment(event.end).subtract(1, 'days');
+      //   }
+      //   return event;
+      // };
       const convertedEvents = response2.data.map(data => ({
         title: data.schedule_name,
         start: data.start_date,
         end: data.end_date,
         extendedProps: {
           writer_name: data.writer_name
-        }
+        },
+        
       }));
+
+
+
 
       setEvents(convertedEvents);
 
@@ -56,46 +69,66 @@ const Calendar = () => {
 
   const handleDateSelect = async (arg) => {  // 사용자가 이벤트 추가 
     const title = prompt('이벤트 이름을 입력하세요:');
+    
     var timestamp = new Date().getTime();
     // var currentDate = new Date(timestamp); - timestamp -> Date 객체 변환
-
+    var eventString = new Array();
     if (title) {
-      const newEvent = {
-        title: title,
-        start: arg.start,
-        end: arg.end,
-        allDay: arg.allDay,
-        writer: 1,
-        created_at: timestamp,
-      };
+      const current = new Date();
+      const cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+      const cTime = current.getHours() + ':' + current.getMinutes() + ':' + current.getSeconds();
+      const dateTime = cDate + ' ' + cTime;
 
-      try {
-        const response = await axios.post('http://43.201.166.82:3000/team/emailtoteam', {
-          "email": userLoginString,
-        }); // 이벤트를 저장하는 API 엔드포인트로 변경, userLoginString과 newEvent를 요청에 포함
+      var sstart = arg.start.toISOString()
+      var endd = arg.end.toISOString()
+
+      var nstart = sstart.substring(0,10).replace(/-/g,'');				
+      var nend = endd.substring(0,10).replace(/-/g,'');					
+
+      
+      try {   
+        
+        const newEvent = {
+          title: title,
+          start: sstart,
+          end: endd,
+          created_at: dateTime,
+        };
   
-        const index = response.data[0].team_index; // 받아온 인덱스 처리
-        console.log(index)
-        // 이벤트를 state에 추가
-        newEvent.team = index;
-        console.log(newEvent)
+        const newEvent2 = {
+          name: title,
+          start_date: nstart,
+          end_date: nend,
+          created_at: dateTime,
+          writer: 1,
+          team: index,
+        };
+
+        console.log(newEvent2)
+        console.log(events)
+
+        var jsondata = JSON.stringify(newEvent2);
+        console.log(jsondata)
         setEvents([...events, newEvent]);
+        addEventToDB(newEvent2)
+
       } catch (error) {
         console.error('Error saving event:', error);
       }
 
-      saveEvent(newEvent); // 이벤트를 DB에 저장하는 함수 호출
-
     }
+
+
   };
-
-  const saveEvent = async (event) => {
-    try {
-      await axios.post('http://43.201.166.82:3000/schedule/put', event); // 이벤트를 저장하는 API 엔드포인트로 변경
-      console.log('Event saved successfully');
-    } catch (error) {
-      console.error('Error saving event:', error);
-    }
+  const addEventToDB = (event) => {
+    axios.post('http://43.201.166.82:3000/schedule/put', event)
+      .then(response => {
+        // 요청 성공 시 처리할 코드
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error adding event to DB:', error);
+      });
   };
   
   return (
@@ -120,3 +153,4 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
