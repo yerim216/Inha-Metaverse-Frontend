@@ -1,6 +1,9 @@
 import React, { createContext, useState } from "react";
 
-export const UserInfoContext = createContext();
+export const UserInfoContext = createContext({
+  userInfo: "",
+  userInfoSet: "",
+});
 
 export default function UserInfoProvider({ children }) {
   const [userInfo, setUserInfo] = useState();

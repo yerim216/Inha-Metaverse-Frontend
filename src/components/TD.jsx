@@ -13,10 +13,13 @@ export default function Todo({
     todo_content,
     writer,
     updated_at,
+    todo_index,
   },
+  changeTodoStatus,
 }) {
   const innerContent = useRef();
   const container = useRef();
+  const formattedDate = new Date(todo_date).toLocaleString();
   return (
     <div
       className={`${styles.TD} cursor-pointer transition-all`}
@@ -47,7 +50,7 @@ export default function Todo({
                   "해당 리스트를 '시작 안함' 상태로 전환하시겠어요?"
                 );
                 if (returnVal === true) {
-                  // '시작 안함' 상태로 db 변동.
+                  changeTodoStatus(todo_index, 0);
                 }
               }}
             ></div>
@@ -59,6 +62,7 @@ export default function Todo({
                 );
                 if (returnVal === true) {
                   // '진행중' 상태로 db 변동.
+                  changeTodoStatus(todo_index, 1);
                 }
               }}
             ></div>
@@ -70,6 +74,7 @@ export default function Todo({
                 );
                 if (returnVal === true) {
                   // '완료됨' 상태로 db 변동.
+                  changeTodoStatus(todo_index, 2);
                 }
               }}
             ></div>
@@ -101,7 +106,7 @@ export default function Todo({
           })}
         </div>
       </div>
-      <span className="mr-auto text-xs">{todo_date}</span>
+      <span className="mr-auto text-xs">{formattedDate}</span>
     </div>
   );
 }

@@ -11,6 +11,7 @@ import Board from "./components/Board";
 import Calendar from "./components/Calendar";
 import ProjectManagerTools from "./pages/ProjectManagerTools";
 import Calendar2 from "./pages/Calendar2";
+import CreateProject from "./pages/CreateProject";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,8 @@ const router = createBrowserRouter([
     element: <Myprofile />,
   },
   {
-    path: "todo",
-    element: <ToDo />,
+    path: "createproject",
+    element: <CreateProject />,
   },
   {
     path: "projectmanagertools",

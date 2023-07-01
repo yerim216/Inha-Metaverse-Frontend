@@ -12,10 +12,12 @@ import SignUpModal from "../components/SignUpModal";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import OnLogModal from "../components/OnLogModal";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
+  const navigate = useNavigate();
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -138,7 +140,14 @@ export default function Home() {
       <section>
         <div>
           <nav className={styles.navbar}>
-            <span className={styles.navLink}>Home</span>
+            <span
+              className={styles.navLink}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </span>
             {user ? (
               <button
                 className={styles.loginModal}
@@ -177,15 +186,6 @@ export default function Home() {
             src="/public_assets/darkmodeBg.png"
             alt="darkModeBg"
             className={styles.bg}
-          />
-        </div>
-
-        {/* 이미지 크기 이슈 해결 후 추가 예정 */}
-        <div className="relative">
-          <img
-            src="/public_assets/VP.png"
-            alt="darkModeBg"
-            className={styles.VP}
           />
         </div>
 

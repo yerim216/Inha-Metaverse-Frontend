@@ -64,7 +64,7 @@ export default function Board() {
   const getDatabase = () => {
     // 팀 인덱스 가져오는 코드
     getTeamIndex().then((teamIndex) => {
-      // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date로 구성됨.
+      // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_index로 구성됨.
       axios
         .post("/todo/todolist", {
           index: teamIndex,
@@ -82,6 +82,21 @@ export default function Board() {
           setMemberList(res.data);
         });
     });
+  };
+
+  // 기존 투두의 상태 변경하는 코드
+  const changeTodoStatus = (todoIndex, statusNum) => {
+    axios
+      .post("/todo/progress", {
+        index: todoIndex,
+        status: statusNum,
+      })
+      .then(() => {
+        getDatabase();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const addManager = (memberName) => {
@@ -105,12 +120,23 @@ export default function Board() {
             team: teamIndex,
             title: addTodo_notStart.title,
             content: addTodo_notStart.todo,
+            // writer 인덱스 불러오는 메소드 필요
             writer: 1,
             date: addTodo_notStart.time,
           })
-          .then(() => {
-            console.log("getdatabase");
-            getDatabase();
+          .then((res) => {
+            const todoIndex = res.data[0].todo_index;
+            console.log(todoIndex);
+            axios
+              .post("/todo/manager", {
+                todo_index: todoIndex,
+                //
+                todo_manager: 1,
+              })
+              .then(() => {
+                console.log("getdatabase");
+                getDatabase();
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -126,12 +152,22 @@ export default function Board() {
             team: teamIndex,
             title: addTodo_inProgress.title,
             content: addTodo_inProgress.todo,
+            // writer 인덱스 불러오는 메소드 필요
             writer: 1,
             date: addTodo_inProgress.time,
           })
-          .then(() => {
-            console.log("getdatabase");
-            getDatabase();
+          .then((res) => {
+            const todoIndex = res.data[0].todo_index;
+            axios
+              .post("/todo/manager", {
+                todo_index: todoIndex,
+                // manager 불러오는 메소드 필요
+                todo_manager: 1,
+              })
+              .then(() => {
+                console.log("getdatabase");
+                getDatabase();
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -143,16 +179,25 @@ export default function Board() {
         console.log(addTodo_done.time);
         axios
           .post("/todo/put", {
-            //
             team: teamIndex,
             title: addTodo_done.title,
             content: addTodo_done.todo,
+            // writer 인덱스 불러오는 메소드 필요
             writer: 1,
             date: addTodo_done.time,
           })
-          .then(() => {
-            console.log("getdatabase");
-            getDatabase();
+          .then((res) => {
+            const todoIndex = res.data[0].todo_index;
+            axios
+              .post("/todo/manager", {
+                todo_index: todoIndex,
+                //
+                todo_manager: 1,
+              })
+              .then(() => {
+                console.log("getdatabase");
+                getDatabase();
+              });
           })
           .catch((err) => {
             console.log(err);
@@ -310,6 +355,12 @@ export default function Board() {
             <AiOutlinePlusCircle
               className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
               onClick={() => {
+                if (
+                  addTodo_notStart.title.trim() === "" ||
+                  addTodo_notStart.todo.trim() === ""
+                )
+                  return;
+
                 resetAddTodo("notStart");
                 hideAddTodo("notStart");
                 addTodoAtDB("notStart");
@@ -320,7 +371,9 @@ export default function Board() {
             {todos &&
               todos.map((item) => {
                 if (item.todo_status === 0) {
-                  return <TD todoData={item} />;
+                  return (
+                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                  );
                 }
                 return null;
               })}
@@ -385,14 +438,18 @@ export default function Board() {
                   })}
               </div>
             </div>
-            {/* inProgress_time */}
             <span className="mr-auto text-sm inProgress_time">
               0월 00일 00 : 00
             </span>
             <AiOutlinePlusCircle
               className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
               onClick={() => {
-                // 세개 다 inProgress로 변경
+                if (
+                  addTodo_inProgress.title.trim() === "" ||
+                  addTodo_inProgress.todo.trim() === ""
+                )
+                  return;
+
                 resetAddTodo("inProgress");
                 hideAddTodo("inProgress");
                 addTodoAtDB("inProgress");
@@ -403,11 +460,12 @@ export default function Board() {
             {todos &&
               todos.map((item) => {
                 if (item.todo_status === 1) {
-                  return <TD todoData={item} />;
+                  return (
+                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                  );
                 }
                 return null;
               })}
-            {/* filterName inProgress */}
             <PlusTodoBtn showAddTodo={showAddTodo} filterName={"inProgress"} />
           </div>
         </section>
@@ -473,6 +531,12 @@ export default function Board() {
             <AiOutlinePlusCircle
               className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
               onClick={() => {
+                if (
+                  addTodo_done.title.trim() === "" ||
+                  addTodo_done.todo.trim() === ""
+                )
+                  return;
+
                 resetAddTodo("done");
                 hideAddTodo("done");
                 addTodoAtDB("done");
@@ -483,7 +547,9 @@ export default function Board() {
             {todos &&
               todos.map((item) => {
                 if (item.todo_status === 2) {
-                  return <TD todoData={item} />;
+                  return (
+                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                  );
                 }
                 return null;
               })}
