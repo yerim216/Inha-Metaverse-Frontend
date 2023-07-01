@@ -67,6 +67,16 @@ export default function Profile() {
       })
   },[])
 
+  function RecruitmentButton() {
+  const [recruitmentStatus, setRecruitmentStatus] = useState('recruiting');
+
+  const handleClick = () => {
+    if (recruitmentStatus === 'recruiting') {
+      setRecruitmentStatus('completed');
+    } else {
+      setRecruitmentStatus('recruiting');
+    }
+  };
     // useEffect(() => {
     //   axios.get('http://43.201.166.82:3000/userinfo/skill')
     //     .then(response => {
@@ -609,4 +619,4 @@ export default function Profile() {
   );
 }
 
-
+}
