@@ -7,7 +7,7 @@ import axios from "axios";
 import Member from "./Member";
 
 export default function Board() {
-  // 씨팔 담당자선택 공유됨
+  // ㅆ.. 담당자선택 공유됨
   const [addTodo_notStart, setAddTodo_notStart] = useState({
     time: "",
     title: "",

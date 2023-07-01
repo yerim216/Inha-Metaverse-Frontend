@@ -15,13 +15,13 @@ export default function CreateProject() {
   // 팀 기술스택 추가
   const [user, setUser] = useRecoilState(userState);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     name: "",
     introduction: "",
     description: "",
     recruitment: null,
   });
+  const navigate = useNavigate();
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -43,7 +43,7 @@ export default function CreateProject() {
 
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
-      return Promise.resolve(); // 빈 Promise를 리턴
+      return Promise.resolve();
     }
 
     const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
@@ -231,10 +231,13 @@ export default function CreateProject() {
               e.preventDefault();
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
               if (returnVal === true) {
-                createTeam().then((teamName) => {
-                  addTeamMember(teamName);
-                });
-                window.location.reload();
+                createTeam()
+                  .then((teamName) => {
+                    addTeamMember(teamName);
+                  })
+                  .then(() => {
+                    navigate("/");
+                  });
               }
             }}
           >

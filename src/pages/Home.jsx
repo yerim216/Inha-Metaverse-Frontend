@@ -227,7 +227,7 @@ export default function Home() {
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Office</p>
-            <p className={styles.hotName}>Ping Pong Track</p>
+            <p className={styles.hotName}>대공간 포럼</p>
             <View />
             <hr />
           </div>
