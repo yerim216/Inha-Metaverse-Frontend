@@ -44,21 +44,54 @@ export default function Board() {
         JSON.parse(localStorage.getItem("recoil-persist")).userState === null
       ) {
         reject("User state is null");
+        console.log("로컬스토리지에서 유저 정보 못받아옴");
         return;
       }
 
       const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
         .userState.email;
+      console.log(userEmail);
       axios
         .post("/team/emailtoteam", { email: userEmail })
         .then((res) => {
           const teamIndex = res.data[0].team_index;
+          // teamIndex를 여러 개 불러옴. 이 중에서 구별할 방법 필요함.
           resolve(teamIndex);
         })
         .catch((error) => {
           reject(error);
         });
     });
+  };
+
+  const deleteTodo = (todoIndex) => {
+    axios
+      .post("/todo/delete", { index: todoIndex })
+      .then(() => {
+        getDatabase();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getUserIndex = async () => {
+    let userIndex;
+
+    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+      return;
+    }
+
+    const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
+      .userState.email;
+
+    await axios
+      .post("/userinfo", {
+        email: userEmail,
+      })
+      .then((res) => {
+        userIndex = res.data.index;
+      });
+
+    return userIndex; // userIndex 리턴
   };
 
   const getDatabase = () => {
@@ -79,6 +112,7 @@ export default function Board() {
           index: teamIndex,
         })
         .then((res) => {
+          console.log(res.data);
           setMemberList(res.data);
         });
     });
@@ -107,30 +141,23 @@ export default function Board() {
   const deleteManager = (memberName) => {
     setSelectedManager((cur) => cur.filter((data) => data !== memberName));
   };
-  const addTodoAtDB = (filterName) => {
+  const addTodoAtDB = async (filterName) => {
+    const userIndex = await getUserIndex();
     getTeamIndex().then((teamIndex) => {
       if (filterName === "notStart") {
-        console.log(teamIndex);
-        console.log(addTodo_notStart.title);
-        console.log(addTodo_notStart.todo);
-        console.log(addTodo_notStart.time);
         axios
           .post("/todo/put", {
-            //
             team: teamIndex,
             title: addTodo_notStart.title,
             content: addTodo_notStart.todo,
-            // writer 인덱스 불러오는 메소드 필요
-            writer: 1,
+            writer: userIndex,
             date: addTodo_notStart.time,
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
-            console.log(todoIndex);
             axios
               .post("/todo/manager", {
                 todo_index: todoIndex,
-                //
                 todo_manager: 1,
               })
               .then(() => {
@@ -142,18 +169,13 @@ export default function Board() {
             console.log(err);
           });
       } else if (filterName === "inProgress") {
-        console.log(teamIndex);
-        console.log(addTodo_inProgress.title);
-        console.log(addTodo_inProgress.todo);
-        console.log(addTodo_inProgress.time);
         axios
           .post("/todo/put", {
             //
             team: teamIndex,
             title: addTodo_inProgress.title,
             content: addTodo_inProgress.todo,
-            // writer 인덱스 불러오는 메소드 필요
-            writer: 1,
+            writer: userIndex,
             date: addTodo_inProgress.time,
           })
           .then((res) => {
@@ -161,7 +183,6 @@ export default function Board() {
             axios
               .post("/todo/manager", {
                 todo_index: todoIndex,
-                // manager 불러오는 메소드 필요
                 todo_manager: 1,
               })
               .then(() => {
@@ -173,17 +194,12 @@ export default function Board() {
             console.log(err);
           });
       } else if (filterName === "done") {
-        console.log(teamIndex);
-        console.log(addTodo_done.title);
-        console.log(addTodo_done.todo);
-        console.log(addTodo_done.time);
         axios
           .post("/todo/put", {
             team: teamIndex,
             title: addTodo_done.title,
             content: addTodo_done.todo,
-            // writer 인덱스 불러오는 메소드 필요
-            writer: 1,
+            writer: userIndex,
             date: addTodo_done.time,
           })
           .then((res) => {
@@ -191,7 +207,6 @@ export default function Board() {
             axios
               .post("/todo/manager", {
                 todo_index: todoIndex,
-                //
                 todo_manager: 1,
               })
               .then(() => {
@@ -336,7 +351,6 @@ export default function Board() {
                     return (
                       <Member
                         memberName={member.name}
-                        // selectedManager state에 해당 이름이 존재한다면 activated가 true, 아니라면 false
                         activated={selectedManager.includes(member.name)}
                         addManager={() => {
                           addManager(member.name);
@@ -372,7 +386,11 @@ export default function Board() {
               todos.map((item) => {
                 if (item.todo_status === 0) {
                   return (
-                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                    <TD
+                      todoData={item}
+                      changeTodoStatus={changeTodoStatus}
+                      deleteTodo={deleteTodo}
+                    />
                   );
                 }
                 return null;
@@ -461,7 +479,11 @@ export default function Board() {
               todos.map((item) => {
                 if (item.todo_status === 1) {
                   return (
-                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                    <TD
+                      todoData={item}
+                      deleteTodo={deleteTodo}
+                      changeTodoStatus={changeTodoStatus}
+                    />
                   );
                 }
                 return null;
@@ -548,7 +570,11 @@ export default function Board() {
               todos.map((item) => {
                 if (item.todo_status === 2) {
                   return (
-                    <TD todoData={item} changeTodoStatus={changeTodoStatus} />
+                    <TD
+                      todoData={item}
+                      deleteTodo={deleteTodo}
+                      changeTodoStatus={changeTodoStatus}
+                    />
                   );
                 }
                 return null;

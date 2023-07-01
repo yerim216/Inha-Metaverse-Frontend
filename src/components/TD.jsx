@@ -16,6 +16,7 @@ export default function Todo({
     todo_index,
   },
   changeTodoStatus,
+  deleteTodo,
 }) {
   const innerContent = useRef();
   const container = useRef();
@@ -61,7 +62,6 @@ export default function Todo({
                   "해당 리스트를 '진행중' 상태로 전환하시겠어요?"
                 );
                 if (returnVal === true) {
-                  // '진행중' 상태로 db 변동.
                   changeTodoStatus(todo_index, 1);
                 }
               }}
@@ -73,7 +73,6 @@ export default function Todo({
                   "해당 리스트를 '완료됨' 상태로 전환하시겠어요?"
                 );
                 if (returnVal === true) {
-                  // '완료됨' 상태로 db 변동.
                   changeTodoStatus(todo_index, 2);
                 }
               }}
@@ -84,7 +83,7 @@ export default function Todo({
             onClick={() => {
               const returnVal = window.confirm("해당 리스트를 삭제하시겠어요?");
               if (returnVal === true) {
-                // db에서 해당 todo 삭제
+                deleteTodo(todo_index);
               }
             }}
           />
