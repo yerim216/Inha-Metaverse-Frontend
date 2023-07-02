@@ -23,10 +23,10 @@ export default function Profile() {
     
     const [userData, setUsers] = useState([]);
     const [userLogin, setUserLogin] = useRecoilState(userState);
-    const [dataa, setData] = useState([]);
     const [team,setTeam] = useState([]);
-    const navigate = useNavigate(); 
+    const [interests,setInterest] = useState([]);
 
+    const navigate = useNavigate(); 
     const userLoginString = userLogin.email.toString();
     
     const logout = () => {
@@ -52,14 +52,43 @@ export default function Profile() {
     },[])
 
     useEffect(() => {
+      axios.get('http://43.201.166.82:3000/userinfo/interested')
+        .then(response => {
+          setInterest(response.data);
+
+          console.log('get 요청 = ' + response)
+        })
+        .catch(error => {
+          // 요청 실패 시 처리할 코드
+          console.error(error);
+        });
+    }, [])
+
+  //   useEffect(() => {
+  //     axios.post('http://43.201.166.82:3000/userinfo/interested', {
+  //         "email": userLoginString
+  //     })
+
+  //     .then(function (res){
+  //         const myArray = Object.values(res.data);
+  //         console.log('interest_myArray = '+ myArray);
+  //         setUsers(myArray);
+  //         console.log("성공");
+  //     })
+  //     .catch(function (error){
+  //         console.log(error);
+  //     })
+  // },[])
+
+    useEffect(() => {
       axios.post('http://43.201.166.82:3000/team/emailtoteam', { //내가 속한 팀 불러오기 
           "email": userLoginString
       })
 
       .then(function (res){
-          const myArray = Object.values(res.data);
-          console.log('Team myArray = '+ myArray);
-          setTeam(myArray);
+          const teamArray = Object.values(res.data);
+          console.log('Team myArray = '+ teamArray);
+          setTeam(teamArray);
           console.log("성공");
       })
       .catch(function (error){
@@ -67,16 +96,6 @@ export default function Profile() {
       })
   },[])
 
-  function RecruitmentButton() {
-  const [recruitmentStatus, setRecruitmentStatus] = useState('recruiting');
-
-  const handleClick = () => {
-    if (recruitmentStatus === 'recruiting') {
-      setRecruitmentStatus('completed');
-    } else {
-      setRecruitmentStatus('recruiting');
-    }
-  };
     // useEffect(() => {
     //   axios.get('http://43.201.166.82:3000/userinfo/skill')
     //     .then(response => {
@@ -476,12 +495,12 @@ export default function Profile() {
       />
       <div className={styles.nameContainer}>
           <Gdot />
-          <p className={styles.name}>{userData[0]}</p>
+          <p className={styles.name}>{userData[1]}</p>
 
       </div>
       <div className={styles.texts}>
           <p>Game / ENT</p>
-          <p className={styles.limit}>{userData[2]}</p>
+          <p className={styles.limit}>{userData[3]}</p>
       
       </div>
 
@@ -489,14 +508,14 @@ export default function Profile() {
         {user.info.map(item => (
             
               <span key={item.id}>
-                <div style={recruitContainer}>
+                <div calssName={recruitContainer}>
                   <div style={part}>
                     <p className = {styles.part}>직무</p> <span style={data}>{item.part}</span>
                   </div>
 
                   <div style={part}>
                     <p className = {styles.careerpart}>경력</p>
-                    <span style={data}>{userData[1]}년차</span>
+                    <span style={data}>{userData[2]}년차</span>
                   </div>
                   <div style={part}>
                     <p className = {styles.mannerpart}>매너점수</p><span style={data}>{item.manners}</span>
@@ -544,7 +563,7 @@ export default function Profile() {
       </div>
 
       <div className={styles.memSearch}>
-        <p className={styles.txt}> 🔍<span className={styles.userName}>닉네임 </span> 님이 진행하시는 프로젝트</p>
+        <p className={styles.txt}> 🔍<span className={styles.userName}>{userData[1]} </span> 님이 진행하시는 프로젝트</p>
         <div className={styles.wrapp}>
           {project.progress.map(project => (
               
@@ -619,4 +638,3 @@ export default function Profile() {
   );
 }
 
-}

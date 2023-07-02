@@ -1,0 +1,7 @@
+.recruitContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    padding-top:13px;
+
+  }

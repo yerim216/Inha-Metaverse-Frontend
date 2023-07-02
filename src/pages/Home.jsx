@@ -17,13 +17,21 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
+  const [userLogin, setUserLogin] = useRecoilState(userState);
+
   const navigate = useNavigate();
-  const email = user;
   const room = "forum";
 
-  const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
-    email
-  )}&&room=${encodeURIComponent(room)}`;
+  const forumClick = () => {
+    if (user) {
+      const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+        user.email
+      )}&&room=${encodeURIComponent(room)}`;
+
+      window.location.href = url;
+      console.log(url);
+    }
+  };
 
   const LogClickAlert = () => {
     alert("로그인을 해주세요!");
@@ -42,6 +50,7 @@ export default function Home() {
     // 다크모드와 화이트모드 다르게 설정 필요
     document.body.style.backgroundColor = "#111111";
   };
+
 
   // 로그인창 팝업 관리 state
   const [signInModalOpen, setSignInModalOpen] = useState(false);
@@ -136,6 +145,14 @@ export default function Home() {
     setIsOpen(true);
   };
 
+  useEffect(() => {
+    if ((localStorage.getItem("recoil-persist")).userState === []) {
+      setUser(null);
+
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <SignInModal
@@ -187,6 +204,7 @@ export default function Home() {
                 <Dot />
               </button>
             )}
+
             {user ? (
               <button onClick={handleButtonClick} className={styles.navLink}>
                 Profile
@@ -213,7 +231,7 @@ export default function Home() {
         </div>
 
         <div className={styles.container}>
-          <a href={url}>
+          <button onClick={forumClick}>
             <div className={styles.imageContainer}>
               <h1 className={styles.letsJoin}>Let's Join</h1>
               <img
@@ -223,7 +241,7 @@ export default function Home() {
                 alt="예시 이미지"
               />
             </div>
-          </a>
+          </button>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Office</p>
