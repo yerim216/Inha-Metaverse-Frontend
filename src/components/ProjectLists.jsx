@@ -27,7 +27,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     useState([]);
 
   useEffect(() => {
-    axios.get("http://app.vpspace.net/team/all").then((res) => {
+    axios.get("https://www.app.vpspace.net/team/all").then((res) => {
       setProjectList(res.data);
     });
   }, []);

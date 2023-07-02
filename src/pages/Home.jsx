@@ -50,7 +50,6 @@ export default function Home() {
     document.body.style.backgroundColor = "#111111";
   };
 
-
   // 로그인창 팝업 관리 state
   const [signInModalOpen, setSignInModalOpen] = useState(false);
   const openSignInModal = () => {
@@ -145,12 +144,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if ((localStorage.getItem("recoil-persist")).userState === []) {
+    if (localStorage.getItem("recoil-persist").userState === []) {
       setUser(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <>

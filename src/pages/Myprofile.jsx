@@ -12,60 +12,61 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
-    useEffect(()=>{
-        document.documentElement.classList.add("profileOnly");
-        return ()=>{
-        document.documentElement.classList.remove("profileOnly");
-        }
-      },[])
-    
-    const [userData, setUsers] = useState([]);
-    const [userLogin, setUserLogin] = useRecoilState(userState);
-    const [team,setTeam] = useState([]);
-    const [interests,setInterest] = useState([]);
-    const [teamIndices, setTeamIndices] = useState([]);
+  useEffect(() => {
+    document.documentElement.classList.add("profileOnly");
+    return () => {
+      document.documentElement.classList.remove("profileOnly");
+    };
+  }, []);
 
-    const navigate = useNavigate(); 
-    const userLoginString = userLogin.email.toString();
-    
-    const logout = () => {
-      window.localStorage.clear();
-      setUserLogin(null); 
-      navigate('/');
-    }
-    
-    useEffect(() => {
-        axios.post('http://43.201.166.82:3000/userinfo', {
-            "email": userLoginString
-        })
-  
-        .then(function (res){
-            const myArray = Object.values(res.data);
-            console.log('myArray = '+ myArray);
+  const [userData, setUsers] = useState([]);
+  const [userLogin, setUserLogin] = useRecoilState(userState);
+  const [team, setTeam] = useState([]);
+  const [interests, setInterest] = useState([]);
+  const [teamIndices, setTeamIndices] = useState([]);
 
-            setUsers(myArray);
-            console.log("성공");
-        })
-        .catch(function (error){
-            console.log(error);
-        })
-    },[])
-// 관심분야 인덱스 가져오는 api 보류 -> 일단 임시로 1 넣어둠
-    // useEffect(() => {
-    //   axios.get('http://43.201.166.82:3000/userinfo/interested')
-    //     .then(response => {
-    //       setInterest(response.data);
+  const navigate = useNavigate();
+  const userLoginString = userLogin.email.toString();
 
-    //       console.log('get 요청 = ' + response)
-    //     })
-    //     .catch(error => {
-    //       // 요청 실패 시 처리할 코드
-    //       console.error(error);
-    //     });
-    // }, [])
+  const logout = () => {
+    window.localStorage.clear();
+    setUserLogin(null);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    axios
+      .post("https://www.app.vpspace.net/userinfo", {
+        email: userLoginString,
+      })
+
+      .then(function (res) {
+        const myArray = Object.values(res.data);
+        console.log("myArray = " + myArray);
+
+        setUsers(myArray);
+        console.log("성공");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  // 관심분야 인덱스 가져오는 api 보류 -> 일단 임시로 1 넣어둠
+  // useEffect(() => {
+  //   axios.get('https://www.app.vpspace.net/userinfo/interested')
+  //     .then(response => {
+  //       setInterest(response.data);
+
+  //       console.log('get 요청 = ' + response)
+  //     })
+  //     .catch(error => {
+  //       // 요청 실패 시 처리할 코드
+  //       console.error(error);
+  //     });
+  // }, [])
 
   //   useEffect(() => {
-  //     axios.post('http://43.201.166.82:3000/userinfo/interested', {
+  //     axios.post('https://www.app.vpspace.net/userinfo/interested', {
   //         "email": userLoginString
   //     })
 
@@ -80,11 +81,15 @@ export default function Profile() {
   //     })
   // },[])
 
-  useEffect(() => { //유저가 진행하는 팀 인덱스 불러오기
+  useEffect(() => {
+    //유저가 진행하는 팀 인덱스 불러오기
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://43.201.166.82:3000/team/emailtoteam', {  "email": userLoginString });
-        const indices = response.data.map(item => item.team_index);
+        const response = await axios.post(
+          "https://www.app.vpspace.net/team/emailtoteam",
+          { email: userLoginString }
+        );
+        const indices = response.data.map((item) => item.team_index);
 
         setTeamIndices(response.data);
         console.log(indices);
@@ -96,14 +101,18 @@ export default function Profile() {
     fetchData();
   }, []);
 
-  useEffect(() => { //팀 인덱스에 해당하는 팀 정보 불러오기 
+  useEffect(() => {
+    //팀 인덱스에 해당하는 팀 정보 불러오기
     const fetchData = async () => {
       try {
         for (let i = 0; i < teamIndices.length; i++) {
-          const response = await axios.post('http://43.201.166.82:3000/team/list', { "teamIndex": teamIndices[i] });
+          const response = await axios.post(
+            "https://www.app.vpspace.net/team/list",
+            { teamIndex: teamIndices[i] }
+          );
           console.log(response.data); // POST 요청의 응답 데이터 처리
           console.log("팀인덱스" + teamIndices[i]);
-          console.log(typeof(teamIndices[0]));
+          console.log(typeof teamIndices[0]);
         }
       } catch (error) {
         console.log(error);
@@ -113,9 +122,8 @@ export default function Profile() {
     fetchData();
   }, [teamIndices]);
 
-    
   // useEffect(() => {
-  //   axios.get('http://43.201.166.82:3000/userinfo/skill')
+  //   axios.get('https://www.app.vpspace.net/userinfo/skill')
   //     .then(response => {
   //       setData(response.data);
 
@@ -494,48 +502,51 @@ export default function Profile() {
         <div className={styles.nameContainer}>
           <Gdot />
           <p className={styles.name}>{userData[1]}</p>
-
-      </div>
-      <div className={styles.texts}>
+        </div>
+        <div className={styles.texts}>
           <p>Game / ENT</p>
           <p className={styles.limit}>{userData[3]}</p>
-      
-      </div>
+        </div>
 
-      <div className ={styles.recruit}>
-        {user.info.map(item => (
-            
-              <span key={item.id}>
-                <div calssName={recruitContainer}>
-                  <div style={part}>
-                    <p className = {styles.part}>직무</p> <span style={data}>{item.part}</span>
-                  </div>
+        <div className={styles.recruit}>
+          {user.info.map((item) => (
+            <span key={item.id}>
+              <div calssName={recruitContainer}>
+                <div style={part}>
+                  <p className={styles.part}>직무</p>{" "}
+                  <span style={data}>{item.part}</span>
+                </div>
 
-                  <div style={part}>
-                    <p className = {styles.careerpart}>경력</p>
-                    <span style={data}>{userData[2]}년차</span>
-                  </div>
-                  <div style={part}>
-                    <p className = {styles.mannerpart}>매너점수</p><span style={data}>{item.manners}</span>
-                    
-                    <span style={star}><StarRating /></span>
-                  </div>
-                  <div style={inpart}>
-                    <p className = {styles.interestpart}>관심분야</p>
-                    <span style = {contain}>
-                        <span style={indata}>{item.interest}</span><span style={indata}>{item.interest}</span><span style={indata}>{item.interest}</span>
-                    </span>
-                  </div>
-                  <div style={part}>
-                    <p className = {styles.skillpart}>스킬</p>
-                    <div style={recruitContainer2}>
-                        <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
-                        style={extool}
-                        alt="Views"
-                        />
-                        <div style={toolss}>
-                        <img
+                <div style={part}>
+                  <p className={styles.careerpart}>경력</p>
+                  <span style={data}>{userData[2]}년차</span>
+                </div>
+                <div style={part}>
+                  <p className={styles.mannerpart}>매너점수</p>
+                  <span style={data}>{item.manners}</span>
+
+                  <span style={star}>
+                    <StarRating />
+                  </span>
+                </div>
+                <div style={inpart}>
+                  <p className={styles.interestpart}>관심분야</p>
+                  <span style={contain}>
+                    <span style={indata}>{item.interest}</span>
+                    <span style={indata}>{item.interest}</span>
+                    <span style={indata}>{item.interest}</span>
+                  </span>
+                </div>
+                <div style={part}>
+                  <p className={styles.skillpart}>스킬</p>
+                  <div style={recruitContainer2}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
+                      style={extool}
+                      alt="Views"
+                    />
+                    <div style={toolss}>
+                      <img
                         src={`${process.env.PUBLIC_URL}/public_assets/html.png`}
                         style={htmll}
                         alt="Views"
@@ -558,29 +569,27 @@ export default function Profile() {
           ))}
         </div>
 
-      <div className={styles.memSearch}>
-        <p className={styles.txt}> 🔍<span className={styles.userName}>{userData[1]} </span> 님이 진행하시는 프로젝트</p>
-        <div className={styles.wrapp}>
-          <div>
-            {teamIndices.map((item, index) => (
-                  <div style={projects}>
-                    <p key={index}>Index: {item.team_index}</p>
+        <div className={styles.memSearch}>
+          <p className={styles.txt}>
+            {" "}
+            🔍<span className={styles.userName}>{userData[1]} </span> 님이
+            진행하시는 프로젝트
+          </p>
+          <div className={styles.wrapp}>
+            <div>
+              {teamIndices.map((item, index) => (
+                <div style={projects}>
+                  <p key={index}>Index: {item.team_index}</p>
 
-                    <div style={con3}>
-
-                      <div style={wrappp}>
-                        <div style={progressP}>
-                          <div style = {parts2}>
-                              {project.part}
-                          </div>
-                          <div style = {parts2}>
-                              {project.part2}
-                          </div>
-                          <div style={whole2}>
-                            <div style = {dot3}></div>
-                            <div style = {con4}>
-                              {project.recruit} ( 0 / {project.maxmem} )
-                            
+                  <div style={con3}>
+                    <div style={wrappp}>
+                      <div style={progressP}>
+                        <div style={parts2}>{project.part}</div>
+                        <div style={parts2}>{project.part2}</div>
+                        <div style={whole2}>
+                          <div style={dot3}></div>
+                          <div style={con4}>
+                            {project.recruit} ( 0 / {project.maxmem} )
                           </div>
                         </div>
                       </div>
@@ -590,9 +599,8 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-            ))}
-          </div>
-          
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function CreateProject() {
 
   const createTeam = async () => {
     try {
-      await axios.post("http://app.vpspace.net/team", {
+      await axios.post("https://www.app.vpspace.net/team", {
         name: inputs.name,
         introduction: inputs.introduction,
         description: inputs.description,
@@ -50,7 +50,7 @@ export default function CreateProject() {
       .userState.email;
 
     return axios
-      .post("http://app.vpspace.net/userinfo", {
+      .post("https://www.app.vpspace.net/userinfo", {
         email: userEmail,
       })
       .then((res) => {
@@ -63,7 +63,7 @@ export default function CreateProject() {
     const userName = getUserName();
     userName.then((userName) => {
       axios
-        .post("http://app.vpspace.net/team/member", {
+        .post("https://www.app.vpspace.net/team/member", {
           team_name: teamName,
           user_name: userName,
         })

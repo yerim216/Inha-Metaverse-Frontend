@@ -59,7 +59,7 @@ export default function SignUpModal(props) {
       else return [...selectedFilters];
     });
   };
-  
+
   const deleteFilter = (item) => {
     setSelectedFilters((arr) => arr.filter((data) => data !== item));
   };
@@ -80,7 +80,7 @@ export default function SignUpModal(props) {
   const secondScreen = useRef();
   const thirdScreen = useRef();
 
-  axios.defaults.baseURL = "http://app.vpspace.net/";
+  axios.defaults.baseURL = "https://www.app.vpspace.net/";
 
   const checkNicknameValid = () => {
     const pattern = /^[가-힣a-zA-Z0-9]{2,10}$/;
