@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
-  const [userLogin, setUserLogin] = useRecoilState(userState);
 
   const navigate = useNavigate();
   const room = "forum";
@@ -82,7 +81,7 @@ export default function Home() {
   }
 
   // 우측 상단의 모집중 필터 버튼.
-  const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(false);
+  const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(true);
 
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
@@ -148,10 +147,10 @@ export default function Home() {
   useEffect(() => {
     if ((localStorage.getItem("recoil-persist")).userState === []) {
       setUser(null);
-
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <>
@@ -245,7 +244,7 @@ export default function Home() {
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
             <p className={styles.tHot}>Office</p>
-            <p className={styles.hotName}>Ping Pong Track</p>
+            <p className={styles.hotName}>대공간 포럼</p>
             <View />
             <hr />
           </div>

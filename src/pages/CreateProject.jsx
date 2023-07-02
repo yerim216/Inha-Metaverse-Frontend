@@ -15,13 +15,13 @@ export default function CreateProject() {
   // 팀 기술스택 추가
   const [user, setUser] = useRecoilState(userState);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     name: "",
     introduction: "",
     description: "",
     recruitment: null,
   });
+  const navigate = useNavigate();
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -43,7 +43,7 @@ export default function CreateProject() {
 
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
-      return Promise.resolve(); // 빈 Promise를 리턴
+      return Promise.resolve();
     }
 
     const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
@@ -170,7 +170,7 @@ export default function CreateProject() {
       <form className={styles.paddingSection}>
         <h1 className={styles.title}>프로젝트 만들기</h1>
         <div className="flex items-center gap-6 pb-4 border-b">
-          <span className={styles.middleFont}>팀 이름</span>
+          <div className={styles.middleFont}>팀 이름</div>
           <input
             type="text"
             className="rounded-md p-2"
@@ -184,7 +184,7 @@ export default function CreateProject() {
           />
         </div>
         <div className="flex items-center gap-6 pb-4 border-b">
-          <span className={styles.middleFont}>팀 소개</span>
+          <div className={styles.middleFont}>팀 소개</div>
           <input
             type="text"
             className="rounded-md p-2 w-96"
@@ -198,7 +198,7 @@ export default function CreateProject() {
           />
         </div>
         <div className="flex flex-col items-start gap-6 pb-4 border-b">
-          <span className={styles.middleFont}>프로젝트 설명</span>
+          <div className={styles.middleFont}>프로젝트 설명</div>
           <textarea
             className="rounded-md w-96 resize-none p-2 outline-none h-44"
             required
@@ -211,7 +211,7 @@ export default function CreateProject() {
           ></textarea>
         </div>
         <div className="flex items-center gap-6 pb-4 border-b">
-          <span className={styles.middleFont}>모집 인원</span>
+          <div className={styles.middleFont}>모집 인원</div>
           <input
             type="number"
             className="rounded-md p-2"
@@ -231,10 +231,13 @@ export default function CreateProject() {
               e.preventDefault();
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
               if (returnVal === true) {
-                createTeam().then((teamName) => {
-                  addTeamMember(teamName);
-                });
-                window.location.reload();
+                createTeam()
+                  .then((teamName) => {
+                    addTeamMember(teamName);
+                  })
+                  .then(() => {
+                    navigate("/");
+                  });
               }
             }}
           >

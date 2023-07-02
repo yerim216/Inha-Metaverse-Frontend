@@ -1,37 +1,50 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import useOutSideClick from "../hooks/useOutsideClick";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Modal({ onClose }) {
-  const modalRef = useRef(null)
+  const modalRef = useRef(null);
   const [user, setUser] = useRecoilState(userState);
+  const navigate = useNavigate();
 
   const handleClose = () => {
     onClose?.();
   };
   const logout = () => {
+    window.location.href = "/"
+
     window.localStorage.clear();
-    setUser(null) 
-  }
+    setUser(null);
+  };
   useOutSideClick(modalRef, handleClose);
 
   return (
-      <Overlay>
-        <ModalWrap ref={modalRef}>
-          <LogoutButton onClick={logout}>
-            <i className="fa-solid fa-xmark"></i>
-          </LogoutButton>
-          <Contents>
-            <Link to = '/myprofile'><p>Profile</p></Link>
-            <div>내 프로젝트</div>
-            <div>프로젝트 만들기</div>
-            <Button onClick={logout}>로그아웃</Button>
-          </Contents>
-        </ModalWrap>
-      </Overlay>
+    <Overlay>
+      <ModalWrap ref={modalRef}>
+        <LogoutButton onClick={logout}>
+          <i className="fa-solid fa-xmark"></i>
+        </LogoutButton>
+        <Contents>
+          <Link to="/myprofile">
+            <p>Profile</p>
+          </Link>
+          <Link to="/createmyprofile">
+            <div >내 프로젝트</div>
+          </Link>
+          <div
+            onClick={() => {
+              navigate("/createproject");
+            }}
+          >
+            프로젝트 만들기
+          </div>
+          <Button onClick={logout}>로그아웃</Button>
+        </Contents>
+      </ModalWrap>
+    </Overlay>
   );
 }
 
@@ -50,7 +63,6 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-
   display: felx;
   width: 217px;
   height: 270px;
@@ -76,7 +88,7 @@ const Contents = styled.div`
   flex-direction: column;
   p {
     margin-top: 30px;
-    font-family: 'Avenir';
+    font-family: "Avenir";
     font-size: 18px;
     font-weight: 800;
     color: rgba(0, 0, 0, 0.5);
@@ -84,7 +96,7 @@ const Contents = styled.div`
     letter-spacing: 0.04em;
   }
   div {
-    font-family: 'Avenir';
+    font-family: "Avenir";
     font-style: normal;
     font-weight: 800;
     font-size: 18px;
@@ -95,7 +107,7 @@ const Contents = styled.div`
 
     color: #000000;
   }
-  span{
+  span {
     margin-right: 9.5px;
     margin-bottom: 2px;
 
@@ -106,7 +118,7 @@ const Contents = styled.div`
     left: 72.75px;
     top: 195px;
     border-radius: 50px;
-    background: #F53838;
+    background: #f53838;
   }
   img {
     margin-top: 60px;
@@ -114,21 +126,21 @@ const Contents = styled.div`
   }
 `;
 const Button = styled.button`
-    margin: auto;
-    font-family: 'Avenir';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 18px;
-    text-align: center;
-    width: 115px;
-    height: 50px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #000000;
-    border-radius: 26px;
-    color: white;
-    cursor: pointer;
-    &:hover {
+  margin: auto;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  text-align: center;
+  width: 115px;
+  height: 50px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #000000;
+  border-radius: 26px;
+  color: white;
+  cursor: pointer;
+  &:hover {
     background-color: #898989;
   }
 `;

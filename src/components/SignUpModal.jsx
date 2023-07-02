@@ -18,6 +18,7 @@ export default function SignUpModal(props) {
   const [screens, setScreens] = useState();
   const [field, setField] = useState([
     ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
+    ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
     [
       "프론트엔드",
       "백엔드",
@@ -27,7 +28,6 @@ export default function SignUpModal(props) {
       "IOS 개발",
       "Android 개발",
     ],
-    ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
     ["일렉 기타", "어쿠스틱 기타", "클래식 기타"],
   ]);
   const [buttons, setButtons] = useState([
@@ -59,7 +59,7 @@ export default function SignUpModal(props) {
       else return [...selectedFilters];
     });
   };
-
+  
   const deleteFilter = (item) => {
     setSelectedFilters((arr) => arr.filter((data) => data !== item));
   };
@@ -525,9 +525,6 @@ export default function SignUpModal(props) {
                   <form className="mr-auto ml-auto">
                     <ReCAPTCHA
                       sitekey="6Le3O0gmAAAAAB8LLeVt7j2v_Q4wa2v_gbGcRE3v"
-                      // onChange={(value) => {
-                      //   console.log("Captcha value:", value);
-                      // }}
                       className="recaptcha"
                     />
                   </form>

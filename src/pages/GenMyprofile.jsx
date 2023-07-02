@@ -14,17 +14,70 @@ export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
   // 팀 구성원 추가
   // 팀 기술스택 추가
-  const [user, setUser] = useRecoilState(userState);
+  const plans = ["기획","개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"];
+
+    const designs = [
+        "디자인","UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"
+    ];
+  const options = [
+    "개발",
+    "프론트엔드 개발",
+    "백엔드 개발",
+    "머신러닝",
+    "AI 개발",
+    "QA 엔진",
+    "IOS 개발",
+    "Android 개발"
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
+  const [selectedValue, setSelectedValue] = useState(''); // 선택한 값을 저장할 상태 변수
+  const [text, setText] = useState('');
+  
+  const [selectedOption1, setSelectedOption1] = useState(0);
+  const [selectedOption2, setSelectedOption2] = useState(0);
+  const [selectedOption3, setSelectedOption3] = useState(0);
+
+  const selectedValue1 = plans[selectedOption1];
+  const selectedValue2 = designs[selectedOption2];
+  const selectedValue3 = options[selectedOption3];
+  
+  const handleOption1Change = (event) => {
+    setSelectedOption1(event.target.value);
+    console.log(event.target.value)
+
+  };
+
+  const handleOption2Change = (event) => {
+    setSelectedOption2(event.target.value);
+  };
+
+  const handleOption3Change = (event) => {
+    setSelectedOption3(event.target.value);
+  };
+
 
   const navigate = useNavigate();
-  const userLoginString = userLogin.email.toString();
 
   const onClickButton = () => {
     setIsOpen(true);
   };
+
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
+    console.log(event.target.value);
+  };
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+    console.log(event.target.value);
+
+  };
+  console.log(   )
+  
+  const userLoginString = userLogin.email.toString();
 
   useEffect(() => {
     axios.post('http://43.201.166.82:3000/userinfo', {
@@ -73,6 +126,7 @@ export default function CreateProject() {
     setSignUpModalOpen(true);
     blockScroll();
   };
+
   const closeSignUpModal = () => {
     setSignUpModalOpen(false);
     freeScroll();
@@ -80,6 +134,108 @@ export default function CreateProject() {
   const handleButtonClick = () => {
     window.location.href = "/myprofile";
   };
+
+  const userIndex = userData[0]
+
+  const profileSave = () => {
+    window.location.href = "/";
+  };
+  //경력 db 저장
+  useEffect(() => {
+    axios.post('http://43.201.166.82:3000/userinfo/put/job', {
+        "index": userIndex,
+        "job": 1
+    })
+
+    .then(function (res){
+        const myArray = Object.values(res.data);
+
+        setUsers(myArray);
+        console.log("유저 직무 저장 성공");
+    })
+    .catch(function (error){
+        console.log(error);
+    })
+},[])
+
+//경력 저장
+useEffect(() => {
+    axios.post('http://43.201.166.82:3000/userinfo/put/career', {
+        "index": userIndex,
+        "career": selectedValue
+    })
+
+    .then(function (res){
+        const myArray = Object.values(res.data);
+
+        setUsers(myArray);
+        console.log("유저 경력 저장 성공");
+    })
+    .catch(function (error){
+        console.log(error);
+    })
+},[])
+
+console.log(typeof(text))
+console.log(text)
+
+//자기소개 저장
+useEffect(() => {
+    axios.post('http://43.201.166.82:3000/userinfo/put/introduction', {
+        "index": userIndex,
+        "introduction": text
+    })
+
+    .then(function (res){
+        const myArray = Object.values(res.data);
+
+        setUsers(myArray);
+        console.log("유저 소개 저장 성공");
+    })
+    .catch(function (error){
+        console.log(error);
+    })
+},[])
+
+  const option = {
+
+    width: "300px",
+    fontSize: "18px",
+    borderRadius: "20px",
+    padding: "10px",
+    fontFamily: "'Avenir'",
+    fontStyle: "normal",
+    fontWeight: "400",
+  }
+  const option2 = {
+
+    width: "600px",
+    height: "200px",
+    fontSize: "18px",
+    borderRadius: "20px",
+    padding: "10px",
+    fontFamily: "'Avenir'",
+    fontStyle: "normal",
+    fontWeight: "400",
+  }
+
+  const option3 = {
+    display: "flex",
+    width: "150px",
+    flexDirection: "row",
+    gap: "20px",
+    
+  }
+
+  const option4 = {
+    display: "flex",
+    height: "30px",
+    flexDirection: "row",
+    gap: "20px",
+}
+const txts ={
+    color: "white",
+}
 
   return (
     <>
@@ -101,7 +257,7 @@ export default function CreateProject() {
         >
           Home
         </span>
-        {user ? (
+        {userLogin ? (
           <button
             className={styles.loginModal}
             onClick={() => {
@@ -136,7 +292,7 @@ export default function CreateProject() {
       </nav>
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
       <section className={styles.paddingSection}>
-      <h1 className={styles.title}>프로필 만들기</h1>
+      <h1 className={styles.title}>{userData[1]}님 안녕하세요! 신나ㅎ.ㅎ</h1>
 
         <div className={styles.profileImg}>
             <span className={styles2.wrapper}>
@@ -145,22 +301,60 @@ export default function CreateProject() {
             </span>
         </div>
         
+        
         <div className={styles2.name}>
-          <span className={styles2.middleFont}>이름</span>
-          {/* 관심기술 목록 API 호출 */}
-        </div>
-        <div className={styles2.basic}>
-          <span className={styles2.middleFont}>경력</span>
+            <div className={styles2.careearSelectWrapper}>
+            <span className={styles2.middleFont}>경력</span>
+            <div className={styles2.n}></div>
+            <select style={option} value={selectedValue} onChange={handleSelectChange}>
+            <option value="">선택하세요</option>
+            {/* 1부터 10까지의 선택지 생성 */}
+            {Array.from({ length: 10 }, (_, index) => (
+            <option style={option} key={index} value={index + 1}>
+                {index + 1}
+            </option>
+            ))}
+            </select>
+            <p>선택한 값: {selectedValue}</p>
+            </div>
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>자기소개</span>
+          <div className={styles2.n}></div>
+          <textarea style={option2} value={text} onChange={handleTextChange} />
+            <p>입력한 내용: {text}</p>
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>직무(관심 분야)</span>
+          <div className={styles2.n}></div>
+          <div style={option4}>
+
+            <select style={option3} value={selectedOption1} onChange={handleOption1Change}>
+            {plans.map((option, index) => (
+                <option key={index} value={index}>{option}</option>
+                ))}
+            </select>
+            <br />
+            <select style={option3} value={selectedOption2} onChange={handleOption2Change}>
+            {designs.map((option, index) => (
+                <option key={index} value={index}>{option}</option>
+                ))}
+            </select>
+            <br />
+            <select style={option3} value={selectedOption3} onChange={handleOption3Change}>
+            {options.map((option, index) => (
+                <option key={index} value={index}>{option}</option>
+                ))}
+            </select>
+            <br />
+            <p style={txts}>직무선택 : </p>
+            {selectedValue1 && <p style={txts}>{selectedValue1}</p>}
+            {selectedValue2 && <p style={txts}>{selectedValue2}</p>}
+            {selectedValue3 && <p style={txts}>{selectedValue3}</p>}
+          </div>
         </div>
         <div className="flex w-full justify-center gap-8">
-          <button className={styles.changeBtn}>수정반영</button>
-          <button className={styles.leaveBtn}>탈퇴</button>
+          <button onClick={profileSave}className={styles.changeBtn}>수정반영</button>
         </div>
       </section>
     </>
