@@ -517,6 +517,7 @@ export default function Profile() {
 
         <div className={styles.memSearch}>
           <p className={styles.txt}>
+            {" "}
             🔍<span className={styles.userName}>닉네임 </span> 님이 진행하시는
             프로젝트
           </p>
