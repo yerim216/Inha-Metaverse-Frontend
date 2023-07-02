@@ -30,8 +30,8 @@ export default function Profile() {
     
     const logout = () => {
       window.localStorage.clear();
-      setUserLogin(null) 
-      navigate('/')
+      setUserLogin(null); 
+      navigate('/');
     }
     
     useEffect(() => {
