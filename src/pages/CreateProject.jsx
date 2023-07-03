@@ -54,7 +54,6 @@ export default function CreateProject() {
         email: userEmail,
       })
       .then((res) => {
-        console.log(res.data);
         return res.data.name;
       });
   };

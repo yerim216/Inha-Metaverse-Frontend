@@ -224,7 +224,6 @@
 .vec {
   width: 20px;
   height: 20px;
-
 }
 
 .lan {
@@ -239,7 +238,6 @@
   margin: auto;
   margin-top: 56px;
   padding-top: 28px;
-
 }
 
 .memSearch {
@@ -253,10 +251,9 @@
   margin: auto;
   margin-top: 56px;
   margin-bottom: 100px;
-
 }
 
-.memSearch2{
+.memSearch2 {
   border-radius: 10px;
   box-shadow: 0px 0px 20px 0px rgba(225, 225, 225, 0.2);
 
@@ -274,29 +271,28 @@
   display: flex;
   color: white;
   text-align: center;
-  border-bottom:1px solid gray;
+  border-bottom: 1px solid gray;
   padding: 20px 0 20px 0;
 }
 
-.item1{
+.item1 {
   flex-grow: 2;
 }
-.item2{
+.item2 {
   flex-grow: 2.2;
 }
-.item3{
+.item3 {
   flex-grow: 0.7;
 }
-.item4{
+.item4 {
   flex-grow: 0.7;
 }
-.item5{
+.item5 {
   flex-grow: 2;
 }
 .txt {
   margin-top: 100px;
   text-align: center;
-  color: #000;
   font-size: 60px;
   font-family: Avenir;
   font-weight: 800;
@@ -309,6 +305,47 @@
   color: #ffffff;
   padding: 5px;
 }
+
+.applyBtn {
+  margin-top: 100px;
+  font-size: 30px;
+  font-family: Avenir;
+  font-weight: 800;
+  font-family: "Avenir";
+  font-style: normal;
+  line-height: 33px;
+  letter-spacing: 0.06em;
+
+  color: #ffffff;
+  padding: 20px;
+  background: #7090b0;
+  border-radius: 30px;
+}
+
+.applyBtn:hover {
+  filter: brightness(1.2);
+}
+
+.leaveBtn {
+  margin-top: 100px;
+  font-size: 30px;
+  font-family: Avenir;
+  font-weight: 800;
+  font-family: "Avenir";
+  font-style: normal;
+  line-height: 33px;
+  letter-spacing: 0.06em;
+
+  color: #ffffff;
+  padding: 20px;
+  background: grey;
+  border-radius: 30px;
+}
+
+.leaveBtn:hover {
+  filter: brightness(1.2);
+}
+
 .userName {
   font-weight: 1600;
   font-size: 30px;

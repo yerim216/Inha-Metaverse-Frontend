@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/ProjectBox.module.css";
+import { useNavigate } from "react-router";
 
 export default function ProjectBox({
   projectName,
@@ -7,8 +8,9 @@ export default function ProjectBox({
   recruitmentNumber,
   views,
   introduction,
+  teamIndex,
 }) {
-  console.log(recruitmentNumber);
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -22,6 +24,9 @@ export default function ProjectBox({
         transition: "all 0.2s ease-in-out",
       }}
       className={styles.pjb}
+      onClick={() => {
+        navigate("/profile", { state: { teamIndex: teamIndex } });
+      }}
     >
       <div
         style={{

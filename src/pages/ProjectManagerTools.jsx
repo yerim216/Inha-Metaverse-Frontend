@@ -23,7 +23,6 @@ export default function ProjectManagerTools() {
           height: "100%",
         }}
       >
-        {console.log("projectmanagertools" + teamIndex)}
         <Outlet context={{ teamIndex }} />
       </div>
       <div

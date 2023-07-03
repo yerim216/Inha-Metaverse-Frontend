@@ -14,7 +14,6 @@ import { useOutletContext } from "react-router-dom";
 const Calendar = () => {
   // 여기 팀인덱스에요
   const { teamIndex } = useOutletContext();
-  console.log(teamIndex);
 
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
@@ -117,9 +116,6 @@ const Calendar = () => {
           team: index,
         };
 
-        console.log(newEvent2);
-        console.log(events);
-
         var jsondata = JSON.stringify(newEvent2);
         console.log(jsondata);
         setEvents([...events, newEvent]);
@@ -134,7 +130,6 @@ const Calendar = () => {
       .post("https://app.vpspace.net/schedule/put", event)
       .then((response) => {
         // 요청 성공 시 처리할 코드
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error adding event to DB:", error);

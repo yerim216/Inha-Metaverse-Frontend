@@ -76,7 +76,6 @@ export default function Profile() {
         const requestBody = {
           index: team[i],
         };
-        console.log(team.length);
         const response = await axios.post(
           requestURL + "team/list",
           requestBody
@@ -107,10 +106,10 @@ export default function Profile() {
     }
   }, [team]);
 
-  useEffect(() => {
-    // array를 한번에 불러오는게 아니라 fetchData의 for문을 통해 하나하나 할당해주고 있음.
-    console.log(array);
-  }, [array]);
+  // useEffect(() => {
+  //   // array를 한번에 불러오는게 아니라 fetchData의 for문을 통해 하나하나 할당해주고 있음.
+  //   console.log(array);
+  // }, [array]);
 
   const part = {
     fontFamily: "'Avenir'",
@@ -601,7 +600,6 @@ export default function Profile() {
                   className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
                   onClick={() => {
                     // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
-                    console.log("팀 프로필 이동 : " + obj.index);
                     navigate("/profile", { state: { teamIndex: obj.index } });
                   }}
                 >

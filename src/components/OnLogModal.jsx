@@ -1,20 +1,34 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useOutSideClick from "../hooks/useOutsideClick";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Modal({ onClose }) {
   const modalRef = useRef(null);
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState();
+  useEffect(() => {
+    if (user) {
+      axios
+        .post("https://www.app.vpspace.net/userinfo", {
+          email: user.email,
+        })
+        .then((res) => {
+          setUserInfo(res.data);
+        });
+    }
+  }, [user]);
+  console.log(userInfo);
 
   const handleClose = () => {
     onClose?.();
   };
   const logout = () => {
-    window.location.href = "/"
+    window.location.href = "/";
 
     window.localStorage.clear();
     setUser(null);
@@ -28,11 +42,9 @@ function Modal({ onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </LogoutButton>
         <Contents>
-          <Link to="/myprofile">
-            <p>Profile</p>
-          </Link>
+          <p>{userInfo && userInfo.name}</p>
           <Link to="/createmyprofile">
-            <div >내 프로젝트</div>
+            <div>프로필 관리</div>
           </Link>
           <div
             onClick={() => {

@@ -5,7 +5,6 @@ import TD from "../components/TD";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import Member from "./Member";
-import { useLocation, useNavigate } from "react-router";
 import { useOutletContext } from "react-router-dom";
 
 export default function Board() {
@@ -137,6 +136,7 @@ export default function Board() {
             content: addTodo_notStart.todo,
             writer: userIndex,
             date: addTodo_notStart.time,
+            status: 0,
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
@@ -148,7 +148,6 @@ export default function Board() {
                   todo_manager: manager.memberIdx,
                 })
                 .then(() => {
-                  console.log("getdatabase");
                   getDatabase();
                 });
             });
@@ -164,11 +163,11 @@ export default function Board() {
             content: addTodo_inProgress.todo,
             writer: userIndex,
             date: addTodo_inProgress.time,
+            status: 1,
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
             selectedManager.map((manager) => {
-              console.log(manager);
               axios
                 .post("/todo/manager", {
                   todo_index: todoIndex,
@@ -191,18 +190,17 @@ export default function Board() {
             content: addTodo_done.todo,
             writer: userIndex,
             date: addTodo_done.time,
+            status: 2,
           })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
             selectedManager.map((manager) => {
-              console.log(manager);
               axios
                 .post("/todo/manager", {
                   todo_index: todoIndex,
                   todo_manager: manager.memberIdx,
                 })
                 .then(() => {
-                  console.log("getdatabase");
                   getDatabase();
                 });
             });

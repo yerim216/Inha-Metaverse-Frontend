@@ -24,7 +24,6 @@ export default function ToDo() {
   useEffect(() => {
     console.log(todos);
     axios.get("/db/todos.json").then((res) => {
-      console.log(res.data.todos);
       setTodos(res.data.todos);
     });
   }, []);

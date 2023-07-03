@@ -56,7 +56,6 @@ export default function CreateProject() {
 
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleOption2Change = (event) => {
@@ -75,14 +74,11 @@ export default function CreateProject() {
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
-    console.log(event.target.value);
   };
 
   const handleTextChange = (event) => {
     setText(event.target.value);
-    console.log(event.target.value);
   };
-  console.log();
 
   const userLoginString = userLogin.email.toString();
 
@@ -94,9 +90,7 @@ export default function CreateProject() {
 
       .then(function (res) {
         const myArray = Object.values(res.data);
-        console.log("myArray = " + myArray);
         setUsers(myArray);
-        console.log("성공");
       })
       .catch(function (error) {
         console.log(error);

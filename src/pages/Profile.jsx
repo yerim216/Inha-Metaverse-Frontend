@@ -18,6 +18,54 @@ export default function Profile() {
     };
   }, []);
 
+  const getUserInfo = async () => {
+    try {
+      const response = await axios.post(
+        "https://www.app.vpspace.net/userinfo",
+        {
+          email: userLogin.email,
+        }
+      );
+      return response.data.name;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const handleApplyBtn = async () => {
+    console.log(teamInfo.name);
+    const userName = await getUserInfo();
+    axios
+      .post("https://www.app.vpspace.net/team/member", {
+        team_name: teamInfo.name,
+        user_name: userName,
+      })
+      .then(() => {
+        alert("성공적으로 처리되었습니다!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("이미 해당 프로젝트에 속해 있습니다!");
+      });
+  };
+
+  const handleLeaveBtn = async () => {
+    const userName = await getUserInfo();
+    axios
+      .post("https://www.app.vpspace.net/team/member/delete", {
+        team_name: teamInfo.name,
+        user_name: userName,
+      })
+      .then(() => {
+        alert("성공적으로 처리되었습니다!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert("해당 프로젝트의 팀원이 아닙니다!");
+      });
+  };
+
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -45,7 +93,6 @@ export default function Profile() {
             index: teamIndex,
           })
           .then((res) => {
-            console.log(res.data);
             setTeamMembers(res.data);
           });
       })
@@ -424,6 +471,32 @@ export default function Profile() {
           </div>
         </div> */}
 
+        <div className="flex justify-center w-full -mt-10 gap-8">
+          <button
+            className={styles.applyBtn}
+            onClick={() => {
+              const returnVal =
+                window.confirm("해당 프로젝트에 지원하시겠습니까?");
+              if (returnVal === true) {
+                handleApplyBtn();
+              }
+            }}
+          >
+            지원하기
+          </button>
+          <button
+            className={styles.leaveBtn}
+            onClick={() => {
+              const returnVal =
+                window.confirm("해당 프로젝트에 지원하시겠습니까?");
+              if (returnVal === true) {
+                handleLeaveBtn();
+              }
+            }}
+          >
+            탈퇴하기
+          </button>
+        </div>
         <p className={styles.txt}> Team Member</p>
 
         <div className={styles.memSearch}>
@@ -462,6 +535,7 @@ export default function Profile() {
               ))}
           </div>
         </div>
+
         {/* <div className={styles.memSearch}>
           <div className={styles.wrapp}>
             {member.member.map((member) => (
@@ -498,7 +572,7 @@ export default function Profile() {
           </div>
         </div> */}
 
-        <p className={styles.txt}> Recruiting </p>
+        {/* <p className={styles.txt}> Recruiting </p>
 
         <div className={styles.memSearch2}>
           <div className={styles.memNav}>
@@ -524,7 +598,7 @@ export default function Profile() {
               </span>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <footer className={styles.footer}>

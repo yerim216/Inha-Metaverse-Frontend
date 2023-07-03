@@ -57,8 +57,6 @@ export default function ProjectLists({ recruitmentBtnActive }) {
   }, [projectList]);
 
   // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruting, created_at, updated_at, views로 구성됨.
-  console.log(randomNotRecruitingProjects);
-  console.log(randomRecruitingProjects);
   return (
     <div className={styles.ProjectBox}>
       {recruitmentBtnActive ? (
@@ -75,6 +73,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
               recruitmentNumber={item.recruitment_number}
               views={item.views}
               introduction={item.introduction}
+              teamIndex={item.index}
             />
           ))
         )

@@ -28,7 +28,6 @@ export default function Home() {
       )}&&room=${encodeURIComponent(room)}`;
 
       window.location.href = url;
-      console.log(url);
     }
   };
 
