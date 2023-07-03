@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Profile() {
   useEffect(() => {
     document.documentElement.classList.add("profileOnly");
@@ -25,18 +24,15 @@ export default function Profile() {
   const [team, setTeam] = useState([]);
   const [interests, setInterest] = useState([]);
   const [teamData, setTeamData] = useState([]);
-  const [responseArray,setResponseArray]= useState([]);
+  const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
   const userLoginString = userLogin.email.toString();
 
-  let [pagenation,setPagenation] = useState([])
-  let [array,setArray] = useState([]);
-  let [plz,setPlz] = useState([]);
-
+  let [pagenation, setPagenation] = useState([]);
+  let [array, setArray] = useState([]);
+  let [plz, setPlz] = useState([]);
 
   const requestURL = `${window.baseURL}`;
-  console.log("유저"+userLoginString);
-
 
   const logout = () => {
     window.localStorage.clear();
@@ -46,194 +42,70 @@ export default function Profile() {
 
   useEffect(() => {
     axios
-      .post(requestURL+'userinfo' , {
+      .post(requestURL + "userinfo", {
         email: userLoginString,
       })
 
       .then(function (res) {
         const myArray = Object.values(res.data);
-        console.log("myArray = " + myArray);
 
         setUsers(myArray);
-        console.log("성공");
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
-  // 관심분야 인덱스 가져오는 api 보류 -> 일단 임시로 1 넣어둠
-  // useEffect(() => {
-  //   axios.get('https://www.app.vpspace.net/userinfo/interested')
-  //     .then(response => {
-  //       setInterest(response.data);
 
-  //       console.log('get 요청 = ' + response)
-  //     })
-  //     .catch(error => {
-  //       // 요청 실패 시 처리할 코드
-  //       console.error(error);
-  //     });
-  // }, [])
+  const getTeamIndices = () => {
+    axios
+      .post("https://www.app.vpspace.net/team/emailtoteam", {
+        email: userLoginString,
+      })
 
-//이건가 -> 이건 get
-// useEffect(()=>{
-//   async function axiosGetData() {
-//     try{
-//       const response = await axios.get('https://jsonplaceholder.typicode.com/comments')
-//       const result = response.data
-      
-//       const initData = result.slice(0,20).map((item)=>{
-//         return {
-//           author: item.email,
-//           content: item.body,
-//           emotion: Math.floor(Math.random()*5)+1,
-//           created_date: new Date().getTime(),
-//           id : dataId.current++
-//         }
-//       })
-//       setData(initData);
-//     }
-//     catch(e){
-//       throw new Error();
-//     }
-//   }
-//   axiosGetData();
-// },[]);
-
-useEffect(() => {
-    axios.post( "https://www.app.vpspace.net/team/emailtoteam", { "email": userLoginString })
-
-    .then(function (res){
-      const indices = res.data.map((item) => item.team_index);
-      setTeam(indices);
-
-      console.log(indices);
-
-      console.log("팀성공");
-    })
-    .catch(function (error){
+      .then(function (res) {
+        const indices = res.data.map((item) => item.team_index);
+        setTeam(indices);
+      })
+      .catch(function (error) {
         console.log(error);
-    })
+      });
+  };
 
-},[])
-
- //새것
- useEffect(() => {
-  const fetchData = async () => {  
-    let a= [];
-    let arr= [];
-
+  const fetchData = async () => {
     for (let i = 0; i < team.length; i++) {
-
       try {
-        const requestBody = {// 문자열로 전달할 데이터
-          index: team[i]
+        const requestBody = {
+          index: team[i],
         };
 
-        const response = await axios.post(requestURL + "team/list", requestBody);
-        
-        // const name = res.data.map((item) => item.name);
-        // const introduction = res.data.map((item) => item.introduction);
-        // const description = res.data.map((item) => item.description);
-        // const recruit_number = res.data.map((item) => item.recruit_number);
-        // const views = res.data.map((item) => item.views);
-        // const recruiting = res.data.map((item) => item.recruiting);
+        const response = await axios.post(
+          requestURL + "team/list",
+          requestBody
+        );
 
-
-        setArray([...array,response.data]);
-        //{} 안의 값(value) 추출하여 배열로 저장
-        console.log(array);
-        // const result = Object.values(response.data[0]);
-
-        // arr.push(Object.values(response.data[0]));
-        // console.log(arr);
-
-        // setPlz(arr);
-
-        a.push(...response.data[0]);
-        setPagenation(a);
-
-        console.log(a);
-        console.log("우어어: "+pagenation);
-
+        setArray((cur) => {
+          return [...cur, response.data[0]];
+        });
       } catch (error) {
         console.error(error);
       }
     }
   };
 
+  useEffect(() => {
+    getTeamIndices();
+  }, []);
 
-  fetchData();
+  useEffect(() => {
+    if (team.length !== 0) {
+      fetchData();
+    }
+  }, [team]);
 
-}, []);
-
-
-//보험의 보험?
-// useEffect(() => {
-//     for (let i = 0; i < team.length; i++) {
-//       axios.post( requestURL + "team/list", {"index": team[i]})
-//       .then(function (res){
-//         const values = res.data.map((item) => Object.values(item));
-
-//         // setResponseArray(res.data);
-//         setTeamData(values);
-//         console.log("haha"+team);
-
-//       })
-//       .catch(function (error){
-//           console.log(error);
-//       })
-//     }
-
-// }, []); 
-
-//보험
-// useEffect(() => {
-//   var responseArray = [];
-//   console.log("aaa"+typeof(responseArray));
-
-//   const sendRequests = async () => {
-//     for (let i = 0; i < team.length; i++) {
-//       try {
-//         const response = await axios.post(requestURL+"team/list", { index: team[i] });
-//         console.log("sss"+typeof(responseArray));
-
-//         responseArray.push(response.data);
-        
-//         console.log(Object.entries(responseArray));
-//         setTeamData(responseArray);
-        
-//       } catch (error) {
-//         console.error(error);
-
-//       }
-//     }
-
-//     setTeamData(responseArray);
-//     console.log("최종" + teamData);
-
-//   };
-//   sendRequests();
-// }, []); 
-
-  // useEffect(() => {
-  //   //유저가 진행하는 팀 인덱스 불러오기
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.post(
-  //         requestURL+'team/emailtoteam',
-  //         { email: userLoginString }
-  //       );
-  //       const indices = response.data.map((item) => item.team_index);
-  //       setTeam(indices);
-  //       console.log("팀성공"+indices);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []); 
+  useEffect(() => {
+    // array를 한번에 불러오는게 아니라 fetchData의 for문을 통해 하나하나 할당해주고 있음.
+    console.log(array);
+  }, [array]);
 
   const part = {
     fontFamily: "'Avenir'",
@@ -324,8 +196,8 @@ useEffect(() => {
     marginLeft: "-20px",
   };
   const plzplaz = {
-    marginLeft:"100px",
-    color:"white",
+    marginLeft: "100px",
+    color: "white",
   };
 
   const dot = {
@@ -675,27 +547,21 @@ useEffect(() => {
 
         <div className={styles.memSearch}>
           <p className={styles.txt}>
-            {" "}
             🔍<span className={styles.userName}>{userData[1]} </span> 님이
             진행하시는 프로젝트
           </p>
-          {/* <p style={plzplaz}>{plz[1]}</p> */}
-          <div>
-            {array.map((obj, index) => (
-              <p key={index}>{obj.name}</p>
-            ))}
-          </div>
           <div className={styles.wrapp}>
-          <div>
-            {array.map((obj, index) => (
-              <p key={index}>{obj.name}</p>
-            ))}
-          </div>
-          {/* {array.map((obj, index) => (
-              Object.keys(obj).map((key) => (
-                <p key={`${index}-${key}`}>{`${key}: ${obj[key]}`}</p>
-              ))
-            ))} */}
+            <div>
+              {array.map((obj, index) => (
+                // 프로젝트 하나하나 만들기
+                <div key={index}>
+                  <div>{obj.name}</div>
+                  <div>{obj.description}</div>
+                  <div>{obj.description}</div>
+                  <div>{obj.description}</div>
+                </div>
+              ))}
+            </div>
             {/* {pagenation.map((innerArray, indexs) => (
                 <div style={projects} key={indexs}>
                   {innerArray.map((item, index) => (
@@ -722,40 +588,6 @@ useEffect(() => {
                       
                 </div>
               ))} */}
-           
-          {/* {
-            array.length ===0
-            ?null
-            :(
-              pagenation.map(function(item,index){
-                return (
-                  <div style={projects} key={item.index}>
-                    
-                  <div style={con3}>
-                    <div style={wrappp}>
-                      <div style={progressP}>
-                        <div style={parts2}>{item.name}</div>
-                        <div style={parts2}>{item.name}</div>
-                        <div style={whole2}>
-                          <div style={dot3}></div>
-                          <div style={con4}>
-                             0 / {item.recruit_number}
-                          </div>
-                        </div>
-                      </div>
-                      <div style={namee2}>{item.name}</div>
-
-                      <div style={tools2}> {item.description}</div>
-                    </div>
-                  </div>
-            </div>
-                  
-                  // 아니 배열+1개까지뜨다가지금은 왜 되냐..?
-                )
-              })
-            )
-          } */}
-            
           </div>
         </div>
       </div>
