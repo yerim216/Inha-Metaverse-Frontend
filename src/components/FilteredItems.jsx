@@ -7,9 +7,10 @@ export default function FilteredItems({ selectedFilters, deleteFilter }) {
       <section className={styles.contentSection}>
         <div className={styles.warning}>* 최대 6개 분야</div>
         <div className={styles.filterBox}>
-          {selectedFilters.map((selectedFilter) => {
+          {selectedFilters.map((selectedFilter, idx) => {
             return (
               <div
+                key={idx}
                 className={styles.filterBtn}
                 onClick={() => {
                   deleteFilter(selectedFilter);

@@ -385,9 +385,10 @@ export default function SignUpModal(props) {
                       <Collapse isOpened={buttons && buttons[0].value}>
                         <ul className={`fields`}>
                           {field &&
-                            field[0].map((item) => (
+                            field[0].map((item, idx) => (
                               <FilterButton
                                 item={item}
+                                key={idx}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
@@ -418,9 +419,10 @@ export default function SignUpModal(props) {
                       <Collapse isOpened={buttons && buttons[1].value}>
                         <ul className={`fields`}>
                           {field &&
-                            field[1].map((item) => (
+                            field[1].map((item, idx) => (
                               <FilterButton
                                 item={item}
+                                key={idx}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
@@ -451,9 +453,10 @@ export default function SignUpModal(props) {
                       <Collapse isOpened={buttons && buttons[2].value}>
                         <ul className={`fields`}>
                           {field &&
-                            field[2].map((item) => (
+                            field[2].map((item, idx) => (
                               <FilterButton
                                 item={item}
+                                key={idx}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
@@ -484,9 +487,10 @@ export default function SignUpModal(props) {
                       <Collapse isOpened={buttons && buttons[3].value}>
                         <ul className={`fields`}>
                           {field &&
-                            field[3].map((item) => (
+                            field[3].map((item, idx) => (
                               <FilterButton
                                 item={item}
+                                key={idx}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&

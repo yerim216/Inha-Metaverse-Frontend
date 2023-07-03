@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, Route, useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/modules/ProjectManagerTools.module.css";
 
 export default function ProjectManagerTools() {
   // 버튼 따라 현재 활성화된 프로젝트 관리 툴 실행 : 현재는 투두(board), 캘린더 존재
   const [activated, setActivated] = useState("board");
   const navigate = useNavigate();
+
+  const [teamIndex, setTeamIndex] = useState();
+  useEffect(() => {
+    setTeamIndex(location.state.teamIndex);
+  }, []);
+
+  const location = useLocation();
   return (
     <>
       <div
@@ -16,7 +23,8 @@ export default function ProjectManagerTools() {
           height: "100%",
         }}
       >
-        <Outlet />
+        {console.log("projectmanagertools" + teamIndex)}
+        <Outlet context={{ teamIndex }} />
       </div>
       <div
         style={{

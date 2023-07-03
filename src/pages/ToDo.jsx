@@ -180,9 +180,9 @@ export default function ToDo() {
             })} */}
             {/* 여기에 추가 */}
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 0) {
-                  return <TD todoData={item} />;
+                  return <TD todoData={item} key={idx} />;
                 }
                 return null;
               })}
@@ -196,9 +196,9 @@ export default function ToDo() {
           </div>
           <div className={styles.todosContainer}>
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 1) {
-                  return <TD todoData={item} />;
+                  return <TD todoData={item} key={idx} />;
                 }
                 return null;
               })}
@@ -212,9 +212,9 @@ export default function ToDo() {
           </div>
           <div className={styles.todosContainer}>
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 2) {
-                  return <TD todoData={item} />;
+                  return <TD todoData={item} key={idx} />;
                 }
                 return null;
               })}

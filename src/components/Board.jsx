@@ -5,6 +5,8 @@ import TD from "../components/TD";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import Member from "./Member";
+import { useLocation, useNavigate } from "react-router";
+import { useOutletContext } from "react-router-dom";
 
 export default function Board() {
   // ㅆ.. 담당자선택 공유됨
@@ -27,7 +29,9 @@ export default function Board() {
     fullScreen: false,
   });
   const [userEmail, setUserEmail] = useState();
-  const [teamIndex, setTeamIndex] = useState();
+
+  // teamIndex는 state에서 관리되므로, 불러와진 경우에만 여러 API 실행 가능.
+  const { teamIndex } = useOutletContext();
 
   const [memberList, setMemberList] = useState();
   // addTodo에서 manager를 할당해야 하는데, 그때의 선택된 리스트.
@@ -39,28 +43,8 @@ export default function Board() {
 
   // 팀 인덱스를 가져오는 변수 : 로컬스토리지에 저장된 이메일을 이용해서 가져 옴.
   const getTeamIndex = () => {
-    return new Promise((resolve, reject) => {
-      if (
-        JSON.parse(localStorage.getItem("recoil-persist")).userState === null
-      ) {
-        reject("User state is null");
-        console.log("로컬스토리지에서 유저 정보 못받아옴");
-        return;
-      }
-
-      const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
-        .userState.email;
-      console.log(userEmail);
-      axios
-        .post("/team/emailtoteam", { email: userEmail })
-        .then((res) => {
-          const teamIndex = res.data[0].team_index;
-          // teamIndex를 여러 개 불러옴. 이 중에서 구별할 방법 필요함.
-          resolve(teamIndex);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+    return new Promise((resolve) => {
+      resolve(teamIndex);
     });
   };
 
@@ -231,8 +215,8 @@ export default function Board() {
   };
 
   useEffect(() => {
-    getDatabase();
-  }, []);
+    if (teamIndex) getDatabase();
+  }, [teamIndex]);
 
   const hideAddTodo = (filterName) => {
     const toHide = document.querySelector(`.${filterName}`);
@@ -359,6 +343,7 @@ export default function Board() {
                   memberList.map((member) => {
                     return (
                       <Member
+                        key={member.index}
                         memberName={member.name}
                         activated={selectedManager.some(
                           (item) => item.memberName === member.name
@@ -398,13 +383,14 @@ export default function Board() {
           </div>
           <div className={styles.todosContainer}>
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 0) {
                   return (
                     <TD
                       todoData={item}
                       changeTodoStatus={changeTodoStatus}
                       deleteTodo={deleteTodo}
+                      key={idx}
                     />
                   );
                 }
@@ -458,6 +444,7 @@ export default function Board() {
                   memberList.map((member) => {
                     return (
                       <Member
+                        key={member.index}
                         memberName={member.name}
                         activated={selectedManager.some(
                           (item) => item.memberName === member.name
@@ -497,10 +484,11 @@ export default function Board() {
           </div>
           <div className={styles.todosContainer}>
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 1) {
                   return (
                     <TD
+                      key={idx}
                       todoData={item}
                       deleteTodo={deleteTodo}
                       changeTodoStatus={changeTodoStatus}
@@ -557,6 +545,7 @@ export default function Board() {
                   memberList.map((member) => {
                     return (
                       <Member
+                        key={member.index}
                         memberName={member.name}
                         activated={selectedManager.some(
                           (item) => item.memberName === member.name
@@ -595,10 +584,11 @@ export default function Board() {
           </div>
           <div className={styles.todosContainer}>
             {todos &&
-              todos.map((item) => {
+              todos.map((item, idx) => {
                 if (item.todo_status === 2) {
                   return (
                     <TD
+                      key={idx}
                       todoData={item}
                       deleteTodo={deleteTodo}
                       changeTodoStatus={changeTodoStatus}

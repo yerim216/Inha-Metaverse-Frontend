@@ -9,8 +9,13 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import styles from "../styles/Calendar2.module.css";
 import "../styles/calendar2.css";
+import { useOutletContext } from "react-router-dom";
 
 const Calendar = () => {
+  // 여기 팀인덱스에요
+  const { teamIndex } = useOutletContext();
+  console.log(teamIndex);
+
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
 

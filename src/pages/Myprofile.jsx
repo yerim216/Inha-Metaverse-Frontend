@@ -6,10 +6,10 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import project from "../db/project.json";
 import user from "../db/user.json";
-import member from "../db/member.json";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BiRightArrowCircle } from "react-icons/bi";
 
 export default function Profile() {
   useEffect(() => {
@@ -83,7 +83,6 @@ export default function Profile() {
         );
 
         setArray((cur) => {
-
           return [...cur, response.data[0]];
         });
       } catch (error) {
@@ -99,12 +98,12 @@ export default function Profile() {
   let count = 1;
   useEffect(() => {
     if (team.length !== 0) {
-      if(count <= team.length) { fetchData(); }
-      else{ 
-        console.log("끗-----------------")
+      if (count <= team.length) {
+        fetchData();
+      } else {
+        console.log("끗-----------------");
       }
       count++;
-
     }
   }, [team]);
 
@@ -291,8 +290,8 @@ export default function Profile() {
     flexDirection: "row",
     gap: "9px",
     marginLeft: "-50px",
-    alignItems:'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   const namee2 = {
@@ -331,24 +330,21 @@ export default function Profile() {
     paddingTop: "2px",
   };
 
-  const part2Wrap={
+  const part2Wrap = {
     display: "inlineBlock",
     marginBottom: "-20px",
-
-  }
+  };
   const whole2 = {
     display: "inline-block",
     marginLeft: "320px",
     zIndex: "1",
     paddingBottom: "30px",
     paddingTop: "30px",
-    
   };
 
   const lit = {
-    marginTop:'-15px',
-
-  }
+    marginTop: "-15px",
+  };
 
   const wrappp = {
     display: "inline-block",
@@ -362,7 +358,7 @@ export default function Profile() {
   };
 
   const con4 = {
-    paddingRight:"10px",
+    paddingRight: "10px",
     display: "inline-block",
 
     fontFamily: "'Avenir'",
@@ -577,24 +573,41 @@ export default function Profile() {
 
           <div className={styles.wrapp}>
             {array.map((obj, index) => (
-              // 프로젝트 하나하나 만들기
-              <div style={projects} key={index}>
-                  <div style={con3}>
-                      <div style={wrappp}>
-                        <div style={progressP}>
-                          <div style={part2Wrap}><div style={parts2}>{obj.introduction}</div></div>
-                          <div style={whole2}>
-                            <div style={dot3}></div>
-                            <div style={con4}>
-                            {obj.recruiting ? <p style={lit}>recruiting 0 / {obj.recruitment_number} </p> : <p style={lit}>not recruiting</p>}
-                            </div>
-                          </div>
-                        </div>
-                        <div style={namee2}>{obj.name}</div>
-                        <div style={tools2}> {obj.description}</div>
+              <div style={projects} key={index} className="relative">
+                <div style={con3}>
+                  <div style={wrappp}>
+                    <div style={progressP}>
+                      <div style={part2Wrap}>
+                        <div style={parts2}>{obj.introduction}</div>
                       </div>
-                    </div>       
+                      <div style={whole2}>
+                        <div style={dot3}></div>
+                        <div style={con4}>
+                          {obj.recruiting ? (
+                            <p style={lit}>
+                              recruiting 0 / {obj.recruitment_number}
+                            </p>
+                          ) : (
+                            <p style={lit}>not recruiting</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={namee2}>{obj.name}</div>
+                    <div style={tools2}> {obj.description}</div>
+                  </div>
                 </div>
+                <div
+                  className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
+                  onClick={() => {
+                    // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
+                    console.log("팀 프로필 이동 : " + obj.index);
+                    navigate("/profile", { state: { teamIndex: obj.index } });
+                  }}
+                >
+                  <BiRightArrowCircle />
+                </div>
+              </div>
             ))}
           </div>
         </div>
