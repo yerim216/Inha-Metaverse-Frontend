@@ -22,8 +22,7 @@ export default function Profile() {
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [team, setTeam] = useState([]);
-  const [interests, setInterest] = useState([]);
-  const [teamData, setTeamData] = useState([]);
+  const [teamLength, setTeamLength] = useState(0);
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
   const userLoginString = userLogin.email.toString();
@@ -77,13 +76,14 @@ export default function Profile() {
         const requestBody = {
           index: team[i],
         };
-
+        console.log(team.length);
         const response = await axios.post(
           requestURL + "team/list",
           requestBody
         );
 
         setArray((cur) => {
+
           return [...cur, response.data[0]];
         });
       } catch (error) {
@@ -96,9 +96,15 @@ export default function Profile() {
     getTeamIndices();
   }, []);
 
+  let count = 1;
   useEffect(() => {
     if (team.length !== 0) {
-      fetchData();
+      if(count <= team.length) { fetchData(); }
+      else{ 
+        console.log("끗-----------------")
+      }
+      count++;
+
     }
   }, [team]);
 
@@ -270,9 +276,11 @@ export default function Profile() {
     marginLeft: "-50px",
   };
   const projects = {
+    paddingRight: "10px",
     marginTop: "7px",
     marginLeft: "90px",
-    width: "593px",
+    maxWidth: "600px",
+    width: "100%",
     height: "160px",
     background: "#FFFFFF",
     boxShadow: "0px 20px 40px rgba(255, 255, 255, 0.2)",
@@ -283,6 +291,8 @@ export default function Profile() {
     flexDirection: "row",
     gap: "9px",
     marginLeft: "-50px",
+    alignItems:'center',
+    justifyContent: 'center'
   };
 
   const namee2 = {
@@ -303,12 +313,13 @@ export default function Profile() {
     marginLeft: "-50px",
   };
   const con3 = {
+    width: "593px",
     marginLeft: "100px",
-    marginTop: "-75px",
+    marginTop: "-25px",
   };
   const parts2 = {
     marginRight: "5px",
-    width: "auto",
+    width: "fit-content",
     paddingLeft: "10px",
     paddingRight: "10px",
     height: "19px",
@@ -319,16 +330,29 @@ export default function Profile() {
     textAlign: "center",
     paddingTop: "2px",
   };
+
+  const part2Wrap={
+    display: "inlineBlock",
+    marginBottom: "-20px",
+
+  }
   const whole2 = {
     display: "inline-block",
-    marginLeft: "200px",
+    marginLeft: "320px",
     zIndex: "1",
     paddingBottom: "30px",
+    paddingTop: "30px",
+    
   };
+
+  const lit = {
+    marginTop:'-15px',
+
+  }
 
   const wrappp = {
     display: "inline-block",
-    marginTop: "30px",
+    marginTop: "0px",
   };
 
   const wrappp2 = {
@@ -338,6 +362,7 @@ export default function Profile() {
   };
 
   const con4 = {
+    paddingRight:"10px",
     display: "inline-block",
 
     fontFamily: "'Avenir'",
@@ -345,12 +370,11 @@ export default function Profile() {
     fontWeight: "500",
     fontSize: "14px",
     marginBottom: "5px",
-    marginTop: "-35px",
   };
 
   const dot3 = {
     display: "inline-block",
-
+    marginTop: "20px",
     marginRight: "16px",
     backgroundColor: "#E1ECF6",
     borderRadius: "100px",
@@ -372,7 +396,7 @@ export default function Profile() {
     fontStyle: "normal",
     fontWeight: "500",
     fontSize: "14px",
-    marginLeft: "395px",
+    marginLeft: "370px",
     zIndex: "2",
     marginTop: "-30px",
   };
@@ -550,44 +574,28 @@ export default function Profile() {
             🔍<span className={styles.userName}>{userData[1]} </span> 님이
             진행하시는 프로젝트
           </p>
-          <div className={styles.wrapp}>
-            <div>
-              {array.map((obj, index) => (
-                // 프로젝트 하나하나 만들기
-                <div key={index}>
-                  <div>{obj.name}</div>
-                  <div>{obj.description}</div>
-                  <div>{obj.description}</div>
-                  <div>{obj.description}</div>
-                </div>
-              ))}
-            </div>
-            {/* {pagenation.map((innerArray, indexs) => (
-                <div style={projects} key={indexs}>
-                  {innerArray.map((item, index) => (
-                    <span key={index}>{item}
-                      <div style={con3}>
-                          <div style={wrappp}>
-                            <div style={progressP}>
-                              <div style={parts2}>{item[0]}</div>
-                              <div style={parts2}>{item[1]}</div>
-                              <div style={whole2}>
-                                <div style={dot3}></div>
-                                <div style={con4}>
-                                  0 / {item[2]}
-                                </div>
-                              </div>
-                            </div>
-                            <div style={namee2}>{item[3]}</div>
 
-                            <div style={tools2}> {item[4]}</div>
+          <div className={styles.wrapp}>
+            {array.map((obj, index) => (
+              // 프로젝트 하나하나 만들기
+              <div style={projects} key={index}>
+                  <div style={con3}>
+                      <div style={wrappp}>
+                        <div style={progressP}>
+                          <div style={part2Wrap}><div style={parts2}>{obj.introduction}</div></div>
+                          <div style={whole2}>
+                            <div style={dot3}></div>
+                            <div style={con4}>
+                            {obj.recruiting ? <p style={lit}>recruiting 0 / {obj.recruitment_number} </p> : <p style={lit}>not recruiting</p>}
+                            </div>
                           </div>
                         </div>
-                    </span>
-                  ))}
-                      
+                        <div style={namee2}>{obj.name}</div>
+                        <div style={tools2}> {obj.description}</div>
+                      </div>
+                    </div>       
                 </div>
-              ))} */}
+            ))}
           </div>
         </div>
       </div>
