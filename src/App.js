@@ -13,6 +13,7 @@ import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,11 +32,11 @@ const router = createBrowserRouter([
     element: <Myprofile />,
   },
   {
-    path: "createproject",
+    path: "/createproject",
     element: <CreateProject />,
   },
   {
-    path: "createmyprofile",
+    path: "/createmyprofile",
     element: <GenMyprofile />,
   },
   {
@@ -56,10 +57,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  window.baseURL = 'https://www.app.vpspace.net/';
+
   return (
+    <React.StrictMode>
     <RecoilRoot>
       <RouterProvider router={router}></RouterProvider>
     </RecoilRoot>
+    </React.StrictMode>
+
   );
 }
 
