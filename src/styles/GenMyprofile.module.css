@@ -14,6 +14,7 @@ margin-top: 20px;
 }
 
 .imgtxt {
+cursor: pointer;
   margin-top: 20px;
   color: white;
   text-shadow: 2px 2px 4px #fff;

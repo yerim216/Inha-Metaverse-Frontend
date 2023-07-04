@@ -64,6 +64,7 @@ export default function Profile() {
         console.log("데이터가 없어서 그래요!!" + error);
       });
   }, []);
+<<<<<<< HEAD
 
   // 팀 인덱스들 배열로 가져오는 함수.
   const getTeamIndices = async () => {
@@ -78,6 +79,21 @@ export default function Profile() {
     } catch (error) {
       console.log(error);
     }
+=======
+  
+  const getTeamIndices = () => {
+    axios
+      .post("https://www.app.vpspace.net/team/emailtoteam", {
+        "email": userLoginString
+      })
+      .then(function (res) {
+        console.log(res.data);
+        setTeam(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+>>>>>>> 7ab75e87 (plx)
   };
 
   const fetchData = async () => {
@@ -340,6 +356,7 @@ export default function Profile() {
     marginBottom: "-20px",
   };
   const whole2 = {
+    position: "relative",
     display: "inline-block",
     marginLeft: "320px",
     zIndex: "1",
@@ -363,6 +380,7 @@ export default function Profile() {
   };
 
   const con4 = {
+    float: "right",
     paddingRight: "10px",
     display: "inline-block",
 

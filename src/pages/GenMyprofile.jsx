@@ -14,31 +14,16 @@ export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
   // 팀 구성원 추가
   // 팀 기술스택 추가
-  const plans = [
-    "기획",
-    "개발 기획",
-    "서비스 기획",
-    "프로덕트 기획",
-    "영업 기획",
-  ];
+//   let plans = [
+    
+//   ];
 
-  const designs = [
-    "디자인",
-    "UX 디자인",
-    "UI 디자인",
-    "프로덕트 디자인",
-    "편집 디자인",
-  ];
-  const options = [
-    "개발",
-    "프론트엔드 개발",
-    "백엔드 개발",
-    "머신러닝",
-    "AI 개발",
-    "QA 엔진",
-    "IOS 개발",
-    "Android 개발",
-  ];
+//   let designs = [
+    
+//   ];
+//   let options = [
+    
+//   ];
 
   const requestURL = `${window.baseURL}`;
 
@@ -46,7 +31,7 @@ export default function CreateProject() {
   const [userData, setUsers] = useState([]);
   const [interests, setInterests] = useState([]);
   const [addinter, setAddInter] = useState([]);
-
+  const [interestIndex,setInterestIndex] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [selectedValue, setSelectedValue] = useState(""); // 선택한 값을 저장할 상태 변수
   const [text, setText] = useState("");
@@ -56,21 +41,49 @@ export default function CreateProject() {
   const [selectedOption2, setSelectedOption2] = useState(0);
   const [selectedOption3, setSelectedOption3] = useState(0);
 
+  const [selectedIndex1, setSelectedIndex1] = useState(''); // 선택한 옵션의 index 값을 저장할 상태 변수
+  const [selectedIndex2, setSelectedIndex2] = useState(''); // 선택한 옵션의 index 값을 저장할 상태 변수
+  const [selectedIndex3, setSelectedIndex3] = useState(''); // 선택한 옵션의 index 값을 저장할 상태 변수
+
+  const [plans,setPlans] = useState([]);
+  const [designs,setDesigns]= useState(['디자인']);
+  const [options,setOptions ]= useState(['개발']);
+
   const selectedValue1 = plans[selectedOption1];
   const selectedValue2 = designs[selectedOption2];
   const selectedValue3 = options[selectedOption3];
 
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
-    console.log(event.target.value);
+
+    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
+    console.log(selectedIndex);
+    setSelectedIndex1(selectedIndex);
+
+    dbJob(selectedIndex);
   };
 
   const handleOption2Change = (event) => {
     setSelectedOption2(event.target.value);
+
+    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
+    console.log(selectedIndex);
+    setSelectedIndex2(selectedIndex);
+
+    dbJob(selectedIndex);
   };
 
   const handleOption3Change = (event) => {
     setSelectedOption3(event.target.value);
+
+    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
+    console.log(selectedIndex);
+    setSelectedIndex3(selectedIndex);
+
+    dbJob(selectedIndex);
+    // dbJob();
+    // console.log()
+    //직무 이름에 해당하는 직무 id 가져오기 , 직무 db 저장하는 함수 호출하면서 직무 id넘겨주기
   };
 
   const navigate = useNavigate();
@@ -81,12 +94,15 @@ export default function CreateProject() {
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
-    console.log(event.target.value);
+    const career =event.target.value;
+    dbCareer(career);
   };
 
   const handleTextChange = (event) => {
     setText(event.target.value);
+    const txt = event.target.value;
     console.log(event.target.value);
+    dbIntro(txt);
   };
   console.log();
 
@@ -94,27 +110,50 @@ export default function CreateProject() {
 
   useEffect(() => { //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
     axios
-      .post("https://www.app.vpspace.net/userinfo", {
-        email: userLoginString,
+      .post(requestURL+"userinfo", {
+        "email": userLoginString
       })
 
       .then(function (res) {
         const myArray = Object.values(res.data);
-        setUsers(myArray[0]);
+        setUsers(myArray);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
 
-  const getInterests = () => { //전체 관심분야, 직무 받아오기 
+  const getInterests = async() => { //전체 관심분야, 직무 받아오기 
 
-    axios.get(requestURL+'userinfo/interested')
+    await axios.get(requestURL+'userinfo/interested')
     .then(response => {
       // 요청이 성공한 경우
       const data = response.data;
-      // 데이터 활용 및 처리
-      setInterests(data);
+      console.log(data);
+
+      const filterData = data.filter(obj => obj.field_category === '기획')
+                         .map(({ index, title }) => ({ index, title }));
+      const filterData1 = data.filter(obj => obj.field_category === '개발')
+                         .map(({ index, title }) => ({ index, title }));
+      const filterData2 = data.filter(obj => obj.field_category === '디자인')
+                         .map(({ index, title }) => ({ index, title }));
+    
+      const planfirst =[{"index":0,"title":"기획"}];
+      const updatedPlans = [...planfirst, ...filterData];
+      const aa = JSON.stringify(updatedPlans);
+      console.log("기획이요"+aa);
+      setPlans(updatedPlans);
+
+      const designfirst =[{"index":0,"title":"디자인"}];
+      const updatedDesigns = [...designfirst, ...filterData2];
+      console.log("디자인이요"+updatedDesigns);
+      setDesigns(updatedDesigns);
+
+      const optionfirst =[{"index":0,"title":"개발"}];
+      const updatedOptions = [...optionfirst, ...filterData1];
+      console.log("개발이요"+updatedOptions);
+      setOptions(updatedOptions);
+    
     })
     .catch(error => {
       // 요청이 실패한 경우
@@ -127,30 +166,6 @@ export default function CreateProject() {
     getInterests();
   }, []);
 
-  useEffect(() => { 
-    addInterests();
-  }, []);
-
-  const addInterests = () => { //관심분야 추가
-
-    axios
-      .post(requestURL+"userinfo/interested/put", {
-        "name": userLoginString
-        // filed_index: index,
-      })
-
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-        console.log("어래이어래이 = " + myArray);
-        setAddInter(myArray);
-        // setUsers(myArray);
-        console.log("성공");
-      })
-      .catch(function (error) {
-        console.log("왜왜왜왜왜");
-        console.log(error);
-      });
-  }
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -204,65 +219,76 @@ export default function CreateProject() {
     }
 
   }
-  //경력 db 저장
-  useEffect(() => {
+
+  //직무 db 저장
+  const dbJob = (jobIndex) => {
     axios
-      .post("https://www.app.vpspace.net/userinfo/put/job", {
-        "index": userIndex,
-        "job": 1,
-      })
+    .post(requestURL+"userinfo/put/job", {
+      "index": userIndex,
+      "job": jobIndex
+    })
 
-      .then(function (res) {
-        const myArray = Object.values(res.data);
+    .then(function (res) {
+      const myArray = Object.values(res.data);
 
-        // setUsers(myArray);
-        console.log("유저 직무 저장 성공");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      // setUsers(myArray);
+      console.log("유저 직무 저장 성공");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  useEffect(() => {
+    dbJob();
   }, []);
 
   //경력 저장
-  useEffect(() => {
+  const dbCareer = (career) => {
     axios
-      .post(requestURL+"userinfo/put/career", {
-        index: userIndex,
-        career: selectedValue,
-      })
+    .post(requestURL+"userinfo/put/career", {
+      "index": userIndex,
+      "career": career
+    })
 
-      .then(function (res) {
-        const myArray = Object.values(res.data);
+    .then(function (res) {
+      const myArray = Object.values(res.data);
 
-        // setUsers(myArray);
-        console.log("유저 경력 저장 성공");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      // setUsers(myArray);
+      console.log("유저 경력 저장 성공");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  useEffect(() => {
+    dbCareer();
   }, []);
-
-  console.log(typeof text);
-  console.log(text);
 
   //자기소개 저장
-  useEffect(() => {
+  const dbIntro = (intro) => {
     axios
-      .post(requestURL+"userinfo/put/introduction", {
-        index: userIndex,
-        introduction: text,
-      })
+    .post(requestURL+"userinfo/put/introduction", {
+      "index": userIndex,
+      "introduction": intro
+    })
 
-      .then(function (res) {
-        const myArray = Object.values(res.data);
+    .then(function (res) {
+      const myArray = Object.values(res.data);
 
-        // setUsers(myArray);
-        console.log("유저 소개 저장 성공");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      // setUsers(myArray);
+      console.log("유저 자기소개 저장 성공");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  useEffect(() => {
+    dbIntro();
   }, []);
+
+  const handleImageChange = () => {
+    alert("추후에 추가될 예정입니다");
+  };
 
   const option = {
     width: "300px",
@@ -356,12 +382,12 @@ export default function CreateProject() {
       </nav>
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
       <section className={styles.paddingSection}>
-        <h1 className={styles.title}>{userData.name}님 안녕하세요! 신나ㅎ.ㅎ</h1>
+        <h1 className={styles.title}>{userData[1]}님 안녕하세요!</h1>
 
         <div className={styles.profileImg}>
           <span className={styles2.wrapper}>
             <img src="/public_assets/proex.png" />
-            <p className={styles2.imgtxt}>이미지 교체하기</p>
+            <p className={styles2.imgtxt} onClick={handleImageChange}>이미지 교체하기</p>
           </span>
         </div>
 
@@ -382,29 +408,29 @@ export default function CreateProject() {
                 </option>
               ))}
             </select>
-            <p>선택한 값: {selectedValue}</p>
+            {/* <p>선택한 값: {selectedValue.result}</p> */}
           </div>
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>자기소개</span>
           <div className={styles2.n}></div>
           <textarea style={option2} value={text} onChange={handleTextChange} />
-          <p>입력한 내용: {text}</p>
+          
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>직무(관심 분야)</span>
           <div className={styles2.n}></div>
           <div style={option4}>
-            <select
-              style={option3}
-              value={selectedOption1}
-              onChange={handleOption1Change}
+          <select
+            style={option3}
+            value={selectedOption1}
+            onChange={handleOption1Change}
             >
-              {plans.map((option, index) => (
-                <option key={index} value={index}>
-                  {option}
+            {plans.map((option, index) => (
+                <option key={index} value={option.index}>
+                {option.title}
                 </option>
-              ))}
+            ))}
             </select>
             <br />
             <select
@@ -414,7 +440,7 @@ export default function CreateProject() {
             >
               {designs.map((option, index) => (
                 <option key={index} value={index}>
-                  {option}
+                  {option.title}
                 </option>
               ))}
             </select>
@@ -426,15 +452,15 @@ export default function CreateProject() {
             >
               {options.map((option, index) => (
                 <option key={index} value={index}>
-                  {option}
+                  {option.title}
                 </option>
               ))}
             </select>
             <br />
-            <p style={txts}>직무선택 : </p>
-            {selectedValue1 && <p style={txts}>{selectedValue1}</p>}
-            {selectedValue2 && <p style={txts}>{selectedValue2}</p>}
-            {selectedValue3 && <p style={txts}>{selectedValue3}</p>}
+            {/* <p style={txts}>직무선택 : </p> */}
+            {/* {selectedValue1 && <p style={txts}>{selectedValue1.result}</p>}
+            {selectedValue2 && <p style={txts}>{selectedValue2.result}</p>}
+            {selectedValue3 && <p style={txts}>{selectedValue3.result}</p>} */}
           </div>
         </div>
         <div className="flex w-full justify-center gap-8">
