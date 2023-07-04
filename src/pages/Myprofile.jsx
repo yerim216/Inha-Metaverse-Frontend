@@ -132,7 +132,25 @@ export default function Profile() {
     marginLeft: "40px",
     flexWrap: "nowrap",
   };
+  const partforskill = {
+    fontFamily: "'Avenir'",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "18px",
+    lineHeight: "25px",
+    /* identical to box height */
+    marginTop: "30px",
+    marginLeft: "43px",
+
+    position: "absolute",
+    display: "flex",
+    letterSpacing: "0.04em",
+    marginBottom: "20px",
+    textAlign: "center",
+    flexWrap: "nowrap",
+  };
   const inpart = {
+    position: "relative",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
     fontWeight: "400",
@@ -442,8 +460,17 @@ export default function Profile() {
     borderRadius: "50px",
     backgroundColor: "black",
     color: "white",
+
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    margin: '0 10px',
   };
   const contain = {
+    position:"absolute",
+    marginLeft:"170px",
+    width: "60%",
+    marginTop:"6px",
     display: "flex",
     flexWrap: "wrap",
     gap: "10px",
@@ -552,6 +579,11 @@ export default function Profile() {
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
+                    
+                    {/* 직무 추가 api - 504 에러에 대비
+                    <span style={indata}>서버 개발자</span>
+                    <span style={indata}>UI 디자이너</span>
+                    <span style={indata}프론트 개발자</span> */}
                     {field &&
                       field.map((item) => {
                         return <span style={indata}>{item.title}</span>;
@@ -564,7 +596,7 @@ export default function Profile() {
                     <span style={indata}>{item.interest}</span> */}
                   </span>
                 </div>
-                <div style={part}>
+                <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitContainer2}>
                     <img
