@@ -40,34 +40,33 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios.post("https://www.app.vpspace.net/userinfo", { //유저 정보 불러오기
-        "email": "jimin"
+    axios
+      .post("https://www.app.vpspace.net/userinfo", {
+        //유저 정보 불러오기
+        email: userLoginString,
       })
       .then(function (res) {
         const myArray = res.data;
         console.log(res.data);
 
         setUsers(myArray);
-        let field=myArray.field_info[0];
+        let field = myArray.field_info[0];
         console.log(myArray.field_info[0]);
         setField(field);
       })
       .catch(function (error) {
-        console.log("데이터가 없어서 그래요!!"+error);
+        console.log("데이터가 없어서 그래요!!" + error);
       });
   }, []);
-
 
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
-        "email": "jimin"
+        email: userLoginString,
       })
-
       .then(function (res) {
-        // const indices = res.data.map((item) => item.index);
-        console.log(res);
-        // setTeam(indices);
+        console.log(res.data);
+        setTeam(res.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -78,7 +77,7 @@ export default function Profile() {
     for (let i = 0; i < team.length; i++) {
       try {
         const requestBody = {
-          "index": team[i]
+          index: team[i].team_index,
         };
         const response = await axios.post(
           requestURL + "team/list",
