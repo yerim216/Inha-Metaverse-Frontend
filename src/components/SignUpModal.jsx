@@ -59,6 +59,11 @@ export default function SignUpModal(props) {
 
   // 세번째 화면에서 선택된 필터들을 나타내는 state.
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  // 선택된 필터들에 대한 인덱스를 나타내는 state.
+  const [selectedFilterIndices, setSelectedFilterIndices] = useState([]);
+  console.log(selectedFilterIndices);
+
   const addFilterItem = (item) => {
     if (selectedFilters.length >= 6) return false;
     setSelectedFilters((selectedFilters) => {
@@ -66,9 +71,20 @@ export default function SignUpModal(props) {
       else return [...selectedFilters];
     });
   };
+  const addFilterIndex = (index) => {
+    if (selectedFilterIndices.length >= 6) return false;
+    setSelectedFilterIndices((selectedFilterIndices) => {
+      if (!selectedFilterIndices.includes(index))
+        return [...selectedFilterIndices, index];
+      else return [...selectedFilterIndices];
+    });
+  };
 
   const deleteFilter = (item) => {
     setSelectedFilters((arr) => arr.filter((data) => data !== item));
+  };
+  const deleteFilterIndex = (index) => {
+    setSelectedFilterIndices((arr) => arr.filter((data) => data !== index));
   };
 
   const [passwordWarning, setPasswordWarning] = useState("");
@@ -425,18 +441,22 @@ export default function SignUpModal(props) {
                       </button>
                       <Collapse isOpened={buttons && buttons[0].value}>
                         <ul className={`fields`}>
-                          {field &&
-                            field[0].map((item, idx) => (
+                          {/* item은 각각의 이름. */}
+                          {fieldsPlan &&
+                            fieldsPlan.map((item, idx) => (
                               <FilterButton
-                                item={item}
+                                item={item.title}
                                 key={idx}
+                                addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item) &&
+                                  selectedFilters.includes(item.title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
+                                deleteFilterIndex={deleteFilterIndex}
+                                index={item.index}
                               />
                             ))}
                         </ul>
@@ -459,18 +479,21 @@ export default function SignUpModal(props) {
                       </button>
                       <Collapse isOpened={buttons && buttons[1].value}>
                         <ul className={`fields`}>
-                          {field &&
-                            field[1].map((item, idx) => (
+                          {fieldsDesign &&
+                            fieldsDesign.map((item, idx) => (
                               <FilterButton
-                                item={item}
+                                item={item.title}
                                 key={idx}
+                                addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item) &&
+                                  selectedFilters.includes(item.title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
+                                deleteFilterIndex={deleteFilterIndex}
+                                index={item.index}
                               />
                             ))}
                         </ul>
@@ -493,18 +516,21 @@ export default function SignUpModal(props) {
                       </button>
                       <Collapse isOpened={buttons && buttons[2].value}>
                         <ul className={`fields`}>
-                          {field &&
-                            field[2].map((item, idx) => (
+                          {fieldsDevelop &&
+                            fieldsDevelop.map((item, idx) => (
                               <FilterButton
-                                item={item}
+                                item={item.title}
                                 key={idx}
+                                addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item) &&
+                                  selectedFilters.includes(item.title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
+                                deleteFilterIndex={deleteFilterIndex}
+                                index={item.index}
                               />
                             ))}
                         </ul>
@@ -527,7 +553,24 @@ export default function SignUpModal(props) {
                       </button>
                       <Collapse isOpened={buttons && buttons[3].value}>
                         <ul className={`fields`}>
-                          {field &&
+                          {fieldsGuitar &&
+                            fieldsGuitar.map((item, idx) => (
+                              <FilterButton
+                                item={item.title}
+                                key={idx}
+                                addFilterIndex={addFilterIndex}
+                                addFilterItem={addFilterItem}
+                                colored={
+                                  selectedFilters &&
+                                  selectedFilters.includes(item.title) &&
+                                  true
+                                }
+                                deleteFilter={deleteFilter}
+                                deleteFilterIndex={deleteFilterIndex}
+                                index={item.index}
+                              />
+                            ))}
+                          {/* {field &&
                             field[3].map((item, idx) => (
                               <FilterButton
                                 item={item}
@@ -540,7 +583,7 @@ export default function SignUpModal(props) {
                                 }
                                 deleteFilter={deleteFilter}
                               />
-                            ))}
+                            ))} */}
                         </ul>
                       </Collapse>
                     </li>
