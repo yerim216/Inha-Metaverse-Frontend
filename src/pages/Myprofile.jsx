@@ -29,7 +29,7 @@ export default function Profile() {
 
   let [pagenation, setPagenation] = useState([]);
   let [array, setArray] = useState([]);
-  let [plz, setPlz] = useState([]);
+  let [field, setField] = useState([]);
 
   const requestURL = `${window.baseURL}`;
 
@@ -40,15 +40,17 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios.post("https://www.app.vpspace.net/userinfo", {
+    axios.post("https://www.app.vpspace.net/userinfo", { //유저 정보 불러오기
         "email": "jimin"
       })
       .then(function (res) {
-        const myArray = Object.values(res.data);
+        const myArray = res.data;
         console.log(res.data);
-        setUsers(myArray[0]);
-        // userData
-        console.log(myArray[0].name);
+
+        setUsers(myArray);
+        let field=myArray.field_info[0];
+        console.log(myArray.field_info[0]);
+        setField(field);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!"+error);
@@ -59,12 +61,13 @@ export default function Profile() {
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
-        email: userLoginString,
+        "email": "jimin"
       })
 
       .then(function (res) {
-        const indices = res.data.map((item) => item.team_index);
-        setTeam(indices);
+        // const indices = res.data.map((item) => item.index);
+        console.log(res);
+        // setTeam(indices);
       })
       .catch(function (error) {
         console.log(error);
@@ -75,13 +78,13 @@ export default function Profile() {
     for (let i = 0; i < team.length; i++) {
       try {
         const requestBody = {
-          index: team[i],
+          "index": team[i]
         };
         const response = await axios.post(
           requestURL + "team/list",
           requestBody
         );
-
+        console.log(response.data);
         setArray((cur) => {
           return [...cur, response.data[0]];
         });
