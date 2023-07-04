@@ -106,10 +106,9 @@ export default function Profile() {
     }
   }, [team]);
 
-  // useEffect(() => {
-  //   // array를 한번에 불러오는게 아니라 fetchData의 for문을 통해 하나하나 할당해주고 있음.
-  //   console.log(array);
-  // }, [array]);
+  useEffect(() => {
+    console.log(array);
+  }, [array]);
 
   const part = {
     fontFamily: "'Avenir'",
@@ -508,7 +507,7 @@ export default function Profile() {
             <span key={item.id}>
               <div calssName={recruitContainer}>
                 <div style={part}>
-                  <p className={styles.part}>직무</p>{" "}
+                  <p className={styles.part}>직무</p>
                   <span style={data}>{item.part}</span>
                 </div>
 
