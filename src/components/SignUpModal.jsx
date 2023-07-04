@@ -16,6 +16,13 @@ export default function SignUpModal(props) {
   const [password, setPassword] = useState("");
   const [index, setIndex] = useState(0);
   const [screens, setScreens] = useState();
+
+  const [fields, setFields] = useState([]);
+  const [fieldsPlan, setFieldsPlan] = useState([]);
+  const [fieldsDesign, setFieldsDesign] = useState([]);
+  const [fieldsDevelop, setFieldsDevelop] = useState([]);
+  const [fieldsGuitar, setFieldsGuitar] = useState([]);
+
   const [field, setField] = useState([
     ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
     ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
@@ -81,6 +88,40 @@ export default function SignUpModal(props) {
   const thirdScreen = useRef();
 
   axios.defaults.baseURL = "https://www.app.vpspace.net/";
+
+  // 분야 설정
+  useEffect(() => {
+    axios.get("/userinfo/interested").then((res) => {
+      setFields(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    setFieldsPlan([]);
+    setFieldsDesign([]);
+    setFieldsDevelop([]);
+    setFieldsGuitar([]);
+
+    if (fields) {
+      fields.map((field) => {
+        if (field.field_category === "기획") {
+          setFieldsPlan((cur) => [...cur, field]);
+        } else if (field.field_category === "디자인") {
+          setFieldsDesign((cur) => [...cur, field]);
+        } else if (field.field_category === "개발") {
+          setFieldsDevelop((cur) => [...cur, field]);
+        } else {
+          // 기타
+          setFieldsGuitar((cur) => [...cur, field]);
+        }
+      });
+    }
+  }, [fields]);
+
+  console.log(fieldsPlan);
+  console.log(fieldsDesign);
+  console.log(fieldsDevelop);
+  console.log(fieldsGuitar);
 
   const checkNicknameValid = () => {
     const pattern = /^[가-힣a-zA-Z0-9]{2,10}$/;

@@ -434,16 +434,6 @@ export default function Profile() {
             />
           </div>
           <div className={styles.textContainer}>
-            {/* <a
-              className={styles.navLink}
-              onClick={() => {
-                navigate("/projectmanagertools", {
-                  state: { teamIndex: teamIndex },
-                });
-              }}
-            >
-              관리
-            </a> */}
             <a className={styles.navLink}>프로필</a>
 
             <a className={styles.navLink}>지원</a>
@@ -530,8 +520,9 @@ export default function Profile() {
           <button
             className={styles.leaveBtn}
             onClick={() => {
-              const returnVal =
-                window.confirm("해당 프로젝트에 지원하시겠습니까?");
+              const returnVal = window.confirm(
+                "해당 프로젝트에서 탈퇴하시겠습니까?"
+              );
               if (returnVal === true) {
                 handleLeaveBtn();
               }

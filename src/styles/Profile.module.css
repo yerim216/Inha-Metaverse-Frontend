@@ -252,6 +252,7 @@
   margin: auto;
   margin-top: 56px;
   margin-bottom: 100px;
+  overflow: hidden;
 }
 
 .memSearch2 {
@@ -338,6 +339,7 @@
   padding: 20px;
   background: #000;
   border-radius: 30px;
+  transition: all 0.3s ease-in-out;
 }
 
 .projectManageBtn {
@@ -355,6 +357,12 @@
   padding: 20px;
   background: #000;
   border-radius: 30px;
+  transition: all 0.2s ease-in-out;
+}
+
+.officeBtn:hover,
+.projectManageBtn:hover {
+  transform: scale(1.05);
 }
 
 .applyBtn:hover {
@@ -400,19 +408,19 @@
 
 .wrapp {
   display: flex;
-  flex-direction: row;
 
   width: 1087px;
-  height: 270px;
+  height: 300px;
 
   border-radius: 50px;
-  padding-top: 56px;
+  padding-top: 30px;
 
   margin: auto;
   padding-left: 55px;
   color: #112031;
   /* 가로 스크롤 */
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .wrapp::-webkit-scrollbar {
@@ -420,12 +428,10 @@
   height: 8px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  display: none;
 }
 
 /* 스크롤바 막대 설정*/
 .wrapp::-webkit-scrollbar-thumb {
-  width: 30%;
   background-color: rgba(255, 255, 255, 1);
   /* 스크롤바 둥글게 설정    */
   border-radius: 10px;
@@ -434,7 +440,6 @@
 .wrapp::-webkit-scrollbar-track {
   border-radius: 10px;
 }
-
 footer {
   margin-bottom: 0;
   padding-bottom: 0;

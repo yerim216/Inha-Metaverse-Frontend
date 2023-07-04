@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Myprofile.module.css";
 import Gdot from "../components/Gdot";
 import StarRating from "../components/StarRating";
@@ -22,15 +22,22 @@ export default function Profile() {
 
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
-  const [team, setTeam] = useState([]);
   const [teamLength, setTeamLength] = useState(0);
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
   const userLoginString = userLogin.email.toString();
-  const [count, setCount] = useState(1);
 
   let [pagenation, setPagenation] = useState([]);
+
+  // 팀 인덱스들을 담은 배열. 안에 객체 형태로 {team_index : 팀 인덱스 번호}가 존재한다.
+  const [team, setTeam] = useState([]);
+
+  // 현재 해당 유저가 진행하는 프로젝트 정보를 담은 배열.
   let [array, setArray] = useState([]);
+
+  // 위의 array 배열에 중복 문제가 발생해, 중복 문제를 제거한 배열.
+  const [filteredArray, setFilteredArray] = useState([]);
+
   let [field, setField] = useState([]);
 
   const requestURL = `${window.baseURL}`;
@@ -49,8 +56,6 @@ export default function Profile() {
       })
       .then(function (res) {
         const myArray = res.data;
-        console.log(res.data);
-
         setUsers(myArray);
         setField(myArray.field_info);
         console.log(myArray.field_info);
@@ -60,18 +65,19 @@ export default function Profile() {
       });
   }, []);
 
-  const getTeamIndices = () => {
-    axios
-      .post("https://www.app.vpspace.net/team/emailtoteam", {
-        email: userLoginString,
-      })
-      .then(function (res) {
-        console.log(res.data);
-        setTeam(res.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  // 팀 인덱스들 배열로 가져오는 함수.
+  const getTeamIndices = async () => {
+    try {
+      const res = await axios.post(
+        "https://www.app.vpspace.net/team/emailtoteam",
+        {
+          email: userLoginString,
+        }
+      );
+      setTeam(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchData = async () => {
@@ -96,20 +102,19 @@ export default function Profile() {
   useEffect(() => {
     getTeamIndices();
   }, []);
-
   useEffect(() => {
     if (team.length !== 0) {
-      if (count <= team.length) {
-        fetchData();
-      } else {
-        console.log("끗-----------------");
-      }
-      setCount((cur) => cur + 1);
+      fetchData();
     }
   }, [team]);
 
+  // 중복문제 제거 배열 설정.
   useEffect(() => {
-    console.log(array);
+    setFilteredArray(
+      array.filter((team, idx) => {
+        return idx === array.findIndex((obj) => obj.index === team.index);
+      })
+    );
   }, [array]);
 
   const part = {
@@ -580,7 +585,7 @@ export default function Profile() {
           </p>
 
           <div className={styles.wrapp}>
-            {array.map((obj, index) => (
+            {filteredArray.map((obj, index) => (
               <div style={projects} key={index} className="relative">
                 <div style={con3}>
                   <div style={wrappp}>
@@ -590,7 +595,7 @@ export default function Profile() {
                       </div>
                       <div style={whole2}>
                         <div style={dot3}></div>
-                        <div style={con4}>
+                        <div style={con4} className={styles.recruiting}>
                           {obj.recruiting ? (
                             <p style={lit}>
                               recruiting 0 / {obj.recruitment_number}
