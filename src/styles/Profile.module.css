@@ -90,8 +90,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-left: 240px;
   color: #808080;
+  width: 100%;
 }
 .limit {
   margin: 20px;
