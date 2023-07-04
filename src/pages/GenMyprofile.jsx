@@ -59,18 +59,23 @@ export default function CreateProject() {
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
     console.log(selectedIndex);
     setSelectedIndex1(selectedIndex);
+    let num = parseInt(selectedIndex); // 정수로 변환
 
-    dbJob(selectedIndex);
+    dbJob(num);
   };
 
   const handleOption2Change = (event) => {
     setSelectedOption2(event.target.value);
 
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    console.log(selectedIndex);
+    console.log("관심분야 인덱스다 이놈아"+selectedIndex);
+    console.log("너는 무슨 형이니"+ typeof(selectedIndex));
+    let num = parseInt(selectedIndex); // 정수로 변환
+    console.log("너는 무슨 형이니"+ typeof(num));
+
     setSelectedIndex2(selectedIndex);
 
-    dbJob(selectedIndex);
+    dbJob(num);
   };
 
   const handleOption3Change = (event) => {
@@ -80,7 +85,9 @@ export default function CreateProject() {
     console.log(selectedIndex);
     setSelectedIndex3(selectedIndex);
 
-    dbJob(selectedIndex);
+    let num = parseInt(selectedIndex); // 정수로 변환
+
+    dbJob(num);
     // dbJob();
     // console.log()
     //직무 이름에 해당하는 직무 id 가져오기 , 직무 db 저장하는 함수 호출하면서 직무 id넘겨주기
@@ -223,24 +230,24 @@ export default function CreateProject() {
   //직무 db 저장
   const dbJob = (jobIndex) => {
     axios
-    .post(requestURL+"userinfo/put/job", {
-      "index": userIndex,
-      "job": jobIndex
+    .post(requestURL+"userinfo/interested/put", {
+      "name": userLoginString,
+      "field_index": jobIndex
     })
 
     .then(function (res) {
       const myArray = Object.values(res.data);
 
       // setUsers(myArray);
-      console.log("유저 직무 저장 성공");
+      console.log("유저 직무 저장 성공------------");
     })
     .catch(function (error) {
       console.log(error);
     });
   }
-  useEffect(() => {
-    dbJob();
-  }, []);
+  // useEffect(() => {
+  //   dbJob();
+  // }, []);
 
   //경력 저장
   const dbCareer = (career) => {
@@ -260,9 +267,9 @@ export default function CreateProject() {
       console.log(error);
     });
   }
-  useEffect(() => {
-    dbCareer();
-  }, []);
+  // useEffect(() => {
+  //   dbCareer();
+  // }, []);
 
   //자기소개 저장
   const dbIntro = (intro) => {
@@ -282,9 +289,9 @@ export default function CreateProject() {
       console.log(error);
     });
   }
-  useEffect(() => {
-    dbIntro();
-  }, []);
+  // useEffect(() => {
+  //   dbIntro();
+  // }, []);
 
   const handleImageChange = () => {
     alert("추후에 추가될 예정입니다");

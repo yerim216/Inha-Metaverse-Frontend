@@ -64,7 +64,6 @@ export default function Profile() {
         console.log("데이터가 없어서 그래요!!" + error);
       });
   }, []);
-<<<<<<< HEAD
 
   // 팀 인덱스들 배열로 가져오는 함수.
   const getTeamIndices = async () => {
@@ -79,21 +78,6 @@ export default function Profile() {
     } catch (error) {
       console.log(error);
     }
-=======
-  
-  const getTeamIndices = () => {
-    axios
-      .post("https://www.app.vpspace.net/team/emailtoteam", {
-        "email": userLoginString
-      })
-      .then(function (res) {
-        console.log(res.data);
-        setTeam(res.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
->>>>>>> 7ab75e87 (plx)
   };
 
   const fetchData = async () => {
@@ -296,9 +280,11 @@ export default function Profile() {
     marginLeft: "-50px",
   };
   const projects = {
+    position: "relative",
     paddingRight: "10px",
     marginTop: "7px",
     marginLeft: "90px",
+    width: "600px",
     maxWidth: "600px",
     width: "100%",
     height: "160px",
@@ -307,16 +293,21 @@ export default function Profile() {
     borderRadius: "20px",
   };
   const progressP = {
-    display: "flex",
+    position: "relative",
+    width:"100%",
+    height:"100%",
+    display: "inlineBlock",
     flexDirection: "row",
     gap: "9px",
-    marginLeft: "-50px",
+    // marginLeft: "-50px",
     alignItems: "center",
     justifyContent: "center",
   };
 
   const namee2 = {
-    marginTop: "-25px",
+    marginTop:"50px",
+    marginLeft:"30px",
+    position:"relative",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
     fontWeight: "500",
@@ -325,17 +316,23 @@ export default function Profile() {
     display: "flex",
     alignItems: "center",
     color: "#000000",
-    marginLeft: "-50px",
   };
 
   const tools2 = {
-    marginTop: "14px",
-    marginLeft: "-50px",
+    // position: "relative",
+    // marginLeft:"30px",
+    // marginTop: "14px",
+    width: "80%",
+    marginLeft:"30px",
+    display: '-webkit-box',
+    WebkitLineClamp: 2, // 최대 2줄로 제한
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   };
+  
   const con3 = {
     width: "593px",
-    marginLeft: "100px",
-    marginTop: "-25px",
   };
   const parts2 = {
     marginRight: "5px",
@@ -352,25 +349,28 @@ export default function Profile() {
   };
 
   const part2Wrap = {
+    position: "absolute",
     display: "inlineBlock",
-    marginBottom: "-20px",
+    marginLeft:"30px",
+    marginTop: "20px"
   };
   const whole2 = {
-    position: "relative",
+    position: "absolute",
+    right: '0',
     display: "inline-block",
-    marginLeft: "320px",
-    zIndex: "1",
-    paddingBottom: "30px",
-    paddingTop: "30px",
+    marginTop: "20px",
+    
   };
 
   const lit = {
-    marginTop: "-15px",
   };
 
   const wrappp = {
+    width:"100%",
     display: "inline-block",
-    marginTop: "0px",
+    position:"relative",
+    overflow: 'hidden',
+
   };
 
   const wrappp2 = {
@@ -381,7 +381,7 @@ export default function Profile() {
 
   const con4 = {
     float: "right",
-    paddingRight: "10px",
+    paddingRight: "20px",
     display: "inline-block",
 
     fontFamily: "'Avenir'",
@@ -393,7 +393,7 @@ export default function Profile() {
 
   const dot3 = {
     display: "inline-block",
-    marginTop: "20px",
+    marginTop:"5px",
     marginRight: "16px",
     backgroundColor: "#E1ECF6",
     borderRadius: "100px",
@@ -601,33 +601,36 @@ export default function Profile() {
             🔍<span className={styles.userName}>{userData.name} </span> 님이
             진행하시는 프로젝트
           </p>
-
+          
           <div className={styles.wrapp}>
             {filteredArray.map((obj, index) => (
               <div style={projects} key={index} className="relative">
-                <div style={con3}>
-                  <div style={wrappp}>
-                    <div style={progressP}>
-                      <div style={part2Wrap}>
-                        <div style={parts2}>{obj.introduction}</div>
-                      </div>
-                      <div style={whole2}>
-                        <div style={dot3}></div>
-                        <div style={con4} className={styles.recruiting}>
-                          {obj.recruiting ? (
-                            <p style={lit}>
-                              recruiting 0 / {obj.recruitment_number}
-                            </p>
-                          ) : (
-                            <p style={lit}>not recruiting</p>
-                          )}
+                  <div style={con3}>
+                    <div style={wrappp}>
+                      <div style={progressP}>
+
+                        <div style={part2Wrap}>
+                          <div style={parts2}>{obj.introduction}</div>
                         </div>
+
+                        <div style={whole2}>
+                          <div style={dot3}></div>
+                          <div style={con4} className={styles.recruiting}>
+                            {obj.recruiting ? (
+                              <p style={lit}>
+                                recruiting 0 / {obj.recruitment_number}
+                              </p>
+                            ) : (
+                              <p style={lit}>not recruiting</p>
+                            )}
+                          </div>
+                        </div>
+                        
                       </div>
+                      <div style={namee2}>{obj.name}</div>
+                      <div style={tools2}> {obj.description}</div>
                     </div>
-                    <div style={namee2}>{obj.name}</div>
-                    <div style={tools2}> {obj.description}</div>
                   </div>
-                </div>
                 <div
                   className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
                   onClick={() => {
