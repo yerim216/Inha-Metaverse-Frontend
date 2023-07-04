@@ -81,12 +81,13 @@ export default function Profile() {
 
   //전달받은 팀 인덱스값 취득 : teamIndex 변수에 저장
   const location = useLocation();
-  const teamIndex = location.state.teamIndex;
+  // const teamIndex = location.state.teamIndex;
 
   useEffect(() => {
     axios
       .post("https://www.app.vpspace.net/team/list", {
-        index: teamIndex,
+        // index: teamIndex,
+        index:1,
       })
       .then((res) => {
         setTeamInfo(res.data[0]);
@@ -94,7 +95,9 @@ export default function Profile() {
       .then(() => {
         axios
           .post("https://www.app.vpspace.net/team/member/teamidx", {
-            index: teamIndex,
+            // index: teamIndex,
+            index:1,
+
           })
           .then((res) => {
             setTeamMembers(res.data);
@@ -118,6 +121,16 @@ export default function Profile() {
 
     return <div>프로필 페이지 컨텐츠</div>;
   };
+
+  const officeMove = () => {
+    if (user) {
+      const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+        user.email
+      )}&&room=${encodeURIComponent(office)}`;
+
+      window.location.href = url;
+    }
+  }
 
   const recruitingNum = {
     display: "inline-block",
@@ -445,7 +458,7 @@ export default function Profile() {
               className={styles.navLink}
               onClick={() => {
                 navigate("/projectmanagertools", {
-                  state: { teamIndex: teamIndex },
+                  state: { teamIndex: 1 },
                 });
               }}
             >
@@ -475,6 +488,18 @@ export default function Profile() {
         alt="profile"
         
       />
+      <button
+            className={styles.officeBtn}
+            onClick={() => {
+              const returnVal =
+                window.confirm("오피스 공간으로 이동하시겠습니까?");
+              if (returnVal === true) {
+                officeMove();
+              }
+            }}
+          >
+            Office 공간 들어가기
+      </button>
       <div className={styles.nameContainer}>
           <Gdot />
           <p className={styles.name}>{teamInfo && teamInfo.name}</p>
@@ -483,7 +508,6 @@ export default function Profile() {
       <div className={styles.texts}>
         <p>{teamInfo && teamInfo.introduction}</p>
           <p className={styles.limit}>{teamInfo && teamInfo.description}</p>
-     
       </div>
 
       {/* <p className={styles.txt}> Skills</p>

@@ -41,7 +41,7 @@ export default function Profile() {
 
   useEffect(() => {
     axios.post("https://www.app.vpspace.net/userinfo", { //유저 정보 불러오기
-        "email": "jimin"
+        "email": userLoginString
       })
       .then(function (res) {
         const myArray = res.data;
@@ -61,7 +61,7 @@ export default function Profile() {
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
-        "email": "jimin"
+        "email": userLoginString
       })
 
       .then(function (res) {
