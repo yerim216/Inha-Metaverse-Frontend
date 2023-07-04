@@ -71,6 +71,7 @@ export default function Board() {
         email: userEmail,
       })
       .then((res) => {
+        console.log(res.data);
         userIndex = res.data.index;
       });
 
@@ -129,6 +130,11 @@ export default function Board() {
     const userIndex = await getUserIndex();
     getTeamIndex().then((teamIndex) => {
       if (filterName === "notStart") {
+        console.log(teamIndex);
+        console.log(addTodo_notStart.title);
+        console.log(addTodo_notStart.todo);
+        console.log(userIndex);
+        console.log(addTodo_notStart.time);
         axios
           .post("/todo/put", {
             team: teamIndex,

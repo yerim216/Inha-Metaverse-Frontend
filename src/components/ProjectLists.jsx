@@ -21,7 +21,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
   const [recruitingProjects, setRecruitingProjects] = useState([]);
   const [notRecruitingProjects, setNotRecruitingProjects] = useState([]);
 
-  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruting, created_at, updated_at, views로 구성됨.
+  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruiting, created_at, updated_at, views로 구성됨.
   const [randomRecruitingProjects, setRandomRecruitingProjects] = useState([]);
   const [randomNotRecruitingProjects, setRandomNotRecruitingProjects] =
     useState([]);
@@ -37,7 +37,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     const notRecruiting = [];
 
     projectList.forEach((project) => {
-      if (project.recruting === true) {
+      if (project.recruiting === true) {
         recruiting.push(project);
       } else {
         notRecruiting.push(project);
@@ -56,7 +56,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     }
   }, [projectList]);
 
-  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruting, created_at, updated_at, views로 구성됨.
+  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruiting, created_at, updated_at, views로 구성됨.
   return (
     <div className={styles.ProjectBox}>
       {recruitmentBtnActive ? (

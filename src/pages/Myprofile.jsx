@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
+import Footer from "../components/Footer";
 
 export default function Profile() {
   useEffect(() => {
@@ -40,8 +41,10 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios.post("https://www.app.vpspace.net/userinfo", { //유저 정보 불러오기
-        "email": userLoginString
+    axios
+      .post("https://www.app.vpspace.net/userinfo", {
+        //유저 정보 불러오기
+        email: userLoginString,
       })
       .then(function (res) {
         const myArray = res.data;
@@ -60,7 +63,7 @@ export default function Profile() {
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
-        "email": userLoginString
+        email: userLoginString,
       })
       .then(function (res) {
         console.log(res.data);
@@ -81,7 +84,6 @@ export default function Profile() {
           requestURL + "team/list",
           requestBody
         );
-        console.log(response.data);
         setArray((cur) => {
           return [...cur, response.data[0]];
         });
@@ -611,46 +613,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <footer className={styles.footer}>
-        <div className={styles.lab}>
-          <div className={styles.footerLogo}>
-            <img
-              src={`${process.env.PUBLIC_URL}/public_assets/footerlogo.png`}
-            />
-          </div>
-          <p className={styles.rights}>
-            2022 Archifree, Inc. All Rights Reserved
-          </p>
-        </div>
-
-        <div className={styles.lab2}>
-          <div className={styles.footerLogo2}>
-            <img src={`${process.env.PUBLIC_URL}/public_assets/mail.png`} />
-          </div>
-          <div className={styles.footerLogo3}>
-            <img src={`${process.env.PUBLIC_URL}/public_assets/call.png`} />
-          </div>
-          <div className={styles.footerLogo4}>
-            <img src={`${process.env.PUBLIC_URL}/public_assets/facebook.png`} />
-          </div>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <hr
-            style={{
-              opacity: "0.1",
-              border: "2px solid rgba(255, 255, 255, 0.4)",
-              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-              marginTop: "20px",
-              width: "50%",
-            }}
-          />
-        </div>
-
-        <div className={styles.last3}>
-          <h3 className={styles.last2}>스타트업 아키프리</h3>
-          <p className={styles.last}>인천광역시 미추홀구 경인남길 102번길 14</p>
-        </div>
-      </footer>
+      <Footer />
     </seciton>
   );
 }
