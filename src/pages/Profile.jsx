@@ -434,7 +434,7 @@ export default function Profile() {
             />
           </div>
           <div className={styles.textContainer}>
-            <a
+            {/* <a
               className={styles.navLink}
               onClick={() => {
                 navigate("/projectmanagertools", {
@@ -443,7 +443,7 @@ export default function Profile() {
               }}
             >
               관리
-            </a>
+            </a> */}
             <a className={styles.navLink}>프로필</a>
 
             <a className={styles.navLink}>지원</a>
@@ -477,6 +477,17 @@ export default function Profile() {
         >
           Office 공간 들어가기
         </button>
+        <button
+          className={styles.projectManageBtn}
+          onClick={() => {
+            navigate("/projectmanagertools", {
+              state: { teamIndex: teamIndex },
+            });
+          }}
+        >
+          프로젝트 관리
+        </button>
+
         <div className={styles.nameContainer}>
           <Gdot />
           <p className={styles.name}>{teamInfo && teamInfo.name}</p>

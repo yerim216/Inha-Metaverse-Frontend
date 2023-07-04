@@ -27,6 +27,7 @@ export default function Profile() {
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
   const userLoginString = userLogin.email.toString();
+  const [count, setCount] = useState(1);
 
   let [pagenation, setPagenation] = useState([]);
   let [array, setArray] = useState([]);
@@ -51,9 +52,8 @@ export default function Profile() {
         console.log(res.data);
 
         setUsers(myArray);
-        let field = myArray.field_info[0];
-        console.log(myArray.field_info[0]);
-        setField(field);
+        setField(myArray.field_info);
+        console.log(myArray.field_info);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -97,7 +97,6 @@ export default function Profile() {
     getTeamIndices();
   }, []);
 
-  let count = 1;
   useEffect(() => {
     if (team.length !== 0) {
       if (count <= team.length) {
@@ -105,7 +104,7 @@ export default function Profile() {
       } else {
         console.log("끗-----------------");
       }
-      count++;
+      setCount((cur) => cur + 1);
     }
   }, [team]);
 
@@ -412,6 +411,7 @@ export default function Profile() {
     lineHeight: "22px",
     display: "flex",
     textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
     padding: "3.5px",
     paddingLeft: "17px",
@@ -529,9 +529,16 @@ export default function Profile() {
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
+                    {field &&
+                      field.map((item) => {
+                        return <span style={indata}>{item.title}</span>;
+                      })}
+                    {/* <span style={indata}>{item.interest}</span>
                     <span style={indata}>{item.interest}</span>
+                    <span style={indata}>{item.interest}</span> */}
+                    {/* <span style={indata}>{item.interest}</span>
                     <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span>
+                    <span style={indata}>{item.interest}</span> */}
                   </span>
                 </div>
                 <div style={part}>
