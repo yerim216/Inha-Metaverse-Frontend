@@ -29,7 +29,7 @@ export default function Profile() {
 
   let [pagenation, setPagenation] = useState([]);
   let [array, setArray] = useState([]);
-  let [plz, setPlz] = useState([]);
+  let [field, setField] = useState([]);
 
   const requestURL = `${window.baseURL}`;
 
@@ -40,30 +40,34 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios
-      .post(requestURL + "userinfo", {
-        email: userLoginString,
+    axios.post("https://www.app.vpspace.net/userinfo", { //유저 정보 불러오기
+        "email": "jimin"
       })
-
       .then(function (res) {
-        const myArray = Object.values(res.data);
+        const myArray = res.data;
+        console.log(res.data);
 
         setUsers(myArray);
+        let field=myArray.field_info[0];
+        console.log(myArray.field_info[0]);
+        setField(field);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("데이터가 없어서 그래요!!"+error);
       });
   }, []);
+
 
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
-        email: userLoginString,
+        "email": "jimin"
       })
 
       .then(function (res) {
-        const indices = res.data.map((item) => item.team_index);
-        setTeam(indices);
+        // const indices = res.data.map((item) => item.index);
+        console.log(res);
+        // setTeam(indices);
       })
       .catch(function (error) {
         console.log(error);
@@ -74,13 +78,13 @@ export default function Profile() {
     for (let i = 0; i < team.length; i++) {
       try {
         const requestBody = {
-          index: team[i],
+          "index": team[i]
         };
         const response = await axios.post(
           requestURL + "team/list",
           requestBody
         );
-
+        console.log(response.data);
         setArray((cur) => {
           return [...cur, response.data[0]];
         });
@@ -495,11 +499,11 @@ export default function Profile() {
         />
         <div className={styles.nameContainer}>
           <Gdot />
-          <p className={styles.name}>{userData[1]}</p>
+          <p className={styles.name}>{userData.name}</p>
         </div>
         <div className={styles.texts}>
-          <p>Game / ENT</p>
-          <p className={styles.limit}>{userData[3]}</p>
+          <p>{userData.titles}</p>
+          <p className={styles.limit}>{userData.introduction}</p>
         </div>
 
         <div className={styles.recruit}>
@@ -513,7 +517,7 @@ export default function Profile() {
 
                 <div style={part}>
                   <p className={styles.careerpart}>경력</p>
-                  <span style={data}>{userData[2]}년차</span>
+                  <span style={data}>{userData.career}년차</span>
                 </div>
                 <div style={part}>
                   <p className={styles.mannerpart}>매너점수</p>
@@ -565,7 +569,7 @@ export default function Profile() {
 
         <div className={styles.memSearch}>
           <p className={styles.txt}>
-            🔍<span className={styles.userName}>{userData[1]} </span> 님이
+            🔍<span className={styles.userName}>{userData.name} </span> 님이
             진행하시는 프로젝트
           </p>
 

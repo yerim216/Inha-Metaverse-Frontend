@@ -40,11 +40,17 @@ export default function CreateProject() {
     "Android 개발",
   ];
 
+  const requestURL = `${window.baseURL}`;
+
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUsers] = useState([]);
+  const [interests, setInterests] = useState([]);
+  const [addinter, setAddInter] = useState([]);
+
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [selectedValue, setSelectedValue] = useState(""); // 선택한 값을 저장할 상태 변수
   const [text, setText] = useState("");
+  let [array, setArray] = useState([]);
 
   const [selectedOption1, setSelectedOption1] = useState(0);
   const [selectedOption2, setSelectedOption2] = useState(0);
@@ -56,6 +62,7 @@ export default function CreateProject() {
 
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
+    console.log(event.target.value);
   };
 
   const handleOption2Change = (event) => {
@@ -74,15 +81,18 @@ export default function CreateProject() {
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
+    console.log(event.target.value);
   };
 
   const handleTextChange = (event) => {
     setText(event.target.value);
+    console.log(event.target.value);
   };
+  console.log();
 
   const userLoginString = userLogin.email.toString();
 
-  useEffect(() => {
+  useEffect(() => { //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
     axios
       .post("https://www.app.vpspace.net/userinfo", {
         email: userLoginString,
@@ -90,12 +100,57 @@ export default function CreateProject() {
 
       .then(function (res) {
         const myArray = Object.values(res.data);
-        setUsers(myArray);
+        setUsers(myArray[0]);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
+
+  const getInterests = () => { //전체 관심분야, 직무 받아오기 
+
+    axios.get(requestURL+'userinfo/interested')
+    .then(response => {
+      // 요청이 성공한 경우
+      const data = response.data;
+      // 데이터 활용 및 처리
+      setInterests(data);
+    })
+    .catch(error => {
+      // 요청이 실패한 경우
+      console.error(error);
+    });
+  }
+
+
+  useEffect(() => {
+    getInterests();
+  }, []);
+
+  useEffect(() => { 
+    addInterests();
+  }, []);
+
+  const addInterests = () => { //관심분야 추가
+
+    axios
+      .post(requestURL+"userinfo/interested/put", {
+        "name": userLoginString
+        // filed_index: index,
+      })
+
+      .then(function (res) {
+        const myArray = Object.values(res.data);
+        console.log("어래이어래이 = " + myArray);
+        setAddInter(myArray);
+        // setUsers(myArray);
+        console.log("성공");
+      })
+      .catch(function (error) {
+        console.log("왜왜왜왜왜");
+        console.log(error);
+      });
+  }
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -142,18 +197,25 @@ export default function CreateProject() {
   const profileSave = () => {
     window.location.href = "/";
   };
+
+  for(let i = 0; i<interests.length; i++){
+    if (interests[i].title === selectedValue1){
+        let interIndex = interests[i].index;
+    }
+
+  }
   //경력 db 저장
   useEffect(() => {
     axios
       .post("https://www.app.vpspace.net/userinfo/put/job", {
-        index: userIndex,
-        job: 1,
+        "index": userIndex,
+        "job": 1,
       })
 
       .then(function (res) {
         const myArray = Object.values(res.data);
 
-        setUsers(myArray);
+        // setUsers(myArray);
         console.log("유저 직무 저장 성공");
       })
       .catch(function (error) {
@@ -164,7 +226,7 @@ export default function CreateProject() {
   //경력 저장
   useEffect(() => {
     axios
-      .post("https://www.app.vpspace.net/userinfo/put/career", {
+      .post(requestURL+"userinfo/put/career", {
         index: userIndex,
         career: selectedValue,
       })
@@ -172,7 +234,7 @@ export default function CreateProject() {
       .then(function (res) {
         const myArray = Object.values(res.data);
 
-        setUsers(myArray);
+        // setUsers(myArray);
         console.log("유저 경력 저장 성공");
       })
       .catch(function (error) {
@@ -186,7 +248,7 @@ export default function CreateProject() {
   //자기소개 저장
   useEffect(() => {
     axios
-      .post("https://www.app.vpspace.net/userinfo/put/introduction", {
+      .post(requestURL+"userinfo/put/introduction", {
         index: userIndex,
         introduction: text,
       })
@@ -194,7 +256,7 @@ export default function CreateProject() {
       .then(function (res) {
         const myArray = Object.values(res.data);
 
-        setUsers(myArray);
+        // setUsers(myArray);
         console.log("유저 소개 저장 성공");
       })
       .catch(function (error) {
@@ -294,7 +356,7 @@ export default function CreateProject() {
       </nav>
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
       <section className={styles.paddingSection}>
-        <h1 className={styles.title}>{userData[1]}님 안녕하세요! 신나ㅎ.ㅎ</h1>
+        <h1 className={styles.title}>{userData.name}님 안녕하세요! 신나ㅎ.ㅎ</h1>
 
         <div className={styles.profileImg}>
           <span className={styles2.wrapper}>

@@ -14,6 +14,7 @@ import { useOutletContext } from "react-router-dom";
 const Calendar = () => {
   // 여기 팀인덱스에요
   const { teamIndex } = useOutletContext();
+  console.log(teamIndex);
 
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
@@ -45,7 +46,7 @@ const Calendar = () => {
         "https://www.app.vpspace.net/schedule/list",
         {
           //팀인덱스에 따라 db events 불러오기
-          index: index,
+          "index": teamIndex
         }
       );
 
@@ -65,6 +66,7 @@ const Calendar = () => {
       }));
 
       setEvents(convertedEvents);
+      console.log("팀에 해당하는 이벤트 불러오기 성공");
     } catch (error) {
       console.error("Error saving event:", error);
     }
