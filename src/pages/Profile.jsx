@@ -71,6 +71,7 @@ export default function Profile() {
   };
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const navigate = useNavigate(); 
+  const [user, setUser] = useRecoilState(userState);
 
 
   // 팀 정보 관련 변수. 팀 인덱스로 불러 옴.
@@ -81,13 +82,13 @@ export default function Profile() {
 
   //전달받은 팀 인덱스값 취득 : teamIndex 변수에 저장
   const location = useLocation();
-  // const teamIndex = location.state.teamIndex;
+  const teamIndex = location.state.teamIndex;
 
   useEffect(() => {
     axios
       .post("https://www.app.vpspace.net/team/list", {
-        // index: teamIndex,
-        index:1,
+        index: teamIndex,
+        // index:1,
       })
       .then((res) => {
         setTeamInfo(res.data[0]);
@@ -95,8 +96,8 @@ export default function Profile() {
       .then(() => {
         axios
           .post("https://www.app.vpspace.net/team/member/teamidx", {
-            // index: teamIndex,
-            index:1,
+            index: teamIndex,
+            // index:1,
 
           })
           .then((res) => {
@@ -126,7 +127,7 @@ export default function Profile() {
     if (user) {
       const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
         user.email
-      )}&&room=${encodeURIComponent(office)}`;
+      )}&&room=office${encodeURIComponent(teamIndex)}`;
 
       window.location.href = url;
     }
@@ -458,7 +459,7 @@ export default function Profile() {
               className={styles.navLink}
               onClick={() => {
                 navigate("/projectmanagertools", {
-                  state: { teamIndex: 1 },
+                  state: { teamIndex: teamIndex },
                 });
               }}
             >

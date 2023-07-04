@@ -48,26 +48,23 @@ export default function Profile() {
         console.log(res.data);
 
         setUsers(myArray);
-        let field=myArray.field_info[0];
+        let field = myArray.field_info[0];
         console.log(myArray.field_info[0]);
         setField(field);
       })
       .catch(function (error) {
-        console.log("데이터가 없어서 그래요!!"+error);
+        console.log("데이터가 없어서 그래요!!" + error);
       });
   }, []);
-
 
   const getTeamIndices = () => {
     axios
       .post("https://www.app.vpspace.net/team/emailtoteam", {
         "email": userLoginString
       })
-
       .then(function (res) {
-        // const indices = res.data.map((item) => item.index);
-        console.log(res);
-        // setTeam(indices);
+        console.log(res.data);
+        setTeam(res.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -78,7 +75,7 @@ export default function Profile() {
     for (let i = 0; i < team.length; i++) {
       try {
         const requestBody = {
-          "index": team[i]
+          index: team[i].team_index,
         };
         const response = await axios.post(
           requestURL + "team/list",
@@ -110,10 +107,9 @@ export default function Profile() {
     }
   }, [team]);
 
-  // useEffect(() => {
-  //   // array를 한번에 불러오는게 아니라 fetchData의 for문을 통해 하나하나 할당해주고 있음.
-  //   console.log(array);
-  // }, [array]);
+  useEffect(() => {
+    console.log(array);
+  }, [array]);
 
   const part = {
     fontFamily: "'Avenir'",
@@ -512,7 +508,7 @@ export default function Profile() {
             <span key={item.id}>
               <div calssName={recruitContainer}>
                 <div style={part}>
-                  <p className={styles.part}>직무</p>{" "}
+                  <p className={styles.part}>직무</p>
                   <span style={data}>{item.part}</span>
                 </div>
 
