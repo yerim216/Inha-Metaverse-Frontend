@@ -33,6 +33,8 @@ export default function CreateProject() {
   const [addinter, setAddInter] = useState([]);
   const [interestIndex,setInterestIndex] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
+  const userLoginString = userLogin.email.toString();
+
   const [selectedValue, setSelectedValue] = useState(""); // 선택한 값을 저장할 상태 변수
   const [text, setText] = useState("");
   let [array, setArray] = useState([]);
@@ -118,7 +120,6 @@ export default function CreateProject() {
   };
   console.log();
 
-  const userLoginString = userLogin.email.toString();
 
   useEffect(() => { //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
     axios
@@ -135,48 +136,87 @@ export default function CreateProject() {
       });
   }, []);
 
-  const getInterests = async() => { //전체 관심분야, 직무 받아오기 
-
-    await axios.get(requestURL+'userinfo/interested')
-    .then(response => {
-      // 요청이 성공한 경우
-      const data = response.data;
-      console.log(data);
-
-      const filterData = data.filter(obj => obj.field_category === '기획')
-                         .map(({ index, title }) => ({ index, title }));
-      const filterData1 = data.filter(obj => obj.field_category === '개발')
-                         .map(({ index, title }) => ({ index, title }));
-      const filterData2 = data.filter(obj => obj.field_category === '디자인')
-                         .map(({ index, title }) => ({ index, title }));
-    
-      const planfirst =[{"index":0,"title":"기획"}];
-      const updatedPlans = [...planfirst, ...filterData];
-      const aa = JSON.stringify(updatedPlans);
-      console.log("기획이요"+aa);
-      setPlans(updatedPlans);
-
-      const designfirst =[{"index":0,"title":"디자인"}];
-      const updatedDesigns = [...designfirst, ...filterData2];
-      console.log("디자인이요"+updatedDesigns);
-      setDesigns(updatedDesigns);
-
-      const optionfirst =[{"index":0,"title":"개발"}];
-      const updatedOptions = [...optionfirst, ...filterData1];
-      console.log("개발이요"+updatedOptions);
-      setOptions(updatedOptions);
-    
-    })
-    .catch(error => {
-      // 요청이 실패한 경우
-      console.error(error);
-    });
-  }
-
-
   useEffect(() => {
-    getInterests();
+
+      axios.get(requestURL+'userinfo/interested')
+      .then(response => {
+        // 요청이 성공한 경우
+        const data = response.data;
+        console.log(data);
+  
+        const filterData = data.filter(obj => obj.field_category === '기획')
+                           .map(({ index, title }) => ({ index, title }));
+        const filterData1 = data.filter(obj => obj.field_category === '개발')
+                           .map(({ index, title }) => ({ index, title }));
+        const filterData2 = data.filter(obj => obj.field_category === '디자인')
+                           .map(({ index, title }) => ({ index, title }));
+      
+        const planfirst =[{"index":0,"title":"기획"}];
+        const updatedPlans = [...planfirst, ...filterData];
+        const aa = JSON.stringify(updatedPlans);
+        console.log("기획이요"+aa);
+        setPlans(updatedPlans);
+  
+        const designfirst =[{"index":0,"title":"디자인"}];
+        const updatedDesigns = [...designfirst, ...filterData2];
+        console.log("디자인이요"+updatedDesigns);
+        setDesigns(updatedDesigns);
+  
+        const optionfirst =[{"index":0,"title":"개발"}];
+        const updatedOptions = [...optionfirst, ...filterData1];
+        console.log("개발이요"+updatedOptions);
+        setOptions(updatedOptions);
+      
+      })
+      .catch(error => {
+        // 요청이 실패한 경우
+        console.error(error);
+      });
+    
   }, []);
+
+  // const getInterests = async() => { //전체 관심분야, 직무 받아오기 
+
+  //   await axios.get(requestURL+'userinfo/interested')
+  //   .then(response => {
+  //     // 요청이 성공한 경우
+  //     const data = response.data;
+  //     console.log(data);
+
+  //     const filterData = data.filter(obj => obj.field_category === '기획')
+  //                        .map(({ index, title }) => ({ index, title }));
+  //     const filterData1 = data.filter(obj => obj.field_category === '개발')
+  //                        .map(({ index, title }) => ({ index, title }));
+  //     const filterData2 = data.filter(obj => obj.field_category === '디자인')
+  //                        .map(({ index, title }) => ({ index, title }));
+    
+  //     const planfirst =[{"index":0,"title":"기획"}];
+  //     const updatedPlans = [...planfirst, ...filterData];
+  //     const aa = JSON.stringify(updatedPlans);
+  //     console.log("기획이요"+aa);
+  //     setPlans(updatedPlans);
+
+  //     const designfirst =[{"index":0,"title":"디자인"}];
+  //     const updatedDesigns = [...designfirst, ...filterData2];
+  //     console.log("디자인이요"+updatedDesigns);
+  //     setDesigns(updatedDesigns);
+
+  //     const optionfirst =[{"index":0,"title":"개발"}];
+  //     const updatedOptions = [...optionfirst, ...filterData1];
+  //     console.log("개발이요"+updatedOptions);
+  //     setOptions(updatedOptions);
+    
+  //   })
+  //   .catch(error => {
+  //     // 요청이 실패한 경우
+  //     console.error(error);
+  //   });
+  // }
+
+
+  // useEffect(() => {
+  //   getInterests();
+  // }, []);
 
 
   const blockScroll = () => {
@@ -249,13 +289,6 @@ export default function CreateProject() {
     .catch(function (error) {
       console.log(error);
     });
-  }
-  useEffect(() => {
-    fetchDataa();
-  }, []);
-
-  const fetchDataa = () =>{
-
   }
 
   const postData = async () => {

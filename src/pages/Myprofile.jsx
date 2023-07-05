@@ -513,7 +513,7 @@ export default function Profile() {
   //   // history.push('/home#specificSection');
   //   window.href('/')
   // };
-
+console.log(userData.introduction);
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -555,13 +555,25 @@ export default function Profile() {
           alt="profile"
           style={{}}
         />
+        <button
+          className={styles.profileManageBtn}
+          onClick={() => {
+            navigate("/createmyprofile");
+          }}
+        >
+          프로필 관리
+        </button>
         <div className={styles.nameContainer}>
           <Gdot />
           <p className={styles.name}>{userData.name}</p>
         </div>
         <div className={styles.texts}>
           <p>{userData.titles}</p>
+          {userData.introduction===null?
+          <p className={styles.limit}>자기소개를 입력해보아요!</p>
+          :
           <p className={styles.limit}>{userData.introduction}</p>
+          }
         </div>
 
         <div className={styles.recruit}>
