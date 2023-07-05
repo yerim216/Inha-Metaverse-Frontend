@@ -67,10 +67,14 @@
 
 .signUp {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   text-decoration-line: underline;
   color: #111111;
   cursor: pointer;
+}
+
+.signUp:hover {
+  transform: scale(1.05);
 }
 
 .loginInputBox {

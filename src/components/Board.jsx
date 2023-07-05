@@ -367,7 +367,7 @@ export default function Board() {
               0월 00일 00 : 00
             </span>
             <AiOutlinePlusCircle
-              className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
+              className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
               onClick={() => {
                 if (
                   addTodo_notStart.title.trim() === "" ||
@@ -468,7 +468,7 @@ export default function Board() {
               0월 00일 00 : 00
             </span>
             <AiOutlinePlusCircle
-              className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
+              className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
               onClick={() => {
                 if (
                   addTodo_inProgress.title.trim() === "" ||
@@ -567,7 +567,7 @@ export default function Board() {
             </div>
             <span className="mr-auto text-sm done_time">0월 00일 00 : 00</span>
             <AiOutlinePlusCircle
-              className="text-xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125"
+              className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
               onClick={() => {
                 if (
                   addTodo_done.title.trim() === "" ||

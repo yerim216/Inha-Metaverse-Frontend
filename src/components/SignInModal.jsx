@@ -103,11 +103,32 @@ export default function SignInModal(props) {
         // </section>
         <section className={styles.loginBox} ref={modalRef}>
           <section className={styles.fighteeingBox}>
-            <h1 className={styles.fighteeing}>오늘도 힘내보아요!</h1>
+            <h1 className={styles.fighteeing}>안녕하세요!</h1>
             <div className={styles.iconBox}>
-              <img src="/public_assets/icons/naver.svg" alt="naver" />
-              <img src="/public_assets/icons/google.svg" alt="google" />
-              <img src="/public_assets/icons/kakao.svg" alt="kakao" />
+              <img
+                src="/public_assets/icons/naver.svg"
+                alt="naver"
+                className="cursor-pointer"
+                onClick={() => {
+                  alert("아직 준비중입니다. 조금만 기다려 주세요!");
+                }}
+              />
+              <img
+                src="/public_assets/icons/google.svg"
+                alt="google"
+                className="cursor-pointer"
+                onClick={() => {
+                  alert("아직 준비중입니다. 조금만 기다려 주세요!");
+                }}
+              />
+              <img
+                src="/public_assets/icons/kakao.svg"
+                alt="kakao"
+                className="cursor-pointer"
+                onClick={() => {
+                  alert("아직 준비중입니다. 조금만 기다려 주세요!");
+                }}
+              />
             </div>
             <span className={styles.areYouFirst}>처음오세요?</span>
             <br />

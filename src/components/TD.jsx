@@ -20,18 +20,21 @@ export default function Todo({
 }) {
   const innerContent = useRef();
   const container = useRef();
+  const title = useRef();
   const formattedDate = new Date(todo_date).toLocaleString();
   return (
     <div
       className={`${styles.TD} cursor-pointer transition-all`}
       ref={container}
       onClick={(e) => {
-        if (e.target === container.current) {
+        if (e.target === container.current || e.target === title.current) {
           innerContent.current.classList.toggle("hidden");
         }
       }}
     >
-      <div className="mr-auto text-lg">{todo_title}</div>
+      <div className="mr-auto text-lg" ref={title}>
+        {todo_title}
+      </div>
       <div
         className="border-2 w-full p-2 rounded-md flex flex-col gap-2 hidden cursor-auto"
         ref={innerContent}
