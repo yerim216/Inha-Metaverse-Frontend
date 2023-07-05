@@ -92,12 +92,9 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-<<<<<<< HEAD
   /* margin-left: 260px;
   margin-right: -30px; */
-=======
   margin-left: 240px;
->>>>>>> parent of 47ae8650 (mvp 전 최종2)
   color: #808080;
 }
 .limit {
