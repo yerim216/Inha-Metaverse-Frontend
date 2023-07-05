@@ -275,7 +275,9 @@ export default function Home() {
       <section className="maxWidth">
         <div className={styles.projectTitle}>
           <Dot />
+          {/* <h3 id="specificSection">Project</h3> */}
           <h3>Project</h3>
+
         </div>
         <div className={styles.navBar}>
           <div className={styles.menus}>

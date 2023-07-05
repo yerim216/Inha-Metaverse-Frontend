@@ -58,6 +58,7 @@ export default function Profile() {
         const myArray = res.data;
         setUsers(myArray);
         setField(myArray.field_info);
+        console.log(myArray);
         console.log(myArray.field_info);
       })
       .catch(function (error) {
@@ -505,6 +506,14 @@ export default function Profile() {
     marginLeft: "10px",
   };
 
+  
+  // const history = useHistory();
+
+  // const handleEmptyProjectClick = () => {
+  //   // history.push('/home#specificSection');
+  //   window.href('/')
+  // };
+
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -561,7 +570,8 @@ export default function Profile() {
               <div calssName={recruitContainer}>
                 <div style={part}>
                   <p className={styles.part}>직무</p>
-                  <span style={data}>{item.part}</span>
+                  {/* <span style={data}>{user.data}</span> */}
+                  <span style={data}>Developer / Planner / Designer</span> 
                 </div>
 
                 <div style={part}>
@@ -638,34 +648,38 @@ export default function Profile() {
           </p>
           
           <div className={styles.wrapp}>
-            {filteredArray.map((obj, index) => (
+          {filteredArray.length === 0 ? (
+            <div style={projects}>
+            <a href="/"><div className={styles.emptyProject}>
+              진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
+              </div></a>
+            </div>
+          ) : (
+            filteredArray.map((obj, index) => (
               <div style={projects} key={index} className="relative">
-                  <div style={con3}>
-                    <div style={wrappp}>
-                      <div style={progressP}>
-
-                        <div style={part2Wrap}>
-                          <div style={parts2}>{obj.introduction}</div>
-                        </div>
-
-                        <div style={whole2}>
-                          <div style={dot3}></div>
-                          <div style={con4} className={styles.recruiting}>
-                            {obj.recruiting ? (
-                              <p style={lit}>
-                                recruiting 0 / {obj.recruitment_number}
-                              </p>
-                            ) : (
-                              <p style={lit}>not recruiting</p>
-                            )}
-                          </div>
-                        </div>
-                        
+                <div style={con3}>
+                  <div style={wrappp}>
+                    <div style={progressP}>
+                      <div style={part2Wrap}>
+                        <div style={parts2}>{obj.introduction}</div>
                       </div>
-                      <div style={namee2}>{obj.name}</div>
-                      <div style={tools2}> {obj.description}</div>
+                      <div style={whole2}>
+                        <div style={dot3}></div>
+                        <div style={con4} className={styles.recruiting}>
+                          {obj.recruiting ? (
+                            <p style={lit}>
+                              recruiting 0 / {obj.recruitment_number}
+                            </p>
+                          ) : (
+                            <p style={lit}>not recruiting</p>
+                          )}
+                        </div>
+                      </div>
                     </div>
+                    <div style={namee2}>{obj.name}</div>
+                    <div style={tools2}>{obj.description}</div>
                   </div>
+                </div>
                 <div
                   className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
                   onClick={() => {
@@ -676,7 +690,9 @@ export default function Profile() {
                   <BiRightArrowCircle />
                 </div>
               </div>
-            ))}
+            ))
+          )}
+
           </div>
         </div>
       </div>

@@ -214,6 +214,22 @@
   text-align: center;
   padding: 12px 0;
 }
+.emptyProject{
+  color: #000;
+font-size: 24px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 800;
+line-height: normal;
+letter-spacing: 0.96px;
+position: absolute;
+margin-top: 50px;
+margin-left: 160px;
+width:50%;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+}
+
 
 .recruit {
   position: relative;
