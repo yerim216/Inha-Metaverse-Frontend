@@ -29,9 +29,9 @@ function Modal({ onClose }) {
   };
   const logout = () => {
     window.location.href = "/";
+    setUser(null);
 
     window.localStorage.clear();
-    setUser(null);
   };
   useOutSideClick(modalRef, handleClose);
 
