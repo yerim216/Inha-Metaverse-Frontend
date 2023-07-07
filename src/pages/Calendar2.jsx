@@ -245,8 +245,8 @@ const Calendar = () => {
 
           headerToolbar={{
             start: 'title',
-            center: 'dayGridMonth,timeGridWeek,timeGridDay',
-            end: 'prev,today,next',
+            // center: '', //timeGridWeek,timeGridDay
+            end: 'prev,today,dayGridMonth,next',
           }}
           events={events}
           expandRows={true}
