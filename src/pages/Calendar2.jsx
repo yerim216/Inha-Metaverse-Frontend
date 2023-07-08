@@ -7,9 +7,13 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from '@fullcalendar/list';
+
 import styles from "../styles/Calendar2.module.css";
 import "../styles/calendar2.css";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext,useHistory } from "react-router-dom";
+import CalEventClickModal from "../components/CalEventClickModal";
+import ReviseEvent from "../components/ReviseEvent";
 
 const Calendar = () => {
   // 여기 팀인덱스에요
@@ -18,10 +22,19 @@ const Calendar = () => {
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userLoginString = userLogin.email.toString();
-  const [deleteEv,setDelete] = useState([]);
 
   const [events, setEvents] = useState([]);
   const [index, setIndex] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedEventTitle, setSelectedEventTitle] = useState('');
+  const [selectedID,setSelectedId] = useState([]);
+  const [selectedStart,setSelectedStart] = useState([]);
+  const [selectedEnd,setSelectedEnd] = useState([]);
+
+  const [modalDeleteButtons, setmodalDeleteButtons] = useState(false);
+  const [modalReviseButtons, setmodalReviseButtons] = useState(false);
+  const [dateClick, setDateClick] = useState(false);
 
   const requestURL = `${window.baseURL}`;
 
@@ -107,14 +120,13 @@ const Calendar = () => {
       
       //db 보낼 용도 yyyymmdd
       const parts1 = startDateplus.split('-');
-
       // Create a new date string in 'yyyymmdd' format
       const dbstart = parts1[0] + parts1[1] + parts1[2];
 
       const parts2 = extractedEnd.split('-');
-
       // Create a new date string in 'yyyymmdd' format
       const dbend = parts2[0] + parts2[1] + parts2[2];
+
       console.log(dbstart);
       console.log(dbend);
 
@@ -146,7 +158,7 @@ const Calendar = () => {
     }
   };
 
-  const addEventToDB = (event) => {
+  const addEventToDB = (event) => { //이벤트 추가하기 
     console.log(event);
     axios
       .post(requestURL+"schedule/put", event)
@@ -159,34 +171,51 @@ const Calendar = () => {
       });
   };
 
-  const editEvent=(info)=>{
+  const editEvent=(info)=>{ //이벤트 옮기기 
     const { event } = info;
     const eventTitle = event.title;
     const no = window.confirm(eventTitle + " 이벤트 옮겨?");
 
   }
 
-  const handleEventClick = (info) => {
-    const { event } = info;
-    const eventTitle = event.title;
-    const confirmDelete = window.confirm(eventTitle + " 이벤트를 삭제하시겠습니까?");
+  //이벤트 클릭 -> 모달창(일정 수정 or 선택창) 나타나게
+  const handleEventClick = (info) => { 
 
-    console.log("Clicked event title:", eventTitle);
+    const { event } = info;
+
+    const eventTitle = event.title;
+    setSelectedEventTitle(eventTitle); //삭제할 이벤트 제목 저장
 
     const eventId= event.id;
-    console.log("Clicked ID:", eventId);
+    setSelectedId(eventId); //삭제할 이벤트 아이디 저장
 
-    if (confirmDelete) {
-      deleteEvent(eventId); //삭제함수호출
-      setDelete(eventId); //삭제할 아이디 저장?
+    const eventStart =event.start;
+    setSelectedStart(eventStart);
 
-    }
+    const eventEnd =event.end;
+    setSelectedEnd(eventEnd);
+
+    console.log("Clicked ID:", eventStart);
+
+    setIsOpen(true);
+
+    const a = JSON.stringify(eventTitle);
+
   };
 
-  const deleteEvent = (deleteEventId) => {
-    
+  const deleteClick = () => {
+    setmodalDeleteButtons(true);
+    console.log("삭제 누르셨어여");
+    deleteEvent(selectedID); //삭제함수호출
+
+  };
+  const reviseClick = () => {
+    setmodalReviseButtons(true);
+  };
+
+  const deleteEvent = (deleteEventId) => { //이벤트 삭제하기 
+
     // const eventTitle = deleteEv.title;
-    console.log("DB check Clicked event ID:", deleteEventId);
 
     // var etoj = JSON.stringify(events); //json형태의 obj 변수 내용 확인용
 
@@ -203,13 +232,22 @@ const Calendar = () => {
       });
   };
 
-  
+  const dropEvent = () =>{ //이벤트 옮기기
+    console.log("dropEvent 작동");
+  };
+
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.child}>
+      <div>
         <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin,listPlugin]}
           initialView="dayGridMonth"
+
+          headerToolbar={{
+            start: 'title',
+            // center: '', //timeGridWeek,timeGridDay
+            end: 'prev,today,dayGridMonth,next',
+          }}
           events={events}
           expandRows={true}
           navLinks={true}
@@ -222,12 +260,36 @@ const Calendar = () => {
           selectable={true}
           select={handleDateSelect}
           eventClick={handleEventClick}
+          eventDrop ={dropEvent}
         />
         
-        
+        {isOpen && (
+          <CalEventClickModal
+            open={isOpen}
+            eventTitle={selectedEventTitle}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            deleteButtonClick={deleteClick}
+            reviseButtonClick={reviseClick}
+          />
+        )} 
+           
+        {modalReviseButtons && (
+          <ReviseEvent
+            open={isOpen}
+            eventTitle={selectedEventTitle}
+            selectEventId={selectedID}
+            eventStartDate={selectedStart}
+            eventEndDate={selectedEnd}
+            onClose={() => {
+              setmodalReviseButtons(false);
+            }}
+            fetch={fetchEvents}
+          />
+        )}   
 
       </div>
-    </div>
   );
 };
 

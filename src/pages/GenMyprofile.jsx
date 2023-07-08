@@ -35,8 +35,10 @@ export default function CreateProject() {
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userLoginString = userLogin.email.toString();
 
-  const [selectedValue, setSelectedValue] = useState(""); // 선택한 값을 저장할 상태 변수
-  const [text, setText] = useState("");
+  const [selectedValue, setSelectedValue] = useState(); //경력 선택 값
+  const [text, setText] = useState(); //자기소개
+  const [job, setJob] = useState([]); //직무 선택 값
+
   let [array, setArray] = useState([]);
 
   const [selectedOption1, setSelectedOption1] = useState(0);
@@ -114,7 +116,6 @@ export default function CreateProject() {
   const handleTextChange = (event) => {
     setText(event.target.value);
     const txt = event.target.value;
-    console.log(event.target.value);
     dbIntro(txt);
   };
   console.log();
@@ -129,6 +130,16 @@ export default function CreateProject() {
       .then(function (res) {
         const myArray = Object.values(res.data);
         setUsers(myArray);
+        setSelectedValue(myArray[3]);
+        setText(myArray[2]);
+        const interestArray = myArray[4].map((item) => item.title); // 관심분야만 따로 배열로 빼두기
+        setJob(interestArray);
+        console.log(myArray);
+        console.log("-------자기소개불러오기 완료------");
+        console.log(interestArray);
+
+        console.log(selectedValue);
+        console.log(text);
       })
       .catch(function (error) {
         console.log(error);
@@ -175,6 +186,13 @@ export default function CreateProject() {
       });
   }, []);
 
+  // const getInterests = async() => { //전체 관심분야, 직무 받아오기
+  const handleDelete = (index) => {
+    //직무 삭제하기
+    const updatedItems = [...job];
+    updatedItems.splice(index, 1);
+    setJob(updatedItems);
+  };
   // const getInterests = async() => { //전체 관심분야, 직무 받아오기
 
   //   await axios.get(requestURL+'userinfo/interested')
@@ -390,6 +408,12 @@ export default function CreateProject() {
     alert("추후에 추가될 예정입니다");
   };
 
+  const jobBox = {
+    display: "flex",
+    flexDirection: "row",
+    gap: "3px",
+  };
+
   const option = {
     width: "300px",
     fontSize: "18px",
@@ -420,6 +444,12 @@ export default function CreateProject() {
   const option4 = {
     display: "flex",
     height: "30px",
+    flexDirection: "row",
+    gap: "20px",
+  };
+  const jobselect = {
+    color: "white",
+    display: "flex",
     flexDirection: "row",
     gap: "20px",
   };
@@ -524,6 +554,14 @@ export default function CreateProject() {
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>직무(관심 분야)</span>
+          <div style={jobselect}>
+            {job.map((item, index) => (
+              <div key={index} style={jobBox}>
+                <span>{item}</span>
+                <button onClick={() => handleDelete(index)}>X</button>
+              </div>
+            ))}
+          </div>
           <div className={styles2.n}></div>
           <div style={option4}>
             <select

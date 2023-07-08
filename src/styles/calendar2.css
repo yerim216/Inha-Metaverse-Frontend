@@ -1,15 +1,25 @@
 .Calendar2_wrapper__YHdHw{
-  margin-left: 100px;
+  /* position: absolute; */
+  margin-left: 8vw;
+}
+
+.Calendar2_child__rwtPZ{
+  /* position: absolute; */
+  margin-top: -20px;
+
 }
 .fc-day-sun a {
-    color: red;
+    color: #FF3333;
     text-decoration: none;
   }
 
 .fc-day-sat a {
-  color: blue;
+  color: #1E90FF;
   text-decoration: none;
 }
+/* .fc fc-media-screen fc-direction-ltr fc-theme-standard{
+width:100%;
+} */
 
 #calendar {
   max-width: 900px;
