@@ -39,7 +39,9 @@ export default function Todo({
         className="border-2 w-full p-2 rounded-md flex flex-col gap-2 hidden cursor-auto"
         ref={innerContent}
       >
-        <pre className="mr-auto text-base">{todo_content}</pre>
+        <pre className="mr-auto text-base w-full whitespace-pre-wrap">
+          {todo_content}
+        </pre>
         <div className="mr-auto flex items-center gap-1">
           <img src="/public_assets/pro.png" alt="profile" className="w-7 h-7" />
           {writer}/작성자

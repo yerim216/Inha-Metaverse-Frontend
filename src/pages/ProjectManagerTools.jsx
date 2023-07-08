@@ -58,6 +58,7 @@ export default function ProjectManagerTools() {
             onClick={() => {
               setActivated("board");
               navigate("board");
+              window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >
             <img
@@ -71,6 +72,7 @@ export default function ProjectManagerTools() {
             onClick={() => {
               setActivated("calendar");
               navigate("calendar2");
+              window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >
             <img
@@ -106,6 +108,7 @@ export default function ProjectManagerTools() {
           className="text-white absolute right-8 cursor-pointer z-10"
           onClick={() => {
             navigate("/");
+            window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
           HOME

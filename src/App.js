@@ -12,13 +12,16 @@ import ProjectManagerTools from "./pages/ProjectManagerTools";
 import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <UserInfoProvider>
-        <Home />
+        <GoogleReCaptchaProvider reCaptchaKey="6LcqNDAmAAAAAKR81rlDOgBrUSXVBQAGLK8iI_Hr">
+          <Home />
+        </GoogleReCaptchaProvider>
       </UserInfoProvider>
     ),
   },

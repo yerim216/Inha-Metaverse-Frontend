@@ -26,8 +26,7 @@ export default function ProjectBox({
       className={styles.pjb}
       onClick={() => {
         navigate("/profile", { state: { teamIndex: teamIndex } });
-        window.scrollTo({ top: 0, behavior: 'auto' });
-
+        window.scrollTo({ top: 0, behavior: "auto" });
       }}
     >
       <div

@@ -29,9 +29,12 @@
   line-height: 16px;
   border: 1px solid #313131;
   background-color: rgb(21, 20, 20);
+  max-height: 90vh;
+  overflow: auto;
 }
 
-.notStart {
+.toDoSection::-webkit-scrollbar {
+  display: none;
 }
 
 .notStartBadge {
@@ -42,18 +45,12 @@
   padding: 0px 5px;
 }
 
-.inProgress {
-}
-
 .inProgressBadge {
   display: flex;
   align-items: center;
   width: 70px;
   gap: 5px;
   padding: 2px 5px;
-}
-
-.done {
 }
 
 .doneBadge {

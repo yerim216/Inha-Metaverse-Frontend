@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../styles/signUpModal.css";
 import axios from "axios";
 import styles from "../styles/SignUp.module.css";
@@ -23,6 +23,11 @@ export default function SignUpModal(props) {
   const [fieldsDevelop, setFieldsDevelop] = useState([]);
   const [fieldsGuitar, setFieldsGuitar] = useState([]);
 
+  function onChange(value) {
+    // value로 확인 필요. 추후 수정
+    setCaptchaDone(true);
+  }
+
   const [field, setField] = useState([
     ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
     ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
@@ -44,6 +49,11 @@ export default function SignUpModal(props) {
     { id: 3, value: false },
   ]);
 
+  // recaptcha
+  // https://blog.logrocket.com/implement-recaptcha-react-application/
+  const key = "6LeIzgYnAAAAAMv6ze8tOqS64aXEXywgRhmBMoiJ";
+  const [captchaDone, setCaptchaDone] = useState(false);
+
   // 두번째 화면에서 세번째 화면으로 넘어가면 "관심 분야를 알려 주세요!" 화면이 3초 뒤 열림. 이를 위해 변수 선언.
   // 또한 화면이 열리기 전, 화면 클릭을 막기 위해서 pointer-events : none을 줌.
   const [secondNextBtnClicked, setSecondNextBtnClicked] = useState(false);
@@ -62,7 +72,6 @@ export default function SignUpModal(props) {
 
   // 선택된 필터들에 대한 인덱스를 나타내는 state.
   const [selectedFilterIndices, setSelectedFilterIndices] = useState([]);
-  console.log(selectedFilterIndices);
 
   const addFilterItem = (item) => {
     if (selectedFilters.length >= 6) return false;
@@ -96,6 +105,16 @@ export default function SignUpModal(props) {
       )
     );
   };
+
+  const test = () => {
+    setButtons([
+      { id: 0, value: true },
+      { id: 1, value: true },
+      { id: 2, value: true },
+      { id: 3, value: true },
+    ]);
+  };
+
   const [nickName, setNickName] = useState("");
   const [nicknameDuplicated, setnicknameDuplicated] = useState(false);
   const [nickNameWarning, setNickNameWarning] = useState("");
@@ -133,11 +152,6 @@ export default function SignUpModal(props) {
       });
     }
   }, [fields]);
-
-  console.log(fieldsPlan);
-  console.log(fieldsDesign);
-  console.log(fieldsDevelop);
-  console.log(fieldsGuitar);
 
   const checkNicknameValid = () => {
     const pattern = /^[가-힣a-zA-Z0-9]{2,10}$/;
@@ -406,6 +420,9 @@ export default function SignUpModal(props) {
                               return cur + 1;
                             });
                             setSecondNextBtnClicked(true);
+                            setTimeout(() => {
+                              test();
+                            }, 3000);
                           }
                         });
                       }}
@@ -570,20 +587,6 @@ export default function SignUpModal(props) {
                                 index={item.index}
                               />
                             ))}
-                          {/* {field &&
-                            field[3].map((item, idx) => (
-                              <FilterButton
-                                item={item}
-                                key={idx}
-                                addFilterItem={addFilterItem}
-                                colored={
-                                  selectedFilters &&
-                                  selectedFilters.includes(item) &&
-                                  true
-                                }
-                                deleteFilter={deleteFilter}
-                              />
-                            ))} */}
                         </ul>
                       </Collapse>
                     </li>
@@ -611,18 +614,25 @@ export default function SignUpModal(props) {
                 <li className="screen">
                   <h1 className="title">시작해 볼까요?</h1>
                   <form className="mr-auto ml-auto">
-                    <ReCAPTCHA
-                      sitekey="6Le3O0gmAAAAAB8LLeVt7j2v_Q4wa2v_gbGcRE3v"
-                      className="recaptcha"
-                    />
+                    <ReCAPTCHA sitekey={key} onChange={onChange} />
                   </form>
                   <button
                     className="mr-auto ml-auto mt-8"
                     onClick={() => {
-                      if (signUp() !== false)
+                      if (!captchaDone) {
+                        alert("체크박스를 먼저 클릭해 주세요!");
+                        return;
+                      }
+
+                      if (signUp() !== false) {
                         setIndex((cur) => {
+                          setTimeout(() => {
+                            close();
+                            window.location.reload();
+                          }, 3000);
                           return cur + 1;
                         });
+                      }
                     }}
                   >
                     <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />

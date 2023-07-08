@@ -46,6 +46,7 @@ export default function Profile() {
     window.localStorage.clear();
     setUserLogin(null);
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
 
   useEffect(() => {
@@ -313,8 +314,8 @@ export default function Profile() {
   };
   const progressP = {
     position: "relative",
-    width:"100%",
-    height:"100%",
+    width: "100%",
+    height: "100%",
     display: "inlineBlock",
     flexDirection: "row",
     gap: "9px",
@@ -324,9 +325,9 @@ export default function Profile() {
   };
 
   const namee2 = {
-    marginTop:"50px",
-    marginLeft:"30px",
-    position:"relative",
+    marginTop: "50px",
+    marginLeft: "30px",
+    position: "relative",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
     fontWeight: "500",
@@ -342,14 +343,14 @@ export default function Profile() {
     // marginLeft:"30px",
     // marginTop: "14px",
     width: "80%",
-    marginLeft:"30px",
-    display: '-webkit-box',
+    marginLeft: "30px",
+    display: "-webkit-box",
     WebkitLineClamp: 2, // 최대 2줄로 제한
-    WebkitBoxOrient: 'vertical',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   };
-  
+
   const con3 = {
     width: "593px",
   };
@@ -370,26 +371,23 @@ export default function Profile() {
   const part2Wrap = {
     position: "absolute",
     display: "inlineBlock",
-    marginLeft:"30px",
-    marginTop: "20px"
+    marginLeft: "30px",
+    marginTop: "20px",
   };
   const whole2 = {
     position: "absolute",
-    right: '0',
+    right: "0",
     display: "inline-block",
     marginTop: "20px",
-    
   };
 
-  const lit = {
-  };
+  const lit = {};
 
   const wrappp = {
-    width:"100%",
+    width: "100%",
     display: "inline-block",
-    position:"relative",
-    overflow: 'hidden',
-
+    position: "relative",
+    overflow: "hidden",
   };
 
   const wrappp2 = {
@@ -412,7 +410,7 @@ export default function Profile() {
 
   const dot3 = {
     display: "inline-block",
-    marginTop:"5px",
+    marginTop: "5px",
     marginRight: "16px",
     backgroundColor: "#E1ECF6",
     borderRadius: "100px",
@@ -462,16 +460,16 @@ export default function Profile() {
     backgroundColor: "black",
     color: "white",
 
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    margin: '0 10px',
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    margin: "0 10px",
   };
   const contain = {
-    position:"absolute",
-    marginLeft:"170px",
+    position: "absolute",
+    marginLeft: "170px",
     width: "60%",
-    marginTop:"6px",
+    marginTop: "6px",
     display: "flex",
     flexWrap: "wrap",
     gap: "7px",
@@ -506,14 +504,13 @@ export default function Profile() {
     marginLeft: "10px",
   };
 
-  
   // const history = useHistory();
 
   // const handleEmptyProjectClick = () => {
   //   // history.push('/home#specificSection');
   //   window.href('/')
   // };
-console.log(userData.introduction);
+  console.log(userData.introduction);
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -559,6 +556,7 @@ console.log(userData.introduction);
           className={styles.profileManageBtn}
           onClick={() => {
             navigate("/createmyprofile");
+            window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
           프로필 관리
@@ -569,11 +567,11 @@ console.log(userData.introduction);
         </div>
         <div className={styles.texts}>
           <p>{userData.titles}</p>
-          {userData.introduction===null?
-          <p className={styles.limit}>자기소개를 입력해보아요!</p>
-          :
-          <p className={styles.limit}>{userData.introduction}</p>
-          }
+          {userData.introduction === null ? (
+            <p className={styles.limit}>자기소개를 입력해보아요!</p>
+          ) : (
+            <p className={styles.limit}>{userData.introduction}</p>
+          )}
         </div>
 
         <div className={styles.recruit}>
@@ -583,7 +581,7 @@ console.log(userData.introduction);
                 <div style={part}>
                   <p className={styles.part}>직무</p>
                   {/* <span style={data}>{user.data}</span> */}
-                  <span style={data}>Developer / Planner / Designer</span> 
+                  <span style={data}>Developer / Planner / Designer</span>
                 </div>
 
                 <div style={part}>
@@ -601,7 +599,6 @@ console.log(userData.introduction);
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
-                    
                     {/* 직무 추가 api - 504 에러에 대비 */}
                     <span style={indata}>개발</span>
                     <span style={indata}>디자인</span>
@@ -658,53 +655,55 @@ console.log(userData.introduction);
             🔍<span className={styles.userName}>{userData.name} </span> 님이
             진행하시는 프로젝트
           </p>
-          
+
           <div className={styles.wrapp}>
-          {filteredArray.length === 0 ? (
-            <div style={projects}>
-            <a href="/"><div className={styles.emptyProject}>
-              진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
-              </div></a>
-            </div>
-          ) : (
-            filteredArray.map((obj, index) => (
-              <div style={projects} key={index} className="relative">
-                <div style={con3}>
-                  <div style={wrappp}>
-                    <div style={progressP}>
-                      <div style={part2Wrap}>
-                        <div style={parts2}>{obj.introduction}</div>
-                      </div>
-                      <div style={whole2}>
-                        <div style={dot3}></div>
-                        <div style={con4} className={styles.recruiting}>
-                          {obj.recruiting ? (
-                            <p style={lit}>
-                              recruiting 0 / {obj.recruitment_number}
-                            </p>
-                          ) : (
-                            <p style={lit}>not recruiting</p>
-                          )}
+            {filteredArray.length === 0 ? (
+              <div style={projects}>
+                <a href="/">
+                  <div className={styles.emptyProject}>
+                    진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
+                  </div>
+                </a>
+              </div>
+            ) : (
+              filteredArray.map((obj, index) => (
+                <div style={projects} key={index} className="relative">
+                  <div style={con3}>
+                    <div style={wrappp}>
+                      <div style={progressP}>
+                        <div style={part2Wrap}>
+                          <div style={parts2}>{obj.introduction}</div>
+                        </div>
+                        <div style={whole2}>
+                          <div style={dot3}></div>
+                          <div style={con4} className={styles.recruiting}>
+                            {obj.recruiting ? (
+                              <p style={lit}>
+                                recruiting 0 / {obj.recruitment_number}
+                              </p>
+                            ) : (
+                              <p style={lit}>not recruiting</p>
+                            )}
+                          </div>
                         </div>
                       </div>
+                      <div style={namee2}>{obj.name}</div>
+                      <div style={tools2}>{obj.description}</div>
                     </div>
-                    <div style={namee2}>{obj.name}</div>
-                    <div style={tools2}>{obj.description}</div>
+                  </div>
+                  <div
+                    className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
+                    onClick={() => {
+                      // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
+                      navigate("/profile", { state: { teamIndex: obj.index } });
+                      window.scrollTo({ top: 0, behavior: "auto" });
+                    }}
+                  >
+                    <BiRightArrowCircle />
                   </div>
                 </div>
-                <div
-                  className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
-                  onClick={() => {
-                    // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
-                    navigate("/profile", { state: { teamIndex: obj.index } });
-                  }}
-                >
-                  <BiRightArrowCircle />
-                </div>
-              </div>
-            ))
-          )}
-
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -110,6 +110,7 @@ export default function Profile() {
     window.localStorage.clear();
     setUserLogin(null);
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const renderProfileContent = () => {
@@ -473,6 +474,7 @@ export default function Profile() {
             navigate("/projectmanagertools", {
               state: { teamIndex: teamIndex },
             });
+            window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
           프로젝트 관리

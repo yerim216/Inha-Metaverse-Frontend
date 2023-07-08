@@ -128,6 +128,7 @@ export default function CreateProject() {
           className={styles.navLink}
           onClick={() => {
             navigate("/");
+            window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
           Home

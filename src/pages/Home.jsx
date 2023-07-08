@@ -179,6 +179,7 @@ export default function Home() {
               className={styles.navLink}
               onClick={() => {
                 navigate("/");
+                window.scrollTo({ top: 0, behavior: "auto" });
               }}
             >
               Home
@@ -277,7 +278,6 @@ export default function Home() {
           <Dot />
           {/* <h3 id="specificSection">Project</h3> */}
           <h3>Project</h3>
-
         </div>
         <div className={styles.navBar}>
           <div className={styles.menus}>

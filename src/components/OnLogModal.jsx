@@ -49,6 +49,7 @@ function Modal({ onClose }) {
           <div
             onClick={() => {
               navigate("/createproject");
+              window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >
             프로젝트 만들기
