@@ -471,7 +471,7 @@ export default function Profile() {
         <button
           className={styles.projectManageBtn}
           onClick={() => {
-            navigate("/projectmanagertools", {
+            navigate(`/projectmanagertools/${teamIndex}`, {
               state: { teamIndex: teamIndex },
             });
             window.scrollTo({ top: 0, behavior: "auto" });

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, Route, useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/modules/ProjectManagerTools.module.css";
 
 export default function ProjectManagerTools() {
@@ -7,12 +7,9 @@ export default function ProjectManagerTools() {
   const [activated, setActivated] = useState("board");
   const navigate = useNavigate();
 
-  const [teamIndex, setTeamIndex] = useState();
-  useEffect(() => {
-    setTeamIndex(location.state.teamIndex);
-  }, []);
+  const params = useParams();
+  const teamIndex = params.teamIndex;
 
-  const location = useLocation();
   return (
     <>
       <div

@@ -44,16 +44,12 @@ const router = createBrowserRouter([
     element: <GenMyprofile />,
   },
   {
-    path: "projectmanagertools",
+    path: "projectmanagertools/:teamIndex",
     element: <ProjectManagerTools />,
     children: [
       {
         index: true,
-        element: (
-          <DndProvider backend={HTML5Backend}>
-            <Board />
-          </DndProvider>
-        ),
+        element: <Board />,
       },
       { path: "board", element: <Board /> },
       {
