@@ -13,6 +13,8 @@ import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +49,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Board />,
+        element: (
+          <DndProvider backend={HTML5Backend}>
+            <Board />
+          </DndProvider>
+        ),
       },
       { path: "board", element: <Board /> },
       {
