@@ -27,10 +27,10 @@ const Calendar = () => {
   const [index, setIndex] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEventTitle, setSelectedEventTitle] = useState('');
+  const [selectedEventTitle, setSelectedEventTitle] = useState();
   const [selectedID,setSelectedId] = useState([]);
-  const [selectedStart,setSelectedStart] = useState([]);
-  const [selectedEnd,setSelectedEnd] = useState([]);
+  const [selectedStart,setSelectedStart] = useState("");
+  const [selectedEnd,setSelectedEnd] = useState("");
 
   const [modalDeleteButtons, setmodalDeleteButtons] = useState(false);
   const [modalReviseButtons, setmodalReviseButtons] = useState(false);
@@ -139,7 +139,9 @@ const Calendar = () => {
           "end": endDateplus,
           "created_at": dateTime,
         };
+        console.log(dbstart);
 
+        console.log(dbend);
         const newEvent2 = {
           name: title,
           start_date: dbstart,
@@ -215,12 +217,6 @@ const Calendar = () => {
 
   const deleteEvent = (deleteEventId) => { //이벤트 삭제하기 
 
-    // const eventTitle = deleteEv.title;
-
-    // var etoj = JSON.stringify(events); //json형태의 obj 변수 내용 확인용
-
-    // console.log(etoj);
-
     axios
       .post(requestURL+"schedule/delete", {"index": deleteEventId})
       .then((response) => {
@@ -232,11 +228,148 @@ const Calendar = () => {
       });
   };
 
-  const dropEvent = () =>{ //이벤트 옮기기
+  function modifyTimeToZero(dateString) {
+    const dateParts = dateString.split(" ");
+    const timeParts = dateParts[1].split(":");
+  
+    timeParts[0] = "0";
+    timeParts[1] = "0";
+    timeParts[2] = "0";
+  
+    const modifiedDateString = `${dateParts[0]} ${timeParts.join(":")}`;
+    return modifiedDateString;
+  }
+
+  const dropEvent = (info) =>{ //이벤트 옮기기
     console.log("dropEvent 작동");
+    
+    const { event } = info;
+
+    const eventTitle = event.title;
+    setSelectedEventTitle(eventTitle); //수정할 이벤트 제목 저장
+    console.log(event.title);
+    const eventId= event.id;
+    const integerNumber = parseInt(eventId);
+    console.log(integerNumber);
+    setSelectedId(integerNumber); //수정할 이벤트 아이디 저장
+
+    const eventStart =event.start;
+
+    if(eventStart!=null){    
+      const cDateStart =
+      eventStart.getFullYear() +
+      "-" +
+      (eventStart.getMonth() + 1) +
+      "-" +
+      eventStart.getDate();
+    const cTimeStart =
+    eventStart.getHours() +
+      ":" +
+      eventStart.getMinutes() +
+      ":" +
+      eventStart.getSeconds();
+    const dateTime = cDateStart + " " + cTimeStart;
+    const dateStringStart = dateTime.toLocaleString();
+    
+    const te=modifyTimeToZero(dateStringStart);
+
+    console.log(te);
+
+    setSelectedStart(te);
+    }
+
+    if(event.end===null){
+      const eventEnd = event.start;
+      setSelectedEnd(eventEnd);
+
+      if(eventEnd!=null){    
+
+      const cDateEnd =
+        eventEnd.getFullYear() +
+          "-" +
+          (eventEnd.getMonth() + 1) +
+          "-" +
+          eventEnd.getDate();
+        const cTimeEnd =
+        eventEnd.getHours() +
+          ":" +
+          eventEnd.getMinutes() +
+          ":" +
+          eventEnd.getSeconds();
+        const dateTimeEnd = cDateEnd + " " + cTimeEnd;
+        const dateStringEnd = dateTimeEnd.toLocaleString();
+        const te=modifyTimeToZero(dateStringEnd);
+
+        console.log(te);
+
+        setSelectedEnd(te);
+      }
+    }
+    else{
+      const eventEnd = event.end;
+      setSelectedEnd(eventEnd);
+
+      if(eventEnd!=null){    
+
+        const cDateEnd =
+          eventEnd.getFullYear() +
+            "-" +
+            (eventEnd.getMonth() + 1) +
+            "-" +
+            eventEnd.getDate();
+          const cTimeEnd =
+          eventEnd.getHours() +
+            ":" +
+            eventEnd.getMinutes() +
+            ":" +
+            eventEnd.getSeconds();
+          const dateTimeEnd = cDateEnd + " " + cTimeEnd;
+          const dateStringEnd = dateTimeEnd.toLocaleString();
+          const te=modifyTimeToZero(dateStringEnd);
+
+          console.log(typeof(te));
+  
+          setSelectedEnd(te);        }
+    }
+    console.log(integerNumber);
+    console.log(eventTitle);
+    console.log(selectedStart);
+    console.log(selectedEnd);    
+    
+  reviseEvent();
+    
+
   };
 
+  const reviseEvent = ()=>{
+    axios
+      .post(requestURL+"schedule/modify", {
+        "index": selectedID,
+        "name": selectedEventTitle,
+        "start_date": selectedStart,
+        "end_date": selectedEnd
+      })
+      .then((response) => {
+        console.log("이벤트 수정완료 : "+response);
+        fetchEvents();
+      })
+      .catch((error) => {
+        console.error("Error revise event to DB:", error);
+      });
+  }
 
+
+  useEffect(() => {
+    console.log(selectedStart);
+    if(selectedStart != null){
+      reviseEvent();
+    }
+  }, [selectedStart]);
+
+  useEffect(() => {
+    console.log(selectedEnd);
+  }, [selectedEnd]);
+  
   return (
       <div>
         <FullCalendar
@@ -253,7 +386,7 @@ const Calendar = () => {
           navLinks={true}
           editable={true}
           droppable={true}
-          drop={editEvent}
+          // drop={dropEvent}
           eventLimit={2}
           dayMaxEvents={true}
           height="90vh"

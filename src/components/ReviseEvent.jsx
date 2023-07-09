@@ -103,8 +103,11 @@ function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEnd
 
   const handleEndDateChange = (date) => {
     setSelectedEndDate(date);
+    if(date==="undefined"){
+      setReviseEventEnd(reviseEventStart);
+    }
 
-    if(date!=null){ const cDateEnd =
+    if(date!="undefined"){ const cDateEnd =
         date.getFullYear() +
           "-" +
           (date.getMonth() + 1) +
@@ -119,10 +122,16 @@ function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEnd
         const dateTimeEnd = cDateEnd + " " + cTimeEnd;
         const dateStringEnd = dateTimeEnd.toLocaleString();
         setReviseEventEnd(dateStringEnd);}
-
+    
   };
 
   const reviseEvent = () => { //이벤트 수정사항 DB 저장
+    console.log(reviseEventID);
+    console.log(reviseEventTitle);
+
+    console.log(reviseEventStart);
+    console.log(reviseEventEnd);
+
     axios
       .post(requestURL+"schedule/modify", {
         "index": reviseEventID,
