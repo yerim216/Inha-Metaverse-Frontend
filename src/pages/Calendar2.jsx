@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import moment from "moment";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import FullCalendar from "@fullcalendar/react";
@@ -8,8 +7,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from '@fullcalendar/list';
-
-import styles from "../styles/Calendar2.module.css";
 import "../styles/calendar2.css";
 import { useOutletContext,useHistory } from "react-router-dom";
 import CalEventClickModal from "../components/CalEventClickModal";
@@ -73,9 +70,6 @@ const Calendar = () => {
     // 사용자가 이벤트 추가
     const title = prompt("이벤트 이름을 입력하세요:");
 
-    var timestamp = new Date().getTime();
-    // var currentDate = new Date(timestamp); - timestamp -> Date 객체 변환
-    var eventString = new Array();
     if (title) {
       const current = new Date();
       const cDate =
@@ -94,8 +88,6 @@ const Calendar = () => {
       const dateString = dateTime.toLocaleString();
 
       //db용 타임스탬프변환
-      const dbtimestamp = new Date(dateTime).getTime();
-
       var sstart = arg.start.toISOString();
       var endd = arg.end.toISOString();
       const extractedStart = sstart.substr(0, 10); //yyyy-mm-dd
@@ -113,10 +105,6 @@ const Calendar = () => {
 
       const endDateplus = endDate.toISOString().split('T')[0]; // Convert back to 'yyyy-mm-dd' format
       console.log(" 끝 날 하루 늦추는 중"+endDateplus);
-      //
-     
-      var nstart = sstart.substring(0, 10).replace(/-/g, ""); //yyyymmdd
-      var nend = endd.substring(0, 10).replace(/-/g, "");
       
       //db 보낼 용도 yyyymmdd
       const parts1 = startDateplus.split('-');
@@ -126,11 +114,6 @@ const Calendar = () => {
       const parts2 = extractedEnd.split('-');
       // Create a new date string in 'yyyymmdd' format
       const dbend = parts2[0] + parts2[1] + parts2[2];
-
-      console.log(dbstart);
-      console.log(dbend);
-
-      ////
 
       try {
         const newEvent = {
@@ -172,13 +155,6 @@ const Calendar = () => {
         console.error("Error adding event to DB:", error);
       });
   };
-
-  const editEvent=(info)=>{ //이벤트 옮기기 
-    const { event } = info;
-    const eventTitle = event.title;
-    const no = window.confirm(eventTitle + " 이벤트 옮겨?");
-
-  }
 
   //이벤트 클릭 -> 모달창(일정 수정 or 선택창) 나타나게
   const handleEventClick = (info) => { 
@@ -329,12 +305,9 @@ const Calendar = () => {
 
           console.log(typeof(te));
   
-          setSelectedEnd(te);        }
-    }
-    console.log(integerNumber);
-    console.log(eventTitle);
-    console.log(selectedStart);
-    console.log(selectedEnd);    
+          setSelectedEnd(te);        
+        }
+    } 
     
   reviseEvent();
     
@@ -356,22 +329,37 @@ const Calendar = () => {
       .catch((error) => {
         console.error("Error revise event to DB:", error);
       });
-  }
-
+  };
 
   useEffect(() => {
-    console.log(selectedStart);
     if(selectedStart != null){
       reviseEvent();
     }
   }, [selectedStart]);
 
-  useEffect(() => {
-    console.log(selectedEnd);
-  }, [selectedEnd]);
+  const wrapp = {
+    marginTop: "20px", //왜 새로고침하면 적용이 안되는거야
+    height:"90vh",
+    width: "94vw",
+    margin: "auto",
+    position:"relative",
+    /* 둥근 모서리가 잘려보이지 않도록 오버플로우 처리 */
+  }
+
+  const round ={
+    marginTop: "10px",
+    paddingTop: "5px",
+    width:"100%",
+    height:"100%",
+    borderRadius: "10px",
+    overflow: "hidden",
+    border: '1px solid white',
+    backgroundColor: "#1f1f1f"
+  }
   
   return (
-      <div>
+      <div style={wrapp}>
+        <div style={round}>
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin,listPlugin]}
           initialView="dayGridMonth"
@@ -386,15 +374,17 @@ const Calendar = () => {
           navLinks={true}
           editable={true}
           droppable={true}
-          // drop={dropEvent}
-          eventLimit={2}
+          // eventLimit={2}
           dayMaxEvents={true}
-          height="90vh"
+          height="100%"
+          // aspectRatio={1}
           selectable={true}
           select={handleDateSelect}
           eventClick={handleEventClick}
           eventDrop ={dropEvent}
         />
+        </div>
+        
         
         {isOpen && (
           <CalEventClickModal
