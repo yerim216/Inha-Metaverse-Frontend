@@ -22,7 +22,6 @@ function Modal({ onClose }) {
         });
     }
   }, [user]);
-  console.log(userInfo);
 
   const handleClose = () => {
     onClose?.();

@@ -37,7 +37,6 @@ export default function Profile() {
   };
 
   const handleApplyBtn = async () => {
-    console.log(teamInfo.name);
     const userName = await getUserInfo();
     axios
       .post("https://www.app.vpspace.net/team/member", {

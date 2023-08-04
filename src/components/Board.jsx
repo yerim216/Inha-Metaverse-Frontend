@@ -71,7 +71,6 @@ export default function Board() {
         email: userEmail,
       })
       .then((res) => {
-        console.log(res.data);
         userIndex = res.data.index;
       });
 
@@ -142,7 +141,6 @@ export default function Board() {
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
             selectedManager.map((manager) => {
-              console.log(manager);
               axios
                 .post("/todo/manager", {
                   todo_index: todoIndex,
@@ -175,7 +173,6 @@ export default function Board() {
                   todo_manager: manager.memberIdx,
                 })
                 .then(() => {
-                  console.log("getdatabase");
                   getDatabase();
                 });
             });
@@ -299,7 +296,10 @@ export default function Board() {
     <div className={styles.bg}>
       <section className={styles.toDoSectionContainer}>
         <div className={styles.fullTodoSection} id="toDoSection_notStart">
-          <section className={`${styles.notStart} ${styles.toDoSection}`}>
+          <section
+            className={`${styles.notStart} ${styles.toDoSection}`}
+            id="toDoSection_notStart_scroll"
+          >
             <div className={styles.notStartBadge}>
               <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
               <span className="text-white">시작 안함</span>
@@ -402,7 +402,10 @@ export default function Board() {
         </div>
 
         <div className={styles.fullTodoSection} id="toDoSection_inProgress">
-          <section className={`${styles.inProgress} ${styles.toDoSection}`}>
+          <section
+            className={`${styles.inProgress} ${styles.toDoSection}`}
+            id="toDoSection_inProgress_scroll"
+          >
             <div className={styles.inProgressBadge}>
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
               <span className="text-white">진행중</span>
@@ -509,7 +512,10 @@ export default function Board() {
         </div>
 
         <div className={styles.fullTodoSection} id="toDoSection_done">
-          <section className={`${styles.done} ${styles.toDoSection}`}>
+          <section
+            className={`${styles.done} ${styles.toDoSection}`}
+            id="toDoSection_done_scroll"
+          >
             <div className={styles.doneBadge}>
               <div className="w-3 h-3 bg-green-600 rounded-full"></div>
               <span className="text-white">완료됨</span>

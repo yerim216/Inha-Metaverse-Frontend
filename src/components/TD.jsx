@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "../styles/modules/TD.module.css";
 import { BsFillTrashFill } from "react-icons/bs";
-import { useDrag, useDrop } from "react-dnd";
 
 export default function Todo({
   // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
@@ -79,8 +78,6 @@ export default function Todo({
   };
 
   const handleDrag = (e) => {
-    console.log("드래그되는중");
-
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
@@ -124,7 +121,7 @@ export default function Todo({
 
   return (
     <div
-      draggable
+      draggable={true}
       onDragEnd={handleDragEnd}
       onDragStart={(e) => {
         e.target.style.opacity = "0.3";

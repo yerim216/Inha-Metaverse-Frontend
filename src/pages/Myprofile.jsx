@@ -59,8 +59,6 @@ export default function Profile() {
         const myArray = res.data;
         setUsers(myArray);
         setField(myArray.field_info);
-        console.log(myArray);
-        console.log(myArray.field_info);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -510,7 +508,6 @@ export default function Profile() {
   //   // history.push('/home#specificSection');
   //   window.href('/')
   // };
-  console.log(userData.introduction);
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -599,23 +596,10 @@ export default function Profile() {
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
-                    {/* 직무 추가 api - 504 에러에 대비 */}
-                    <span style={indata}>개발</span>
-                    <span style={indata}>디자인</span>
-                    <span style={indata}>모델링</span>
-                    <span style={indata}>기획</span>
-                    <span style={indata}>기타</span>
-
-                    {/* {field &&
+                    {field &&
                       field.map((item) => {
                         return <span style={indata}>{item.title}</span>;
-                      })} */}
-                    {/* <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span> */}
-                    {/* <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span> */}
+                      })}
                   </span>
                 </div>
                 <div style={partforskill}>

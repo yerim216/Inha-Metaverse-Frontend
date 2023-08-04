@@ -6,6 +6,11 @@ export default function PlusTodoBtn({ showAddTodo, filterName }) {
       className="mt-2 m-auto"
       onClick={() => {
         showAddTodo(filterName);
+        // 스크롤 맨 위로 변경
+        const scrollContainer = document.querySelector(
+          `#toDoSection_${filterName}_scroll`
+        );
+        scrollContainer.scrollIntoView({ behavior: "smooth", block: "start" });
       }}
     >
       <img
