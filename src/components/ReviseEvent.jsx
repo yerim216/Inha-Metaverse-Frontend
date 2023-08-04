@@ -99,8 +99,11 @@ function Modal({
 
   const handleEndDateChange = (date) => {
     setSelectedEndDate(date);
+    if (date === "undefined") {
+      setReviseEventEnd(reviseEventStart);
+    }
 
-    if (date != null) {
+    if (date != "undefined") {
       const cDateEnd =
         date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
       const cTimeEnd =
@@ -113,6 +116,12 @@ function Modal({
 
   const reviseEvent = () => {
     //이벤트 수정사항 DB 저장
+    console.log(reviseEventID);
+    console.log(reviseEventTitle);
+
+    console.log(reviseEventStart);
+    console.log(reviseEventEnd);
+
     axios
       .post(requestURL + "schedule/modify", {
         index: reviseEventID,
