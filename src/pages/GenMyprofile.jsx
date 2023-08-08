@@ -66,17 +66,14 @@ export default function CreateProject() {
     postData(num);
 
     dbJob(num);
-    console.log("니가 선택한 인덱스다" + selectedIndex);
   };
 
   const handleOption2Change = (event) => {
     setSelectedOption2(event.target.value);
 
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    console.log("관심분야 인덱스다 이놈아" + selectedIndex);
-    console.log("너는 무슨 형이니" + typeof selectedIndex);
+
     let num = parseInt(selectedIndex); // 정수로 변환
-    console.log("너는 무슨 형이니" + typeof num);
 
     setSelectedIndex2(selectedIndex);
     postData(num);
@@ -88,7 +85,6 @@ export default function CreateProject() {
     setSelectedOption3(event.target.value);
 
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    console.log(selectedIndex);
     setSelectedIndex3(selectedIndex);
 
     let num = parseInt(selectedIndex); // 정수로 변환
@@ -97,7 +93,6 @@ export default function CreateProject() {
     dbJob(num);
 
     // dbJob();
-    // console.log()
     //직무 이름에 해당하는 직무 id 가져오기 , 직무 db 저장하는 함수 호출하면서 직무 id넘겨주기
   };
 
@@ -118,7 +113,6 @@ export default function CreateProject() {
     const txt = event.target.value;
     dbIntro(txt);
   };
-  console.log();
 
   useEffect(() => {
     //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
@@ -134,12 +128,6 @@ export default function CreateProject() {
         setText(myArray[2]);
         const interestArray = myArray[4].map((item) => item.title); // 관심분야만 따로 배열로 빼두기
         setJob(interestArray);
-        console.log(myArray);
-        console.log("-------자기소개불러오기 완료------");
-        console.log(interestArray);
-
-        console.log(selectedValue);
-        console.log(text);
       })
       .catch(function (error) {
         console.log(error);
@@ -152,7 +140,6 @@ export default function CreateProject() {
       .then((response) => {
         // 요청이 성공한 경우
         const data = response.data;
-        console.log(data);
 
         const filterData = data
           .filter((obj) => obj.field_category === "기획")
@@ -167,17 +154,14 @@ export default function CreateProject() {
         const planfirst = [{ index: 0, title: "기획" }];
         const updatedPlans = [...planfirst, ...filterData];
         const aa = JSON.stringify(updatedPlans);
-        console.log("기획이요" + aa);
         setPlans(updatedPlans);
 
         const designfirst = [{ index: 0, title: "디자인" }];
         const updatedDesigns = [...designfirst, ...filterData2];
-        console.log("디자인이요" + updatedDesigns);
         setDesigns(updatedDesigns);
 
         const optionfirst = [{ index: 0, title: "개발" }];
         const updatedOptions = [...optionfirst, ...filterData1];
-        console.log("개발이요" + updatedOptions);
         setOptions(updatedOptions);
       })
       .catch((error) => {
@@ -199,7 +183,6 @@ export default function CreateProject() {
   //   .then(response => {
   //     // 요청이 성공한 경우
   //     const data = response.data;
-  //     console.log(data);
 
   //     const filterData = data.filter(obj => obj.field_category === '기획')
   //                        .map(({ index, title }) => ({ index, title }));
@@ -211,17 +194,14 @@ export default function CreateProject() {
   //     const planfirst =[{"index":0,"title":"기획"}];
   //     const updatedPlans = [...planfirst, ...filterData];
   //     const aa = JSON.stringify(updatedPlans);
-  //     console.log("기획이요"+aa);
   //     setPlans(updatedPlans);
 
   //     const designfirst =[{"index":0,"title":"디자인"}];
   //     const updatedDesigns = [...designfirst, ...filterData2];
-  //     console.log("디자인이요"+updatedDesigns);
   //     setDesigns(updatedDesigns);
 
   //     const optionfirst =[{"index":0,"title":"개발"}];
   //     const updatedOptions = [...optionfirst, ...filterData1];
-  //     console.log("개발이요"+updatedOptions);
   //     setOptions(updatedOptions);
 
   //   })
@@ -289,17 +269,16 @@ export default function CreateProject() {
 
   //직무 db 저장
   const dbJob = (jobIndex) => {
+    console.log(userLoginString);
+    console.log(jobIndex);
     axios
       .post(requestURL + "userinfo/interested/put", {
         name: userLoginString,
         field_index: jobIndex,
       })
-
       .then(function (res) {
         const myArray = Object.values(res.data);
-
         // setUsers(myArray);
-        console.log("유저 직무 저장 성공------------");
       })
       .catch(function (error) {
         console.log(error);
@@ -327,7 +306,6 @@ export default function CreateProject() {
       );
 
       // 성공적으로 응답 받은 경우 처리할 코드
-      console.log(response.data);
     } catch (error) {
       // 요청 실패 또는 응답 처리 중 오류가 발생한 경우 처리할 코드
       console.error(error);
@@ -372,7 +350,6 @@ export default function CreateProject() {
         const myArray = Object.values(res.data);
 
         // setUsers(myArray);
-        console.log("유저 경력 저장 성공");
       })
       .catch(function (error) {
         console.log(error);
@@ -394,7 +371,6 @@ export default function CreateProject() {
         const myArray = Object.values(res.data);
 
         // setUsers(myArray);
-        console.log("유저 자기소개 저장 성공");
       })
       .catch(function (error) {
         console.log(error);

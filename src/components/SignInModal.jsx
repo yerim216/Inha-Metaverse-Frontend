@@ -6,6 +6,7 @@ import { UserInfoContext } from "../contexts/UserInfoProvider";
 import "../styles/signInModal.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
+import { getUserInfo } from "../APIs/userinfo";
 
 export default function SignInModal(props) {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -44,8 +45,9 @@ export default function SignInModal(props) {
         return response.data;
       })
       .then((data) => {
-        axios
-          .post("/userinfo", { email: data.email })
+        // axios
+        //   .post("/userinfo", { email: data.email })
+        getUserInfo(data.email)
           .then(function (response) {
             userInfoSet(response.data);
           })

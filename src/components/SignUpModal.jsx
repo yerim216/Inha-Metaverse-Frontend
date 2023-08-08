@@ -8,6 +8,7 @@ import FilterButton from "./FilterButton";
 import FilteredItems from "./FilteredItems";
 import "../styles/SignUp.css";
 import ReCAPTCHA from "react-google-recaptcha";
+import { getUserInterested } from "../APIs/userinfo";
 
 export default function SignUpModal(props) {
   const [hide, setHide] = useState(true);
@@ -126,7 +127,7 @@ export default function SignUpModal(props) {
 
   // 분야 설정
   useEffect(() => {
-    axios.get("/userinfo/interested").then((res) => {
+    getUserInterested().then((res) => {
       setFields(res.data);
     });
   }, []);

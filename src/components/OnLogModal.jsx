@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getUserInfo } from "../APIs/userinfo";
 
 function Modal({ onClose }) {
   const modalRef = useRef(null);
@@ -13,16 +14,15 @@ function Modal({ onClose }) {
   const [userInfo, setUserInfo] = useState();
   useEffect(() => {
     if (user) {
-      axios
-        .post("https://www.app.vpspace.net/userinfo", {
-          email: user.email,
-        })
-        .then((res) => {
-          setUserInfo(res.data);
-        });
+      // axios
+      //   .post("https://www.app.vpspace.net/userinfo", {
+      //     email: user.email,
+      //   })
+      getUserInfo(user.email).then((res) => {
+        setUserInfo(res.data);
+      });
     }
   }, [user]);
-  console.log(userInfo);
 
   const handleClose = () => {
     onClose?.();

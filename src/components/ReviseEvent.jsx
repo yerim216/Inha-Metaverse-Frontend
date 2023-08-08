@@ -5,10 +5,18 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEndDate,fetch }) {
+function Modal({
+  open,
+  onClose,
+  eventTitle,
+  selectEventId,
+  eventStartDate,
+  eventEndDate,
+  fetch,
+}) {
   const modalRef = useRef(null);
   const [user, setUser] = useRecoilState(userState);
   const [userInfo, setUserInfo] = useState();
@@ -19,21 +27,21 @@ function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEnd
 
   const requestURL = `${window.baseURL}`;
 
-  useEffect(()=>{
+  useEffect(() => {
     setReviseEventTitle(eventTitle);
     const num = parseInt(selectEventId);
     setReviseEventId(num);
     // const timestampStart = new Date(eventStartDate).getTime();
     // const timestampEnd = new Date(eventEndDate).getTime();
-    if(eventStartDate!=null){    
-        const cDateStart =
-    eventStartDate.getFullYear() +
+    if (eventStartDate != null) {
+      const cDateStart =
+        eventStartDate.getFullYear() +
         "-" +
         (eventStartDate.getMonth() + 1) +
         "-" +
         eventStartDate.getDate();
       const cTimeStart =
-      eventStartDate.getHours() +
+        eventStartDate.getHours() +
         ":" +
         eventStartDate.getMinutes() +
         ":" +
@@ -41,30 +49,26 @@ function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEnd
       const dateTime = cDateStart + " " + cTimeStart;
       const dateStringStart = dateTime.toLocaleString();
       setReviseEventStart(dateStringStart);
+    }
 
-      }
-
-      if(eventEndDate!=null)
-      {
-        const cDateEnd =
-      eventEndDate.getFullYear() +
-          "-" +
-          (eventEndDate.getMonth() + 1) +
-          "-" +
-          eventEndDate.getDate();
-        const cTimeEnd =
+    if (eventEndDate != null) {
+      const cDateEnd =
+        eventEndDate.getFullYear() +
+        "-" +
+        (eventEndDate.getMonth() + 1) +
+        "-" +
+        eventEndDate.getDate();
+      const cTimeEnd =
         eventEndDate.getHours() +
-          ":" +
-          eventEndDate.getMinutes() +
-          ":" +
-          eventEndDate.getSeconds();
-        const dateTimeEnd = cDateEnd + " " + cTimeEnd;
-        const dateStringEnd = dateTimeEnd.toLocaleString();
-        setReviseEventEnd(dateStringEnd);
-}
-
-
-  },[]);
+        ":" +
+        eventEndDate.getMinutes() +
+        ":" +
+        eventEndDate.getSeconds();
+      const dateTimeEnd = cDateEnd + " " + cTimeEnd;
+      const dateStringEnd = dateTimeEnd.toLocaleString();
+      setReviseEventEnd(dateStringEnd);
+    }
+  }, []);
 
   const handleClose = () => {
     onClose?.();
@@ -76,96 +80,92 @@ function Modal({ open, onClose, eventTitle,selectEventId,eventStartDate,eventEnd
 
   useOutSideClick(modalRef, handleClose);
 
-
   const [selectedStartDate, setSelectedStartDate] = useState(null);
 
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
-    if(date!=null){const cDateStart =
-    date.getFullYear() +
-        "-" +
-        (date.getMonth() + 1) +
-        "-" +
-        date.getDate();
+    if (date != null) {
+      const cDateStart =
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
       const cTimeStart =
-      date.getHours() +
-        ":" +
-        date.getMinutes() +
-        ":" +
-        date.getSeconds();
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       const dateTime = cDateStart + " " + cTimeStart;
       const dateStringStart = dateTime.toLocaleString();
-      setReviseEventStart(dateStringStart);}
-
+      setReviseEventStart(dateStringStart);
+    }
   };
 
   const [selectedEndDate, setSelectedEndDate] = useState(null);
 
   const handleEndDateChange = (date) => {
     setSelectedEndDate(date);
+    if (date === "undefined") {
+      setReviseEventEnd(reviseEventStart);
+    }
 
-    if(date!=null){ const cDateEnd =
-        date.getFullYear() +
-          "-" +
-          (date.getMonth() + 1) +
-          "-" +
-          date.getDate();
-        const cTimeEnd =
-        date.getHours() +
-          ":" +
-          date.getMinutes() +
-          ":" +
-          date.getSeconds();
-        const dateTimeEnd = cDateEnd + " " + cTimeEnd;
-        const dateStringEnd = dateTimeEnd.toLocaleString();
-        setReviseEventEnd(dateStringEnd);}
-
+    if (date != "undefined") {
+      const cDateEnd =
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      const cTimeEnd =
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      const dateTimeEnd = cDateEnd + " " + cTimeEnd;
+      const dateStringEnd = dateTimeEnd.toLocaleString();
+      setReviseEventEnd(dateStringEnd);
+    }
   };
 
-  const reviseEvent = () => { //이벤트 수정사항 DB 저장
+  const reviseEvent = () => {
+    //이벤트 수정사항 DB 저장
+    console.log(reviseEventID);
+    console.log(reviseEventTitle);
+
+    console.log(reviseEventStart);
+    console.log(reviseEventEnd);
+
     axios
-      .post(requestURL+"schedule/modify", {
-        "index": reviseEventID,
-        "name": reviseEventTitle,
-        "start_date": reviseEventStart,
-        "end_date": reviseEventEnd
+      .post(requestURL + "schedule/modify", {
+        index: reviseEventID,
+        name: reviseEventTitle,
+        start_date: reviseEventStart,
+        end_date: reviseEventEnd,
       })
       .then((response) => {
-        console.log("이벤트 수정완료 : "+response);
         fetch();
       })
       .catch((error) => {
         console.error("Error revise event to DB:", error);
       });
-      handleClose();
-
+    handleClose();
   };
-  
+
   return (
     <Overlay>
       <ModalWrap ref={modalRef}>
         <Contents>
-            <input type="text" value={reviseEventTitle} onChange={handleInputChange} />
-            <div>
-            시작일 : 
+          <input
+            type="text"
+            value={reviseEventTitle}
+            onChange={handleInputChange}
+          />
+          <div>
+            시작일 :
             <DatePicker
-                selected={selectedStartDate}
-                onChange={handleStartDateChange}
-                dateFormat="yyyy/MM/dd"
-                placeholderText="날짜 선택"
+              selected={selectedStartDate}
+              onChange={handleStartDateChange}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="날짜 선택"
             />
-            </div>
-            <div>
-            종료일 : 
+          </div>
+          <div>
+            종료일 :
             <DatePicker
-                selected={selectedEndDate}
-                onChange={handleEndDateChange}
-                dateFormat="yyyy/MM/dd"
-                placeholderText="날짜 선택"
+              selected={selectedEndDate}
+              onChange={handleEndDateChange}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="날짜 선택"
             />
-            </div>
+          </div>
           <Button onClick={reviseEvent}>저장하기</Button>
-          
         </Contents>
       </ModalWrap>
     </Overlay>
@@ -211,7 +211,6 @@ const LogoutButton = styled.div`
 const Span = styled.div`
   display: flex;
   flex-direction: row;
-
 `;
 
 const Contents = styled.div`
@@ -229,8 +228,8 @@ const Contents = styled.div`
     margin: auto;
     padding-left: 20px;
     padding-right: 20px;
-    padding-top:7px;
-    padding-bottom:7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     border-radius: 10px;
     margin-top: 30px;
     font-family: "Avenir";
@@ -244,26 +243,26 @@ const Contents = styled.div`
   p::-webkit-scrollbar {
     width: 4px; /* 슬라이드 바의 너비 */
   }
-  
+
   p::-webkit-scrollbar-thumb {
-    background-color: #B0C4DE; /* 슬라이드 바의 색상 */
+    background-color: #b0c4de; /* 슬라이드 바의 색상 */
     border-radius: 10px; /* 슬라이드 바의 모서리 반경 */
   }
-  
+
   p::-webkit-scrollbar-track {
     background-color: #f1f1f1; /* 슬라이드 바의 트랙 색상 */
     border-radius: 10px; /* 슬라이드 바의 모서리 반경 */
   }
 
-  input{
+  input {
     width: 90%;
     overflow-x: auto;
 
     margin: auto;
     padding-left: 20px;
     padding-right: 20px;
-    padding-top:7px;
-    padding-bottom:7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     border-radius: 10px;
     margin-top: 30px;
     font-family: "Avenir";
@@ -304,7 +303,7 @@ const Contents = styled.div`
     width: 300px;
   }
 `;
-const Button = styled.button`   
+const Button = styled.button`
   display: inline-block;
 
   margin: auto;
@@ -317,12 +316,12 @@ const Button = styled.button`
   height: 50px;
   padding: 10px 20px;
   border: none;
-  background-color: #4682B4;
+  background-color: #4682b4;
   border-radius: 26px;
   color: white;
   cursor: pointer;
   &:hover {
-    background-color: #B0C4DE;
+    background-color: #b0c4de;
   }
 `;
 export default Modal;

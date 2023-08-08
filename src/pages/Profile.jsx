@@ -11,6 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
+import {
+  addMember,
+  deleteMember,
+  getTeamInfoByIndex,
+  getTeamMembers,
+} from "../APIs/team";
 
 export default function Profile() {
   const { index } = useParams(); // URL 파라미터 값 가져오기
@@ -23,12 +29,13 @@ export default function Profile() {
   }, []);
   const getUserInfo = async () => {
     try {
-      const response = await axios.post(
-        "https://www.app.vpspace.net/userinfo",
-        {
-          email: userLogin.email,
-        }
-      );
+      const response = await getUserInfo(userLogin.email);
+      // axios.post(
+      //   "https://www.app.vpspace.net/userinfo",
+      //   {
+      //     email: userLogin.email,
+      //   }
+      // );
       return response.data.name;
     } catch (error) {
       console.error(error);
@@ -37,13 +44,13 @@ export default function Profile() {
   };
 
   const handleApplyBtn = async () => {
-    console.log(teamInfo.name);
     const userName = await getUserInfo();
-    axios
-      .post("https://www.app.vpspace.net/team/member", {
-        team_name: teamInfo.name,
-        user_name: userName,
-      })
+    // axios
+    //   .post("https://www.app.vpspace.net/team/member", {
+    //     team_name: teamInfo.name,
+    //     user_name: userName,
+    //   })
+    addMember(teamInfo.name, userName)
       .then(() => {
         alert("성공적으로 처리되었습니다!");
         window.location.reload();
@@ -55,11 +62,12 @@ export default function Profile() {
 
   const handleLeaveBtn = async () => {
     const userName = await getUserInfo();
-    axios
-      .post("https://www.app.vpspace.net/team/member/delete", {
-        team_name: teamInfo.name,
-        user_name: userName,
-      })
+    // axios
+    //   .post("https://www.app.vpspace.net/team/member/delete", {
+    //     team_name: teamInfo.name,
+    //     user_name: userName,
+    //   })
+    deleteMember(teamInfo.name, userName)
       .then(() => {
         alert("성공적으로 처리되었습니다!");
         window.location.reload();
@@ -83,23 +91,24 @@ export default function Profile() {
   const teamIndex = location.state.teamIndex;
 
   useEffect(() => {
-    axios
-      .post("https://www.app.vpspace.net/team/list", {
-        index: teamIndex,
-        // index:1,
-      })
+    // axios
+    //   .post("https://www.app.vpspace.net/team/list", {
+    //     index: teamIndex,
+    //     // index:1,
+    //   })
+    getTeamInfoByIndex(teamIndex)
       .then((res) => {
         setTeamInfo(res.data[0]);
       })
       .then(() => {
-        axios
-          .post("https://www.app.vpspace.net/team/member/teamidx", {
-            index: teamIndex,
-            // index:1,
-          })
-          .then((res) => {
-            setTeamMembers(res.data);
-          });
+        // axios
+        //   .post("https://www.app.vpspace.net/team/member/teamidx", {
+        //     index: teamIndex,
+        //     // index:1,
+        //   })
+        getTeamMembers(teamIndex).then((res) => {
+          setTeamMembers(res.data);
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -471,7 +480,7 @@ export default function Profile() {
         <button
           className={styles.projectManageBtn}
           onClick={() => {
-            navigate("/projectmanagertools", {
+            navigate(`/projectmanagertools/${teamIndex}`, {
               state: { teamIndex: teamIndex },
             });
             window.scrollTo({ top: 0, behavior: "auto" });

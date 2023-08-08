@@ -11,6 +11,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
+import { getUserInfo } from "../APIs/userinfo";
+import { getTeamIndex } from "../APIs/team";
 
 export default function Profile() {
   useEffect(() => {
@@ -50,17 +52,16 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios
-      .post("https://www.app.vpspace.net/userinfo", {
-        //유저 정보 불러오기
-        email: userLoginString,
-      })
+    // axios
+    //   .post("https://www.app.vpspace.net/userinfo", {
+    //     //유저 정보 불러오기
+    //     email: userLoginString,
+    //   })
+    getUserInfo(userLoginString)
       .then(function (res) {
         const myArray = res.data;
         setUsers(myArray);
         setField(myArray.field_info);
-        console.log(myArray);
-        console.log(myArray.field_info);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -70,12 +71,7 @@ export default function Profile() {
   // 팀 인덱스들 배열로 가져오는 함수.
   const getTeamIndices = async () => {
     try {
-      const res = await axios.post(
-        "https://www.app.vpspace.net/team/emailtoteam",
-        {
-          email: userLoginString,
-        }
-      );
+      const res = await getTeamIndex(userLoginString);
       setTeam(res.data);
     } catch (error) {
       console.log(error);
@@ -510,7 +506,6 @@ export default function Profile() {
   //   // history.push('/home#specificSection');
   //   window.href('/')
   // };
-  console.log(userData.introduction);
   return (
     <seciton>
       <div className={styles.wrap}>
@@ -599,23 +594,10 @@ export default function Profile() {
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
-                    {/* 직무 추가 api - 504 에러에 대비 */}
-                    <span style={indata}>개발</span>
-                    <span style={indata}>디자인</span>
-                    <span style={indata}>모델링</span>
-                    <span style={indata}>기획</span>
-                    <span style={indata}>기타</span>
-
-                    {/* {field &&
+                    {field &&
                       field.map((item) => {
                         return <span style={indata}>{item.title}</span>;
-                      })} */}
-                    {/* <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span> */}
-                    {/* <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span>
-                    <span style={indata}>{item.interest}</span> */}
+                      })}
                   </span>
                 </div>
                 <div style={partforskill}>

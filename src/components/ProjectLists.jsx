@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProjectBox from "./ProjectBox";
 import styles from "../styles/ProjectLists.module.css";
 import axios from "axios";
+import { getTeams } from "../APIs/team";
 
 export default function ProjectLists({ recruitmentBtnActive }) {
   const getRandomElements = (arr, count) => {
@@ -27,7 +28,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     useState([]);
 
   useEffect(() => {
-    axios.get("https://www.app.vpspace.net/team/all").then((res) => {
+    getTeams().then((res) => {
       setProjectList(res.data);
     });
   }, []);

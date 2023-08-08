@@ -8,6 +8,8 @@ import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getUserInfo } from "../APIs/userinfo";
+import { addMember } from "../APIs/team";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -49,23 +51,23 @@ export default function CreateProject() {
     const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
       .userState.email;
 
-    return axios
-      .post("https://www.app.vpspace.net/userinfo", {
-        email: userEmail,
-      })
-      .then((res) => {
-        return res.data.name;
-      });
+    // return axios
+    //   .post("https://www.app.vpspace.net/userinfo", {
+    //     email: userEmail,
+    //   })
+    return getUserInfo(userEmail).then((res) => {
+      return res.data.name;
+    });
   };
 
   const addTeamMember = (teamName) => {
     const userName = getUserName();
     userName.then((userName) => {
-      axios
-        .post("https://www.app.vpspace.net/team/member", {
-          team_name: teamName,
-          user_name: userName,
-        })
+      // axios.post("https://www.app.vpspace.net/team/member", {
+      //   team_name: teamName,
+      //   user_name: userName,
+      // });
+      addMember(teamName, userName)
         .then(() => {})
         .catch((error) => {
           console.error("Error add team member:", error);
