@@ -657,11 +657,11 @@ export default function Profile() {
                       </div>
                       <div style={namee2}>프로젝트 이름입니다</div>
                       <div style={tools2}>내 생일 파티에 너만 못 온 그날
-                      혜진이가 엄청 혼났던 그날
-                      지원이가 여친이랑 헤어진 그날
-                      걔는 언제나 네가 없이 그날
-                      너무 멋있는 옷을 입고 그날
-                      Heard him say</div>
+            혜진이가 엄청 혼났던 그날
+            지원이가 여친이랑 헤어진 그날
+            걔는 언제나 네가 없이 그날
+            너무 멋있는 옷을 입고 그날
+            Heard him say</div>
                     </div>
                   </div>
                   {/* <div
