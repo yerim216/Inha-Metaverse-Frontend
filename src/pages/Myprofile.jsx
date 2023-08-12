@@ -11,8 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
-import { getUserInfo } from "../APIs/userinfo";
-import { getTeamIndex } from "../APIs/team";
+import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 
 export default function Profile() {
   useEffect(() => {
@@ -59,7 +58,8 @@ export default function Profile() {
     //   })
     getUserInfo(userLoginString)
       .then(function (res) {
-        const myArray = res.data;
+        const myArray = res.data[0];
+        console.log(myArray);
         setUsers(myArray);
         setField(myArray.field_info);
       })
@@ -558,14 +558,14 @@ export default function Profile() {
         </button>
         <div className={styles.nameContainer}>
           <Gdot />
-          <p className={styles.name}>{userData.name}</p>
+          <p className={styles.name}>{userData.user_name}</p>
         </div>
         <div className={styles.texts}>
-          <p>{userData.titles}</p>
-          {userData.introduction === null ? (
+          {/* <p>{userData.titles}</p> */}
+          {userData.user_introduction === null ? (
             <p className={styles.limit}>자기소개를 입력해보아요!</p>
           ) : (
-            <p className={styles.limit}>{userData.introduction}</p>
+            <p className={styles.limit}>{userData.user_introduction}</p>
           )}
         </div>
 
@@ -581,7 +581,7 @@ export default function Profile() {
 
                 <div style={part}>
                   <p className={styles.careerpart}>경력</p>
-                  <span style={data}>{userData.career}년차</span>
+                  <span style={data}>{userData.user_career}년차</span>
                 </div>
                 <div style={part}>
                   <p className={styles.mannerpart}>매너점수</p>

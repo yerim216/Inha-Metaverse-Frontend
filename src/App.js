@@ -15,6 +15,7 @@ import GenMyprofile from "./pages/GenMyprofile";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Download from "./pages/Download";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         element: <Calendar2 />,
       },
     ],
+  },
+  {
+    path: "/download",
+    element: <Download />,
   },
 ]);
 

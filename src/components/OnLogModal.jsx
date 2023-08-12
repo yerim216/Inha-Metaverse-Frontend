@@ -18,8 +18,10 @@ function Modal({ onClose }) {
       //   .post("https://www.app.vpspace.net/userinfo", {
       //     email: user.email,
       //   })
+
+      // JSON으로 받아오는 데이터가 배열 형태여서, 0번째 인덱스에 접근하여 값 설정.
       getUserInfo(user.email).then((res) => {
-        setUserInfo(res.data);
+        setUserInfo(res.data[0]);
       });
     }
   }, [user]);
@@ -42,7 +44,7 @@ function Modal({ onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </LogoutButton>
         <Contents>
-          <p>{userInfo && userInfo.name}</p>
+          <p>{userInfo && userInfo.user_name}</p>
           <Link to="/createmyprofile">
             <div>프로필 관리</div>
           </Link>

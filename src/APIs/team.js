@@ -19,11 +19,11 @@ export function addMember(teamName, userName) {
   });
 }
 
-export function getTeamIndex(userLoginString) {
-  return axios.post("/team/emailtoteam", {
-    email: userLoginString,
-  });
-}
+// export function getTeamIndex(userLoginString) {
+//   return axios.post("/team/emailtoteam", {
+//     email: userLoginString,
+//   });
+// }
 
 export function deleteMember(teamName, userName) {
   return axios.post("/team/member/delete", {

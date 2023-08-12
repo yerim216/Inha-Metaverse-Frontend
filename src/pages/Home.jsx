@@ -145,7 +145,6 @@ export default function Home() {
   // let why = JSON.parse(localStorage.getItem("recoil-persist"));
   // let st = Object.values(why)[0];
   // let test = Object.values(st)[0];
-  console.log(user);
   // const pattern = /(['"])(.*?)\1/g;
   // const matches = str.match(pattern);
 

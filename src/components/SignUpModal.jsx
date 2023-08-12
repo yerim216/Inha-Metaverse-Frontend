@@ -210,14 +210,29 @@ export default function SignUpModal(props) {
   };
 
   const signUp = async () => {
+    let current = new Date();
+    let cDate =
+      current.getFullYear() +
+      "-" +
+      (current.getMonth() + 1) +
+      "-" +
+      current.getDate();
+    let cTime =
+      current.getHours() +
+      ":" +
+      current.getMinutes() +
+      ":" +
+      current.getSeconds();
+    let dateTime = cDate + " " + cTime;
     return axios
       .post("/account/put", {
-        id: email,
+        email: email,
         pw: password,
         name: nickName,
-        field_index: 1,
+        created_at: dateTime,
       })
       .then((response) => {
+        console.log(response.data);
         return true;
       })
       .catch((error) => {
@@ -619,13 +634,13 @@ export default function SignUpModal(props) {
                   </form>
                   <button
                     className="mr-auto ml-auto mt-8"
-                    onClick={() => {
+                    onClick={async () => {
                       if (!captchaDone) {
                         alert("체크박스를 먼저 클릭해 주세요!");
                         return;
                       }
 
-                      if (signUp() !== false) {
+                      if ((await signUp()) !== false) {
                         setIndex((cur) => {
                           setTimeout(() => {
                             close();

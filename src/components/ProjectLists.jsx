@@ -29,7 +29,8 @@ export default function ProjectLists({ recruitmentBtnActive }) {
 
   useEffect(() => {
     getTeams().then((res) => {
-      setProjectList(res.data);
+      console.log(res.data);
+      // setProjectList(res.data);
     });
   }, []);
 

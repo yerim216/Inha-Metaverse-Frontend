@@ -11,3 +11,9 @@ export function getUserInfo(userEmail) {
 export function getUserInterested() {
   return axios.get("/userinfo/interested");
 }
+
+export function getTeamIndex(userLoginString) {
+  return axios.post("/userinfo/emailtoteam", {
+    email: userLoginString,
+  });
+}
