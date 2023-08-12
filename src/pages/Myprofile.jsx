@@ -639,7 +639,43 @@ export default function Profile() {
           </p>
 
           <div className={styles.wrapp}>
-            {filteredArray.length === 0 ? (
+            <div style={projects} className="relative">
+                  <div style={con3}>
+                    <div style={wrappp}>
+                      <div style={progressP}>
+                        <div style={part2Wrap}>
+                          <div style={parts2}>자기소개입니다</div>
+                        </div>
+                        <div style={whole2}>
+                          <div style={dot3}></div>
+                          <div style={con4} className={styles.recruiting}>
+                              <p style={lit}>
+                                recruiting 0 / 20
+                              </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div style={namee2}>프로젝트 이름입니다</div>
+                      <div style={tools2}>내 생일 파티에 너만 못 온 그날
+                      혜진이가 엄청 혼났던 그날
+                      지원이가 여친이랑 헤어진 그날
+                      걔는 언제나 네가 없이 그날
+                      너무 멋있는 옷을 입고 그날
+                      Heard him say</div>
+                    </div>
+                  </div>
+                  {/* <div
+                    className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
+                    onClick={() => {
+                      // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
+                      navigate("/profile", { state: { teamIndex: obj.index } });
+                      window.scrollTo({ top: 0, behavior: "auto" });
+                    }}
+                  >
+                    <BiRightArrowCircle />
+                  </div> */}
+                </div>
+            {/* {filteredArray.length === 0 ? (
               <div style={projects}>
                 <a href="/">
                   <div className={styles.emptyProject}>
@@ -685,7 +721,7 @@ export default function Profile() {
                   </div>
                 </div>
               ))
-            )}
+            )} */}
           </div>
         </div>
       </div>
