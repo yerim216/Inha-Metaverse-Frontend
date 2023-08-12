@@ -13,17 +13,13 @@ export function getTeams() {
 }
 
 export function addMember(teamName, userName) {
+  alert(teamName);
+  alert(userName);
   return axios.post("team/member", {
     team_name: teamName,
     user_name: userName,
   });
 }
-
-// export function getTeamIndex(userLoginString) {
-//   return axios.post("/team/emailtoteam", {
-//     email: userLoginString,
-//   });
-// }
 
 export function deleteMember(teamName, userName) {
   return axios.post("/team/member/delete", {
@@ -36,4 +32,33 @@ export function getTeamInfoByIndex(teamIndex) {
   return axios.post("/team/list", {
     index: teamIndex,
   });
+}
+
+export async function createTeam(inputs) {
+  let current = new Date();
+  let cDate =
+    current.getFullYear() +
+    "-" +
+    (current.getMonth() + 1) +
+    "-" +
+    current.getDate();
+  let cTime =
+    current.getHours() +
+    ":" +
+    current.getMinutes() +
+    ":" +
+    current.getSeconds();
+  let dateTime = cDate + " " + cTime;
+  try {
+    await axios.post("/team", {
+      name: inputs.name,
+      introduction: inputs.introduction,
+      description: inputs.description,
+      recruitment: inputs.recruitment,
+      created_at: dateTime,
+    });
+    return inputs.name; // inputs.name 변수 리턴
+  } catch (error) {
+    console.error("Error creating team:", error);
+  }
 }

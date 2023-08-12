@@ -7,9 +7,8 @@ import Dot from "../components/Dot";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { getUserInfo } from "../APIs/userinfo";
-import { addMember } from "../APIs/team";
+import { addMember, createTeam } from "../APIs/team";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -29,20 +28,6 @@ export default function CreateProject() {
     setIsOpen(true);
   };
 
-  const createTeam = async () => {
-    try {
-      await axios.post("https://www.app.vpspace.net/team", {
-        name: inputs.name,
-        introduction: inputs.introduction,
-        description: inputs.description,
-        recruitment: inputs.recruitment,
-      });
-      return inputs.name; // inputs.name 변수 리턴
-    } catch (error) {
-      console.error("Error creating team:", error);
-    }
-  };
-
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
       return Promise.resolve();
@@ -51,28 +36,19 @@ export default function CreateProject() {
     const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
       .userState.email;
 
-    // return axios
-    //   .post("https://www.app.vpspace.net/userinfo", {
-    //     email: userEmail,
-    //   })
-    return getUserInfo(userEmail).then((res) => {
-      return res.data.name;
-    });
+    const userInfo = (await getUserInfo(userEmail)).data[0].user_name;
+    return userInfo;
   };
 
-  const addTeamMember = (teamName) => {
-    const userName = getUserName();
-    userName.then((userName) => {
-      // axios.post("https://www.app.vpspace.net/team/member", {
-      //   team_name: teamName,
-      //   user_name: userName,
-      // });
-      addMember(teamName, userName)
-        .then(() => {})
-        .catch((error) => {
-          console.error("Error add team member:", error);
-        });
-    });
+  const addTeamMember = async (teamName) => {
+    const userName = await getUserName();
+    console.log(teamName);
+    console.log(userName);
+    addMember(teamName, userName)
+      .then(() => {})
+      .catch((error) => {
+        console.error("Error add team member:", error);
+      });
   };
 
   const blockScroll = () => {
@@ -229,17 +205,17 @@ export default function CreateProject() {
         <div className="flex w-full justify-center gap-8">
           <button
             className={styles.changeBtn}
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
               if (returnVal === true) {
-                createTeam()
-                  .then((teamName) => {
-                    addTeamMember(teamName);
-                  })
-                  .then(() => {
+                const teamName = await createTeam(inputs);
+                if (teamName) {
+                  addTeamMember(teamName).then(() => {
+                    alert("팀이 성공적으로 생성되었습니다!");
                     navigate("/");
                   });
+                }
               }
             }}
           >
