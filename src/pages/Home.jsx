@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Dot from "../components/Dot";
+import Nav from "../components/Nav";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
@@ -11,7 +12,6 @@ import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import OnLogModal from "../components/OnLogModal";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
@@ -22,6 +22,16 @@ export default function Home() {
   const navigate = useNavigate();
   const room = "forum";
 
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const openSignInModal = () => {
+          setSignInModalOpen(true);
+          blockScroll();
+      };
+  const closeSignInModal = () => {
+      setSignInModalOpen(false);
+      freeScroll();
+  };
+
   const forumClick = () => {
     if (user) {
       const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
@@ -30,10 +40,6 @@ export default function Home() {
 
       window.location.href = url;
     }
-  };
-
-  const LogClickAlert = () => {
-    alert("로그인을 해주세요!");
   };
 
   const blockScroll = () => {
@@ -50,16 +56,6 @@ export default function Home() {
     document.body.style.backgroundColor = "#111111";
   };
 
-  // 로그인창 팝업 관리 state
-  const [signInModalOpen, setSignInModalOpen] = useState(false);
-  const openSignInModal = () => {
-    setSignInModalOpen(true);
-    blockScroll();
-  };
-  const closeSignInModal = () => {
-    setSignInModalOpen(false);
-    freeScroll();
-  };
 
   // 회원가입창 팝업 관리 state
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
@@ -134,14 +130,6 @@ export default function Home() {
     }
   }, [filteredItems, filterNum]);
 
-  const handleButtonClick = () => {
-    window.location.href = "/myprofile";
-  };
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onClickButton = () => {
-    setIsOpen(true);
-  };
   // let why = JSON.parse(localStorage.getItem("recoil-persist"));
   // let st = Object.values(why)[0];
   // let test = Object.values(st)[0];
@@ -162,66 +150,10 @@ export default function Home() {
 
   return (
     <>
-      <SignInModal
-        open={signInModalOpen}
-        close={closeSignInModal}
-        openSignUpModal={openSignUpModal}
-      ></SignInModal>
-      <SignUpModal
-        open={signUpModalOpen}
-        close={closeSignUpModal}
-      ></SignUpModal>
+      
       <section>
         <div>
-          <nav className={styles.navbar}>
-            <span
-              className={styles.navLink}
-              onClick={() => {
-                navigate("/");
-                window.scrollTo({ top: 0, behavior: "auto" });
-              }}
-            >
-              Home
-            </span>
-            {user ? (
-              <button
-                className={styles.loginModal}
-                onClick={() => {
-                  onClickButton();
-                }}
-              >
-                {isOpen && (
-                  <OnLogModal
-                    open={isOpen}
-                    onClose={() => {
-                      setIsOpen(false);
-                    }}
-                  />
-                )}
-                <img
-                  src="/public_assets/profileImg.png"
-                  width="44"
-                  height="44"
-                  alt="profile"
-                />
-                <img src="/public_assets/modal.png" alt="profile" />
-              </button>
-            ) : (
-              <button className={styles.loginButton} onClick={openSignInModal}>
-                <span>Login</span>
-                <Dot />
-              </button>
-            )}
-
-            {user ? (
-              <button onClick={handleButtonClick} className={styles.navLink}>
-                Profile
-              </button>
-            ) : (
-              <button onClick={LogClickAlert}>Profile</button>
-            )}
-          </nav>
-
+          <Nav />
           <img
             src="/public_assets/darkmodeBg.png"
             alt="darkModeBg"
