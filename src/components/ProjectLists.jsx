@@ -29,7 +29,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
 
   useEffect(() => {
     getTeams().then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       // setProjectList(res.data);
     });
   }, []);

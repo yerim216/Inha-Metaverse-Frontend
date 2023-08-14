@@ -29,7 +29,7 @@ export function deleteMember(teamName, userName) {
 }
 
 export function getTeamInfoByIndex(teamIndex) {
-  return axios.post("/team/list", {
+  return axios.post("/team/details", {
     index: teamIndex,
   });
 }

@@ -24,21 +24,29 @@ export default function Home() {
 
   const [signInModalOpen, setSignInModalOpen] = useState(false);
   const openSignInModal = () => {
-          setSignInModalOpen(true);
-          blockScroll();
-      };
+    setSignInModalOpen(true);
+    blockScroll();
+  };
   const closeSignInModal = () => {
-      setSignInModalOpen(false);
-      freeScroll();
+    setSignInModalOpen(false);
+    freeScroll();
   };
 
   const forumClick = () => {
     if (user) {
-      const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
-        user.email
-      )}&&room=${encodeURIComponent(room)}`;
+      // 이미 파일이 다운로드 되어있는지 확인.
+      // 만약 다운로드되어있다면 바로 해당 파일 실행, 아니라면 다운로드 페이지로 이동.
+      const confirm = window.confirm(
+        "해당 공간으로 이동하기 위해서는 추가적인 파일 다운로드가 필요합니다. 다운로드 페이지로 이동하시겠어요?"
+      );
+      if (confirm) {
+        navigate("/download");
+      }
 
-      window.location.href = url;
+      // const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+      //   user.email
+      // )}&&room=${encodeURIComponent(room)}`;
+      // window.location.href = url;
     }
   };
 
@@ -55,7 +63,6 @@ export default function Home() {
     // 다크모드와 화이트모드 다르게 설정 필요
     document.body.style.backgroundColor = "#111111";
   };
-
 
   // 회원가입창 팝업 관리 state
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
@@ -80,8 +87,6 @@ export default function Home() {
 
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
-
-  // const navigate = useNavigate();
 
   // 기획/개발/디자인/기타 등,
   // 추후에 db에서 가져 옴. 현재는 임시로 설정해 둠.
@@ -150,7 +155,6 @@ export default function Home() {
 
   return (
     <>
-      
       <section>
         <div>
           <Nav />
@@ -268,8 +272,8 @@ export default function Home() {
         <div className={styles.filterBox}>
           <div className={styles.filterFlex}>
             {filter &&
-              filter[filterNum].map((item) => (
-                <div onClick={handleFilterClick} className="filters">
+              filter[filterNum].map((item, idx) => (
+                <div onClick={handleFilterClick} className="filters" key={idx}>
                   {item}
                 </div>
               ))}
@@ -278,11 +282,12 @@ export default function Home() {
           {/* 선택된 필터들 */}
           <div className={styles.filteredItems}>
             {filteredItems.length !== 0 && <img src="/Vector.png" alt="꼬깔" />}
-            {filteredItems.map((filteredItem) => {
+            {filteredItems.map((filteredItem, idx) => {
               return (
                 <FilteredItem
                   filterName={filteredItem}
                   deleteFilterItems={deleteFilterItems}
+                  key={idx}
                 />
               );
             })}
