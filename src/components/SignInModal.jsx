@@ -41,8 +41,8 @@ export default function SignInModal(props) {
       })
       .then(function (response) {
         setErrorMsg();
-        console.log(response.data);
-        setUser(response.data);
+        console.log(response.data[0]);
+        setUser(response.data[0]);
         window.location.reload();
         return response.data[0];
       })
