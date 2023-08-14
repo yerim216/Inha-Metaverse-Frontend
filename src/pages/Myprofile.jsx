@@ -21,12 +21,13 @@ export default function Profile() {
     };
   }, []);
 
+  const inter = ['html', 'vscode', 'react']
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [teamLength, setTeamLength] = useState(0);
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
-  const userLoginString = userLogin.email.toString();
+  const userIndex = userLogin.user_index;
 
   let [pagenation, setPagenation] = useState([]);
 
@@ -51,17 +52,12 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    // axios
-    //   .post("https://www.app.vpspace.net/userinfo", {
-    //     //유저 정보 불러오기
-    //     email: userLoginString,
-    //   })
-    getUserInfo(userLoginString)
+    getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
         console.log(myArray);
         setUsers(myArray);
-        setField(myArray.field_info);
+        setField(myArray.skills);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -71,7 +67,7 @@ export default function Profile() {
   // 팀 인덱스들 배열로 가져오는 함수.
   const getTeamIndices = async () => {
     try {
-      const res = await getTeamIndex(userLoginString);
+      const res = await getTeamIndex(userIndex);
       setTeam(res.data);
     } catch (error) {
       console.log(error);
@@ -185,9 +181,10 @@ export default function Profile() {
     paddingTop: "13px",
   };
   const recruitContainer2 = {
-    marginLeft: "30px",
+    marginLeft: "8.5vw",
+    justifyContent: "flex-end",
     display: "flex",
-    flexDirection: "column",
+    gap: '35px',
     paddingTop: "13px",
     height: "98px",
     marginTop: "7px",
@@ -603,27 +600,17 @@ export default function Profile() {
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitContainer2}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
-                      style={extool}
-                      alt="Views"
-                    />
+                    {inter.map((skill,index) => { //inter -> 실제 skill 배열로 바꾸면 됨
+                      return (<img
+                        key={index}
+                        src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
+                        width='40px' height='40px'
+                        style={extool}
+                        alt={`${skill} skill`}
+                      />);
+                    })}
                     <div style={toolss}>
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/html.png`}
-                        style={htmll}
-                        alt="Views"
-                      />
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/css.png`}
-                        style={csss}
-                        alt="Views"
-                      />
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/vscode.png`}
-                        style={vs}
-                        alt="Views"
-                      />
+                      
                     </div>
                   </div>
                 </div>

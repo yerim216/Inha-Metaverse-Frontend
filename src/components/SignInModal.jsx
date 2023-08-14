@@ -41,6 +41,7 @@ export default function SignInModal(props) {
       })
       .then(function (response) {
         setErrorMsg();
+        console.log(response.data);
         setUser(response.data);
         window.location.reload();
         return response.data;
@@ -48,7 +49,7 @@ export default function SignInModal(props) {
       .then((data) => {
         // axios
         //   .post("/userinfo", { email: data.email })
-        getUserInfo(data.email)
+        getUserInfo(data.user_index)
           .then(function (response) {
             userInfoSet(response.data);
           })

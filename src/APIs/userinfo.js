@@ -2,9 +2,16 @@ import axios from "axios";
 
 axios.defaults.baseURL = "https://www.app.vpspace.net/";
 
-export function getUserInfo(userEmail) {
-  return axios.post("/userinfo", {
+export function getUserIndex(userEmail,pw) {
+  return axios.post("/account", {
     email: userEmail,
+    pw: pw
+  });
+}
+
+export function getUserInfo(userIndex) {
+  return axios.post("/userinfo", {
+    index: userIndex,
   });
 }
 

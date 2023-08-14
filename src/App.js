@@ -9,7 +9,7 @@ import { RecoilRoot } from "recoil";
 import ToDo from "./pages/ToDo";
 import Board from "./components/Board";
 import ProjectManagerTools from "./pages/ProjectManagerTools";
-import Calendar2 from "./pages/Calendar2";
+import Mycalendar from "./pages/Mycalendar";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
@@ -45,6 +45,10 @@ const router = createBrowserRouter([
     element: <GenMyprofile />,
   },
   {
+    path: "/mycalendar",
+    element: <Mycalendar />,
+  },
+  {
     path: "projectmanagertools/:teamIndex",
     element: <ProjectManagerTools />,
     children: [
@@ -52,11 +56,11 @@ const router = createBrowserRouter([
         index: true,
         element: <Board />,
       },
-      { path: "board", element: <Board /> },
-      {
-        path: "calendar2",
-        element: <Calendar2 />,
-      },
+      { path: "board", element: <Board /> }
+      // {
+      //   path: "calendar",
+      //   element: <Calendar />,
+      // },
     ],
   },
   {
