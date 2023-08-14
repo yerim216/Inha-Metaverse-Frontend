@@ -8,7 +8,11 @@ import FilterButton from "./FilterButton";
 import FilteredItems from "./FilteredItems";
 import "../styles/SignUp.css";
 import ReCAPTCHA from "react-google-recaptcha";
-import { getUserInterested } from "../APIs/userinfo";
+import {
+  addInterested,
+  getUserIndex,
+  getUserInterested,
+} from "../APIs/userinfo";
 
 export default function SignUpModal(props) {
   const [hide, setHide] = useState(true);
@@ -29,20 +33,16 @@ export default function SignUpModal(props) {
     setCaptchaDone(true);
   }
 
-  const [field, setField] = useState([
-    ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
-    ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
-    [
-      "프론트엔드",
-      "백엔드",
-      "머신러닝",
-      "AI 개발",
-      "QA 엔진",
-      "IOS 개발",
-      "Android 개발",
-    ],
-    ["일렉 기타", "어쿠스틱 기타", "클래식 기타"],
-  ]);
+  // fields 내에서 특정 이름을 가지는 요소를 찾아 인덱스를 반환하는 함수.
+  const findFieldIndexWithTitle = (field, title) => {
+    for (const item of field) {
+      if (item.field_title === title) {
+        return item.field_index;
+      }
+    }
+    return null;
+  };
+
   const [buttons, setButtons] = useState([
     { id: 0, value: false },
     { id: 1, value: false },
@@ -73,6 +73,11 @@ export default function SignUpModal(props) {
 
   // 선택된 필터들에 대한 인덱스를 나타내는 state.
   const [selectedFilterIndices, setSelectedFilterIndices] = useState([]);
+
+  // selectedFilterIndices에 현재 선택한 관심분야 뜸.
+  useEffect(() => {
+    console.log(selectedFilterIndices);
+  }, [selectedFilterIndices]);
 
   const addFilterItem = (item) => {
     if (selectedFilters.length >= 6) return false;
@@ -237,6 +242,23 @@ export default function SignUpModal(props) {
         console.log(error);
         return false;
       });
+  };
+
+  const putInterested = async () => {
+    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+
+    // userIndex + fields 이용해서 ... 잘되면 true, 안되면 false 리턴
+    if (selectedFilterIndices.length !== 0) {
+      try {
+        selectedFilterIndices.map((fieldIndex) => {
+          addInterested(userIndex, fieldIndex);
+        });
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+    return true;
   };
 
   const checkPasswordValid = () => {
@@ -417,7 +439,6 @@ export default function SignUpModal(props) {
                         // 닉네임 중복 api 호출.
                         // 중복되지 않을 시 setIndex를 통해 다음 슬라이드로 넘어 감.
                         // 중복될 시 nicknameDuplicated를 true로 만들어 주고, 간단한 진동 효과 넣어 줌.
-
                         if (!checkNicknameValid()) return;
 
                         checkNicknameDuplicated().then((duplicated) => {
@@ -476,18 +497,18 @@ export default function SignUpModal(props) {
                           {fieldsPlan &&
                             fieldsPlan.map((item, idx) => (
                               <FilterButton
-                                item={item.title}
+                                item={item.field_title}
                                 key={idx}
                                 addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item.title) &&
+                                  selectedFilters.includes(item.field_title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
                                 deleteFilterIndex={deleteFilterIndex}
-                                index={item.index}
+                                index={item.field_index}
                               />
                             ))}
                         </ul>
@@ -513,18 +534,18 @@ export default function SignUpModal(props) {
                           {fieldsDesign &&
                             fieldsDesign.map((item, idx) => (
                               <FilterButton
-                                item={item.title}
+                                item={item.field_title}
                                 key={idx}
                                 addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item.title) &&
+                                  selectedFilters.includes(item.field_title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
                                 deleteFilterIndex={deleteFilterIndex}
-                                index={item.index}
+                                index={item.field_index}
                               />
                             ))}
                         </ul>
@@ -550,18 +571,18 @@ export default function SignUpModal(props) {
                           {fieldsDevelop &&
                             fieldsDevelop.map((item, idx) => (
                               <FilterButton
-                                item={item.title}
+                                item={item.field_title}
                                 key={idx}
                                 addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item.title) &&
+                                  selectedFilters.includes(item.field_title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
                                 deleteFilterIndex={deleteFilterIndex}
-                                index={item.index}
+                                index={item.field_index}
                               />
                             ))}
                         </ul>
@@ -587,18 +608,18 @@ export default function SignUpModal(props) {
                           {fieldsGuitar &&
                             fieldsGuitar.map((item, idx) => (
                               <FilterButton
-                                item={item.title}
+                                item={item.field_title}
                                 key={idx}
                                 addFilterIndex={addFilterIndex}
                                 addFilterItem={addFilterItem}
                                 colored={
                                   selectedFilters &&
-                                  selectedFilters.includes(item.title) &&
+                                  selectedFilters.includes(item.field_title) &&
                                   true
                                 }
                                 deleteFilter={deleteFilter}
                                 deleteFilterIndex={deleteFilterIndex}
-                                index={item.index}
+                                index={item.field_index}
                               />
                             ))}
                         </ul>
@@ -610,6 +631,9 @@ export default function SignUpModal(props) {
                     <FilteredItems
                       selectedFilters={selectedFilters}
                       deleteFilter={deleteFilter}
+                      deleteFilterIndex={deleteFilterIndex}
+                      findFieldIndexWithTitle={findFieldIndexWithTitle}
+                      fields={fields}
                     />
                   )}
                   <button
@@ -638,7 +662,10 @@ export default function SignUpModal(props) {
                         return;
                       }
 
-                      if ((await signUp()) !== false) {
+                      if (
+                        (await signUp()) !== false &&
+                        (await putInterested()) !== false
+                      ) {
                         setIndex((cur) => {
                           setTimeout(() => {
                             close();

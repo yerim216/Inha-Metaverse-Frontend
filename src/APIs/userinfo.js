@@ -2,10 +2,10 @@ import axios from "axios";
 
 axios.defaults.baseURL = "https://www.app.vpspace.net/";
 
-export function getUserIndex(userEmail,pw) {
+export function getUserIndex(userEmail, pw) {
   return axios.post("/account", {
     email: userEmail,
-    pw: pw
+    pw: pw,
   });
 }
 
@@ -17,6 +17,13 @@ export function getUserInfo(userIndex) {
 
 export function getUserInterested() {
   return axios.get("/userinfo/interested");
+}
+
+export function addInterested(userIndex, fieldIndex) {
+  return axios.post("/userinfo/interested/put", {
+    user_index: userIndex,
+    field_index: fieldIndex,
+  });
 }
 
 export function getTeamIndex(userLoginString) {
