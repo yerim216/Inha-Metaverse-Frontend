@@ -18,7 +18,7 @@ const Calendar = () => {
 
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
-  const userLoginString = userLogin.email.toString();
+  const userIndex = userLogin.user_index;
 
   const [events, setEvents] = useState([]);
   const [index, setIndex] = useState([]);

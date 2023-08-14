@@ -26,7 +26,7 @@ export default function Profile() {
   const [teamLength, setTeamLength] = useState(0);
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
-  const userLoginString = userLogin.email.toString();
+  const userIndex = userLogin.user_index;
 
   let [pagenation, setPagenation] = useState([]);
 
@@ -56,7 +56,7 @@ export default function Profile() {
     //     //유저 정보 불러오기
     //     email: userLoginString,
     //   })
-    getUserInfo(userLoginString)
+    getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
         setUsers(myArray);
@@ -70,7 +70,7 @@ export default function Profile() {
   // 팀 인덱스들 배열로 가져오는 함수.
   const getTeamIndices = async () => {
     try {
-      const res = await getTeamIndex(userLoginString);
+      const res = await getTeamIndex(userIndex);
       setTeam(res.data);
     } catch (error) {
       console.log(error);
