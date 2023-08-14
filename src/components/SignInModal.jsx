@@ -33,7 +33,6 @@ export default function SignInModal(props) {
       setErrorMsg("비밀번호를 입력해 주세요!");
       return;
     }
-
     axios
       .post("/account/", {
         email: email,

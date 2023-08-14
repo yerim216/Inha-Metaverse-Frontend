@@ -33,7 +33,7 @@ export default function CreateProject() {
   const [addinter, setAddInter] = useState([]);
   const [interestIndex, setInterestIndex] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
-  const userLoginString = userLogin.email.toString();
+  const userIdx = userLogin.user_index;
 
   const [selectedValue, setSelectedValue] = useState(); //경력 선택 값
   const [text, setText] = useState(); //자기소개
@@ -118,7 +118,7 @@ export default function CreateProject() {
     //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
     axios
       .post(requestURL + "userinfo", {
-        email: userLoginString,
+        index: userIdx,
       })
 
       .then(function (res) {
@@ -269,11 +269,10 @@ export default function CreateProject() {
 
   //직무 db 저장
   const dbJob = (jobIndex) => {
-    console.log(userLoginString);
     console.log(jobIndex);
     axios
       .post(requestURL + "userinfo/interested/put", {
-        name: userLoginString,
+        user_index: userIdx,
         field_index: jobIndex,
       })
       .then(function (res) {
@@ -290,7 +289,7 @@ export default function CreateProject() {
       const response = await axios.post(
         requestURL + "userinfo/interested/put",
         {
-          name: userLoginString,
+          user_index: userIdx,
           field_index: 1,
         },
         {
