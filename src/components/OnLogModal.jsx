@@ -20,7 +20,7 @@ function Modal({ onClose }) {
       //   })
 
       // JSON으로 받아오는 데이터가 배열 형태여서, 0번째 인덱스에 접근하여 값 설정.
-      getUserInfo(user.email).then((res) => {
+      getUserInfo(user.user_index).then((res) => {
         setUserInfo(res.data[0]);
       });
     }
