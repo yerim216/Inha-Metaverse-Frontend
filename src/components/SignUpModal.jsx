@@ -123,8 +123,6 @@ export default function SignUpModal(props) {
   const secondScreen = useRef();
   const thirdScreen = useRef();
 
-  axios.defaults.baseURL = "https://www.app.vpspace.net/";
-
   // 분야 설정
   useEffect(() => {
     getUserInterested().then((res) => {

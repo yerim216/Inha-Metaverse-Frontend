@@ -33,10 +33,11 @@ export default function CreateProject() {
       return Promise.resolve();
     }
 
-    const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
-      .userState.email;
+    const userIndex = JSON.parse(localStorage.getItem("recoil-persist"))
+      .userState.user_index;
+    console.log(userIndex);
 
-    const userInfo = (await getUserInfo(userEmail)).data[0].user_name;
+    const userInfo = (await getUserInfo(userIndex)).data[0].user_name;
     return userInfo;
   };
 

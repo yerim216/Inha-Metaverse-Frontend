@@ -40,8 +40,6 @@ export default function Board() {
 
   const [todos, setTodos] = useState();
 
-  axios.defaults.baseURL = "https://www.app.vpspace.net/";
-
   // 팀 인덱스를 가져오는 변수 : 로컬스토리지에 저장된 이메일을 이용해서 가져 옴.
   const getTeamIndex = () => {
     return new Promise((resolve) => {
@@ -96,9 +94,6 @@ export default function Board() {
         });
 
       // 담당자(매니저) 리스트를 가져오는 메소드 : 결국 팀 멤버들을 가져오면 됨. 배열 속 name으로 구성됨.
-      // axios.post("/team/member/teamidx", {
-      //   index: teamIndex,
-      // });
       getTeamMembers(teamIndex).then((res) => {
         setMemberList(res.data);
       });

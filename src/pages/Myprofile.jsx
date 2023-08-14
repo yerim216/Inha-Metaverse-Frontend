@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
 import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
+import { getTeamInfoByIndex } from "../APIs/team";
 
 export default function Profile() {
   useEffect(() => {
@@ -81,15 +82,15 @@ export default function Profile() {
   const fetchData = async () => {
     for (let i = 0; i < team.length; i++) {
       // 팀인덱스 가져오는건 잘 됨
-      // console.log(team[i].team_index);
       try {
-        const requestBody = {
-          index: team[i].team_index,
-        };
-        const response = await axios.post(
-          requestURL + "team/details",
-          requestBody
-        );
+        // const requestBody = {
+        //   index: team[i].team_index,
+        // };
+        // const response = await axios.post(
+        //   requestURL + "team/details",
+        //   requestBody
+        // );
+        const response = await getTeamInfoByIndex(team[i].team_index);
         setArray((cur) => {
           return [...cur, response.data];
         });

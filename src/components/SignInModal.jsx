@@ -22,8 +22,6 @@ export default function SignInModal(props) {
   const [errorMsg, setErrorMsg] = useState();
   const [user, setUser] = useRecoilState(userState);
 
-  axios.defaults.baseURL = "https://www.app.vpspace.net/";
-
   const checkLogin = () => {
     if (email.trim() === "") {
       setErrorMsg("이메일을 입력해 주세요!");

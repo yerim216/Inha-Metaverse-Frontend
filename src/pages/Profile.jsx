@@ -30,12 +30,6 @@ export default function Profile() {
   const getUserInfo = async () => {
     try {
       const response = await getUserInfo(userLogin.email);
-      // axios.post(
-      //   "https://www.app.vpspace.net/userinfo",
-      //   {
-      //     email: userLogin.email,
-      //   }
-      // );
       return response.data.name;
     } catch (error) {
       console.error(error);
