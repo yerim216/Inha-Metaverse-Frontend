@@ -9,23 +9,13 @@ import Dot from "../components/Dot";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
+import { getUserInfo,putUserCareer,putUserIntroduction,putUserInterest,getUserInterested } from "../APIs/userinfo";
 
 export default function CreateProject() {
-  // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
-  // 팀 구성원 추가
-  // 팀 기술스택 추가
-  //   let plans = [
-
-  //   ];
-
-  //   let designs = [
-
-  //   ];
-  //   let options = [
-
-  //   ];
 
   const requestURL = `${window.baseURL}`;
+
+  const [loading, setLoading] = useState(true);
 
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUsers] = useState([]);
@@ -50,20 +40,45 @@ export default function CreateProject() {
   const [selectedIndex3, setSelectedIndex3] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
 
   const [plans, setPlans] = useState([]);
-  const [designs, setDesigns] = useState(["디자인"]);
-  const [options, setOptions] = useState(["개발"]);
+  const [designs, setDesigns] = useState([]);
+  const [options, setOptions] = useState([]);
 
   const selectedValue1 = plans[selectedOption1];
   const selectedValue2 = designs[selectedOption2];
   const selectedValue3 = options[selectedOption3];
 
+  useEffect(() => {
+    getUserInfo(userIdx)
+    .then(function (res) {
+      const myArray = Object.values(res.data);
+      console.log(myArray[0]);
+      setUsers(myArray[0]);
+      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+
+      setSelectedValue(myArray[3]);
+      setText(myArray[2]);
+      // const interestArray = userData.map((item) => item.fields); // 관심분야만 따로 배열로 빼두기
+      const interestArray = userData.fields;
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}, []);
+
+useEffect(() => {
+  if(job != []){
+    setLoading(false);
+  }
+}, []); 
+
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
-
+    console.log(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
     setSelectedIndex1(selectedIndex);
     let num = parseInt(selectedIndex); // 정수로 변환
-    postData(num);
+    // postData(num);
 
     dbJob(num);
   };
@@ -76,7 +91,7 @@ export default function CreateProject() {
     let num = parseInt(selectedIndex); // 정수로 변환
 
     setSelectedIndex2(selectedIndex);
-    postData(num);
+    // postData(num);
 
     dbJob(num);
   };
@@ -88,7 +103,7 @@ export default function CreateProject() {
     setSelectedIndex3(selectedIndex);
 
     let num = parseInt(selectedIndex); // 정수로 변환
-    postData(num);
+    // postData(num);
 
     dbJob(num);
 
@@ -115,52 +130,32 @@ export default function CreateProject() {
   };
 
   useEffect(() => {
-    //유저 기본정보 받아오기 / 유저 인덱스 = myArray[0]
-    axios
-      .post(requestURL + "userinfo", {
-        index: userIdx,
-      })
-
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-        setUsers(myArray);
-        setSelectedValue(myArray[3]);
-        setText(myArray[2]);
-        const interestArray = myArray[4].map((item) => item.title); // 관심분야만 따로 배열로 빼두기
-        setJob(interestArray);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(requestURL + "userinfo/interested")
+    getUserInterested()
       .then((response) => {
         // 요청이 성공한 경우
         const data = response.data;
-
+        console.log(data);
         const filterData = data
           .filter((obj) => obj.field_category === "기획")
-          .map(({ index, title }) => ({ index, title }));
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
         const filterData1 = data
           .filter((obj) => obj.field_category === "개발")
-          .map(({ index, title }) => ({ index, title }));
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
         const filterData2 = data
           .filter((obj) => obj.field_category === "디자인")
-          .map(({ index, title }) => ({ index, title }));
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
 
-        const planfirst = [{ index: 0, title: "기획" }];
+        const planfirst = [{ index: 0, field_title: "기획" }];
         const updatedPlans = [...planfirst, ...filterData];
         const aa = JSON.stringify(updatedPlans);
+        console.log(aa);
         setPlans(updatedPlans);
 
-        const designfirst = [{ index: 0, title: "디자인" }];
+        const designfirst = [{ index: 0, field_title: "디자인" }];
         const updatedDesigns = [...designfirst, ...filterData2];
         setDesigns(updatedDesigns);
 
-        const optionfirst = [{ index: 0, title: "개발" }];
+        const optionfirst = [{ index: 0, field_title: "개발" }];
         const updatedOptions = [...optionfirst, ...filterData1];
         setOptions(updatedOptions);
       })
@@ -177,43 +172,6 @@ export default function CreateProject() {
     updatedItems.splice(index, 1);
     setJob(updatedItems);
   };
-  // const getInterests = async() => { //전체 관심분야, 직무 받아오기
-
-  //   await axios.get(requestURL+'userinfo/interested')
-  //   .then(response => {
-  //     // 요청이 성공한 경우
-  //     const data = response.data;
-
-  //     const filterData = data.filter(obj => obj.field_category === '기획')
-  //                        .map(({ index, title }) => ({ index, title }));
-  //     const filterData1 = data.filter(obj => obj.field_category === '개발')
-  //                        .map(({ index, title }) => ({ index, title }));
-  //     const filterData2 = data.filter(obj => obj.field_category === '디자인')
-  //                        .map(({ index, title }) => ({ index, title }));
-
-  //     const planfirst =[{"index":0,"title":"기획"}];
-  //     const updatedPlans = [...planfirst, ...filterData];
-  //     const aa = JSON.stringify(updatedPlans);
-  //     setPlans(updatedPlans);
-
-  //     const designfirst =[{"index":0,"title":"디자인"}];
-  //     const updatedDesigns = [...designfirst, ...filterData2];
-  //     setDesigns(updatedDesigns);
-
-  //     const optionfirst =[{"index":0,"title":"개발"}];
-  //     const updatedOptions = [...optionfirst, ...filterData1];
-  //     setOptions(updatedOptions);
-
-  //   })
-  //   .catch(error => {
-  //     // 요청이 실패한 경우
-  //     console.error(error);
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   getInterests();
-  // }, []);
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -270,118 +228,47 @@ export default function CreateProject() {
   //직무 db 저장
   const dbJob = (jobIndex) => {
     console.log(jobIndex);
-    axios
-      .post(requestURL + "userinfo/interested/put", {
-        user_index: userIdx,
-        field_index: jobIndex,
-      })
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-        // setUsers(myArray);
+    putUserInterest(userIdx,jobIndex)
+      .then(function () {
+        console.log("직무 저장 성공");
+
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-
-  const postData = async () => {
-    try {
-      const response = await axios.post(
-        requestURL + "userinfo/interested/put",
-        {
-          user_index: userIdx,
-          field_index: 1,
-        },
-        {
-          headers: {
-            "Content-Type": `application/json;charset=UTF-8`,
-            Accept: "application/json",
-
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": `http://localhost:3000`,
-            "Access-Control-Allow-Credentials": "true",
-          },
-        }
-      );
-
-      // 성공적으로 응답 받은 경우 처리할 코드
-    } catch (error) {
-      // 요청 실패 또는 응답 처리 중 오류가 발생한 경우 처리할 코드
-      console.error(error);
-    }
-  };
-
-  //   const xhr = new XMLHttpRequest();
-  //   const url = requestURL+'userinfo/interested/put'; // 요청을 보낼 엔드포인트 URL
-
-  // xhr.open('POST', url, true);
-  // xhr.setRequestHeader('Content-Type', 'text/plain'); // Content-Type 설정
-  // xhr.setRequestHeader('Origin', window.location.origin); // Origin 헤더 추가
-
-  // xhr.onreadystatechange = function() {
-  //   if (xhr.readyState === XMLHttpRequest.DONE) {
-  //     if (xhr.status === 200) {
-  //       // 요청 성공 시 처리할 코드
-  //       console.log(xhr.responseText);
-  //     } else {
-  //       // 요청 실패 시 처리할 코드
-  //       console.error('요청 실패:', xhr.status);
-  //     }
-  //   }
-  // };
-
-  // const requestBody = JSON.stringify({
-  //   "name": "rnjsxogns3333@naver.com",
-  //   "field_index": 2
-  // });
-
-  // xhr.send(requestBody);
 
   //경력 저장
   const dbCareer = (career) => {
-    axios
-      .post(requestURL + "userinfo/put/career", {
-        index: userIndex,
-        career: career,
-      })
+    putUserCareer(userIdx,career)
+      .then(function () {
+        console.log("경력 저장 성공");
 
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-
-        // setUsers(myArray);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  // useEffect(() => {
-  //   dbCareer();
-  // }, []);
 
   //자기소개 저장
   const dbIntro = (intro) => {
-    axios
-      .post(requestURL + "userinfo/put/introduction", {
-        index: userIndex,
-        introduction: intro,
-      })
+    putUserIntroduction(userIdx,intro)
+      .then(function () {
+        console.log("자기소개 저장 성공");
 
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-
-        // setUsers(myArray);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  // useEffect(() => {
-  //   dbIntro();
-  // }, []);
 
   const handleImageChange = () => {
     alert("추후에 추가될 예정입니다");
   };
+
+  const load = {
+    color:"white"
+  }; 
 
   const jobBox = {
     display: "flex",
@@ -488,7 +375,7 @@ export default function CreateProject() {
       </nav>
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
       <section className={styles.paddingSection}>
-        <h1 className={styles.title}>{userData[1]}님 안녕하세요!</h1>
+        <h1 className={styles.title}>{userData.user_name} 님 안녕하세요!</h1>
 
         <div className={styles.profileImg}>
           <span className={styles2.wrapper}>
@@ -521,22 +408,26 @@ export default function CreateProject() {
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>
-            자기소개 (본인의 직무, 관심분야 등 프로젝트와 관련된 이야기를
-            적어주세요!)
+            자기소개
           </span>
           <div className={styles2.n}></div>
           <textarea style={option2} value={text} onChange={handleTextChange} />
         </div>
         <div className={styles2.basic}>
-          <span className={styles2.middleFont}>직무(관심 분야)</span>
+          <span className={styles2.middleFont}>관심 분야</span>
+          {loading ? 
           <div style={jobselect}>
-            {job.map((item, index) => (
+            <p style={load}>Loading...</p>
+          </div>
+          : 
+          <div style={jobselect}>
+            {job && job.map((item, index) => (
               <div key={index} style={jobBox}>
                 <span>{item}</span>
                 <button onClick={() => handleDelete(index)}>X</button>
               </div>
             ))}
-          </div>
+          </div>}
           <div className={styles2.n}></div>
           <div style={option4}>
             <select
@@ -545,8 +436,8 @@ export default function CreateProject() {
               onChange={handleOption1Change}
             >
               {plans.map((option, index) => (
-                <option key={index} value={option.index}>
-                  {option.title}
+                <option key={index} value={option.field_index}>
+                  {option.field_title}
                 </option>
               ))}
             </select>
@@ -557,8 +448,8 @@ export default function CreateProject() {
               onChange={handleOption2Change}
             >
               {designs.map((option, index) => (
-                <option key={index} value={index}>
-                  {option.title}
+                <option key={index} value={option.field_index}>
+                  {option.field_title}
                 </option>
               ))}
             </select>
@@ -569,16 +460,13 @@ export default function CreateProject() {
               onChange={handleOption3Change}
             >
               {options.map((option, index) => (
-                <option key={index} value={index}>
-                  {option.title}
+                <option key={index} value={option.field_index}>
+                  {option.field_title}
                 </option>
               ))}
             </select>
             <br />
-            {/* <p style={txts}>직무선택 : </p> */}
-            {/* {selectedValue1 && <p style={txts}>{selectedValue1.result}</p>}
-            {selectedValue2 && <p style={txts}>{selectedValue2.result}</p>}
-            {selectedValue3 && <p style={txts}>{selectedValue3.result}</p>} */}
+            
           </div>
         </div>
         <div className="flex w-full justify-center gap-8">

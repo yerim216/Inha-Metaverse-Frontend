@@ -22,7 +22,7 @@ export default function Profile() {
     };
   }, []);
 
-  const inter = ["html", "vscode", "react"];
+  const inter = ["html", "vscode", "react","spring","spring"];
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [teamLength, setTeamLength] = useState(0);
@@ -197,8 +197,9 @@ export default function Profile() {
     paddingTop: "13px",
   };
   const recruitContainer2 = {
-    marginLeft: "8.5vw",
-    justifyContent: "flex-end",
+    flexWrap: "wrap",
+    whiteSpace: "normal",
+    marginLeft: "8.6vw",
     display: "flex",
     gap: "35px",
     paddingTop: "13px",
@@ -206,108 +207,10 @@ export default function Profile() {
     marginTop: "7px",
   };
 
-  const pImage = {
-    paddingTop: "23px",
-    boxSizing: "border-box",
-    width: "110px",
-    height: "110px",
-    borderRadius: "100px",
-    marginLeft: "-50px",
-  };
-  const pIntro = {
-    marginLeft: "90px",
-    width: "348px",
-    height: "160px",
-    background: "#FFFFFF",
-    boxShadow: "0px 20px 40px rgba(255, 255, 255, 0.2)",
-    borderRadius: "80px 40px 40px 80px",
-  };
-
-  const no = {
-    paddingBottom: "0",
-    marginBottom: "0",
-  };
-
-  const hahaha = {
-    display: "flex",
-    flexDirection: "row",
-    gap: "9px",
-    marginLeft: "-20px",
-  };
-  const plzplaz = {
-    marginLeft: "100px",
-    color: "white",
-  };
-
-  const dot = {
-    marginTop: "7px",
-    width: "8px",
-    height: "8px",
-    backgroundColor: "#00FF19",
-    borderRadius: "100%",
-  };
-
-  const namee = {
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "800",
-    fontSize: "20px",
-    lineHeight: "27px",
-  };
-
-  const con = {
-    marginLeft: "100px",
-    marginTop: "-75px",
-  };
-
-  const con2 = {
-    fontSize: "12px",
-    width: "240px",
-    overflow: "hidden",
-    whiteSpace: "normal",
-    wordBreak: "break-word",
-    marginTop: "-10px",
-    height: "40px",
-  };
-
-  const parts = {
-    marginRight: "5px",
-    width: "auto",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    height: "19px",
-    backgroundColor: "black",
-    borderRadius: "60px",
-    color: "white",
-    fontSize: "11px",
-    textAlign: "center",
-    paddingTop: "2px",
-  };
-
-  const lab = {
-    display: "flex",
-    gap: "5px",
-    width: "180px",
-    alignItems: "center",
-  };
-
-  const whole = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  };
-  const more = {
-    marginTop: "5px",
-    marginLeft: "5px",
-  };
-  const projectInro = {
-    paddingTop: "23px",
-    boxSizing: "border-box",
-    width: "110px",
-    height: "110px",
-    borderRadius: "100px",
-    marginLeft: "-50px",
-  };
+  const recruitWrap={
+    width: "400px",
+  }
+ 
   const projects = {
     position: "relative",
     paddingRight: "10px",
@@ -625,6 +528,7 @@ export default function Profile() {
                 </div>
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
+                  <div style={recruitWrap}>
                   <div style={recruitContainer2}>
                     {inter.map((skill, index) => {
                       //inter -> 실제 skill 배열로 바꾸면 됨
@@ -641,6 +545,8 @@ export default function Profile() {
                     })}
                     <div style={toolss}></div>
                   </div>
+                  </div>
+                  
                 </div>
               </div>
             </span>
