@@ -21,6 +21,7 @@ export default function Profile() {
     };
   }, []);
 
+  const inter = ["html", "vscode", "react"];
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [teamLength, setTeamLength] = useState(0);
@@ -60,7 +61,7 @@ export default function Profile() {
       .then(function (res) {
         const myArray = res.data[0];
         setUsers(myArray);
-        setField(myArray.field_info);
+        setField(myArray.skills);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -195,9 +196,10 @@ export default function Profile() {
     paddingTop: "13px",
   };
   const recruitContainer2 = {
-    marginLeft: "30px",
+    marginLeft: "8.5vw",
+    justifyContent: "flex-end",
     display: "flex",
-    flexDirection: "column",
+    gap: "35px",
     paddingTop: "13px",
     height: "98px",
     marginTop: "7px",
@@ -617,28 +619,20 @@ export default function Profile() {
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitContainer2}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
-                      style={extool}
-                      alt="Views"
-                    />
-                    <div style={toolss}>
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/html.png`}
-                        style={htmll}
-                        alt="Views"
-                      />
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/css.png`}
-                        style={csss}
-                        alt="Views"
-                      />
-                      <img
-                        src={`${process.env.PUBLIC_URL}/public_assets/vscode.png`}
-                        style={vs}
-                        alt="Views"
-                      />
-                    </div>
+                    {inter.map((skill, index) => {
+                      //inter -> 실제 skill 배열로 바꾸면 됨
+                      return (
+                        <img
+                          key={index}
+                          src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
+                          width="40px"
+                          height="40px"
+                          style={extool}
+                          alt={`${skill} skill`}
+                        />
+                      );
+                    })}
+                    <div style={toolss}></div>
                   </div>
                 </div>
               </div>

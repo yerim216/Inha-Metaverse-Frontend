@@ -502,7 +502,9 @@ footer {
   margin-top: 10px;
 }
 .skillpart {
+  width: 80px;
   margin-top: 20px;
+  margin-left: -18px;
   font-family: "Avenir";
   font-style: normal;
   font-weight: 800;
@@ -510,7 +512,6 @@ footer {
   line-height: 25px;
   /* identical to box height */
   letter-spacing: 0.08em;
-  margin-right: 115px;
 }
 
 .starRating {
