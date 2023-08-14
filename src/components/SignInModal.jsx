@@ -44,7 +44,7 @@ export default function SignInModal(props) {
         console.log(response.data);
         setUser(response.data);
         window.location.reload();
-        return response.data;
+        return response.data[0];
       })
       .then((data) => {
         // axios

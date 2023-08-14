@@ -73,11 +73,9 @@ function App() {
   window.baseURL = "https://www.app.vpspace.net/";
 
   return (
-    <React.StrictMode>
-      <RecoilRoot>
-        <RouterProvider router={router}></RouterProvider>
-      </RecoilRoot>
-    </React.StrictMode>
+    <RecoilRoot>
+      <RouterProvider router={router}></RouterProvider>
+    </RecoilRoot>
   );
 }
 

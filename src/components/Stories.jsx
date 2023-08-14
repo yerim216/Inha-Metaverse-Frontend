@@ -91,11 +91,12 @@ export default function Stories() {
       >
         <section className={`${styles.storiesContainer}`}>
           {storyDatabases &&
-            storyDatabases.map((storyDb) => (
+            storyDatabases.map((storyDb, idx) => (
               <Story
                 storyDb={storyDb}
                 handleMoreBtnClick={handleMoreBtnClick}
                 moreBtnActivated={moreBtnActivated}
+                key={idx}
               />
             ))}
         </section>

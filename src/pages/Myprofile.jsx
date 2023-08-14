@@ -55,7 +55,6 @@ export default function Profile() {
     getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
-        console.log(myArray);
         setUsers(myArray);
         setField(myArray.skills);
       })
@@ -76,16 +75,18 @@ export default function Profile() {
 
   const fetchData = async () => {
     for (let i = 0; i < team.length; i++) {
+      // 팀인덱스 가져오는건 잘 됨
+      // console.log(team[i].team_index);
       try {
         const requestBody = {
           index: team[i].team_index,
         };
         const response = await axios.post(
-          requestURL + "team/list",
+          requestURL + "team/details",
           requestBody
         );
         setArray((cur) => {
-          return [...cur, response.data[0]];
+          return [...cur, response.data];
         });
       } catch (error) {
         console.error(error);
@@ -106,10 +107,19 @@ export default function Profile() {
   useEffect(() => {
     setFilteredArray(
       array.filter((team, idx) => {
-        return idx === array.findIndex((obj) => obj.index === team.index);
+        return (
+          idx ===
+          array.findIndex(
+            (obj) => obj.teamInfo.team_index === team.teamInfo.team_index
+          )
+        );
       })
     );
   }, [array]);
+
+  useEffect(() => {
+    console.log(filteredArray);
+  }, [filteredArray]);
 
   const part = {
     fontFamily: "'Avenir'",
@@ -504,7 +514,7 @@ export default function Profile() {
   //   window.href('/')
   // };
   return (
-    <seciton>
+    <section>
       <div className={styles.wrap}>
         <div className={styles.navItems}>
           <div className={styles.logoContainer}>
@@ -569,7 +579,7 @@ export default function Profile() {
         <div className={styles.recruit}>
           {user.info.map((item) => (
             <span key={item.id}>
-              <div calssName={recruitContainer}>
+              <div className={recruitContainer}>
                 <div style={part}>
                   <p className={styles.part}>직무</p>
                   {/* <span style={data}>{user.data}</span> */}
@@ -592,8 +602,12 @@ export default function Profile() {
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
                     {field &&
-                      field.map((item) => {
-                        return <span style={indata}>{item.title}</span>;
+                      field.map((item, idx) => {
+                        return (
+                          <span style={indata} key={idx}>
+                            {item.title}
+                          </span>
+                        );
                       })}
                   </span>
                 </div>
@@ -626,43 +640,7 @@ export default function Profile() {
           </p>
 
           <div className={styles.wrapp}>
-            <div style={projects} className="relative">
-                  <div style={con3}>
-                    <div style={wrappp}>
-                      <div style={progressP}>
-                        <div style={part2Wrap}>
-                          <div style={parts2}>자기소개입니다</div>
-                        </div>
-                        <div style={whole2}>
-                          <div style={dot3}></div>
-                          <div style={con4} className={styles.recruiting}>
-                              <p style={lit}>
-                                recruiting 0 / 20
-                              </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div style={namee2}>프로젝트 이름입니다</div>
-                      <div style={tools2}>내 생일 파티에 너만 못 온 그날
-            혜진이가 엄청 혼났던 그날
-            지원이가 여친이랑 헤어진 그날
-            걔는 언제나 네가 없이 그날
-            너무 멋있는 옷을 입고 그날
-            Heard him say</div>
-                    </div>
-                  </div>
-                  {/* <div
-                    className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
-                    onClick={() => {
-                      // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
-                      navigate("/profile", { state: { teamIndex: obj.index } });
-                      window.scrollTo({ top: 0, behavior: "auto" });
-                    }}
-                  >
-                    <BiRightArrowCircle />
-                  </div> */}
-                </div>
-            {/* {filteredArray.length === 0 ? (
+            {filteredArray.length === 0 ? (
               <div style={projects}>
                 <a href="/">
                   <div className={styles.emptyProject}>
@@ -677,14 +655,20 @@ export default function Profile() {
                     <div style={wrappp}>
                       <div style={progressP}>
                         <div style={part2Wrap}>
-                          <div style={parts2}>{obj.introduction}</div>
+                          {/*  아래가 파란색 있는 거임 */}
+                          {obj.teamInfo.skills[0] !== null ? (
+                            <div style={parts2}>{obj.numOfPeople.team_cnt}</div>
+                          ) : (
+                            <div style={parts2}>팀 내 기술 스택 X</div>
+                          )}
                         </div>
                         <div style={whole2}>
                           <div style={dot3}></div>
                           <div style={con4} className={styles.recruiting}>
-                            {obj.recruiting ? (
+                            {obj.teamInfo.team_recruting ? (
                               <p style={lit}>
-                                recruiting 0 / {obj.recruitment_number}
+                                recruiting {obj.numOfPeople.team_cnt} /
+                                {obj.teamInfo.recruitment_number}
                               </p>
                             ) : (
                               <p style={lit}>not recruiting</p>
@@ -692,8 +676,8 @@ export default function Profile() {
                           </div>
                         </div>
                       </div>
-                      <div style={namee2}>{obj.name}</div>
-                      <div style={tools2}>{obj.description}</div>
+                      <div style={namee2}>{obj.teamInfo.team_name}</div>
+                      <div style={tools2}>{obj.teamInfo.team_introduction}</div>
                     </div>
                   </div>
                   <div
@@ -708,12 +692,12 @@ export default function Profile() {
                   </div>
                 </div>
               ))
-            )} */}
+            )}
           </div>
         </div>
       </div>
 
       <Footer />
-    </seciton>
+    </section>
   );
 }

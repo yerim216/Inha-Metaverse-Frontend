@@ -428,7 +428,7 @@ export default function Profile() {
     marginTop: "-30px",
   };
   return (
-    <seciton>
+    <section>
       <div className={styles.wrap}>
         <div className={styles.navItems}>
           <div className={styles.logoContainer}>
@@ -621,6 +621,6 @@ export default function Profile() {
       </div>
 
       <Footer />
-    </seciton>
+    </section>
   );
 }
