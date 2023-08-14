@@ -62,7 +62,7 @@ export default function Profile() {
       .then(function (res) {
         const myArray = res.data[0];
         setUsers(myArray);
-        setField(myArray.skills);
+        setField(myArray.fields);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -599,7 +599,6 @@ export default function Profile() {
                 <div style={part}>
                   <p className={styles.mannerpart}>매너점수</p>
                   <span style={data}>{item.manners}</span>
-
                   <span style={star}>
                     <StarRating />
                   </span>
@@ -607,14 +606,21 @@ export default function Profile() {
                 <div style={inpart}>
                   <p className={styles.interestpart}>관심분야</p>
                   <span style={contain}>
-                    {field &&
+                    {field ? (
                       field.map((item, idx) => {
                         return (
                           <span style={indata} key={idx}>
-                            {item.title}
+                            {item}
                           </span>
                         );
-                      })}
+                      })
+                    ) : (
+                      <pre className="text-start">
+                        {
+                          "관심분야가 없습니다.\n내 프로필 관리에서 추가해 주세요!"
+                        }
+                      </pre>
+                    )}
                   </span>
                 </div>
                 <div style={partforskill}>
