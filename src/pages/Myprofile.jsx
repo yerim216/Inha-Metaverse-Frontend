@@ -126,10 +126,6 @@ export default function Profile() {
     );
   }, [array]);
 
-  useEffect(() => {
-    console.log(filteredArray);
-  }, [filteredArray]);
-
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -621,7 +617,9 @@ export default function Profile() {
                     className="absolute right-5 bottom-5 text-3xl cursor-pointer transition-all hover:scale-125"
                     onClick={() => {
                       // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
-                      navigate("/profile", { state: { teamIndex: obj.index } });
+                      navigate("/profile", {
+                        state: { teamIndex: obj.teamInfo.team_index },
+                      });
                       window.scrollTo({ top: 0, behavior: "auto" });
                     }}
                   >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Nav.module.css";
 import OnLogModal from "../components/OnLogModal";
 import Dot from "../components/Dot";
@@ -7,15 +7,24 @@ import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
+import { getUserInfo } from "../APIs/userinfo";
 
 export default function Nav() {
   const [user, setUser] = useRecoilState(userState);
+  const [userProfileIndex, setUserProfileIndex] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const onClickButton = () => {
     setIsOpen(true);
   };
+  useEffect(() => {
+    if (user) {
+      getUserInfo(user.user_index).then((res) => {
+        setUserProfileIndex(res.data[0].user_img_index);
+      });
+    }
+  }, []);
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -99,10 +108,17 @@ export default function Nav() {
               />
             )}
             <img
-              src="/public_assets/profileImg.png"
-              width="44"
-              height="44"
+              src={`/public_assets/profileImg/profileImg_${
+                userProfileIndex ? userProfileIndex : 1
+              }.png`}
               alt="profile"
+              style={{
+                border: "1px solid black",
+                borderRadius: "100%",
+                width: "44px",
+                height: "44px",
+                objectFit: "cover",
+              }}
             />
             <img src="/public_assets/modal.png" alt="profile" />
           </button>

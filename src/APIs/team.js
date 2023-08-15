@@ -13,8 +13,6 @@ export function getTeams() {
 }
 
 export function addMember(teamName, userName) {
-  alert(teamName);
-  alert(userName);
   return axios.post("team/member", {
     team_name: teamName,
     user_name: userName,
