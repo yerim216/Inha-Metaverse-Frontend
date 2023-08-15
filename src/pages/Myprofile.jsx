@@ -30,6 +30,8 @@ export default function Profile() {
   const navigate = useNavigate();
   const userIndex = userLogin.user_index;
 
+  const [skill,setSkill] = useState([]); //스킬 선택 값 불러오기
+
   let [pagenation, setPagenation] = useState([]);
 
   // 팀 인덱스들을 담은 배열. 안에 객체 형태로 {team_index : 팀 인덱스 번호}가 존재한다.
@@ -41,7 +43,8 @@ export default function Profile() {
   // 위의 array 배열에 중복 문제가 발생해, 중복 문제를 제거한 배열.
   const [filteredArray, setFilteredArray] = useState([]);
 
-  let [field, setField] = useState([]);
+  const [field, setField] = useState([]); //관심분야 선택 값 불러오기
+  const [skills,setSkills] = useState([]); //스킬 선택 값 불러오기
   const [userProfileIdx, setUserProfileIdx] = useState();
 
   const requestURL = `${window.baseURL}`;
@@ -57,9 +60,12 @@ export default function Profile() {
     getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
+        console.log(res.data);
         setUsers(myArray);
         setField(myArray.fields);
         setUserProfileIdx(myArray.user_img_index);
+        setSkill(res.data[0].skills);
+        console.log(skills);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -542,21 +548,21 @@ export default function Profile() {
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitWrap}>
-                    <div style={recruitContainer2}>
-                      {inter.map((skill, index) => {
-                        //inter -> 실제 skill 배열로 바꾸면 됨
-                        return (
-                          <img
-                            key={index}
-                            src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
-                            width="40px"
-                            height="40px"
-                            style={extool}
-                            alt={`${skill} skill`}
-                          />
-                        );
-                      })}
-                      <div style={toolss}></div>
+                  <div style={recruitContainer2}>
+                    {skills.map((skill, index) => {
+                      //inter -> 실제 skill 배열로 바꾸면 됨
+                      return (
+                        <img
+                          key={index}
+                          src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
+                          width="40px"
+                          height="40px"
+                          style={extool}
+                          alt={`${skill} skill`}
+                        />
+                      );
+                    })}
+                    <div style={toolss}></div>
                     </div>
                   </div>
                 </div>

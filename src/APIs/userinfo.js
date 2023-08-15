@@ -76,3 +76,10 @@ export function putUserProfileImg(userIndex, imgIndex) {
     image: imgIndex,
   });
 }
+
+export function putUserImg(userIndex, userImg) {
+  return axios.post("/userinfo/put/img", {
+    index: userIndex,
+    image: userImg,
+  });
+}
