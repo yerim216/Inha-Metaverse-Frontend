@@ -453,6 +453,10 @@ footer {
   margin-top: 30px;
 }
 
+.downArrow{
+  margin-left: "100px",
+}
+
 .part {
   font-family: "Avenir";
   font-style: normal;

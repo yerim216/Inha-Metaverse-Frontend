@@ -13,6 +13,7 @@ import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
 import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 import { getTeamInfoByIndex } from "../APIs/team";
+import { BiDownArrow } from 'react-icons/bi';
 
 export default function Profile() {
   useEffect(() => {
@@ -127,6 +128,13 @@ export default function Profile() {
     console.log(filteredArray);
   }, [filteredArray]);
 
+
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpansion = () => {
+    setExpanded(!expanded);
+  };
+
   const part = {
     fontFamily: "'Avenir'",
     fontStyle: "normal",
@@ -176,6 +184,13 @@ export default function Profile() {
     marginLeft: "40px",
     flexWrap: "nowrap",
   };
+
+  const downArrow = {
+    float: "right",
+    marginTop: "-10px",
+    marginRight:"40px",
+  };
+
   const recruitList = {
     display: "inline-block",
     marginRight: "103px",
@@ -378,10 +393,12 @@ export default function Profile() {
     margin: "0 10px",
   };
   const contain = {
+    width: '200px', /* 최대 가로 너비 */
+    padding: '10px',
+    marginTop: '-5px',
     position: "absolute",
-    marginLeft: "170px",
+    marginLeft: "160px",
     width: "60%",
-    marginTop: "6px",
     display: "flex",
     flexWrap: "wrap",
     gap: "7px",
