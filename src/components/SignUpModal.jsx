@@ -10,6 +10,7 @@ import "../styles/SignUp.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
   addInterested,
+  getSkills,
   getUserIndex,
   getUserInterested,
 } from "../APIs/userinfo";
@@ -28,6 +29,14 @@ export default function SignUpModal(props) {
   const [fieldsDevelop, setFieldsDevelop] = useState([]);
   const [fieldsGuitar, setFieldsGuitar] = useState([]);
 
+  const [skills, setSkills] = useState([]);
+
+  // 유저가 선택한 직무
+  const [selectedJob, setSelectedJob] = useState();
+
+  // 유저가 선택한 스킬들
+  const [selectedSkill, setSelectedSkill] = useState([]);
+
   function onChange(value) {
     // value로 확인 필요. 추후 수정
     setCaptchaDone(true);
@@ -42,6 +51,8 @@ export default function SignUpModal(props) {
     }
     return null;
   };
+
+  console.log(selectedSkill);
 
   const [buttons, setButtons] = useState([
     { id: 0, value: false },
@@ -73,11 +84,6 @@ export default function SignUpModal(props) {
 
   // 선택된 필터들에 대한 인덱스를 나타내는 state.
   const [selectedFilterIndices, setSelectedFilterIndices] = useState([]);
-
-  // selectedFilterIndices에 현재 선택한 관심분야 뜸.
-  useEffect(() => {
-    console.log(selectedFilterIndices);
-  }, [selectedFilterIndices]);
 
   const addFilterItem = (item) => {
     if (selectedFilters.length >= 6) return false;
@@ -132,6 +138,9 @@ export default function SignUpModal(props) {
   useEffect(() => {
     getUserInterested().then((res) => {
       setFields(res.data);
+    });
+    getSkills().then((res) => {
+      setSkills(res.data);
     });
   }, []);
 
@@ -454,10 +463,6 @@ export default function SignUpModal(props) {
                             setIndex((cur) => {
                               return cur + 1;
                             });
-                            setSecondNextBtnClicked(true);
-                            setTimeout(() => {
-                              test();
-                            }, 3000);
                           }
                         });
                       }}
@@ -469,6 +474,160 @@ export default function SignUpModal(props) {
                       />
                     </button>
                   </section>
+                </li>
+
+                {/* 직무&스킬 선택 화면 */}
+                <li className="screen">
+                  <pre className="title">
+                    {"현재 맡고 계신 직무와\n스킬을 선택해 주세요!"}
+                  </pre>
+                  <section className="flex mr-auto ml-auto justify-center flex-col items-center">
+                    <h3
+                      style={{
+                        fontSize: 24,
+                        fontWeight: 600,
+                        marginTop: -10,
+                      }}
+                    >
+                      직무 리스트
+                    </h3>
+                    <section className="flex flex-wrap gap-2 justify-center mt-2">
+                      {fieldsPlan &&
+                        fieldsPlan.map((field, idx) => {
+                          return (
+                            <button
+                              className={`transition-all hover:scale-105 ${
+                                selectedJob &&
+                                field.field_title === selectedJob.field_title &&
+                                "text-red-700 font-black"
+                              }`}
+                              onClick={() => {
+                                if (
+                                  selectedJob &&
+                                  field.field_title === selectedJob.field_title
+                                )
+                                  setSelectedJob(null);
+                                else setSelectedJob(field);
+                              }}
+                              key={idx}
+                            >
+                              {field.field_title}
+                            </button>
+                          );
+                        })}
+                    </section>
+                    <section className="flex flex-wrap gap-2 justify-center mt-2">
+                      {fieldsDevelop &&
+                        fieldsDevelop.map((field, idx) => {
+                          return (
+                            <button
+                              className={`transition-all hover:scale-105 ${
+                                selectedJob &&
+                                field.field_title === selectedJob.field_title &&
+                                "text-red-700 font-black"
+                              }`}
+                              key={idx}
+                              onClick={() => {
+                                if (
+                                  selectedJob &&
+                                  field.field_title === selectedJob.field_title
+                                )
+                                  setSelectedJob(null);
+                                else setSelectedJob(field);
+                              }}
+                            >
+                              {field.field_title}
+                            </button>
+                          );
+                        })}
+                    </section>
+                    <section className="flex flex-wrap gap-2 justify-center mt-2 mb-4">
+                      {fieldsDesign &&
+                        fieldsDesign.map((field, idx) => {
+                          return (
+                            <button
+                              className={`transition-all hover:scale-105 ${
+                                selectedJob &&
+                                field.field_title === selectedJob.field_title &&
+                                "text-red-700 font-black"
+                              }`}
+                              key={idx}
+                              onClick={() => {
+                                if (
+                                  selectedJob &&
+                                  field.field_title === selectedJob.field_title
+                                )
+                                  setSelectedJob(null);
+                                else setSelectedJob(field);
+                              }}
+                            >
+                              {field.field_title}
+                            </button>
+                          );
+                        })}
+                    </section>
+                    <h3
+                      style={{
+                        fontSize: 24,
+                        fontWeight: 600,
+                      }}
+                    >
+                      스킬 리스트
+                    </h3>
+                    <section className="flex flex-wrap gap-3 justify-center w-[70%] mt-2">
+                      {skills &&
+                        skills.map((skill, idx) => {
+                          return (
+                            <button
+                              className={`uppercase flex items-center gap-1 transition-all hover:scale-105
+                              ${
+                                // skill.skill_name === selectedSkill.skill_name &&
+                                "text-red-700 font-black"
+                              }
+                              `}
+                              key={idx}
+                              onClick={() => {
+                                if (
+                                  selectedSkill.length !== 0 &&
+                                  skill.skill_name === selectedSkill.skill_name
+                                )
+                                  // filter 이용해서 해당 skill 지워야 함.
+                                  setSelectedSkill(
+                                    selectedSkill.filter((sk) => {
+                                      console.log(sk);
+                                      console.log(skill);
+                                      return sk.skill_name !== skill.skill_name;
+                                    })
+                                  );
+                                else
+                                  setSelectedSkill((selectedSkill) => {
+                                    return [...selectedSkill, skill];
+                                  });
+                              }}
+                            >
+                              <span>{skill.skill_name}</span>
+                              <img
+                                width={24}
+                                src="/public_assets/skills/skill_img_1.svg"
+                                alt="nextBtn"
+                              />
+                            </button>
+                          );
+                        })}
+                    </section>
+                  </section>
+                  <button
+                    onClick={() => {
+                      setIndex((cur) => cur + 1);
+                      setSecondNextBtnClicked(true);
+                      setTimeout(() => {
+                        test();
+                      }, 3000);
+                    }}
+                    className="ml-auto mr-auto"
+                  >
+                    <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
+                  </button>
                 </li>
 
                 <li className="screen thirdScreen" ref={thirdScreen}>
@@ -649,6 +808,25 @@ export default function SignUpModal(props) {
                     <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
                   </button>
                 </li>
+
+                {/* 프로필 이미지 선택 화면 */}
+                <li className="screen">
+                  <h1 className="title">프로필 이미지 선택 화면</h1>
+                  <section className="flex mr-auto ml-auto items-center">
+                    <button
+                      onClick={() => {
+                        setIndex((cur) => cur + 1);
+                      }}
+                      className="button"
+                    >
+                      <img
+                        src="/public_assets/icons/nextBtn.svg"
+                        alt="nextBtn"
+                      />
+                    </button>
+                  </section>
+                </li>
+
                 <li className="screen">
                   <h1 className="title">시작해 볼까요?</h1>
                   <form className="mr-auto ml-auto">
@@ -679,6 +857,7 @@ export default function SignUpModal(props) {
                     <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
                   </button>
                 </li>
+
                 <li className="screen">
                   <h1 className="title">가입이 완료되었어요!</h1>
                 </li>

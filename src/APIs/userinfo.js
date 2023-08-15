@@ -31,3 +31,7 @@ export function getTeamIndex(userLoginString) {
     email: userLoginString,
   });
 }
+
+export function getSkills() {
+  return axios.get("/userinfo/skill");
+}
