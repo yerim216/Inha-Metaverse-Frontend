@@ -62,3 +62,10 @@ export function putUserInterest(userIndex, userInterest) {
     field_index: userInterest,
   });
 }
+
+export function putUserSkill(userIndex, skillIndex) {
+  return axios.post("/userinfo/skill/put", {
+    user_index: userIndex,
+    skill_index: skillIndex,
+  });
+}

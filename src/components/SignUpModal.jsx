@@ -13,6 +13,9 @@ import {
   getSkills,
   getUserIndex,
   getUserInterested,
+  putUserCareer,
+  putUserJob,
+  putUserSkill,
 } from "../APIs/userinfo";
 
 export default function SignUpModal(props) {
@@ -35,7 +38,17 @@ export default function SignUpModal(props) {
   const [selectedJob, setSelectedJob] = useState();
 
   // 유저가 선택한 스킬들
-  const [selectedSkill, setSelectedSkill] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  // 인자로 넘겨진 skillName이 현재 선택된 스킬들 리스트에 존재하는지 판단하는 함수.
+  const checkSkillContains = (skillName) => {
+    let contains = false;
+    selectedSkills.forEach((selectedSkill) => {
+      if (selectedSkill.skill_name === skillName) {
+        contains = true;
+      }
+    });
+    return contains;
+  };
 
   function onChange(value) {
     // value로 확인 필요. 추후 수정
@@ -51,8 +64,6 @@ export default function SignUpModal(props) {
     }
     return null;
   };
-
-  console.log(selectedSkill);
 
   const [buttons, setButtons] = useState([
     { id: 0, value: false },
@@ -262,6 +273,38 @@ export default function SignUpModal(props) {
         selectedFilterIndices.map((fieldIndex) => {
           addInterested(userIndex, fieldIndex);
         });
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const putSkills = async () => {
+    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+
+    // 잘되면 true, 안되면 false 리턴
+    if (selectedSkills.length !== 0) {
+      try {
+        selectedSkills.map((selectedSkill) => {
+          putUserSkill(userIndex, selectedSkill.skill_index);
+        });
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const putJob = async () => {
+    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+
+    // 잘되면 true, 안되면 false 리턴
+    if (selectedJob) {
+      try {
+        putUserJob(userIndex, selectedJob.field_index);
       } catch (e) {
         console.error(e);
         return false;
@@ -581,27 +624,21 @@ export default function SignUpModal(props) {
                             <button
                               className={`uppercase flex items-center gap-1 transition-all hover:scale-105
                               ${
-                                // skill.skill_name === selectedSkill.skill_name &&
+                                checkSkillContains(skill.skill_name) &&
                                 "text-red-700 font-black"
                               }
                               `}
                               key={idx}
                               onClick={() => {
-                                if (
-                                  selectedSkill.length !== 0 &&
-                                  skill.skill_name === selectedSkill.skill_name
-                                )
-                                  // filter 이용해서 해당 skill 지워야 함.
-                                  setSelectedSkill(
-                                    selectedSkill.filter((sk) => {
-                                      console.log(sk);
-                                      console.log(skill);
+                                if (checkSkillContains(skill.skill_name))
+                                  setSelectedSkills(
+                                    selectedSkills.filter((sk) => {
                                       return sk.skill_name !== skill.skill_name;
                                     })
                                   );
                                 else
-                                  setSelectedSkill((selectedSkill) => {
-                                    return [...selectedSkill, skill];
+                                  setSelectedSkills((selectedSkills) => {
+                                    return [...selectedSkills, skill];
                                   });
                               }}
                             >
@@ -842,7 +879,9 @@ export default function SignUpModal(props) {
 
                       if (
                         (await signUp()) !== false &&
-                        (await putInterested()) !== false
+                        (await putInterested()) !== false &&
+                        (await putSkills()) !== false &&
+                        (await putJob()) !== false
                       ) {
                         setIndex((cur) => {
                           setTimeout(() => {
