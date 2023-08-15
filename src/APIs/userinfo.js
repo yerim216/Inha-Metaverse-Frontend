@@ -62,3 +62,10 @@ export function putUserInterest(userIndex, userInterest) {
     field_index: userInterest,
   });
 }
+
+export function putUserImg(userIndex, userImg) {
+  return axios.post("/userinfo/put/img", {
+    index: userIndex,
+    image: userImg,
+  });
+}

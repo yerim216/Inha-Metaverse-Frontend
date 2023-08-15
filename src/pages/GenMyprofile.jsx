@@ -9,7 +9,7 @@ import Dot from "../components/Dot";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
-import { getUserInfo,putUserCareer,putUserIntroduction,putUserInterest,getUserInterested } from "../APIs/userinfo";
+import { getUserInfo,putUserCareer,putUserIntroduction,putUserInterest,getUserInterested,putUserImg } from "../APIs/userinfo";
 
 export default function CreateProject() {
 
@@ -27,7 +27,8 @@ export default function CreateProject() {
 
   const [selectedValue, setSelectedValue] = useState(); //경력 선택 값
   const [text, setText] = useState(); //자기소개
-  const [job, setJob] = useState([]); //직무 선택 값
+  const [job, setJob] = useState([]); //직무 선택 값 불러오기
+  const [skill,setSkill] = useState([]); //스킬 선택 값 불러오기
 
   let [array, setArray] = useState([]);
 
@@ -51,9 +52,14 @@ export default function CreateProject() {
     getUserInfo(userIdx)
     .then(function (res) {
       const myArray = Object.values(res.data);
-      console.log(myArray[0]);
       setUsers(myArray[0]);
-      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+      setJob(myArray[0].fields); // 관심분야 따로 job 배열에 담기
+      setSkill(myArray[0].skills);
+      console.log(job);
+
+      setLoading(false);
+
+      console.log(job);
 
       setSelectedValue(myArray[3]);
       setText(myArray[2]);
@@ -66,12 +72,6 @@ export default function CreateProject() {
     });
 }, []);
 
-useEffect(() => {
-  if(job != []){
-    setLoading(false);
-  }
-}, []); 
-
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
     console.log(event.target.value);
@@ -79,10 +79,28 @@ useEffect(() => {
     setSelectedIndex1(selectedIndex);
     let num = parseInt(selectedIndex); // 정수로 변환
     // postData(num);
+    let len =job.length;
+    console.log(job.length);
+    if (len < 6 ) {
+      dbJob(num);
+      
+    getUserInfo(userIdx)
+    .then(function (res) {
+      const myArray = Object.values(res.data);
+      setJob(myArray[0].fields); // 관심분야 따로 job 배열에 담기
+      setLoading(false);
+      console.log(job);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-    dbJob(num);
+    }else {
+      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
+    }
   };
 
+  
   const handleOption2Change = (event) => {
     setSelectedOption2(event.target.value);
 
@@ -93,7 +111,12 @@ useEffect(() => {
     setSelectedIndex2(selectedIndex);
     // postData(num);
 
-    dbJob(num);
+    if (job.length < 6 ) {
+      dbJob(num);
+      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+    }else {
+      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
+    }
   };
 
   const handleOption3Change = (event) => {
@@ -105,8 +128,12 @@ useEffect(() => {
     let num = parseInt(selectedIndex); // 정수로 변환
     // postData(num);
 
-    dbJob(num);
-
+    if (job.length < 6 ) {
+      dbJob(num);
+      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+    }else {
+      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
+    }
     // dbJob();
     //직무 이름에 해당하는 직무 id 가져오기 , 직무 db 저장하는 함수 호출하면서 직무 id넘겨주기
   };
@@ -227,7 +254,6 @@ useEffect(() => {
 
   //직무 db 저장
   const dbJob = (jobIndex) => {
-    console.log(jobIndex);
     putUserInterest(userIdx,jobIndex)
       .then(function () {
         console.log("직무 저장 성공");
@@ -262,8 +288,15 @@ useEffect(() => {
       });
   };
 
-  const handleImageChange = () => {
-    alert("추후에 추가될 예정입니다");
+  const handleImageChange = (userIdx,userImg) => {
+    putUserImg(userIdx, userImg)
+    .then(function () {
+      console.log("유저 프로필 이미지 저장 성공");
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
 
   const load = {
