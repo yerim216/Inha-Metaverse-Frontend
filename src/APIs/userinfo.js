@@ -26,9 +26,9 @@ export function addInterested(userIndex, fieldIndex) {
   });
 }
 
-export function getTeamIndex(userLoginString) {
-  return axios.post("/userinfo/emailtoteam", {
-    email: userLoginString,
+export function getTeamIndex(userIndex) {
+  return axios.post("/userinfo/team", {
+    index: userIndex,
   });
 }
 
@@ -67,5 +67,12 @@ export function putUserSkill(userIndex, skillIndex) {
   return axios.post("/userinfo/skill/put", {
     user_index: userIndex,
     skill_index: skillIndex,
+  });
+}
+
+export function putUserProfileImg(userIndex, imgIndex) {
+  return axios.post("/userinfo/put/img", {
+    index: userIndex,
+    image: imgIndex,
   });
 }

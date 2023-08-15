@@ -7,13 +7,12 @@ import { userState } from "../recoil";
 import project from "../db/project.json";
 import user from "../db/user.json";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
 import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 import { getTeamInfoByIndex } from "../APIs/team";
-import { BiDownArrow } from 'react-icons/bi';
+import { BiDownArrow } from "react-icons/bi";
 
 export default function Profile() {
   useEffect(() => {
@@ -23,7 +22,7 @@ export default function Profile() {
     };
   }, []);
 
-  const inter = ["html", "vscode", "react","spring","spring"];
+  const inter = ["html", "vscode", "react", "spring", "spring"];
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [teamLength, setTeamLength] = useState(0);
@@ -43,6 +42,7 @@ export default function Profile() {
   const [filteredArray, setFilteredArray] = useState([]);
 
   let [field, setField] = useState([]);
+  const [userProfileIdx, setUserProfileIdx] = useState();
 
   const requestURL = `${window.baseURL}`;
 
@@ -54,16 +54,12 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    // axios
-    //   .post("https://www.app.vpspace.net/userinfo", {
-    //     //유저 정보 불러오기
-    //     email: userLoginString,
-    //   })
     getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
         setUsers(myArray);
         setField(myArray.fields);
+        setUserProfileIdx(myArray.user_img_index);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -128,7 +124,6 @@ export default function Profile() {
     console.log(filteredArray);
   }, [filteredArray]);
 
-
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -188,7 +183,7 @@ export default function Profile() {
   const downArrow = {
     float: "right",
     marginTop: "-10px",
-    marginRight:"40px",
+    marginRight: "40px",
   };
 
   const recruitList = {
@@ -222,10 +217,10 @@ export default function Profile() {
     marginTop: "7px",
   };
 
-  const recruitWrap={
+  const recruitWrap = {
     width: "400px",
-  }
- 
+  };
+
   const projects = {
     position: "relative",
     paddingRight: "10px",
@@ -393,9 +388,9 @@ export default function Profile() {
     margin: "0 10px",
   };
   const contain = {
-    width: '200px', /* 최대 가로 너비 */
-    padding: '10px',
-    marginTop: '-5px',
+    width: "200px" /* 최대 가로 너비 */,
+    padding: "10px",
+    marginTop: "-5px",
     position: "absolute",
     marginLeft: "160px",
     width: "60%",
@@ -475,10 +470,11 @@ export default function Profile() {
         </div>
         <div className={styles.backgroundImage}></div>
         <img
-          src={`${process.env.PUBLIC_URL}/public_assets/profile.PNG`}
+          src={`/public_assets/profileImg/profileImg_${
+            userProfileIdx ? userProfileIdx : 1
+          }.png`}
           className={styles.profileImage}
           alt="profile"
-          style={{}}
         />
         <button
           className={styles.profileManageBtn}
@@ -546,24 +542,23 @@ export default function Profile() {
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitWrap}>
-                  <div style={recruitContainer2}>
-                    {inter.map((skill, index) => {
-                      //inter -> 실제 skill 배열로 바꾸면 됨
-                      return (
-                        <img
-                          key={index}
-                          src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
-                          width="40px"
-                          height="40px"
-                          style={extool}
-                          alt={`${skill} skill`}
-                        />
-                      );
-                    })}
-                    <div style={toolss}></div>
+                    <div style={recruitContainer2}>
+                      {inter.map((skill, index) => {
+                        //inter -> 실제 skill 배열로 바꾸면 됨
+                        return (
+                          <img
+                            key={index}
+                            src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
+                            width="40px"
+                            height="40px"
+                            style={extool}
+                            alt={`${skill} skill`}
+                          />
+                        );
+                      })}
+                      <div style={toolss}></div>
+                    </div>
                   </div>
-                  </div>
-                  
                 </div>
               </div>
             </span>

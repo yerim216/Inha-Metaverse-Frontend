@@ -13,8 +13,8 @@ import {
   getSkills,
   getUserIndex,
   getUserInterested,
-  putUserCareer,
   putUserJob,
+  putUserProfileImg,
   putUserSkill,
 } from "../APIs/userinfo";
 
@@ -63,6 +63,22 @@ export default function SignUpModal(props) {
       }
     }
     return null;
+  };
+
+  // 유저 프로필 사진 인덱스
+  const [profileImgIndex, setProfileImgIndex] = useState(1);
+
+  const putProfileImg = async () => {
+    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+
+    // 잘되면 true, 안되면 false 리턴
+    try {
+      putUserProfileImg(userIndex, profileImgIndex);
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+    return true;
   };
 
   const [buttons, setButtons] = useState([
@@ -848,13 +864,104 @@ export default function SignUpModal(props) {
 
                 {/* 프로필 이미지 선택 화면 */}
                 <li className="screen">
-                  <h1 className="title">프로필 이미지 선택 화면</h1>
+                  <h1 className="title">프로필 이미지를 선택해 주세요!</h1>
+                  <section className="flex mr-auto ml-auto items-center gap-6">
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 1 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        border: "2px solid black",
+                        borderRadius: "10%",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(1);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_1.png"
+                        alt="profile1"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 2 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        border: "2px solid black",
+                        borderRadius: "10%",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(2);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_2.png"
+                        alt="profile2"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 3 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        border: "2px solid black",
+                        borderRadius: "10%",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(3);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_3.png"
+                        alt="profile3"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 4 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        border: "2px solid black",
+                        borderRadius: "10%",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(4);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_4.png"
+                        alt="profile4"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 5 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        border: "2px solid black",
+                        borderRadius: "10%",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(5);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_5.png"
+                        alt="profile5"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                  </section>
                   <section className="flex mr-auto ml-auto items-center">
                     <button
                       onClick={() => {
                         setIndex((cur) => cur + 1);
                       }}
-                      className="button"
                     >
                       <img
                         src="/public_assets/icons/nextBtn.svg"
@@ -881,7 +988,8 @@ export default function SignUpModal(props) {
                         (await signUp()) !== false &&
                         (await putInterested()) !== false &&
                         (await putSkills()) !== false &&
-                        (await putJob()) !== false
+                        (await putJob()) !== false &&
+                        (await putProfileImg()) !== false
                       ) {
                         setIndex((cur) => {
                           setTimeout(() => {
