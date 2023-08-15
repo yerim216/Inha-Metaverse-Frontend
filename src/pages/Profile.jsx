@@ -17,6 +17,7 @@ import {
   getTeamInfoByIndex,
   getTeamMembers,
 } from "../APIs/team";
+import { getUserInfo } from "../APIs/userinfo";
 
 export default function Profile() {
   const { index } = useParams(); // URL 파라미터 값 가져오기
@@ -27,10 +28,10 @@ export default function Profile() {
       document.documentElement.classList.remove("profileOnly");
     };
   }, []);
-  const getUserInfo = async () => {
+  const getUserInfos = async () => {
     try {
-      const response = await getUserInfo(userLogin.email);
-      return response.data.name;
+      const response = await getUserInfo(userLogin.user_index);
+      return response.data[0].user_email;
     } catch (error) {
       console.error(error);
       throw error;
@@ -38,13 +39,8 @@ export default function Profile() {
   };
 
   const handleApplyBtn = async () => {
-    const userName = await getUserInfo();
-    // axios
-    //   .post("https://www.app.vpspace.net/team/member", {
-    //     team_name: teamInfo.name,
-    //     user_name: userName,
-    //   })
-    addMember(teamInfo.name, userName)
+    const userName = await getUserInfos();
+    addMember(teamDetail.teamInfo.team_name, userName)
       .then(() => {
         alert("성공적으로 처리되었습니다!");
         window.location.reload();
@@ -55,13 +51,8 @@ export default function Profile() {
   };
 
   const handleLeaveBtn = async () => {
-    const userName = await getUserInfo();
-    // axios
-    //   .post("https://www.app.vpspace.net/team/member/delete", {
-    //     team_name: teamInfo.name,
-    //     user_name: userName,
-    //   })
-    deleteMember(teamInfo.name, userName)
+    const userName = await getUserInfos();
+    deleteMember(teamDetail.teamInfo.team_name, userName)
       .then(() => {
         alert("성공적으로 처리되었습니다!");
         window.location.reload();
@@ -75,7 +66,7 @@ export default function Profile() {
   const [user, setUser] = useRecoilState(userState);
 
   // 팀 정보 관련 변수. 팀 인덱스로 불러 옴.
-  const [teamInfo, setTeamInfo] = useState();
+  const [teamDetail, setTeamDetail] = useState();
 
   // 팀 멤버 정보 변수. 팀 인덱스로 불러 옴.
   const [teamMembers, setTeamMembers] = useState();
@@ -92,17 +83,11 @@ export default function Profile() {
     //   })
     getTeamInfoByIndex(teamIndex)
       .then((res) => {
-        setTeamInfo(res.data[0]);
+        setTeamDetail(res.data);
+        return res.data;
       })
-      .then(() => {
-        // axios
-        //   .post("https://www.app.vpspace.net/team/member/teamidx", {
-        //     index: teamIndex,
-        //     // index:1,
-        //   })
-        getTeamMembers(teamIndex).then((res) => {
-          setTeamMembers(res.data);
-        });
+      .then((data) => {
+        setTeamMembers(data.teamMembers);
       })
       .catch((err) => {
         console.error(err);
@@ -278,17 +263,21 @@ export default function Profile() {
   };
 
   const parts = {
-    marginRight: "5px",
-    width: "auto",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    height: "19px",
+    // marginRight: "5px",
+    width: "80%",
+    // paddingLeft: "10px",
+    // paddingRight: "10px",
+    height: "22px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "black",
     borderRadius: "60px",
     color: "white",
     fontSize: "11px",
+    fontWeight: 800,
     textAlign: "center",
-    paddingTop: "2px",
+    // paddingTop: "2px",
   };
 
   const lab = {
@@ -485,11 +474,19 @@ export default function Profile() {
 
         <div className={styles.nameContainer}>
           <Gdot />
-          <p className={styles.name}>{teamInfo && teamInfo.name}</p>
+          <p className={styles.name}>
+            {teamDetail && teamDetail.teamInfo.team_name}
+          </p>
         </div>
         <div className={styles.texts}>
-          <p>{teamInfo && teamInfo.introduction}</p>
-          <p className={styles.limit}>{teamInfo && teamInfo.description}</p>
+          <p>
+            {teamDetail && teamDetail.teamInfo.team_introduction
+              ? teamDetail.teamInfo.team_introduction
+              : "자기소개가 없습니다!"}
+          </p>
+          <p className={styles.limit}>
+            {teamDetail && teamDetail.teamInfo.team_description}
+          </p>
         </div>
 
         {/* <p className={styles.txt}> Skills</p>
@@ -541,31 +538,32 @@ export default function Profile() {
         <div className={styles.memSearch}>
           <div className={styles.wrapp}>
             {teamMembers &&
-              teamMembers.map((member) => (
-                <span key={member.id} style={no}>
+              teamMembers.map((member, idx) => (
+                <span key={idx} style={no}>
                   <div style={pIntro}>
                     <div style={pImage}>
                       <img
                         src={`${process.env.PUBLIC_URL}/public_assets/pro.png`}
-                        alt={member.name}
+                        alt={member.user_name}
                       />
                     </div>
                     <div style={con}>
                       <div style={hahaha}>
                         <div style={dot}></div>
-                        <div style={namee}>{member.name}</div>
+                        <div style={namee}>{member.user_name}</div>
                       </div>
                       <br />
                       <div style={whole}>
-                        <div style={con2}>{member.intro}</div>
-                        <div style={lab}>
-                          <div style={parts}>#{member.part1}</div>
-                          <div style={parts}>#{member.part2}</div>
-                          <div style={more}>
-                            <img
-                              src={`${process.env.PUBLIC_URL}/public_assets/more.png`}
-                            />
-                          </div>
+                        <div style={con2}>
+                          {member.user_introduction
+                            ? member.user_introduction
+                            : "자기소개가 없습니다!"}
+                        </div>
+                        <div style={parts}>
+                          #
+                          {member.user_job
+                            ? member.user_job
+                            : "할당된 역할이 없습니다!"}
                         </div>
                       </div>
                     </div>
@@ -574,46 +572,7 @@ export default function Profile() {
               ))}
           </div>
         </div>
-
-        {/* <p className={styles.txt}> Recruiting </p> */}
-
-        {/* <div className={styles.memSearch2}>
-        <div className={styles.memNav}>
-
-          <div className={styles.item1}>대분류</div>
-          <div className={styles.item2}>소분류</div>
-          <div className={styles.item3}>모집인원</div>
-          <div className={styles.item4}>총원</div>
-          <div className={styles.item5}>상태</div>
-        </div>
-
-        <div className ={styles.recruit}>
-        {profile.recruiting.map(item => (
-            
-              <span key={item.id}>
-                <div style={recruitContainer}>
-                  <div style={cate}>
-                    {item.cate}
-                  </div>
-                  <div style={recruitList}>
-                    {item.part}
-                  </div>
-                  <div style={recruitingNum2}>
-                    {item.capacity}
-                  </div>
-                  <div style={recruitingNum}>
-                    {item.gathering}
-                  </div>
-                  <Link to ='/'style={state}>
-                    지원하기
-                  </Link>
-                </div>
-              </span>
-          ))}
-        </div>
-      </div> */}
       </div>
-
       <Footer />
     </section>
   );

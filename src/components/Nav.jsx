@@ -99,10 +99,19 @@ export default function Nav() {
               />
             )}
             <img
-              src="/public_assets/profileImg.png"
-              width="44"
-              height="44"
+              // src="/public_assets/profileImg.png"
+              src={`/public_assets/profileImg/profileImg_${
+                // user ?  : 1
+                1
+              }.png`}
               alt="profile"
+              style={{
+                border: "1px solid black",
+                borderRadius: "100%",
+                width: "44px",
+                height: "44px",
+                objectFit: "cover",
+              }}
             />
             <img src="/public_assets/modal.png" alt="profile" />
           </button>
