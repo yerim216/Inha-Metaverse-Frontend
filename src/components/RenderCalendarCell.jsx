@@ -13,20 +13,20 @@ export default function RenderCalendarCell() {
     const oneMonthAfterStart = addMonths(monthStart, 1);
 
     let startDay = monthStart.getDay(); //숫자로 표현, 0부터 시작
-    let endDay = monthEnd.getDay();
+    let endDay = monthEnd.getDay(); // 이번달 마지막 요일을 0 1 2로 표현
 
     let startplus = 6-startDay; //전체 날짜 계산용. 앞뒤로 몇일 남는지 계싼
-    let endplus = 6-endDay;
+    let endplus = 6-endDay; // 다음 달 요일 수 (이번 달 캘린더에 걸쳐진) -> 0이면 걸쳐진 날 없음
 
     let endDate = monthEnd.getDate(); //한달이 몇일인지 확인
 
-    let fulldayCount = endDate+startDay+endplus;
-    let weekCount = fulldayCount/7;
+    let fulldayCount = endDate+startDay+endplus; // 한 화면 전체 날짜 배열 크기
+    let weekCount = fulldayCount/7; //일주일 반복 횟수
 
-    let beforeMonthEnd =oneMonthBeforeEnd.getDay();
-    let beforeMonthEndDate =oneMonthBeforeEnd.getDate();
+    let beforeMonthEnd =oneMonthBeforeEnd.getDay(); //이전 달 마지막 요일이 일 월 화 등인지를 0 1 2로 표현 
+    let beforeMonthEndDate =oneMonthBeforeEnd.getDate(); //이전 달의 마지막 날짜
 
-    console.log(weekCount);
+    console.log(beforeMonthEnd);
     console.log("tmk"+beforeMonthEndDate);
 
     console.log(monthStart);
@@ -56,14 +56,16 @@ export default function RenderCalendarCell() {
     let day = [];
 
     for (let i = 0; i <= fulldayCount; i++){
+        
         if (i > 0 && i%7 === 0){
-            
             wholeMonth.push(
                 <div className={styles.daytable}>
                     {day}
                 </div>
             );
+
             day=[];
+
             day.push(
                 <div className={styles.dayBoxSu}> 
                     <p className={styles.boxDate}>{days[i]}</p>
@@ -83,21 +85,14 @@ export default function RenderCalendarCell() {
                         <p className={styles.boxDate}>{days[i]}</p>
                     </div>
                 ); 
-            }
-            
-            
+            } 
         }
     }
-
         
-        return(
-            <>
-                {wholeMonth}
-            </>
-        
-        );    
-        
+    return(
+        <>
+            {wholeMonth}
+        </>
     
-       
-   
+    );       
 }
