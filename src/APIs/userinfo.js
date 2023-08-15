@@ -35,3 +35,30 @@ export function getTeamIndex(userLoginString) {
 export function getSkills() {
   return axios.get("/userinfo/skill");
 }
+export function putUserCareer(userIndex, userCareer) {
+  return axios.post("/userinfo/put/career", {
+    index: userIndex,
+    career: userCareer,
+  });
+}
+
+export function putUserIntroduction(userIndex, userIntroduction) {
+  return axios.post("/userinfo/put/introduction", {
+    index: userIndex,
+    introduction: userIntroduction,
+  });
+}
+
+export function putUserJob(userIndex, userJob) {
+  return axios.post("/userinfo/put/job", {
+    index: userIndex,
+    job: userJob,
+  });
+}
+
+export function putUserInterest(userIndex, userInterest) {
+  return axios.post("/userinfo/interested/put", {
+    user_index: userIndex,
+    field_index: userInterest,
+  });
+}
