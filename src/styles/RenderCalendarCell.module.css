@@ -1,0 +1,41 @@
+.dayBox{
+    display: inline-block;
+    width: 150px;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #323232;
+    width: 150px;
+    height: 84px;
+    margin-top: 6px;
+}
+
+.daytable{
+    display:flex;
+    flex-direction: row;
+    margin-left: 120px;
+    gap:12px;
+}
+
+.dayBoxSu{
+    display: inline-block;
+    width: 150px;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #323232;
+    width: 150px;
+    height: 84px;
+    margin-top: 6px;
+    color: #17A1FA;
+}
+
+.boxDate{
+    margin-top: 4.5px;
+    margin-left: 8px;
+    font-family: Inter;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
