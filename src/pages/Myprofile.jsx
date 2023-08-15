@@ -550,7 +550,6 @@ export default function Profile() {
                   <div style={recruitWrap}>
                   <div style={recruitContainer2}>
                     {skills.map((skill, index) => {
-                      //inter -> 실제 skill 배열로 바꾸면 됨
                       return (
                         <img
                           key={index}
