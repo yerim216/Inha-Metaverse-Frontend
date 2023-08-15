@@ -78,6 +78,7 @@ const rerendering = () => {
       const myArray = Object.values(res.data);
       setUsers(myArray[0]);
       setUserProfileIdx(myArray[0].user_img_index);
+      putUserImg(userIdx,userProfileIdx);
       console.log(job);
 
       setLoading(false);
