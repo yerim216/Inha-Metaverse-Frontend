@@ -63,6 +63,13 @@ export function putUserInterest(userIndex, userInterest) {
   });
 }
 
+export function deleteUserInterest(userIndex, userInterest) {
+  return axios.post("/userinfo/interested/delete", {
+    user_index: userIndex,
+    field_index: userInterest,
+  });
+}
+
 export function putUserSkill(userIndex, skillIndex) {
   return axios.post("/userinfo/skill/put", {
     user_index: userIndex,

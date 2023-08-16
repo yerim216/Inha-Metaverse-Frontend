@@ -13,14 +13,16 @@ import {
   getUserInfo,
   putUserCareer,
   putUserIntroduction,
-  putUserInterest,
+  addInterested,
   getUserInterested,
   putUserImg,
+  deleteUserInterest,
 } from "../APIs/userinfo";
 import Nav from "../components/Nav";
 import ImageSelector from "../components/ImgSelectModal";
 
 export default function CreateProject() {
+
   const requestURL = `${window.baseURL}`;
 
   const [loading, setLoading] = useState(true);
@@ -33,57 +35,49 @@ export default function CreateProject() {
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIdx = userLogin.user_index;
 
-  const [selectedValue, setSelectedValue] = useState(); //경력 선택 값
+  const [selectedValue, setSelectedValue] = useState([]); //경력 선택 값
   const [text, setText] = useState(); //자기소개
   const [job, setJob] = useState([]); //직무 선택 값 불러오기
   const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
-  const [userProfileIdx, setUserProfileIdx] = useState();
+  const [userProfileIdx, setUserProfileIdx] = useState([]);
 
   let [array, setArray] = useState([]);
 
   const [selectedOption1, setSelectedOption1] = useState(0);
+  const [selectedOption2, setSelectedOption2] = useState(0);
+  const [selectedOption3, setSelectedOption3] = useState(0);
 
-  const [selectedIndex1, setSelectedIndex1] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
+  // const [selectedIndex1, setSelectedIndex1] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
+  // const [selectedIndex2, setSelectedIndex2] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
+  // const [selectedIndex3, setSelectedIndex3] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
 
-  const [plans, setPlans] = useState([]);
+  const [plans, setPlans] = useState([{ index: 0, field_title: "기획" }]);
+  const [designs, setDesigns] = useState([{ index: 0, field_title: "디자인" }]);
+  const [options, setOptions] = useState([{ index: 0, field_title: "개발" }]);
 
-  const selectedValue1 = plans[selectedOption1];
+  // const selectedValue1 = plans[selectedOption1];
+  // const selectedValue2 = designs[selectedOption2];
+  // const selectedValue3 = options[selectedOption3];
 
   useEffect(() => {
     getUserInfo(userIdx)
     .then(function (res) {
       const myArray = Object.values(res.data);
-      setUsers(myArray[0]);
+      setUsers(res.data[0]);
       setUserProfileIdx(myArray[0].user_img_index);
-
-      console.log(job);
-
-        setLoading(false);
-
-        console.log(job);
 
         setSelectedValue(myArray[3]);
         setText(myArray[2]);
-        // const interestArray = userData.map((item) => item.fields); // 관심분야만 따로 배열로 빼두기
+        const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
+        setJob(interestArray);
+        setLoading(false);
+
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
 
-  const rerendering = () => {
-    getUserInfo(userIdx)
-      .then(function (res) {
-        const myArray = Object.values(res.data);
-        setUsers(myArray[0]);
-        setUserProfileIdx(myArray[0].user_img_index);
-        putUserImg(userIdx, userProfileIdx);
-        console.log(job);
-
-// useEffect(()=>{
-//   setPlans(res.data[0].fields);
-
-// })
 const rerendering = () => {
   getUserInfo(userIdx)
     .then(function (res) {
@@ -91,15 +85,15 @@ const rerendering = () => {
       setUsers(myArray[0]);
       setUserProfileIdx(myArray[0].user_img_index);
       putUserImg(userIdx,userProfileIdx);
-      console.log(job);
-        setLoading(false);
+      const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
+      setJob(interestArray);
+      // setJob(res.data[0].fields)
+      setLoading(false);
 
-        console.log(job);
 
-        setSelectedValue(myArray[3]);
-        setText(myArray[2]);
-        // const interestArray = userData.map((item) => item.fields); // 관심분야만 따로 배열로 빼두기
-        const interestArray = userData.fields;
+      setSelectedValue(myArray[3]);
+      setText(myArray[2]);
+ 
       })
       .catch(function (error) {
         console.log(error);
@@ -110,41 +104,95 @@ const rerendering = () => {
     setSelectedOption1(event.target.value);
     console.log(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    setSelectedIndex1(selectedIndex);
+    // setSelectedIndex1(selectedIndex);
     let num = parseInt(selectedIndex); // 정수로 변환
     // postData(num);
     let len = job.length;
-    console.log(job.length);
     if (len < 6) {
       dbJob(num);
 
-      getUserInfo(userIdx)
-        .then(function (res) {
-          const myArray = Object.values(res.data);
-          setJob(res.data[0].fields); // 관심분야 따로 job 배열에 담기
-          setLoading(false);
-          console.log(job);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      // getUserInfo(userIdx)
+      //   .then(function (res) {
+      //     const myArray = Object.values(res.data);
+      //     setJob(res.data[0].fields); // 관심분야 따로 job 배열에 담기
+      //     setLoading(false);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
 
-      getUserInfo(userIdx)
-        .then(function (res) {
-          const myArray = Object.values(res.data);
-          setJob(myArray[0].fields); // 관심분야 따로 job 배열에 담기
-          setLoading(false);
-          console.log(job);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     } else {
       alert("관심 분야는 최대 6개까지 선택 가능합니다!");
     }
   };
 
-  const navigate = useNavigate();
+
+  const handleOption2Change = (event) => {
+    setSelectedOption1(event.target.value);
+    console.log(event.target.value);
+    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
+    // setSelectedIndex1(selectedIndex);
+    let num = parseInt(selectedIndex); // 정수로 변환
+    // postData(num);
+    let len = job.length;
+    if (len < 6 ) {
+      dbJob(num);
+      // setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+    }else {
+      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
+    }
+  };
+
+  const handleOption3Change = (event) => {
+    setSelectedOption1(event.target.value);
+    console.log(event.target.value);
+    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
+    // setSelectedIndex1(selectedIndex);
+    let num = parseInt(selectedIndex); // 정수로 변환
+    let len = job.length;
+    
+    if (len< 6 ) {
+    
+      dbJob(num);
+      // setSelectedOption3(num);
+      // setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+    }else {
+      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
+    }
+  };
+
+  useEffect(() => {
+    getUserInterested()
+      .then((response) => {
+        // 요청이 성공한 경우
+        const data = response.data;
+        console.log(data);
+        const filterData = data
+          .filter((obj) => obj.field_category === "기획")
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
+        const filterData1 = data
+          .filter((obj) => obj.field_category === "개발")
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
+        const filterData2 = data
+          .filter((obj) => obj.field_category === "디자인")
+          .map(({ field_index, field_title }) => ({ field_index, field_title }));
+
+        
+        // const planToArray = JSON.stringify(filterData);
+        const updatedPlans = [...plans,...filterData];
+        setPlans(updatedPlans);
+
+        const updatedDesigns = [...designs,...filterData2];
+        setDesigns(updatedDesigns);
+
+        const updatedOptions = [...options,...filterData1];
+        setOptions(updatedOptions);
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우
+        console.error(error);
+      });
+  }, []);
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -162,26 +210,14 @@ const rerendering = () => {
     dbIntro(txt);
   };
 
-  useEffect(() => {
-    getUserInterested()
-      .then((response) => {
-        // 요청이 성공한 경우
-        setPlans(response.data[0].fields);
-        console.log(data);
-
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우
-        console.error(error);
-      });
-  }, []);
 
   // const getInterests = async() => { //전체 관심분야, 직무 받아오기
   const handleDelete = (index) => {
-    //직무 삭제하기
-    const updatedItems = [...job];
-    updatedItems.splice(index, 1);
-    setJob(updatedItems);
+    let num = parseInt(index); // 정수로 변환
+
+    deleteUserInterest(userIdx,num);//직무 삭제하기
+    
+    rerendering();
   };
 
   const blockScroll = () => {
@@ -230,15 +266,16 @@ const rerendering = () => {
     window.location.href = "/";
   };
 
-  for (let i = 0; i < interests.length; i++) {
-    if (interests[i].title === selectedValue1) {
-      let interIndex = interests[i].index;
-    }
-  }
+  // for (let i = 0; i < interests.length; i++) {
+  //   if (interests[i].title === selectedValue1) {
+  //     let interIndex = interests[i].index;
+  //   }
+  // };
 
   //직무 db 저장
   const dbJob = (jobIndex) => {
-    putUserInterest(userIdx, jobIndex)
+
+    addInterested(userIdx, jobIndex)
       .then(function () {
         console.log("직무 저장 성공");
       })
@@ -287,13 +324,13 @@ const rerendering = () => {
   }, [userProfileIdx]); // userProfileIdx가 변경될 때만 useEffect 내부 코드 실행
 
   const load = {
-    color: "white",
+    color: "white"
   };
 
   const jobBox = {
     display: "flex",
     flexDirection: "row",
-    gap: "3px",
+    gap: "3px"
   };
 
   const option = {
@@ -303,7 +340,7 @@ const rerendering = () => {
     padding: "10px",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
-    fontWeight: "400",
+    fontWeight: "400"
   };
   const option2 = {
     width: "600px",
@@ -313,7 +350,7 @@ const rerendering = () => {
     padding: "10px",
     fontFamily: "'Avenir'",
     fontStyle: "normal",
-    fontWeight: "400",
+    fontWeight: "400"
   };
 
   const option3 = {
@@ -327,24 +364,25 @@ const rerendering = () => {
     display: "flex",
     height: "30px",
     flexDirection: "row",
-    gap: "20px",
+    gap: "20px"
   };
   const jobselect = {
     color: "white",
     display: "flex",
     flexDirection: "row",
-    gap: "20px",
+    gap: "20px"
   };
   const txts = {
-    color: "white",
+    color: "white"
   };
 
   const profileImgCss = {
     width: "300px",
     height: "300px",
     borderRadius: "30px",
-    objectFit: "cover", // 이미지를 너비와 높이에 맞게 크롭하여 채우기
+    objectFit: "cover"// 이미지를 너비와 높이에 맞게 크롭하여 채우기
   };
+
   return (
     <>
       <Nav />
@@ -359,7 +397,7 @@ const rerendering = () => {
               src={`/public_assets/profileImg/profileImg_${userProfileIdx}.png`}
             />
             <span onClick={rerendering}>
-              <ImageSelector />
+              <ImageSelector userProfileIdx={userProfileIdx}/>
             </span>
             {/* <p className={styles2.imgtxt} onClick={handleImageChange}>
               이미지 교체하기
@@ -403,8 +441,8 @@ const rerendering = () => {
               {job &&
                 job.map((item, index) => (
                   <div key={index} style={jobBox}>
-                    <span>{item}</span>
-                    <button onClick={() => handleDelete(index)}>X</button>
+                    <span>{item.field_title}</span>
+                    <button onClick={() => handleDelete(item.field_index)}>X</button>
                   </div>
                 ))}
             </div>
@@ -422,6 +460,31 @@ const rerendering = () => {
                 </option>
               ))}
             </select>
+            <br />
+            <select
+              style={option3}
+              value={selectedOption2}
+              onChange={handleOption2Change}
+            >
+              {designs.map((option, index) => (
+                <option key={index} value={option.field_index}>
+                  {option.field_title}
+                </option>
+              ))}
+            </select>
+            <br />
+            <select
+              style={option3}
+              value={selectedOption3}
+              onChange={handleOption3Change}
+            >
+              {options.map((option, index) => (
+                <option key={index} value={option.field_index}>
+                  {option.field_title}
+                </option>
+              ))}
+            </select>
+            <br />
           </div>
         </div>
         <div className="flex w-full justify-center gap-8">
