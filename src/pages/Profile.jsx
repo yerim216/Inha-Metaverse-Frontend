@@ -11,7 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
-import { addMember, deleteMember, getTeamInfoByIndex } from "../APIs/team";
+import {
+  addMember,
+  deleteMember,
+  getTeamInfoByIndex,
+  viewUp,
+} from "../APIs/team";
 import { getUserInfo } from "../APIs/userinfo";
 
 export default function Profile() {
@@ -83,6 +88,9 @@ export default function Profile() {
       })
       .then((data) => {
         setTeamMembers(data.teamMembers);
+      })
+      .then(() => {
+        viewUp(teamIndex);
       })
       .catch((err) => {
         console.error(err);

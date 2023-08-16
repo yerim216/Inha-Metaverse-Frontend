@@ -56,3 +56,9 @@ export async function createTeam(leaderIndex, inputs) {
     console.error("Error creating team:", error);
   }
 }
+
+export function viewUp(teamIndex) {
+  return axios.post("team/viewup", {
+    index: teamIndex,
+  });
+}
