@@ -22,15 +22,17 @@ export default function ProjectLists({ recruitmentBtnActive }) {
   const [recruitingProjects, setRecruitingProjects] = useState([]);
   const [notRecruitingProjects, setNotRecruitingProjects] = useState([]);
 
-  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruiting, created_at, updated_at, views로 구성됨.
+  // 아래의 요소들은 created_at, recruitment_number, team_description, team_index, team_introduction, team_leader,
+  // team_name, team_recruting, team_views, updated_at로 구성됨.
+
   const [randomRecruitingProjects, setRandomRecruitingProjects] = useState([]);
   const [randomNotRecruitingProjects, setRandomNotRecruitingProjects] =
     useState([]);
 
   useEffect(() => {
     getTeams().then((res) => {
-      // console.log(res.data);
-      // setProjectList(res.data);
+      console.log(res.data);
+      setProjectList(res.data);
     });
   }, []);
 
@@ -39,7 +41,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     const notRecruiting = [];
 
     projectList.forEach((project) => {
-      if (project.recruiting === true) {
+      if (project.team_recruting === true) {
         recruiting.push(project);
       } else {
         notRecruiting.push(project);
@@ -50,15 +52,26 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     setNotRecruitingProjects(notRecruiting);
 
     if (recruiting.length !== 0) {
-      setRandomRecruitingProjects(getRandomElements(recruiting, 9));
+      if (recruiting.length >= 9)
+        setRandomRecruitingProjects(getRandomElements(recruiting, 9));
+      else
+        setRandomRecruitingProjects(
+          getRandomElements(recruiting, recruiting.length)
+        );
     }
 
     if (notRecruiting.length !== 0) {
-      setRandomNotRecruitingProjects(getRandomElements(notRecruiting, 9));
+      if (notRecruiting.length >= 9)
+        setRandomNotRecruitingProjects(getRandomElements(notRecruiting, 9));
+      else
+        setRandomNotRecruitingProjects(
+          getRandomElements(notRecruiting, notRecruiting.length)
+        );
     }
   }, [projectList]);
 
-  // 아래의 요소들은 index, name, introduction, description, recruitment_number, recruiting, created_at, updated_at, views로 구성됨.
+  // 아래의 요소들은 created_at, recruitment_number, team_description, team_index, team_introduction, team_leader,
+  // team_name, team_recruting, team_views, updated_at로 구성됨.
   return (
     <div className={styles.ProjectBox}>
       {recruitmentBtnActive ? (
@@ -69,13 +82,15 @@ export default function ProjectLists({ recruitmentBtnActive }) {
         ) : (
           randomRecruitingProjects.map((item) => (
             <ProjectBox
-              projectName={item.name}
+              projectName={item.team_name}
               isRecruiting={true}
-              key={item.id}
+              key={item.team_index}
               recruitmentNumber={item.recruitment_number}
-              views={item.views}
-              introduction={item.introduction}
-              teamIndex={item.index}
+              views={item.team_views}
+              introduction={item.team_introduction}
+              teamIndex={item.team_index}
+              numOfMembers={item.recruitment_number}
+              skills={item.skills}
             />
           ))
         )
@@ -86,12 +101,15 @@ export default function ProjectLists({ recruitmentBtnActive }) {
       ) : (
         randomNotRecruitingProjects.map((item) => (
           <ProjectBox
-            projectName={item.name}
+            projectName={item.team_name}
             isRecruiting={false}
-            key={item.id}
+            key={item.team_index}
             recruitmentNumber={item.recruitment_number}
-            views={item.views}
-            introduction={item.introduction}
+            views={item.team_views}
+            introduction={item.team_introduction}
+            teamIndex={item.team_index}
+            numOfMembers={item.recruitment_number}
+            skills={item.skills}
           />
         ))
       )}
