@@ -17,6 +17,8 @@ import {
   getUserInterested,
   putUserImg,
   deleteUserInterest,
+  putUserSkill,
+  getSkills
 } from "../APIs/userinfo";
 import Nav from "../components/Nav";
 import ImageSelector from "../components/ImgSelectModal";
@@ -29,9 +31,6 @@ export default function CreateProject() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUsers] = useState([]);
-  const [interests, setInterests] = useState([]);
-  const [addinter, setAddInter] = useState([]);
-  const [interestIndex, setInterestIndex] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIdx = userLogin.user_index;
 
@@ -319,12 +318,42 @@ const rerendering = () => {
   useEffect(() => {
     handleImageChange(userIdx, userProfileIdx);
     setUserProfileIdx(userProfileIdx);
+    getSkill();
     // putUserImg(userIndex,userImg);
     console.log("userProfileIdx가 변경되었습니다:", userProfileIdx);
   }, [userProfileIdx]); // userProfileIdx가 변경될 때만 useEffect 내부 코드 실행
 
+  const getSkill = () => {
+    getSkills()
+    .then(function(res) {
+      setSkill(res.data);
+      console.log(skill);
+    }) 
+    .catch(function(error) {
+      console.log(error);
+
+    });
+  };
+
+  const rerenderingSkills = (skillIndex) => {
+    const toInt = parseInt(skillIndex);
+    console.log(userIdx);
+    console.log(typeof(skillIndex));
+    putUserSkill(userIdx,toInt)
+    .then(function() {
+      console.log("스킬 저장 성공");
+    }) 
+    .catch(function(error) {
+      console.log(error);
+    });
+    
+  };
   const load = {
     color: "white"
+  };
+  const skillImg = {
+    width:'fitContent',
+    height: '40px'
   };
 
   const jobBox = {
@@ -486,6 +515,31 @@ const rerendering = () => {
             </select>
             <br />
           </div>
+          <br /><br /><br /><br />
+          <div className={styles2.basic}>
+            <span className={styles2.middleFont}>사용하는 언어 & 다루는 툴</span>
+            <div className={styles2.n}></div>
+            <span>
+                <div className={styles2.skills}>
+                {skill.map((skill, index) => (
+                  <span
+                    key={index}
+                    className={styles2.skillwrap}
+                    onClick={() => rerenderingSkills(skill.skill_index)}
+                  >
+                    {skill.skill_name} 
+                    <img
+                      key={index}
+                      src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}              
+                      alt={`Image ${skill.skill_index}`}
+                      style={skillImg} 
+                    />
+                  </span>
+                ))}
+                </div>
+            </span>
+          </div>
+          
         </div>
         <div className="flex w-full justify-center gap-8">
           <button onClick={profileSave} className={styles.changeBtn}>

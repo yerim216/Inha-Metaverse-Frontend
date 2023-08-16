@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styles from "../styles/ImgSelectModal.module.css";
-import { getUserInfo,putUserImg } from "../APIs/userinfo";
+import 
+{ getUserInfo,
+  putUserImg,
+} 
+from "../APIs/userinfo";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 

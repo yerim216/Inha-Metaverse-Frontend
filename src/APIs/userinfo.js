@@ -35,6 +35,7 @@ export function getTeamIndex(userIndex) {
 export function getSkills() {
   return axios.get("/userinfo/skill");
 }
+
 export function putUserCareer(userIndex, userCareer) {
   return axios.post("/userinfo/put/career", {
     index: userIndex,
