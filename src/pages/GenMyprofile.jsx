@@ -18,6 +18,7 @@ import {
   putUserImg,
 } from "../APIs/userinfo";
 import Nav from "../components/Nav";
+import ImageSelector from "../components/ImgSelectModal";
 
 export default function CreateProject() {
   const requestURL = `${window.baseURL}`;
@@ -36,6 +37,7 @@ export default function CreateProject() {
   const [text, setText] = useState(); //자기소개
   const [job, setJob] = useState([]); //직무 선택 값 불러오기
   const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
+  const [userProfileIdx, setUserProfileIdx] = useState();
 
   let [array, setArray] = useState([]);
 
@@ -60,8 +62,29 @@ export default function CreateProject() {
       .then(function (res) {
         const myArray = Object.values(res.data);
         setUsers(myArray[0]);
-        setJob(myArray[0].fields); // 관심분야 따로 job 배열에 담기
-        setSkill(myArray[0].skills);
+        setUserProfileIdx(myArray[0].user_img_index);
+        console.log(job);
+
+        setLoading(false);
+
+        console.log(job);
+
+        setSelectedValue(myArray[3]);
+        setText(myArray[2]);
+        // const interestArray = userData.map((item) => item.fields); // 관심분야만 따로 배열로 빼두기
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  const rerendering = () => {
+    getUserInfo(userIdx)
+      .then(function (res) {
+        const myArray = Object.values(res.data);
+        setUsers(myArray[0]);
+        setUserProfileIdx(myArray[0].user_img_index);
+        putUserImg(userIdx, userProfileIdx);
         console.log(job);
 
         setLoading(false);
@@ -76,7 +99,7 @@ export default function CreateProject() {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  };
 
   const handleOption1Change = (event) => {
     setSelectedOption1(event.target.value);
@@ -89,6 +112,17 @@ export default function CreateProject() {
     console.log(job.length);
     if (len < 6) {
       dbJob(num);
+
+      getUserInfo(userIdx)
+        .then(function (res) {
+          const myArray = Object.values(res.data);
+          setJob(res.data[0].fields); // 관심분야 따로 job 배열에 담기
+          setLoading(false);
+          console.log(job);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
       getUserInfo(userIdx)
         .then(function (res) {
@@ -298,8 +332,8 @@ export default function CreateProject() {
       });
   };
 
-  const handleImageChange = (userIdx, userImg) => {
-    putUserImg(userIdx, userImg)
+  const handleImageChange = (userIdx, userProfileIdx) => {
+    putUserImg(userIdx, userProfileIdx)
       .then(function () {
         console.log("유저 프로필 이미지 저장 성공");
       })
@@ -307,6 +341,13 @@ export default function CreateProject() {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    handleImageChange(userIdx, userProfileIdx);
+    setUserProfileIdx(userProfileIdx);
+    // putUserImg(userIndex,userImg);
+    console.log("userProfileIdx가 변경되었습니다:", userProfileIdx);
+  }, [userProfileIdx]); // userProfileIdx가 변경될 때만 useEffect 내부 코드 실행
 
   const load = {
     color: "white",
@@ -361,6 +402,12 @@ export default function CreateProject() {
     color: "white",
   };
 
+  const profileImgCss = {
+    width: "300px",
+    height: "300px",
+    borderRadius: "30px",
+    objectFit: "cover", // 이미지를 너비와 높이에 맞게 크롭하여 채우기
+  };
   return (
     <>
       <Nav />
@@ -370,10 +417,16 @@ export default function CreateProject() {
 
         <div className={styles.profileImg}>
           <span className={styles2.wrapper}>
-            <img src="/public_assets/proex.png" />
-            <p className={styles2.imgtxt} onClick={handleImageChange}>
+            <img
+              style={profileImgCss}
+              src={`/public_assets/profileImg/profileImg_${userProfileIdx}.png`}
+            />
+            <span onClick={rerendering}>
+              <ImageSelector />
+            </span>
+            {/* <p className={styles2.imgtxt} onClick={handleImageChange}>
               이미지 교체하기
-            </p>
+            </p> */}
           </span>
         </div>
 
