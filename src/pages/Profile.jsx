@@ -15,7 +15,7 @@ import {
   addMember,
   deleteMember,
   getTeamInfoByIndex,
-  getTeamMembers,
+  viewUp,
 } from "../APIs/team";
 import { getUserInfo } from "../APIs/userinfo";
 
@@ -31,7 +31,7 @@ export default function Profile() {
   const getUserInfos = async () => {
     try {
       const response = await getUserInfo(userLogin.user_index);
-      return response.data[0].user_email;
+      return response.data[0].user_name;
     } catch (error) {
       console.error(error);
       throw error;
@@ -88,6 +88,9 @@ export default function Profile() {
       })
       .then((data) => {
         setTeamMembers(data.teamMembers);
+      })
+      .then(() => {
+        viewUp(teamIndex);
       })
       .catch((err) => {
         console.error(err);

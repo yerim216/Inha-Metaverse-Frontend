@@ -4,7 +4,6 @@ import Gdot from "../components/Gdot";
 import StarRating from "../components/StarRating";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import project from "../db/project.json";
 import user from "../db/user.json";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,6 @@ import { BiRightArrowCircle } from "react-icons/bi";
 import Footer from "../components/Footer";
 import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 import { getTeamInfoByIndex } from "../APIs/team";
-import { BiDownArrow } from "react-icons/bi";
 
 export default function Profile() {
   useEffect(() => {
@@ -22,7 +20,6 @@ export default function Profile() {
     };
   }, []);
 
-  const inter = ["html", "vscode", "react", "spring", "spring"];
   const [userData, setUsers] = useState([]);
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const [teamLength, setTeamLength] = useState(0);
@@ -30,7 +27,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const userIndex = userLogin.user_index;
 
-  const [skill,setSkill] = useState([]); //스킬 선택 값 불러오기
+  const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
 
   let [pagenation, setPagenation] = useState([]);
 
@@ -38,13 +35,17 @@ export default function Profile() {
   const [team, setTeam] = useState([]);
 
   // 현재 해당 유저가 진행하는 프로젝트 정보를 담은 배열.
-  let [array, setArray] = useState([]);
+  const [array, setArray] = useState([]);
 
   // 위의 array 배열에 중복 문제가 발생해, 중복 문제를 제거한 배열.
   const [filteredArray, setFilteredArray] = useState([]);
 
+  // 원래는 field에 단순히 필드 정보만 있었는데, field_index가 추가된 object 형태가 되어 오류가 발생했었음.
   const [field, setField] = useState([]); //관심분야 선택 값 불러오기
-  const [skills,setSkills] = useState([]); //스킬 선택 값 불러오기
+
+  const [job, setJob] = useState();
+
+  const [skills, setSkills] = useState([]); //스킬 선택 값 불러오기
   const [userProfileIdx, setUserProfileIdx] = useState();
 
   const requestURL = `${window.baseURL}`;
@@ -60,12 +61,11 @@ export default function Profile() {
     getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
-        console.log(res.data);
         setUsers(myArray);
         setField(myArray.fields);
         setUserProfileIdx(myArray.user_img_index);
-        setSkill(res.data[0].skills);
-        console.log(skills);
+        setSkills(myArray.skills);
+        setJob(myArray.user_job);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -506,8 +506,7 @@ export default function Profile() {
               <div className={recruitContainer}>
                 <div style={part}>
                   <p className={styles.part}>직무</p>
-                  {/* <span style={data}>{user.data}</span> */}
-                  <span style={data}>Developer / Planner / Designer</span>
+                  <span style={data}>{job ? job : "직무 없음"}</span>
                 </div>
 
                 <div style={part}>
@@ -544,20 +543,21 @@ export default function Profile() {
                 <div style={partforskill}>
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitWrap}>
-                  <div style={recruitContainer2}>
-                    {skills.map((skill, index) => {
-                      return (
-                        <img
-                          key={index}
-                          src={`${process.env.PUBLIC_URL}/public_assets/${skill}.png`}
-                          width="40px"
-                          height="40px"
-                          style={extool}
-                          alt={`${skill} skill`}
-                        />
-                      );
-                    })}
-                    <div style={toolss}></div>
+                    <div style={recruitContainer2}>
+                      {skills.map((skill, index) => {
+                        //inter -> 실제 skill 배열로 바꾸면 됨
+                        return (
+                          <img
+                            key={index}
+                            src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                            width="40px"
+                            height="40px"
+                            style={extool}
+                            alt={`${skill.skill_name} skill`}
+                          />
+                        );
+                      })}
+                      <div style={toolss}></div>
                     </div>
                   </div>
                 </div>
@@ -568,8 +568,8 @@ export default function Profile() {
 
         <div className={styles.memSearch}>
           <p className={styles.txt}>
-            🔍<span className={styles.userName}>{userData.name} </span> 님이
-            진행하시는 프로젝트
+            🔍<span className={styles.userName}>{userData.user_name} </span>
+            님이 진행하시는 프로젝트
           </p>
 
           <div className={styles.wrapp}>
@@ -631,7 +631,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-
       <Footer />
     </section>
   );
