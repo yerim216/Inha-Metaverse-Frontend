@@ -2,12 +2,6 @@ import axios from "axios";
 
 axios.defaults.baseURL = "https://www.app.vpspace.net/";
 
-export function getTeamMembers(teamIndex) {
-  return axios.post("/team/member/teamidx", {
-    index: teamIndex,
-  });
-}
-
 export function getTeams() {
   return axios.get("/team/all");
 }
@@ -32,7 +26,7 @@ export function getTeamInfoByIndex(teamIndex) {
   });
 }
 
-export async function createTeam(inputs) {
+export async function createTeam(leaderIndex, inputs) {
   let current = new Date();
   let cDate =
     current.getFullYear() +
@@ -47,8 +41,10 @@ export async function createTeam(inputs) {
     ":" +
     current.getSeconds();
   let dateTime = cDate + " " + cTime;
+
   try {
     await axios.post("/team", {
+      leader: leaderIndex,
       name: inputs.name,
       introduction: inputs.introduction,
       description: inputs.description,

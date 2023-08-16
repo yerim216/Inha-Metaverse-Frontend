@@ -7,7 +7,8 @@ import axios from "axios";
 import Member from "./Member";
 import { useOutletContext } from "react-router-dom";
 import { getUserInfo, setUserIndex } from "../APIs/userinfo";
-import { getTeamMembers } from "../APIs/team";
+import { getTeamInfoByIndex, getTeamMembers } from "../APIs/team";
+import { addScheduleByToDo, getSchedule } from "../APIs/schedule";
 
 export default function Board() {
   // ㅆ.. 담당자선택 공유됨
@@ -29,13 +30,12 @@ export default function Board() {
     todo: "",
     fullScreen: false,
   });
-  const [userEmail, setUserEmail] = useState();
 
   // teamIndex는 state에서 관리되므로, 불러와진 경우에만 여러 API 실행 가능.
   const { teamIndex } = useOutletContext();
 
   const [memberList, setMemberList] = useState();
-  // addTodo에서 manager를 할당해야 하는데, 그때의 선택된 리스트.
+  // addTodo에서 manager를 할당해야 ,idx하는데, 그때의 선택된 리스트.
   const [selectedManager, setSelectedManager] = useState([]);
 
   const [todos, setTodos] = useState();
@@ -63,20 +63,13 @@ export default function Board() {
       return;
     }
 
-    const userEmail = JSON.parse(localStorage.getItem("recoil-persist"))
-      .userState.email;
+    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
+      .user_index;
 
-    // await axios
-    //   .post("/userinfo", {
-    //     email: userEmail,
-    //   })
-    //   .then((res) => {
-    //     userIndex = res.data.index;
-    //   });
-
-    await getUserInfo(userEmail).then((res) => {
-      userIndex = res.data.index;
-    });
+    // await getUserInfo(userEmail).then((res) => {
+    //   console.log(res.data);
+    //   userIndex = res.data.index;
+    // });
 
     return userIndex; // userIndex 리턴
   };
@@ -84,18 +77,12 @@ export default function Board() {
   const getDatabase = () => {
     // 팀 인덱스 가져오는 코드
     getTeamIndex().then((teamIndex) => {
-      // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_index로 구성됨.
-      axios
-        .post("/todo/todolist", {
-          index: teamIndex,
-        })
-        .then((res) => {
-          setTodos(res.data);
-        });
-
+      getSchedule(teamIndex).then((res) => {
+        setTodos(res.data);
+      });
       // 담당자(매니저) 리스트를 가져오는 메소드 : 결국 팀 멤버들을 가져오면 됨. 배열 속 name으로 구성됨.
-      getTeamMembers(teamIndex).then((res) => {
-        setMemberList(res.data);
+      getTeamInfoByIndex(teamIndex).then((res) => {
+        setMemberList(res.data.teamMembers);
       });
     });
   };
@@ -126,25 +113,45 @@ export default function Board() {
     );
   };
   const addTodoAtDB = async (filterName) => {
+    // 이거 수정해야함
+    // 팀인덱스, 일정 제목, 일정 내용, 일정 상태, 일정 시작일, 일정 종료일, 일정 작성자 인덱스, 생성일, 일정 색상 필요
+
+    // 유저인덱스 정상적으로 받아와짐.
+
     const userIndex = await getUserIndex();
     getTeamIndex().then((teamIndex) => {
+      // 팀인덱스 정상적으로 받아와짐.
       if (filterName === "notStart") {
-        axios
-          .post("/todo/put", {
-            team: teamIndex,
-            title: addTodo_notStart.title,
-            content: addTodo_notStart.todo,
-            writer: userIndex,
-            date: addTodo_notStart.time,
-            status: 0,
-          })
+        // axios
+        //   .post("/todo/put", {
+        //     team: teamIndex,
+        //     title: addTodo_notStart.title,
+        //     content: addTodo_notStart.todo,
+        //     writer: userIndex,
+        //     date: addTodo_notStart.time,
+        //     status: 0,
+        //   })
+        addScheduleByToDo({
+          teamIndex: teamIndex,
+          title: addTodo_notStart.title,
+          content: addTodo_notStart.todo,
+          status: 0,
+          startDate: null,
+          endDate: null,
+          writer: userIndex,
+          createdAt: addTodo_notStart.time,
+          color: null,
+        })
           .then((res) => {
-            const todoIndex = res.data[0].todo_index;
+            alert("성공!");
+            console.log(res.data);
+            const scheduleIndex = res.data[0].schedule_index;
+            console.log(scheduleIndex);
             selectedManager.map((manager) => {
               axios
-                .post("/todo/manager", {
-                  todo_index: todoIndex,
-                  todo_manager: manager.memberIdx,
+                .post("/schedule/put/manager", {
+                  schedule: scheduleIndex,
+                  manager: manager.memberIdx,
                 })
                 .then(() => {
                   getDatabase();
@@ -155,15 +162,26 @@ export default function Board() {
             console.log(err);
           });
       } else if (filterName === "inProgress") {
-        axios
-          .post("/todo/put", {
-            team: teamIndex,
-            title: addTodo_inProgress.title,
-            content: addTodo_inProgress.todo,
-            writer: userIndex,
-            date: addTodo_inProgress.time,
-            status: 1,
-          })
+        // axios
+        //   .post("/todo/put", {
+        //     team: teamIndex,
+        //     title: addTodo_inProgress.title,
+        //     content: addTodo_inProgress.todo,
+        //     writer: userIndex,
+        //     date: addTodo_inProgress.time,
+        //     status: 1,
+        //   })
+        addScheduleByToDo({
+          teamIndex: teamIndex,
+          title: addTodo_inProgress.title,
+          content: addTodo_inProgress.todo,
+          status: 1,
+          startDate: null,
+          endDate: null,
+          writer: userIndex,
+          createdAt: addTodo_inProgress.time,
+          color: null,
+        })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
             selectedManager.map((manager) => {
@@ -181,15 +199,26 @@ export default function Board() {
             console.log(err);
           });
       } else if (filterName === "done") {
-        axios
-          .post("/todo/put", {
-            team: teamIndex,
-            title: addTodo_done.title,
-            content: addTodo_done.todo,
-            writer: userIndex,
-            date: addTodo_done.time,
-            status: 2,
-          })
+        // axios
+        //   .post("/todo/put", {
+        //     team: teamIndex,
+        //     title: addTodo_done.title,
+        //     content: addTodo_done.todo,
+        //     writer: userIndex,
+        //     date: addTodo_done.time,
+        //     status: 2,
+        //   })
+        addScheduleByToDo({
+          teamIndex: teamIndex,
+          title: addTodo_done.title,
+          content: addTodo_done.todo,
+          status: 2,
+          startDate: null,
+          endDate: null,
+          writer: userIndex,
+          createdAt: addTodo_done.time,
+          color: null,
+        })
           .then((res) => {
             const todoIndex = res.data[0].todo_index;
             selectedManager.map((manager) => {
@@ -211,7 +240,9 @@ export default function Board() {
   };
 
   useEffect(() => {
-    if (teamIndex) getDatabase();
+    if (teamIndex) {
+      getDatabase();
+    }
   }, [teamIndex]);
 
   const hideAddTodo = (filterName) => {
@@ -340,19 +371,19 @@ export default function Board() {
                   className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
                 >
                   {memberList &&
-                    memberList.map((member) => {
+                    memberList.map((member, idx) => {
                       return (
                         <Member
-                          key={member.index}
-                          memberName={member.name}
-                          activated={selectedManager.some(
-                            (item) => item.memberName === member.name
-                          )}
+                          key={idx}
+                          memberName={member.user_name}
+                          activated={selectedManager.some((item) => {
+                            return item.memberName === member.user_name;
+                          })}
                           addManager={() => {
-                            addManager(member.name, member.index);
+                            addManager(member.user_name, member.user_index);
                           }}
                           deleteManager={() => {
-                            deleteManager(member.name);
+                            deleteManager(member.user_name);
                           }}
                         />
                       );
@@ -384,7 +415,7 @@ export default function Board() {
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
-                  if (item.todo_status === 0) {
+                  if (item.schedule_status === 0) {
                     return (
                       <TD
                         todoData={item}
@@ -447,16 +478,16 @@ export default function Board() {
                   className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
                 >
                   {memberList &&
-                    memberList.map((member) => {
+                    memberList.map((member, index) => {
                       return (
                         <Member
-                          key={member.index}
-                          memberName={member.name}
+                          key={index}
+                          memberName={member.user_name}
                           activated={selectedManager.some(
-                            (item) => item.memberName === member.name
+                            (item) => item.memberName === member.user_name
                           )}
                           addManager={() => {
-                            addManager(member.name, member.index);
+                            addManager(member.user_name, member.user_index);
                           }}
                           deleteManager={() => {
                             deleteManager(member.name);
@@ -491,7 +522,7 @@ export default function Board() {
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
-                  if (item.todo_status === 1) {
+                  if (item.schedule_status === 1) {
                     return (
                       <TD
                         key={idx}
@@ -557,16 +588,16 @@ export default function Board() {
                   className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
                 >
                   {memberList &&
-                    memberList.map((member) => {
+                    memberList.map((member, index) => {
                       return (
                         <Member
-                          key={member.index}
-                          memberName={member.name}
+                          key={index}
+                          memberName={member.user_name}
                           activated={selectedManager.some(
-                            (item) => item.memberName === member.name
+                            (item) => item.memberName === member.user_name
                           )}
                           addManager={() => {
-                            addManager(member.name, member.index);
+                            addManager(member.user_name, member.user_index);
                           }}
                           deleteManager={() => {
                             deleteManager(member.name);
@@ -602,7 +633,7 @@ export default function Board() {
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
-                  if (item.todo_status === 2) {
+                  if (item.schedule_status === 2) {
                     return (
                       <TD
                         key={idx}

@@ -9,6 +9,7 @@ import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../APIs/userinfo";
 import { addMember, createTeam } from "../APIs/team";
+import Nav from "../components/Nav";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -43,8 +44,6 @@ export default function CreateProject() {
 
   const addTeamMember = async (teamName) => {
     const userName = await getUserName();
-    console.log(teamName);
-    console.log(userName);
     addMember(teamName, userName)
       .then(() => {})
       .catch((error) => {
@@ -93,58 +92,7 @@ export default function CreateProject() {
 
   return (
     <>
-      <SignInModal
-        open={signInModalOpen}
-        close={closeSignInModal}
-        openSignUpModal={openSignUpModal}
-      ></SignInModal>
-      <SignUpModal
-        open={signUpModalOpen}
-        close={closeSignUpModal}
-      ></SignUpModal>
-      <nav className={styles.navbar}>
-        <span
-          className={styles.navLink}
-          onClick={() => {
-            navigate("/");
-            window.scrollTo({ top: 0, behavior: "auto" });
-          }}
-        >
-          Home
-        </span>
-        {user ? (
-          <button
-            className={styles.loginModal}
-            onClick={() => {
-              onClickButton();
-            }}
-          >
-            {isOpen && (
-              <OnLogModal
-                open={isOpen}
-                onClose={() => {
-                  setIsOpen(false);
-                }}
-              />
-            )}
-            <img
-              src="/public_assets/profileImg.png"
-              width="44"
-              height="44"
-              alt="profile"
-            />
-            <img src="/public_assets/modal.png" alt="profile" />
-          </button>
-        ) : (
-          <button className={styles.loginButton} onClick={openSignInModal}>
-            <span>Login</span>
-            <Dot />
-          </button>
-        )}
-        <button onClick={handleButtonClick} className={styles.navLink}>
-          Profile
-        </button>
-      </nav>
+      <Nav />
       <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
       <form className={styles.paddingSection}>
         <h1 className={styles.title}>프로젝트 만들기</h1>
@@ -210,7 +158,10 @@ export default function CreateProject() {
               e.preventDefault();
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
               if (returnVal === true) {
-                const teamName = await createTeam(inputs);
+                const userIndex = JSON.parse(
+                  localStorage.getItem("recoil-persist")
+                ).userState.user_index;
+                const teamName = await createTeam(userIndex, inputs);
                 if (teamName) {
                   addTeamMember(teamName).then(() => {
                     alert("팀이 성공적으로 생성되었습니다!");

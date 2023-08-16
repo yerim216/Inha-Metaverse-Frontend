@@ -11,12 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
-import {
-  addMember,
-  deleteMember,
-  getTeamInfoByIndex,
-  getTeamMembers,
-} from "../APIs/team";
+import { addMember, deleteMember, getTeamInfoByIndex } from "../APIs/team";
 import { getUserInfo } from "../APIs/userinfo";
 
 export default function Profile() {
@@ -31,7 +26,7 @@ export default function Profile() {
   const getUserInfos = async () => {
     try {
       const response = await getUserInfo(userLogin.user_index);
-      return response.data[0].user_email;
+      return response.data[0].user_name;
     } catch (error) {
       console.error(error);
       throw error;
