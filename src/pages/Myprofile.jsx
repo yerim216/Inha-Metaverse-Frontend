@@ -528,7 +528,7 @@ export default function Profile() {
                       field.map((item, idx) => {
                         return (
                           <span style={indata} key={idx}>
-                            {item}
+                            {item.field_title}
                           </span>
                         );
                       })

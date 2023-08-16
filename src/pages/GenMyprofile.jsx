@@ -35,20 +35,12 @@ export default function CreateProject() {
   let [array, setArray] = useState([]);
 
   const [selectedOption1, setSelectedOption1] = useState(0);
-  const [selectedOption2, setSelectedOption2] = useState(0);
-  const [selectedOption3, setSelectedOption3] = useState(0);
 
   const [selectedIndex1, setSelectedIndex1] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
-  const [selectedIndex2, setSelectedIndex2] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
-  const [selectedIndex3, setSelectedIndex3] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
 
   const [plans, setPlans] = useState([]);
-  const [designs, setDesigns] = useState([]);
-  const [options, setOptions] = useState([]);
 
   const selectedValue1 = plans[selectedOption1];
-  const selectedValue2 = designs[selectedOption2];
-  const selectedValue3 = options[selectedOption3];
 
   useEffect(() => {
     getUserInfo(userIdx)
@@ -56,6 +48,7 @@ export default function CreateProject() {
       const myArray = Object.values(res.data);
       setUsers(myArray[0]);
       setUserProfileIdx(myArray[0].user_img_index);
+
       console.log(job);
 
       setLoading(false);
@@ -64,7 +57,6 @@ export default function CreateProject() {
 
       setSelectedValue(myArray[3]);
       setText(myArray[2]);
-      // const interestArray = userData.map((item) => item.fields); // 관심분야만 따로 배열로 빼두기
 
     })
     .catch(function (error) {
@@ -72,6 +64,10 @@ export default function CreateProject() {
     });
 }, []);
 
+// useEffect(()=>{
+//   setPlans(res.data[0].fields);
+
+// })
 const rerendering = () => {
   getUserInfo(userIdx)
     .then(function (res) {
@@ -124,44 +120,6 @@ const rerendering = () => {
     }
   };
 
-  
-  const handleOption2Change = (event) => {
-    setSelectedOption2(event.target.value);
-
-    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-
-    let num = parseInt(selectedIndex); // 정수로 변환
-
-    setSelectedIndex2(selectedIndex);
-    // postData(num);
-
-    if (job.length < 6 ) {
-      dbJob(num);
-      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
-    }else {
-      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
-    }
-  };
-
-  const handleOption3Change = (event) => {
-    setSelectedOption3(event.target.value);
-
-    const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    setSelectedIndex3(selectedIndex);
-
-    let num = parseInt(selectedIndex); // 정수로 변환
-    // postData(num);
-
-    if (job.length < 6 ) {
-      dbJob(num);
-      setJob(userData.fields); // 관심분야 따로 job 배열에 담기
-    }else {
-      alert("관심 분야는 최대 6개까지 선택 가능합니다!");
-    }
-    // dbJob();
-    //직무 이름에 해당하는 직무 id 가져오기 , 직무 db 저장하는 함수 호출하면서 직무 id넘겨주기
-  };
-
   const navigate = useNavigate();
 
   const onClickButton = () => {
@@ -179,42 +137,6 @@ const rerendering = () => {
     const txt = event.target.value;
     dbIntro(txt);
   };
-
-  useEffect(() => {
-    getUserInterested()
-      .then((response) => {
-        // 요청이 성공한 경우
-        const data = response.data;
-        console.log(data);
-        const filterData = data
-          .filter((obj) => obj.field_category === "기획")
-          .map(({ field_index, field_title }) => ({ field_index, field_title }));
-        const filterData1 = data
-          .filter((obj) => obj.field_category === "개발")
-          .map(({ field_index, field_title }) => ({ field_index, field_title }));
-        const filterData2 = data
-          .filter((obj) => obj.field_category === "디자인")
-          .map(({ field_index, field_title }) => ({ field_index, field_title }));
-
-        const planfirst = [{ index: 0, field_title: "기획" }];
-        const updatedPlans = [...planfirst, ...filterData];
-        const aa = JSON.stringify(updatedPlans);
-        console.log(aa);
-        setPlans(updatedPlans);
-
-        const designfirst = [{ index: 0, field_title: "디자인" }];
-        const updatedDesigns = [...designfirst, ...filterData2];
-        setDesigns(updatedDesigns);
-
-        const optionfirst = [{ index: 0, field_title: "개발" }];
-        const updatedOptions = [...optionfirst, ...filterData1];
-        setOptions(updatedOptions);
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우
-        console.error(error);
-      });
-  }, []);
 
   // const getInterests = async() => { //전체 관심분야, 직무 받아오기
   const handleDelete = (index) => {
@@ -515,31 +437,7 @@ const rerendering = () => {
                 </option>
               ))}
             </select>
-            <br />
-            <select
-              style={option3}
-              value={selectedOption2}
-              onChange={handleOption2Change}
-            >
-              {designs.map((option, index) => (
-                <option key={index} value={option.field_index}>
-                  {option.field_title}
-                </option>
-              ))}
-            </select>
-            <br />
-            <select
-              style={option3}
-              value={selectedOption3}
-              onChange={handleOption3Change}
-            >
-              {options.map((option, index) => (
-                <option key={index} value={option.field_index}>
-                  {option.field_title}
-                </option>
-              ))}
-            </select>
-            <br />
+            
             
           </div>
         </div>
