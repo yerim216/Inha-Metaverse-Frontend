@@ -544,7 +544,7 @@ export default function Profile() {
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitWrap}>
                     <div style={recruitContainer2}>
-                      {skills.map((skill, index) => {
+                      {skills && skills.map((skill, index) => {
                         //inter -> 실제 skill 배열로 바꾸면 됨
                         return (
                           <img

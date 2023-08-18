@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://www.app.vpspace.net/";
+axios.defaults.baseURL = "https://app.vpspace.net/";
 
 export function getSchedule(teamIndex) {
   return axios.post("/schedule/list", {
