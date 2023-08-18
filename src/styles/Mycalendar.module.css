@@ -66,7 +66,6 @@
 .weekends{
     color: #17A1FA;
     margin-right: 140px;
-    margin-left: 4px;
 
 }
 
@@ -75,3 +74,6 @@
     margin-right: 140px;
 }
 
+.cellBox{
+    margin-left:115px;
+}

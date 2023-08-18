@@ -76,11 +76,6 @@ export default function Profile() {
   const teamIndex = location.state.teamIndex;
 
   useEffect(() => {
-    // axios
-    //   .post("https://www.app.vpspace.net/team/list", {
-    //     index: teamIndex,
-    //     // index:1,
-    //   })
     getTeamInfoByIndex(teamIndex)
       .then((res) => {
         setTeamDetail(res.data);

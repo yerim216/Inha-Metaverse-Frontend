@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "../styles/Mycalendar.module.css";
 import RenderCalendarCell from "../components/RenderCalendarCell";
+import { useOutletContext, useHistory } from "react-router-dom";
 
 export default function Mycalendar() {
+
+    const { teamIndex } = useOutletContext();
 
     var monthNames=["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"]
@@ -42,7 +45,8 @@ export default function Mycalendar() {
       </div>
 
       <div className={styles.weekDay}>
-        {weekDay.map((day,index)=>{
+        {weekDay &&
+          weekDay.map((day,index)=>{
           if(day ==='Su'||day ==='Sa'){
             return(
               <span className={styles.weekends}>
@@ -58,8 +62,10 @@ export default function Mycalendar() {
           }
         })}
       </div>
-
+      <div className={styles.cellBox}>
       <RenderCalendarCell />
+
+      </div>
     </div>
   </>);
 }
