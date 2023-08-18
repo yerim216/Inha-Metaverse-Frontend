@@ -209,8 +209,8 @@ export default function Todo({
         </div>
         <div className="mr-auto flex items-center gap-1">
           <div className="flex gap-2">
-            {managers&&
-              managers.map((manager, idx) => {
+            {manager_names&&
+              manager_names.map((manager, idx) => {
               return (
                 <div className="flex items-center gap-1" key={idx}>
                   <img

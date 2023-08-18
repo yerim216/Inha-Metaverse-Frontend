@@ -67,7 +67,7 @@ export default function CreateProject() {
 
         setSelectedValue(myArray[3]);
         setText(res.data[0].user_introduction);
-        console.log(text);
+        console.log(res.data[0].user_introduction);
         const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
         setJob(interestArray);
         setLoading(false);
@@ -277,7 +277,7 @@ const rerendering = () => {
   const userIndex = userData[0];
 
   const profileSave = () => {
-    dbIntro(job);
+    dbIntro(text);
     window.location.href = "/profile";
   };
 
