@@ -42,7 +42,7 @@ const Calendar = () => {
   const fetchEvents = async () => {
     try {
       const response2 = await axios.post(
-        "https://www.app.vpspace.net/schedule/list",
+        "https://app.vpspace.net/schedule/list",
         {
           //팀인덱스에 따라 db events 불러오기
           index: teamIndex,

@@ -31,7 +31,6 @@ export default function ProjectLists({ recruitmentBtnActive }) {
 
   useEffect(() => {
     getTeams().then((res) => {
-      console.log(res.data);
       setProjectList(res.data);
     });
   }, []);
@@ -89,7 +88,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
               views={item.team_views}
               introduction={item.team_introduction}
               teamIndex={item.team_index}
-              numOfMembers={item.recruitment_number}
+              numOfMembers={item.team_member_count}
               skills={item.skills}
             />
           ))
@@ -108,7 +107,7 @@ export default function ProjectLists({ recruitmentBtnActive }) {
             views={item.team_views}
             introduction={item.team_introduction}
             teamIndex={item.team_index}
-            numOfMembers={item.recruitment_number}
+            numOfMembers={item.team_member_count}
             skills={item.skills}
           />
         ))

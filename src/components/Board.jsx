@@ -6,7 +6,6 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import Member from "./Member";
 import { useOutletContext } from "react-router-dom";
-import { getUserInfo, setUserIndex } from "../APIs/userinfo";
 import { getTeamInfoByIndex, getTeamMembers } from "../APIs/team";
 import { addScheduleByToDo, getSchedule } from "../APIs/schedule";
 
@@ -143,10 +142,7 @@ export default function Board() {
           color: null,
         })
           .then((res) => {
-            alert("성공!");
-            console.log(res.data);
             const scheduleIndex = res.data[0].schedule_index;
-            console.log(scheduleIndex);
             selectedManager.map((manager) => {
               axios
                 .post("/schedule/put/manager", {
@@ -183,12 +179,12 @@ export default function Board() {
           color: null,
         })
           .then((res) => {
-            const todoIndex = res.data[0].todo_index;
+            const scheduleIndex = res.data[0].schedule_index;
             selectedManager.map((manager) => {
               axios
-                .post("/todo/manager", {
-                  todo_index: todoIndex,
-                  todo_manager: manager.memberIdx,
+                .post("/schedule/put/manager", {
+                  schedule: scheduleIndex,
+                  manager: manager.memberIdx,
                 })
                 .then(() => {
                   getDatabase();
@@ -220,12 +216,12 @@ export default function Board() {
           color: null,
         })
           .then((res) => {
-            const todoIndex = res.data[0].todo_index;
+            const scheduleIndex = res.data[0].schedule_index;
             selectedManager.map((manager) => {
               axios
-                .post("/todo/manager", {
-                  todo_index: todoIndex,
-                  todo_manager: manager.memberIdx,
+                .post("/schedule/put/manager", {
+                  schedule: scheduleIndex,
+                  manager: manager.memberIdx,
                 })
                 .then(() => {
                   getDatabase();

@@ -5,14 +5,17 @@ import { BsFillTrashFill } from "react-icons/bs";
 export default function Todo({
   // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
 
+  // -> created_at, end_date, last_update, manger_names(배열 속 string)
+  // schedule_content, schedule_index, schedule_status, schedule_title, start_date, writer_name
+
   todoData: {
-    todo_title,
-    todo_date,
-    managers,
-    todo_status,
-    todo_content,
-    writer,
-    todo_index,
+    schedule_title,
+    created_at,
+    manager_names,
+    schedule_status,
+    schedule_content,
+    writer_name,
+    schedule_index,
   },
   changeTodoStatus,
   deleteTodo,
@@ -20,7 +23,7 @@ export default function Todo({
   const innerContent = useRef();
   const container = useRef();
   const title = useRef();
-  const formattedDate = new Date(todo_date).toLocaleString();
+  const formattedDate = new Date(created_at).toLocaleString();
 
   // 드래그가 끝났을 때, 상태를 변경해야 한다면 드래그된 요소를 제자리에 보내지 말아야 함. 이를 위해 state를 통해 위치 관리.
 
@@ -49,8 +52,8 @@ export default function Todo({
       mouseY <= toDoSection_notStart.getBoundingClientRect().bottom
     ) {
       // notStart 요소에 옮겨짐
-      if (todo_status !== 0) {
-        changeTodoStatus(todo_index, 0);
+      if (schedule_status !== 0) {
+        changeTodoStatus(schedule_index, 0);
       }
     }
     if (
@@ -60,8 +63,8 @@ export default function Todo({
       mouseY <= toDoSection_inProgress.getBoundingClientRect().bottom
     ) {
       // inProgress 요소에 옮겨짐
-      if (todo_status !== 1) {
-        changeTodoStatus(todo_index, 1);
+      if (schedule_status !== 1) {
+        changeTodoStatus(schedule_index, 1);
       }
     }
     if (
@@ -71,8 +74,8 @@ export default function Todo({
       mouseY <= toDoSection_done.getBoundingClientRect().bottom
     ) {
       // done 요소에 옮겨짐
-      if (todo_status !== 2) {
-        changeTodoStatus(todo_index, 2);
+      if (schedule_status !== 2) {
+        changeTodoStatus(schedule_index, 2);
       }
     }
   };
@@ -138,14 +141,14 @@ export default function Todo({
         }}
       >
         <div className="mr-auto text-lg" ref={title}>
-          {todo_title}
+          {schedule_title}
         </div>
         <div
           className="border-2 w-full p-2 rounded-md flex flex-col gap-2 hidden cursor-auto"
           ref={innerContent}
         >
           <pre className="mr-auto text-base w-full whitespace-pre-wrap">
-            {todo_content}
+            {schedule_content}
           </pre>
           <div className="mr-auto flex items-center gap-1">
             <img
@@ -153,7 +156,7 @@ export default function Todo({
               alt="profile"
               className="w-7 h-7"
             />
-            {writer}/작성자
+            {writer_name}/작성자
           </div>
           <div className="flex items-center justify-between">
             <div className={styles.changeButton}>
@@ -165,7 +168,7 @@ export default function Todo({
                     "해당 리스트를 '시작 안함' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(todo_index, 0);
+                    changeTodoStatus(schedule_index, 0);
                   }
                 }}
               ></div>
@@ -176,7 +179,7 @@ export default function Todo({
                     "해당 리스트를 '진행중' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(todo_index, 1);
+                    changeTodoStatus(schedule_index, 1);
                   }
                 }}
               ></div>
@@ -187,7 +190,7 @@ export default function Todo({
                     "해당 리스트를 '완료됨' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(todo_index, 2);
+                    changeTodoStatus(schedule_index, 2);
                   }
                 }}
               ></div>
@@ -198,7 +201,7 @@ export default function Todo({
                 const returnVal =
                   window.confirm("해당 리스트를 삭제하시겠어요?");
                 if (returnVal === true) {
-                  deleteTodo(todo_index);
+                  deleteTodo(schedule_index);
                 }
               }}
             />
