@@ -35,6 +35,7 @@ export function getTeamIndex(userIndex) {
 export function getSkills() {
   return axios.get("/userinfo/skill");
 }
+
 export function putUserCareer(userIndex, userCareer) {
   return axios.post("/userinfo/put/career", {
     index: userIndex,
@@ -58,6 +59,13 @@ export function putUserJob(userIndex, userJob) {
 
 export function putUserInterest(userIndex, userInterest) {
   return axios.post("/userinfo/interested/put", {
+    user_index: userIndex,
+    field_index: userInterest,
+  });
+}
+
+export function deleteUserInterest(userIndex, userInterest) {
+  return axios.post("/userinfo/interested/delete", {
     user_index: userIndex,
     field_index: userInterest,
   });

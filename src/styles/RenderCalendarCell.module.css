@@ -10,13 +10,20 @@
     margin-top: 6px;
 }
 
-.daytable{
+.dayTable{
     display:flex;
     flex-direction: row;
     margin-left: 120px;
     gap:12px;
 }
 
+.otherDayTable{
+    display:flex;
+    flex-direction: row;
+    margin-left: 120px;
+    gap:12px;
+    
+}
 .dayBoxSu{
     display: inline-block;
     width: 150px;

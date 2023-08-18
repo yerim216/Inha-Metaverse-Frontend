@@ -61,11 +61,11 @@ export default function Profile() {
     getUserInfo(userIndex)
       .then(function (res) {
         const myArray = res.data[0];
-        setUsers(myArray);
-        setField(myArray.fields);
-        setUserProfileIdx(myArray.user_img_index);
-        setSkills(myArray.skills);
-        setJob(myArray.user_job);
+        setUsers(res.data[0]);
+        setField(res.data[0].fields);
+        setUserProfileIdx(res.data[0].user_img_index);
+        setSkills(res.data[0].skills);
+        setJob(res.data[0].user_job);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);

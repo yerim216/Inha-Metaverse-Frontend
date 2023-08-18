@@ -13,8 +13,30 @@ margin-top: 20px;
     height: 210px;
 }
 
+.skillwrap{
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  font-size: 17px;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.skills{
+  display: flex;
+  gap: 30px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
+  width: 900px;
+  height: fit-content;
+  padding:30px;
+  background-color: white ;
+  border-radius: 30px;
+}
+
 .imgtxt {
-cursor: pointer;
+  cursor: pointer;
   margin-top: 20px;
   color: white;
   text-shadow: 2px 2px 4px #fff;
