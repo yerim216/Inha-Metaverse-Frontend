@@ -4,9 +4,6 @@ import Gdot from "../components/Gdot";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import project from "../db/project.json";
-import profile from "../db/project.json";
-import member from "../db/member.json";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -113,7 +110,7 @@ export default function Profile() {
 
   const officeMove = () => {
     if (user) {
-      const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+      const url = `https://app.vpspace.net/?email=${encodeURIComponent(
         user.email
       )}&&room=office${encodeURIComponent(teamIndex)}`;
 

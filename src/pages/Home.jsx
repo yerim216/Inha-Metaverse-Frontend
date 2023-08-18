@@ -8,8 +8,6 @@ import Slider from "../components/Slider";
 import Stories from "../components/Stories";
 import View from "../components/View";
 import { UserInfoContext } from "../contexts/UserInfoProvider";
-import SignInModal from "../components/SignInModal";
-import SignUpModal from "../components/SignUpModal";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
