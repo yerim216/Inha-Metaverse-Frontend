@@ -70,7 +70,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  window.baseURL = "https://www.app.vpspace.net/";
+  window.baseURL = "https://app.vpspace.net/";
 
   return (
     <RecoilRoot>
