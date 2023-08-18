@@ -46,9 +46,9 @@ export default function Board() {
     });
   };
 
-  const deleteTodo = (todoIndex) => {
+  const deleteSchedule = (scheduleIndex) => {
     axios
-      .post("/todo/delete", { index: todoIndex })
+      .post("/schedule/delete", { index: scheduleIndex })
       .then(() => {
         getDatabase();
       })
@@ -87,10 +87,10 @@ export default function Board() {
   };
 
   // 기존 투두의 상태 변경하는 코드
-  const changeTodoStatus = (todoIndex, statusNum) => {
+  const changeScheduleStatus = (scheduleIndex, statusNum) => {
     axios
-      .post("/todo/progress", {
-        index: todoIndex,
+      .post("/schedule/progress", {
+        index: scheduleIndex,
         status: statusNum,
       })
       .then(() => {
@@ -415,8 +415,8 @@ export default function Board() {
                     return (
                       <TD
                         todoData={item}
-                        changeTodoStatus={changeTodoStatus}
-                        deleteTodo={deleteTodo}
+                        changeScheduleStatus={changeScheduleStatus}
+                        deleteSchedule={deleteSchedule}
                         key={idx}
                       />
                     );
@@ -523,8 +523,8 @@ export default function Board() {
                       <TD
                         key={idx}
                         todoData={item}
-                        deleteTodo={deleteTodo}
-                        changeTodoStatus={changeTodoStatus}
+                        deleteSchedule={deleteSchedule}
+                        changeScheduleStatus={changeScheduleStatus}
                       />
                     );
                   }
@@ -634,8 +634,8 @@ export default function Board() {
                       <TD
                         key={idx}
                         todoData={item}
-                        deleteTodo={deleteTodo}
-                        changeTodoStatus={changeTodoStatus}
+                        deleteSchedule={deleteSchedule}
+                        changeScheduleStatus={changeScheduleStatus}
                       />
                     );
                   }
