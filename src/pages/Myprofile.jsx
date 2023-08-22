@@ -66,6 +66,7 @@ export default function Profile() {
         setUserProfileIdx(res.data[0].user_img_index);
         setSkills(res.data[0].skills);
         setJob(res.data[0].user_job);
+        console.log(userData);
       })
       .catch(function (error) {
         console.log("데이터가 없어서 그래요!!" + error);
@@ -211,12 +212,12 @@ export default function Profile() {
   const recruitContainer2 = {
     flexWrap: "wrap",
     whiteSpace: "normal",
-    marginLeft: "8.6vw",
+    marginLeft: "8vw",
     display: "flex",
     gap: "35px",
     paddingTop: "13px",
     height: "98px",
-    marginTop: "7px",
+    marginTop: "10px",
   };
 
   const recruitWrap = {
@@ -390,12 +391,12 @@ export default function Profile() {
     margin: "0 10px",
   };
   const contain = {
-    width: "200px" /* 최대 가로 너비 */,
+    // width: "240px" /* 최대 가로 너비 */,
     padding: "10px",
     marginTop: "-5px",
     position: "absolute",
     marginLeft: "160px",
-    width: "60%",
+    width: "70%",
     display: "flex",
     flexWrap: "wrap",
     gap: "7px",
@@ -511,7 +512,7 @@ export default function Profile() {
 
                 <div style={part}>
                   <p className={styles.careerpart}>경력</p>
-                  <span style={data}>{userData.user_career}년차</span>
+                  <span style={data}>{userData.user_career} 년차</span>
                 </div>
                 <div style={part}>
                   <p className={styles.mannerpart}>매너점수</p>
