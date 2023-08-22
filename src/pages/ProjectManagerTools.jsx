@@ -68,7 +68,7 @@ export default function ProjectManagerTools() {
             className="transition-all hover:scale-125"
             onClick={() => {
               setActivated("calendar");
-              navigate("calendar2");
+              navigate("Mycalendar");
               window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >

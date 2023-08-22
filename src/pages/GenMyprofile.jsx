@@ -66,7 +66,8 @@ export default function CreateProject() {
       setUserProfileIdx(myArray[0].user_img_index);
 
         setSelectedValue(myArray[3]);
-        setText(myArray[2]);
+        setText(res.data[0].user_introduction);
+        console.log(text);
         const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
         setJob(interestArray);
         setLoading(false);
@@ -91,7 +92,7 @@ const rerendering = () => {
 
 
       setSelectedValue(myArray[3]);
-      setText(myArray[2]);
+      setText(res.data[0].user_introduction);
  
       })
       .catch(function (error) {
@@ -110,15 +111,16 @@ const rerendering = () => {
     if (len < 6) {
       dbJob(num);
 
-      // getUserInfo(userIdx)
-      //   .then(function (res) {
-      //     const myArray = Object.values(res.data);
-      //     setJob(res.data[0].fields); // 관심분야 따로 job 배열에 담기
-      //     setLoading(false);
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
+      getUserInfo(userIdx)
+      .then(function (res) {
+          setJob(res.data[0].fields);
+          setLoading(false);
+          console.log("렌더링 렌더링");
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     } else {
       alert("관심 분야는 최대 6개까지 선택 가능합니다!");
@@ -136,6 +138,17 @@ const rerendering = () => {
     let len = job.length;
     if (len < 6 ) {
       dbJob(num);
+
+      getUserInfo(userIdx)
+      .then(function (res) {
+          setJob(res.data[0].fields);
+          setLoading(false);
+          console.log("렌더링 렌더링");
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       // setJob(userData.fields); // 관심분야 따로 job 배열에 담기
     }else {
       alert("관심 분야는 최대 6개까지 선택 가능합니다!");
@@ -153,8 +166,17 @@ const rerendering = () => {
     if (len< 6 ) {
     
       dbJob(num);
-      // setSelectedOption3(num);
-      // setJob(userData.fields); // 관심분야 따로 job 배열에 담기
+      
+      getUserInfo(userIdx)
+      .then(function (res) {
+          setJob(res.data[0].fields);
+          setLoading(false);
+          console.log("렌더링 렌더링");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     }else {
       alert("관심 분야는 최대 6개까지 선택 가능합니다!");
     }
@@ -202,13 +224,6 @@ const rerendering = () => {
     const career = event.target.value;
     dbCareer(career);
   };
-
-  const handleTextChange = (event) => {
-    setText(event.target.value);
-    const txt = event.target.value;
-    dbIntro(txt);
-  };
-
 
   // const getInterests = async() => { //전체 관심분야, 직무 받아오기
   const handleDelete = (index) => {
@@ -262,7 +277,8 @@ const rerendering = () => {
   const userIndex = userData[0];
 
   const profileSave = () => {
-    window.location.href = "/";
+    dbIntro(job);
+    window.location.href = "/profile";
   };
 
   // for (let i = 0; i < interests.length; i++) {
@@ -316,6 +332,10 @@ const rerendering = () => {
   };
 
   useEffect(() => {
+
+  },[job]);
+
+  useEffect(() => {
     handleImageChange(userIdx, userProfileIdx);
     setUserProfileIdx(userProfileIdx);
     getSkill();
@@ -338,7 +358,8 @@ const rerendering = () => {
   const rerenderingSkills = (skillIndex) => {
     const toInt = parseInt(skillIndex);
     console.log(userIdx);
-    console.log(typeof(skillIndex));
+    console.log(toInt);
+
     putUserSkill(userIdx,toInt)
     .then(function() {
       console.log("스킬 저장 성공");
@@ -457,7 +478,11 @@ const rerendering = () => {
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>자기소개</span>
           <div className={styles2.n}></div>
-          <textarea style={option2} value={text} onChange={handleTextChange} />
+          
+          <textarea style={option2} 
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          />
         </div>
         <div className={styles2.basic}>
           <span className={styles2.middleFont}>관심 분야</span>
@@ -519,6 +544,7 @@ const rerendering = () => {
           <div className={styles2.basic}>
             <span className={styles2.middleFont}>사용하는 언어 & 다루는 툴</span>
             <div className={styles2.n}></div>
+
             <span>
                 <div className={styles2.skills}>
                 {skill.map((skill, index) => (

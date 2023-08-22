@@ -5,9 +5,9 @@
     flex-shrink: 0;
     border-radius: 10px;
     background: #323232;
-    width: 150px;
-    height: 84px;
     margin-top: 6px;
+    margin-right:12px;
+
 }
 
 .dayTable{
@@ -31,10 +31,10 @@
     flex-shrink: 0;
     border-radius: 10px;
     background: #323232;
-    width: 150px;
-    height: 84px;
     margin-top: 6px;
     color: #17A1FA;
+    margin-right:12px;
+
 }
 
 .boxDate{

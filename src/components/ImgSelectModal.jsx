@@ -75,8 +75,8 @@ const ImageSelector = (userProfileIdx) => {
   const customModalStyles = {
     content: {
       backgroundColor: '#1C1D1E',
-      width: '50%', // 모달의 너비
-      height: '48%', // 모달의 높이
+      width: '70%', // 모달의 너비
+      height: '60%', // 모달의 높이
       top: '50%', // 모달이 화면의 중앙에 위치하도록 설정
       left: '50%', // 모달이 화면의 중앙에 위치하도록 설정
       transform: 'translate(-50%, -50%)', // 모달이 정확한 중앙에 위치하도록 설정

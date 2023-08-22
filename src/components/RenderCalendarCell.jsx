@@ -26,13 +26,13 @@ export default function RenderCalendarCell() {
     let beforeMonthEnd =oneMonthBeforeEnd.getDay(); //이전 달 마지막 요일이 일 월 화 등인지를 0 1 2로 표현 
     let beforeMonthEndDate =oneMonthBeforeEnd.getDate(); //이전 달의 마지막 날짜
 
-    console.log(beforeMonthEnd);
-    console.log("tmk"+beforeMonthEndDate);
+    // console.log(beforeMonthEnd);
+    // console.log("tmk"+beforeMonthEndDate);
 
-    console.log(monthStart);
-    console.log(monthEnd);
-    console.log(oneMonthBeforeEnd);
-    console.log(oneMonthAfterStart);
+    // console.log(monthStart);
+    // console.log(monthEnd);
+    // console.log(oneMonthBeforeEnd);
+    // console.log(oneMonthAfterStart);
 
     const rows = [];;
     let days = []; // 

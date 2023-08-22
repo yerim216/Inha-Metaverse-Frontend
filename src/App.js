@@ -44,10 +44,10 @@ const router = createBrowserRouter([
     path: "/createmyprofile",
     element: <GenMyprofile />,
   },
-  {
-    path: "/mycalendar",
-    element: <Mycalendar />,
-  },
+  // {
+  //   path: "/mycalendar",
+  //   element: <Mycalendar />,
+  // },
   {
     path: "projectmanagertools/:teamIndex",
     element: <ProjectManagerTools />,
@@ -56,11 +56,11 @@ const router = createBrowserRouter([
         index: true,
         element: <Board />,
       },
-      { path: "board", element: <Board /> }
-      // {
-      //   path: "calendar",
-      //   element: <Calendar />,
-      // },
+      { path: "board", element: <Board /> },
+      {
+        path: "mycalendar",
+        element: <Mycalendar />,
+      }
     ],
   },
   {

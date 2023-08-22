@@ -3,7 +3,7 @@ import styles from "../styles/modules/TD.module.css";
 import { BsFillTrashFill } from "react-icons/bs";
 
 export default function Todo({
-  // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
+  // 투두 리스트를 가져오는 메소드 : 배열의 원소는 manager_names, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
 
   // -> created_at, end_date, last_update, manger_names(배열 속 string)
   // schedule_content, schedule_index, schedule_status, schedule_title, start_date, writer_name 로 변경.
@@ -209,18 +209,19 @@ export default function Todo({
         </div>
         <div className="mr-auto flex items-center gap-1">
           <div className="flex gap-2">
-            {manager_names.map((manager, idx) => {
-              return (
-                <div className="flex items-center gap-1" key={idx}>
-                  <img
-                    src="/public_assets/pro.png"
-                    alt="profile"
-                    className="w-7 h-7"
-                  />
-                  <span>{manager}</span>
-                </div>
-              );
-            })}
+            {manager_names &&
+              manager_names.map((manager, idx) => {
+                return (
+                  <div className="flex items-center gap-1" key={idx}>
+                    <img
+                      src="/public_assets/pro.png"
+                      alt="profile"
+                      className="w-7 h-7"
+                    />
+                    <span>{manager}</span>
+                  </div>
+                );
+              })}
           </div>
         </div>
         <span className="mr-auto text-xs">{formattedDate}</span>
