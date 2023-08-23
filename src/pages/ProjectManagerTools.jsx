@@ -48,6 +48,9 @@ export default function ProjectManagerTools() {
               alt="calendar"
             />
           )}
+          {activated === "postIt" && (
+            <img src="/public_assets/icons/calendar_rounded.svg" alt="postIt" />
+          )}
         </div>
         <div className="flex flex-col gap-14 items-center">
           <button
@@ -78,6 +81,20 @@ export default function ProjectManagerTools() {
               className="w-7"
             />
           </button>
+          <button
+            className="transition-all hover:scale-125"
+            onClick={() => {
+              setActivated("postIt");
+              navigate("postIt");
+              window.scrollTo({ top: 0, behavior: "auto" });
+            }}
+          >
+            <img
+              src="/public_assets/icons/pencil.svg"
+              alt="calender"
+              className="w-5"
+            />
+          </button>
         </div>
         <div className="flex flex-col gap-5">
           <img src="/public_assets/icons/gear.svg" alt="gear" />
@@ -100,6 +117,7 @@ export default function ProjectManagerTools() {
         <h5 className={styles.title}>
           {activated === "board" && "board"}
           {activated === "calendar" && "calendar"}
+          {activated === "postIt" && "postIt"}
         </h5>
         <button
           className="text-white absolute right-8 cursor-pointer z-10"
