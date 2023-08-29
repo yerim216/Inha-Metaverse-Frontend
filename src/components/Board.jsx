@@ -39,6 +39,20 @@ export default function Board() {
 
   const [todos, setTodos] = useState();
 
+  const [userIndex, setUserIndex] = useState();
+  useEffect(() => {
+    let userIndex;
+
+    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+      return;
+    }
+
+    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
+      .user_index;
+
+    setUserIndex(userIndex);
+  }, []);
+
   // 팀 인덱스를 가져오는 변수 : 로컬스토리지에 저장된 이메일을 이용해서 가져 옴.
   const getTeamIndex = () => {
     return new Promise((resolve) => {
@@ -55,23 +69,18 @@ export default function Board() {
       .catch((err) => console.log(err));
   };
 
-  const getUserIndex = async () => {
-    let userIndex;
+  // const getUserIndex = async () => {
+  //   let userIndex;
 
-    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
-      return;
-    }
+  //   if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+  //     return;
+  //   }
 
-    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
-      .user_index;
+  //   userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
+  //     .user_index;
 
-    // await getUserInfo(userEmail).then((res) => {
-    //   console.log(res.data);
-    //   userIndex = res.data.index;
-    // });
-
-    return userIndex; // userIndex 리턴
-  };
+  //   return userIndex; // userIndex 리턴
+  // };
 
   const getDatabase = () => {
     // 팀 인덱스 가져오는 코드
@@ -112,12 +121,8 @@ export default function Board() {
     );
   };
   const addTodoAtDB = async (filterName) => {
-    // 이거 수정해야함
     // 팀인덱스, 일정 제목, 일정 내용, 일정 상태, 일정 시작일, 일정 종료일, 일정 작성자 인덱스, 생성일, 일정 색상 필요
 
-    // 유저인덱스 정상적으로 받아와짐.
-
-    const userIndex = await getUserIndex();
     getTeamIndex().then((teamIndex) => {
       // 팀인덱스 정상적으로 받아와짐.
       if (filterName === "notStart") {

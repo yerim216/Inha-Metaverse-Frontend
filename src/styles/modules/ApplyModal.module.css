@@ -1,0 +1,24 @@
+.h1 {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 55px;
+}
+
+.submitBtn {
+  font-size: 24px;
+  font-family: Avenir;
+  font-weight: 800;
+  font-family: "Avenir";
+  line-height: 33px;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  padding: 12px;
+  background: #7090b0;
+  border-radius: 24px;
+}
+
+.submitBtn:hover {
+  transform: scale(1.05);
+}

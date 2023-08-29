@@ -15,9 +15,19 @@ import {
   viewUp,
 } from "../APIs/team";
 import { getUserInfo } from "../APIs/userinfo";
+import ApplyModal from "../components/ApplyModal";
 
 export default function Profile() {
   const { index } = useParams(); // URL 파라미터 값 가져오기
+
+  // 지원 모달
+  const [applyModalOpen, setApplyModalOpen] = useState(false);
+  const openApplyModal = () => {
+    setApplyModalOpen(true);
+  };
+  const closeApplyModal = () => {
+    setApplyModalOpen(false);
+  };
 
   useEffect(() => {
     document.documentElement.classList.add("profileOnly");
@@ -407,6 +417,12 @@ export default function Profile() {
   };
   return (
     <section>
+      <ApplyModal
+        open={applyModalOpen}
+        close={closeApplyModal}
+        openApplyModal={openApplyModal}
+        handleApplyBtn={handleApplyBtn}
+      ></ApplyModal>
       <div className={styles.wrap}>
         <div className={styles.navItems}>
           <div className={styles.logoContainer}>
@@ -505,11 +521,12 @@ export default function Profile() {
           <button
             className={styles.applyBtn}
             onClick={() => {
-              const returnVal =
-                window.confirm("해당 프로젝트에 지원하시겠습니까?");
-              if (returnVal === true) {
-                handleApplyBtn();
-              }
+              // const returnVal =
+              //   window.confirm("해당 프로젝트에 지원하시겠습니까?");
+              // if (returnVal === true) {
+              //   handleApplyBtn();
+              // }
+              setApplyModalOpen(true);
             }}
           >
             지원하기

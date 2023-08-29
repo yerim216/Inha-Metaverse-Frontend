@@ -169,9 +169,9 @@ export default function SignInModal(props) {
                 }}
               >
                 {hide ? (
-                  <img src="/public_assets/icons/hide.svg" alt="kakao" />
+                  <img src="/public_assets/icons/hide.svg" alt="hide" />
                 ) : (
-                  <img src="/public_assets/icons/show.svg" alt="kakao" />
+                  <img src="/public_assets/icons/show.svg" alt="show" />
                 )}
                 <span>숨기기</span>
               </div>
