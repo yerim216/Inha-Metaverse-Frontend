@@ -3,10 +3,10 @@ import styles from "../styles/modules/TD.module.css";
 import { BsFillTrashFill } from "react-icons/bs";
 
 export default function Todo({
-  // 투두 리스트를 가져오는 메소드 : 배열의 원소는 managers, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
+  // 투두 리스트를 가져오는 메소드 : 배열의 원소는 manager_names, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
 
   // -> created_at, end_date, last_update, manger_names(배열 속 string)
-  // schedule_content, schedule_index, schedule_status, schedule_title, start_date, writer_name
+  // schedule_content, schedule_index, schedule_status, schedule_title, start_date, writer_name 로 변경.
 
   todoData: {
     schedule_title,
@@ -17,8 +17,8 @@ export default function Todo({
     writer_name,
     schedule_index,
   },
-  changeTodoStatus,
-  deleteTodo,
+  changeScheduleStatus,
+  deleteSchedule,
 }) {
   console.log(created_at);
 
@@ -55,7 +55,7 @@ export default function Todo({
     ) {
       // notStart 요소에 옮겨짐
       if (schedule_status !== 0) {
-        changeTodoStatus(schedule_index, 0);
+        changeScheduleStatus(schedule_index, 0);
       }
     }
     if (
@@ -66,7 +66,7 @@ export default function Todo({
     ) {
       // inProgress 요소에 옮겨짐
       if (schedule_status !== 1) {
-        changeTodoStatus(schedule_index, 1);
+        changeScheduleStatus(schedule_index, 1);
       }
     }
     if (
@@ -77,7 +77,7 @@ export default function Todo({
     ) {
       // done 요소에 옮겨짐
       if (schedule_status !== 2) {
-        changeTodoStatus(schedule_index, 2);
+        changeScheduleStatus(schedule_index, 2);
       }
     }
   };
@@ -170,7 +170,7 @@ export default function Todo({
                     "해당 리스트를 '시작 안함' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(schedule_index, 0);
+                    changeScheduleStatus(schedule_index, 0);
                   }
                 }}
               ></div>
@@ -181,7 +181,7 @@ export default function Todo({
                     "해당 리스트를 '진행중' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(schedule_index, 1);
+                    changeScheduleStatus(schedule_index, 1);
                   }
                 }}
               ></div>
@@ -192,7 +192,7 @@ export default function Todo({
                     "해당 리스트를 '완료됨' 상태로 전환하시겠어요?"
                   );
                   if (returnVal === true) {
-                    changeTodoStatus(schedule_index, 2);
+                    changeScheduleStatus(schedule_index, 2);
                   }
                 }}
               ></div>
@@ -203,7 +203,7 @@ export default function Todo({
                 const returnVal =
                   window.confirm("해당 리스트를 삭제하시겠어요?");
                 if (returnVal === true) {
-                  deleteTodo(schedule_index);
+                  deleteSchedule(schedule_index);
                 }
               }}
             />
@@ -211,19 +211,19 @@ export default function Todo({
         </div>
         <div className="mr-auto flex items-center gap-1">
           <div className="flex gap-2">
-            {manager_names&&
+            {manager_names &&
               manager_names.map((manager, idx) => {
-              return (
-                <div className="flex items-center gap-1" key={idx}>
-                  <img
-                    src="/public_assets/pro.png"
-                    alt="profile"
-                    className="w-7 h-7"
-                  />
-                  <span>{manager}</span>
-                </div>
-              );
-            })}
+                return (
+                  <div className="flex items-center gap-1" key={idx}>
+                    <img
+                      src="/public_assets/pro.png"
+                      alt="profile"
+                      className="w-7 h-7"
+                    />
+                    <span>{manager}</span>
+                  </div>
+                );
+              })}
           </div>
         </div>
         <span className="mr-auto text-xs">{formattedDate}</span>

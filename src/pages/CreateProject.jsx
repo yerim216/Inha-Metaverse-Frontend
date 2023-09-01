@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import OnLogModal from "../components/OnLogModal";
-import Dot from "../components/Dot";
-import SignInModal from "../components/SignInModal";
-import SignUpModal from "../components/SignUpModal";
 import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "../APIs/userinfo";
+import { getSkills, getUserInfo } from "../APIs/userinfo";
 import { addMember, createTeam } from "../APIs/team";
 import Nav from "../components/Nav";
 
@@ -90,6 +86,13 @@ export default function CreateProject() {
     window.location.href = "/myprofile";
   };
 
+  const [skills, setSkills] = useState();
+  useEffect(() => {
+    getSkills().then((res) => {
+      setSkills(res.data);
+    });
+  }, []);
+
   return (
     <>
       <Nav />
@@ -151,7 +154,14 @@ export default function CreateProject() {
             }}
           />
         </div>
-        <div className="flex w-full justify-center gap-8">
+        <div className="flex flex-col items-start gap-6 pb-4 border-b">
+          <div className={styles.middleFont}>모집 기술 분야(아직 작동 X)</div>
+          {skills &&
+            skills.map((skill) => {
+              return <div className="text-white">{skill.skill_name}</div>;
+            })}
+        </div>
+        <div className="flex w-full justify-center gap-8 mb-20">
           <button
             className={styles.changeBtn}
             onClick={async (e) => {
