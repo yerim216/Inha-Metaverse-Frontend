@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDrag } from "react-use-gesture";
 
 // 순서대로 노랭, 초록, 보라돌이, 핑크
 const colors = ["#FDFFAD", "#D1FFAD", "#B8ADFF", "#FDADFF"];
@@ -11,40 +12,40 @@ export default function Sticker({
     note_content,
     note_writer,
     user_name,
-    note_size,
     note_color,
     note_x,
     note_y,
     created_at,
     last_update,
     idx,
+    size_x,
+    size_y,
   },
-  // 차례로 idx, 변경할 데이터 이름, 변경될 데이터 순으로 인자 넘겨주면 됨.
-  // 위치, 사이즈, 색상, 콘텐츠 변경 시에 해당함수 호출해주면 됨.
-  // 사이즈만 남았다!
   handleClonedStickerNoteInfosChange,
-  zIndexIncrement,
+  addZIndex,
+  zIndexList,
 }) {
-  // "note_index": 10,
-  // "team_index": 3,
-  // "team_name": "거북이키우기",
-  // "note_content": "테스트데이터",
-  // "note_writer": 1,
-  // "user_name": "test1",
-  // "note_size": null,
-  // "note_color": "#FDFFAD",
-  // "note_x": null,
-  // "note_y": null,
-  // "created_at": "2023-08-26T10:38:38.000Z",
-  // "last_update": null
-
   const [stickyNoteRef, setStickyNoteRef] = useState();
   const [textareaRef, setTextareaRef] = useState();
   const [nextColorViewerRef, setNextColorViewerRef] = useState();
 
-  const [allowMove, setAllowMove] = useState(false);
-  const [dx, setDx] = useState(0);
-  const [dy, setDy] = useState(0);
+  const [relativeMouse, setRelativeMouse] = useState({ x: 0, y: 0 });
+
+  // useDrag 사용
+  const bindStickerPos = useDrag((params) => {
+    const x = params.offset[0] + relativeMouse.x;
+    const y = params.offset[1] + relativeMouse.y;
+    setStickerPos({
+      x: x,
+      y: y,
+    });
+    handleClonedStickerNoteInfosChange(idx, "note_x", x);
+    handleClonedStickerNoteInfosChange(idx, "note_y", y);
+  });
+  const [stickerPos, setStickerPos] = useState({
+    x: 0,
+    y: 0,
+  });
 
   const [input, setInput] = useState(note_content);
   const [showTextarea, setShowTextarea] = useState(false);
@@ -81,27 +82,6 @@ export default function Sticker({
     }
   }, [nextColorIdx]);
 
-  const handleMouseDown = (e) => {
-    setAllowMove(true);
-    stickyNoteRef.style.zIndex += zIndexIncrement;
-    const dimensions = stickyNoteRef.getBoundingClientRect();
-    setDx(e.clientX - dimensions.x);
-    setDy(e.clientY - dimensions.y);
-  };
-  const handleMouseUp = () => {
-    setAllowMove(false);
-  };
-  const handleMouseMove = (e) => {
-    if (allowMove) {
-      const x = e.clientX - dx;
-      const y = e.clientY - dy;
-      stickyNoteRef.style.left = x + "px";
-      stickyNoteRef.style.top = y + "px";
-      handleClonedStickerNoteInfosChange(idx, "note_x", x);
-      handleClonedStickerNoteInfosChange(idx, "note_y", y);
-    }
-  };
-
   useEffect(() => {
     setStickyNoteRef(document.querySelector(".stickyNote_" + note_index));
     setTextareaRef(document.querySelector(".textarea_" + note_index));
@@ -114,17 +94,21 @@ export default function Sticker({
     if (!stickyNoteRef) return;
     if (!textareaRef) return;
 
-    if (note_x) stickyNoteRef.style.left = note_x + "px";
-    if (note_y) stickyNoteRef.style.top = note_y + "px";
-    if (note_size) {
-      stickyNoteRef.style.width = note_size + "px";
-      stickyNoteRef.style.height = note_size + "px";
+    if (note_x && note_y) {
+      stickyNoteRef.style.left = note_x + "px";
+      stickyNoteRef.style.top = note_y + "px";
+      setRelativeMouse({ x: note_x, y: note_y });
+    }
+    if (size_x) {
+      stickyNoteRef.style.width = size_x + "px";
+    }
+    if (size_y) {
+      stickyNoteRef.style.height = size_y + "px";
     }
     if (note_color) {
       stickyNoteRef.style.backgroundColor = note_color;
     }
     getNextColorIdx();
-    stickyNoteRef.style.zIndex = idx;
   }, [stickyNoteRef, textareaRef]);
 
   return (
@@ -132,13 +116,18 @@ export default function Sticker({
       className={`w-64 h-64 bg-[#FDFFAD] text-black rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-3xl absolute top-1/4 left-1/4 overflow-hidden resize pb-12 border border-black ${
         "stickyNote_" + note_index
       }`}
+      style={{
+        left: stickerPos.x,
+        top: stickerPos.y,
+        zIndex: zIndexList[idx],
+      }}
+      onMouseDown={() => {
+        addZIndex(idx);
+      }}
     >
       <header
         className="w-full h-6 bg-[rgba(0,0,0,0.25)] cursor-move"
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseUp}
+        {...bindStickerPos()}
       >
         <div
           onClick={() => {
@@ -178,7 +167,7 @@ export default function Sticker({
         }}
       />
       <div className="absolute bottom-0 font-bold text-xs p-2">
-        <div>{note_writer}(작성자 인덱스 - 수정필요)</div>
+        <div>{user_name}</div>
         <div>{new Date(created_at).toLocaleString()}</div>
       </div>
     </div>

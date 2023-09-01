@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
 import styles from "../styles/modules/StickerNote.module.css";
 import Sticker from "./Sticker";
-import { createStickerMemo, getStickers } from "../APIs/stickerNote";
+import {
+  createStickerMemo,
+  getStickers,
+  modifySticker,
+} from "../APIs/stickerNote";
 
 export default function StickerNote() {
   const { teamIndex } = useOutletContext();
+  const [infoChanged, setInfoChanged] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add("overflowHidden");
@@ -18,6 +23,19 @@ export default function StickerNote() {
     content: "",
   });
   const [userIndex, setUserIndex] = useState();
+
+  // zIndex를 통해 스티커 노트들의 우선순위 결정.
+  const [zIndexList, setZIndexList] = useState();
+  const addZIndex = (idx) => {
+    const maxZIndex = Math.max(...zIndexList);
+    if (maxZIndex !== zIndexList[idx]) {
+      let newArr = zIndexList;
+      const toAdd = maxZIndex - zIndexList[idx];
+      newArr[idx] += toAdd + 1;
+      setZIndexList([...newArr]);
+    }
+  };
+
   // userIndex 불러오기
   useEffect(() => {
     let userIndex;
@@ -37,10 +55,39 @@ export default function StickerNote() {
   const [clonedStickerNoteInfos, setClonedStickerNoteInfos] = useState([]);
 
   useEffect(() => {
+    if (clonedStickerNoteInfos.length === 0) return;
+
+    const handleSaveShortcut = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+        event.preventDefault();
+
+        // 운영체제 플랫폼 확인
+        const isMac = navigator.platform.toUpperCase().includes("MAC");
+
+        // 맥 플랫폼의 경우 Command 키 감지, 윈도우 플랫폼의 경우 Ctrl 키 감지
+        if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {
+          handleModifyStickerMemo();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleSaveShortcut);
+    return () => {
+      window.removeEventListener("keydown", handleSaveShortcut);
+    };
+  }, [clonedStickerNoteInfos]);
+
+  useEffect(() => {
     let newArr = stickerNoteInfos;
-    newArr.reverse();
     setClonedStickerNoteInfos(newArr);
+    if (stickerNoteInfos.length !== 0) {
+      const arr = [];
+      for (let i = 0; i < stickerNoteInfos.length; i++) {
+        arr.push(i);
+      }
+      setZIndexList(arr);
+    }
   }, [stickerNoteInfos]);
+
   const handleClonedStickerNoteInfosChange = (
     idxToChange,
     dataNameToChange,
@@ -54,6 +101,14 @@ export default function StickerNote() {
 
   const handleModifyStickerMemo = () => {
     console.log(clonedStickerNoteInfos);
+    modifySticker(clonedStickerNoteInfos)
+      .then((res) => {
+        alert("변경사항이 성공적으로 저장되었습니다!");
+        getDataBase();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // 스티커노트 db와 동기화하는 함수
@@ -67,7 +122,7 @@ export default function StickerNote() {
   const addStickerNote = () => {
     const x = clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1]
       ? clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1].note_x + 50
-      : 600;
+      : 650;
     const y = clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1]
       ? clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1].note_y + 50
       : 100;
@@ -77,7 +132,8 @@ export default function StickerNote() {
       writerIndex: userIndex,
       x: x,
       y: y,
-      size: 300,
+      size_x: 300,
+      size_y: 300,
       color: "#FDFFAD",
     })
       .then((res) => {
@@ -95,7 +151,7 @@ export default function StickerNote() {
 
   return (
     <section className={styles.bg}>
-      <form className="ml-[3%] mt-[3%] flex flex-col w-1/3 gap-3 items-end">
+      <form className="ml-[3%] mt-[3%] flex flex-col w-[500px] gap-3 items-end">
         <textarea
           className="w-full resize-none outline-none h-32 border p-3"
           placeholder="노트 작성..."
@@ -136,6 +192,8 @@ export default function StickerNote() {
         clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {
           // setClonedStickerNoteInfos를 통해 정보 변경 역시 가능해야 함.
           // idx를 이용해, 특정 Sticker에서 값의 변동이 일어났다면 clonedStickerNoteInfos 변경.
+          // 클릭 시, zIndex를 증가시키는 함수 호출.
+          // 로직 : 눌렀을 때, 본인과 나머지 요소들의 zIndex를 비교하여 자신이 제일 크다면 증가 X, 아니라면 증가.
           return (
             <Sticker
               key={idx}
@@ -144,6 +202,8 @@ export default function StickerNote() {
                 handleClonedStickerNoteInfosChange
               }
               zIndexIncrement={clonedStickerNoteInfos.length}
+              addZIndex={addZIndex}
+              zIndexList={zIndexList}
             />
           );
         })}
