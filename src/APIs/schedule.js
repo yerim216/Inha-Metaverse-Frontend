@@ -8,6 +8,12 @@ export function getSchedule(teamIndex) {
   });
 }
 
+export function getScheduleCalendar(teamIndex) {
+  return axios.post("/schedule/list/calendar", {
+    index: teamIndex,
+  });
+}
+
 export function addManagerToSchedule(scheduleIdx, managerIdx) {
   return axios.post("/schedule/put/manager", {
     schedule: scheduleIdx,

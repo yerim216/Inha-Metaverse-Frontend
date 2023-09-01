@@ -1,13 +1,12 @@
 .dayBox{
     display: inline-block;
-    width: 150px;
+    width: 10.4vw;
     height: 84px;
     flex-shrink: 0;
     border-radius: 10px;
     background: #323232;
     margin-top: 6px;
     margin-right:12px;
-
 }
 
 .dayTable{
@@ -24,9 +23,9 @@
     gap:12px;
     
 }
-.dayBoxSu{
+.dayBoxHoliday{
     display: inline-block;
-    width: 150px;
+    width: 10.4vw;
     height: 84px;
     flex-shrink: 0;
     border-radius: 10px;
@@ -34,7 +33,6 @@
     margin-top: 6px;
     color: #17A1FA;
     margin-right:12px;
-
 }
 
 .boxDate{
@@ -45,4 +43,44 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.eventBar{
+    position: absolute;
+    top: 33vh;
+    left: 14vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20.8vw;
+    height: 18px;
+    border-radius: 4px;
+    background-color: #FFE9E9;;;
+
+    color: #454545;
+    font-family: Avenir;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 133.333% */
+}
+
+.eventBar1{
+    position: absolute;
+    top: 33vh;
+    left: 14vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20.8vw;
+    height: 18px;
+    border-radius: 4px;
+    background-color: #FDEFAE;;
+
+    color: #454545;
+    font-family: Avenir;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 133.333% */
 }

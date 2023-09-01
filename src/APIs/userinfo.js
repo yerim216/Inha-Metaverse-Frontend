@@ -78,6 +78,13 @@ export function putUserSkill(userIndex, skillIndex) {
   });
 }
 
+export function deleteUserSkill(userIndex, skillIndex) {
+  return axios.post("/userinfo/interested/delete", {
+    user_index: userIndex,
+    field_index: skillIndex,
+  });
+}
+
 export function putUserProfileImg(userIndex, imgIndex) {
   return axios.post("/userinfo/put/img", {
     index: userIndex,

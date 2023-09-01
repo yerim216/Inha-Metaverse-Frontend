@@ -3,41 +3,42 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding-left: 29px;
-    padding-top: 43px;
-
+    padding-left: 20px;
+    padding-top: 35px;
+    overflow: hidden;
 }
 
 .topDate{
     display:flex;
     align-items: center;
-    gap:4px;
+    margin-left: 1.3vw;
+    gap: 0.3vw;
 }
 
 .year{
     color: #C9C9C9;
-    font-size: 15px;
+    font-size: 1.1vw;
     font-style: normal;
     font-weight: 600;
-    line-height: 16px;
+    line-height: 1vh;
 }
 
 .month {
     color: #777;
     text-align: center;
     font-family: Inter;
-    font-size: 15px;
+    font-size: 1.05vw;
     font-style: normal;
     font-weight: 400;
-    line-height: 16px; /* 106.667% */
+    line-height: 1vh;
 }
 
 .putEvent {
     border-radius: 6px;
     background: #7090B0;
-    width: 88px;
-    height: 38px;
-    margin-left: 70vw;
+    width: 6.2vw;
+    height: 5vh;
+    margin-left: 76vw;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     
 }
@@ -45,35 +46,38 @@
 .putEventTxt{
     color: #FFF;
     font-family: Avenir;
-    font-size: 15px;
+    font-size: 1.07vw;
     font-style: normal;
     font-weight: 500;
-    line-height: 10px; /* 66.667% */
+    line-height: 1vh; /* 66.667% */
 }
 
 .weekDay{
     font-family: Inter;
-    font-size: 18px;
+    font-size: 1.2vw;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-left: 120px;
-    margin-top: 32.58px;
-    margin-bottom: 70.62px;
-
+    margin-left: 8vw;
+    margin-top: 2.5vh;
+    margin-bottom: 6vh;
 }
 
 .weekends{
     color: #17A1FA;
-    margin-right: 140px;
+    margin-right: 9.8vw;
 
 }
 
 .weekdays{
     color: #B3B3B3;
-    margin-right: 140px;
+    margin-right: 9.8vw;
 }
 
 .cellBox{
-    margin-left:115px;
+    margin-left: 8vw;
+}
+
+.setEvnet{
+    z-index: 3;
 }

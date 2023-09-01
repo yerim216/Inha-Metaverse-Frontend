@@ -1,12 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useOutletContext, useHistory } from "react-router-dom";
 import styles from "../styles/RenderCalendarCell.module.css";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek} from 'date-fns';
 import { isSameMonth, isSameDay, addDays, parse, format,addMonths} from 'date-fns';
+import CalEventBar from "../components/CalEventBar";
+import { getScheduleCalendar } from "../APIs/schedule";
 
 export default function RenderCalendarCell() {
-    let c = new Date();
+    const { teamIndex } = useOutletContext();
+    const [eventArr,setEventArr] = useState([]);
+    const [startData,setStartData] = useState('2023-08-26T00:00:00.000Z');
+    const [endData,setEndData] = useState('2023-08-27T00:00:00.000Z');
+    const [title,setTitle] = useState('');
+ 
+    const [num, setNum] =useState('');
+    const events = ['1','2'];
+    // useEffect(() => {
+    //     getScheduleCalendar(teamIndex)
+    //     .then((res)=>{
+    //         const jsonArray = Object.values(res.data);
+    //         setEventArr(...[res.data]);
+    //         console.log(eventArr);
+    //         setStartData(jsonArray[6].start_date);
 
-    console.log("셀 불러오기");
+    //         setEndData(jsonArray[6].end_date);
+    //         setTitle(jsonArray[6].schedule_title);
+    //         console.log(startData);
+    //         //   const s = JSON.stringify(res);
+    //         console.log('일정 정보 불러오기')
+    //     })
+    //     .catch((err) => {
+    //         console.error(err);
+    //     });
+        
+    //   }, []); // data가 변경될 때마다 useEffect 실행
+
+    let c = new Date(); // 현재는  month 를 현재 날짜로 받아오고 있음 
+
+    //현재 month 와 일치하는 일정 필터
+    const curMonthNumber = String(c.getMonth() + 1).padStart(2, '0');
+
+    // useEffect(()=>{
+    // // 일정 배열에서 date 를 넘버로 바꿔주기 -- 배열 길이만큼 반복하게 바꾸기
+    //     const startDateToMon = eventArr[0]?.start_date;
+    //     const eventMonth = startDateToMon?.slice(5, 7);
+    //     console.log(eventMonth);
+    //     console.log(curMonthNumber);
+
+    //     if(curMonthNumber === eventMonth){
+    //         console.log('yes');
+    //     }
+    // },[eventArr]);
+    
+
+    // const { month } = props;   
     const monthStart =  startOfMonth(c);
     const monthEnd = endOfMonth(c);
     const oneMonthBeforeEnd = addMonths(monthEnd, -1);
@@ -55,8 +102,29 @@ export default function RenderCalendarCell() {
     console.log(days);
     let day = [];
 
+    const date = new Date(startData);
+    const dayOfWeek = date.getDay();
+    console.log(dayOfWeek); // 출력: 1 (월요일)
+
+    const edate = new Date(endData);
+    const edayOfWeek = edate.getDay();
+    console.log(edayOfWeek); // 출력: 1 (월요일)
+     
+    const dayOfStart = date.getDate(); //시작 날짜의 일
+    const dayOfEnd = edate.getDate(); //종료 날짜의 일(ex. 14일 -> 14)
+    const count1 = 5;
+    const count2 = 0;
+    let WholeDate = dayOfEnd-dayOfStart;
+    
+    console.log(WholeDate);
+
+    const counts = 4;
+    const counts2 = 5;
     for (let i = 0; i <= fulldayCount; i++){
-        
+        if(days[i] === dayOfStart){
+            const sum = Math.floor(i/7+dayOfWeek);
+            // setNum(sum);
+        }
         if (i > 0 && i%7 === 0){
             wholeMonth.push(
                 <div className={styles.daytable}>
@@ -67,7 +135,8 @@ export default function RenderCalendarCell() {
             day=[];
 
             day.push(
-                <div className={styles.dayBoxSu}> 
+                
+                <div className={styles.dayBoxHoliday}> 
                     <p className={styles.boxDate}>{days[i]}</p>
                 </div>
             ); 
@@ -75,7 +144,7 @@ export default function RenderCalendarCell() {
         }else{
             if(i===0 || i % 7 === 6){
                 day.push(
-                    <div className={styles.dayBoxSu}> 
+                    <div className={styles.dayBoxHoliday}> 
                         <p className={styles.boxDate}>{days[i]}</p>
                     </div>
                 ); 
@@ -88,10 +157,41 @@ export default function RenderCalendarCell() {
             } 
         }
     }
-        
+    
+    const containerStyle = {
+        marginTop: `${counts * 4.8}vw`,
+        marginLeft:`${counts2 * 13.4}vw`,
+        width: `${WholeDate * 10.2 }vw`     
+    };
+    const containerStyle2 = {
+        marginTop: `${count1 * 4.8 + 1}vw`,
+        marginLeft:`${count2 * 13.4}vw`,
+        width: `${WholeDate * 10.2 }vw`     
+    };
+    const containerStyle3 = {
+        marginTop: `${2.5 * 4.8 + 1}vw`,
+        marginLeft:`${0.9 * 13.4}vw`,
+        width: `${3 * 10.3 }vw`     
+    };
     return(
         <>
             {wholeMonth}
+            {/* <CalEventBar style={containerStyle}/> */}
+            {events&&
+                events.map((events,index)=>
+                {
+                    return (
+                    <div key={index} style={containerStyle} className={styles.eventBar}>
+                        event title
+                    </div>
+                    );
+                })}
+            <div style={containerStyle2} className={styles.eventBar}>
+                event title
+            </div>
+            <div style={containerStyle3} className={styles.eventBar1}>
+                event title
+            </div>
         </>
     
     );       

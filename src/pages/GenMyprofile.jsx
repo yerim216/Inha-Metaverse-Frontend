@@ -18,7 +18,8 @@ import {
   putUserImg,
   deleteUserInterest,
   putUserSkill,
-  getSkills
+  getSkills,
+  deleteUserSkill
 } from "../APIs/userinfo";
 import Nav from "../components/Nav";
 import ImageSelector from "../components/ImgSelectModal";
@@ -38,6 +39,8 @@ export default function CreateProject() {
   const [text, setText] = useState(); //자기소개
   const [job, setJob] = useState([]); //직무 선택 값 불러오기
   const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
+  const [userSkill, setUserSkill] = useState([]); //스킬 선택 값 불러오기
+
   const [userProfileIdx, setUserProfileIdx] = useState([]);
 
   let [array, setArray] = useState([]);
@@ -64,7 +67,7 @@ export default function CreateProject() {
       const myArray = Object.values(res.data);
       setUsers(res.data[0]);
       setUserProfileIdx(myArray[0].user_img_index);
-
+      setUserSkill(res.data[0].skills);
         setSelectedValue(myArray[3]);
         setText(res.data[0].user_introduction);
         console.log(res.data[0].user_introduction);
@@ -222,7 +225,6 @@ const rerendering = () => {
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
     const career = event.target.value;
-    dbCareer(career);
   };
 
   // const getInterests = async() => { //전체 관심분야, 직무 받아오기
@@ -230,6 +232,14 @@ const rerendering = () => {
     let num = parseInt(index); // 정수로 변환
 
     deleteUserInterest(userIdx,num);//직무 삭제하기
+    
+    rerendering();
+  };
+
+  const skillDelete = (index) => {
+    let num = parseInt(index); // 정수로 변환
+
+    deleteUserSkill(userIdx,num);//직무 삭제하기
     
     rerendering();
   };
@@ -278,14 +288,10 @@ const rerendering = () => {
 
   const profileSave = () => {
     dbIntro(text);
+    dbCareer(selectedValue);
+
     window.location.href = "/profile";
   };
-
-  // for (let i = 0; i < interests.length; i++) {
-  //   if (interests[i].title === selectedValue1) {
-  //     let interIndex = interests[i].index;
-  //   }
-  // };
 
   //직무 db 저장
   const dbJob = (jobIndex) => {
@@ -339,6 +345,7 @@ const rerendering = () => {
     handleImageChange(userIdx, userProfileIdx);
     setUserProfileIdx(userProfileIdx);
     getSkill();
+
     // putUserImg(userIndex,userImg);
     console.log("userProfileIdx가 변경되었습니다:", userProfileIdx);
   }, [userProfileIdx]); // userProfileIdx가 변경될 때만 useEffect 내부 코드 실행
@@ -377,10 +384,14 @@ const rerendering = () => {
     height: '40px'
   };
 
+  const skillImgMini = {
+    width:'fitContent',
+    height: '30px'
+  };
   const jobBox = {
     display: "flex",
     flexDirection: "row",
-    gap: "3px"
+    gap: "5px"
   };
 
   const option = {
@@ -429,7 +440,7 @@ const rerendering = () => {
   const profileImgCss = {
     width: "300px",
     height: "300px",
-    borderRadius: "30px",
+    borderRadius: "50px",
     objectFit: "cover"// 이미지를 너비와 높이에 맞게 크롭하여 채우기
   };
 
@@ -449,9 +460,6 @@ const rerendering = () => {
             <span onClick={rerendering}>
               <ImageSelector userProfileIdx={userProfileIdx}/>
             </span>
-            {/* <p className={styles2.imgtxt} onClick={handleImageChange}>
-              이미지 교체하기
-            </p> */}
           </span>
         </div>
 
@@ -496,7 +504,7 @@ const rerendering = () => {
                 job.map((item, index) => (
                   <div key={index} style={jobBox}>
                     <span>{item.field_title}</span>
-                    <button onClick={() => handleDelete(item.field_index)}>X</button>
+                    <button onClick={() => handleDelete(item.field_index)}>x</button>
                   </div>
                 ))}
             </div>
@@ -544,24 +552,52 @@ const rerendering = () => {
           <div className={styles2.basic}>
             <span className={styles2.middleFont}>사용하는 언어 & 다루는 툴</span>
             <div className={styles2.n}></div>
-
+            {loading ? (
+              <div style={jobselect}>
+                <p style={load}>Loading...</p>
+              </div>
+              ) : (
+              <div style={jobselect}>
+                {userSkill &&
+                  userSkill.map((item, index) => (
+                    <div key={index} style={jobBox}>
+                      <span
+                        key={index}
+                        className={styles2.skillwrap}
+                        onClick={() => rerenderingSkills(item.skill_index)}
+                      >
+                        {item.skill_name} 
+                        <img
+                          key={index}
+                          src={`/public_assets/skills/skill_img_${item.skill_index}.svg`}              
+                          alt={`Image ${skill.skill_index}`}
+                          style={skillImgMini} 
+                        />
+                      </span>
+                      <button onClick={() => skillDelete(item.skill_index)}>x</button>
+                    </div>
+                  ))}
+              </div>
+            )}
             <span>
                 <div className={styles2.skills}>
-                {skill.map((skill, index) => (
-                  <span
-                    key={index}
-                    className={styles2.skillwrap}
-                    onClick={() => rerenderingSkills(skill.skill_index)}
-                  >
-                    {skill.skill_name} 
-                    <img
-                      key={index}
-                      src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}              
-                      alt={`Image ${skill.skill_index}`}
-                      style={skillImg} 
-                    />
-                  </span>
-                ))}
+                  <div className={styles2.skillBox}>
+                    {skill.map((skill, index) => (
+                      <span
+                        key={index}
+                        className={styles2.skillwrap}
+                        onClick={() => rerenderingSkills(skill.skill_index)}
+                      >
+                        {skill.skill_name} 
+                        <img
+                          key={index}
+                          src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}              
+                          alt={`Image ${skill.skill_index}`}
+                          style={skillImg} 
+                        />
+                      </span>
+                    ))}
+                  </div>
                 </div>
             </span>
           </div>

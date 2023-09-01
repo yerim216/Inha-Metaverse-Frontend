@@ -59,6 +59,7 @@
   left: 50%;
   transform: translateX(-50%);
   object-fit: cover;
+  border-radius: 50px;
 }
 
 @media screen and (max-width: 768px) {

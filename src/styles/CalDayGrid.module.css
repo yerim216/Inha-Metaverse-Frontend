@@ -1,0 +1,56 @@
+.dayGrid{
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(7, 11.2vw);
+    grid-template-rows: repeat(6, 11.8vh);
+}
+
+.boxDate{
+    display: block;
+    margin-top: 5px;
+    margin-left: 8px;
+    margin-bottom: 5px;
+    font-family: Inter;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.dayBox{
+    display: grid;
+    position: relative; /* 겹치게 할 요소들의 위치를 절대 위치로 설정 */
+    /* flex-direction: column; */
+    grid-template-rows: repeat(4,1fr);
+    gap: 2px;
+    width: 10.4vw;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #323232;
+    margin-right:12px;
+}
+
+.blueText {
+    color: #17A1FA;
+}
+
+.emptyBox{
+    display: inline-block;
+    width: 10.4vw;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #323232;
+    background: none;
+    margin-right:12px;
+}
+
+.eventBarSet{
+    z-index: 99; 
+    /* grid-area: 1/2; */
+    /* grid-column: 1/3; */
+	/* grid-column-end: 4; */
+	/* grid-row: 1/2; */
+	/* grid-row-end: 2; */
+}

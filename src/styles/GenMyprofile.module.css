@@ -20,19 +20,30 @@ margin-top: 20px;
   font-size: 17px;
   align-items: center;
   cursor: pointer;
-
 }
 
 .skills{
-  display: flex;
-  gap: 30px;
-  overflow-x: hidden;
-  overflow-wrap: break-word;
-  width: 900px;
-  height: fit-content;
+  margin-top: 20px;
+  width: 1000px;
+  height: 250px;
   padding:30px;
   background-color: white ;
   border-radius: 30px;
+  overflow: hidden;
+}
+
+.skillBox{
+  width: 100%;
+  margin: auto;
+  /* display: flex; */
+  /* gap: 30px; */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space:pre-line;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .imgtxt {
