@@ -16,7 +16,8 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Download from "./pages/Download";
-import PostIt from "./components/PostIt";
+import PostIt from "./components/StickerNote";
+import StickerNote from "./components/StickerNote";
 
 const router = createBrowserRouter([
   {
@@ -63,8 +64,8 @@ const router = createBrowserRouter([
         element: <Mycalendar />,
       },
       {
-        path: "postIt",
-        element: <PostIt />,
+        path: "stickerNote",
+        element: <StickerNote />,
       },
     ],
   },

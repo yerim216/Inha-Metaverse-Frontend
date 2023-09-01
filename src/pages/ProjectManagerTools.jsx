@@ -48,8 +48,11 @@ export default function ProjectManagerTools() {
               alt="calendar"
             />
           )}
-          {activated === "postIt" && (
-            <img src="/public_assets/icons/calendar_rounded.svg" alt="postIt" />
+          {activated === "stickerNote" && (
+            <img
+              src="/public_assets/icons/calendar_rounded.svg"
+              alt="stickerNote"
+            />
           )}
         </div>
         <div className="flex flex-col gap-14 items-center">
@@ -84,8 +87,8 @@ export default function ProjectManagerTools() {
           <button
             className="transition-all hover:scale-125"
             onClick={() => {
-              setActivated("postIt");
-              navigate("postIt");
+              setActivated("stickerNote");
+              navigate("stickerNote");
               window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >
@@ -117,7 +120,7 @@ export default function ProjectManagerTools() {
         <h5 className={styles.title}>
           {activated === "board" && "board"}
           {activated === "calendar" && "calendar"}
-          {activated === "postIt" && "postIt"}
+          {activated === "stickerNote" && "stickerNote"}
         </h5>
         <button
           className="text-white absolute right-8 cursor-pointer z-10"

@@ -86,7 +86,7 @@
 }
 .texts {
   width: 100vw;
-  margin:auto;
+  margin: auto;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -320,7 +320,6 @@
   font-style: normal;
   line-height: 33px;
   letter-spacing: 0.06em;
-
   color: #ffffff;
   padding: 20px;
   background: #7090b0;
