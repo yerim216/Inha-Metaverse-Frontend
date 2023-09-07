@@ -18,6 +18,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import Download from "./pages/Download";
 import PostIt from "./components/StickerNote";
 import StickerNote from "./components/StickerNote";
+import ProjectListsPage from "./pages/ProjectListsPage";
 
 const router = createBrowserRouter([
   {
@@ -46,12 +47,12 @@ const router = createBrowserRouter([
     path: "/createmyprofile",
     element: <GenMyprofile />,
   },
-  // {
-  //   path: "/mycalendar",
-  //   element: <Mycalendar />,
-  // },
   {
-    path: "projectmanagertools/:teamIndex",
+    path: "/projectlists",
+    element: <ProjectListsPage />,
+  },
+  {
+    path: "/projectmanagertools/:teamIndex",
     element: <ProjectManagerTools />,
     children: [
       {

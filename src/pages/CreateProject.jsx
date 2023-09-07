@@ -20,6 +20,7 @@ export default function CreateProject() {
     recruitment: null,
   });
   const navigate = useNavigate();
+  const [customPositionInput, setCustomPositionInput] = useState(0);
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -158,8 +159,46 @@ export default function CreateProject() {
           <div className={styles.middleFont}>모집 기술 분야(아직 작동 X)</div>
           {skills &&
             skills.map((skill) => {
-              return <div className="text-white">{skill.skill_name}</div>;
+              return (
+                <div className="flex gap-2 items-center">
+                  <div className="text-white">{skill.skill_name}</div>
+                  <input
+                    type="number"
+                    className="w-10 p-1 rounded-md"
+                    value={0}
+                    onChange={(e) => {}}
+                  />
+                  <span className="text-white">명</span>
+                </div>
+              );
             })}
+          {Array(customPositionInput)
+            .fill()
+            .map((_, index) => (
+              <div key={index} className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="모집 희망 직무 직접 입력"
+                  className="rounded-md p-1"
+                />
+                <input
+                  type="number"
+                  className="w-10 p-1 rounded-md"
+                  value={1}
+                  onChange={(e) => {}}
+                />
+                <span className="text-white">명</span>
+              </div>
+            ))}
+          <button
+            className="text-white"
+            onClick={(e) => {
+              e.preventDefault();
+              setCustomPositionInput((cur) => cur + 1);
+            }}
+          >
+            + 기타
+          </button>
         </div>
         <div className="flex w-full justify-center gap-8 mb-20">
           <button

@@ -4,6 +4,7 @@ import styles from "../styles/modules/StickerNote.module.css";
 import Sticker from "./Sticker";
 import {
   createStickerMemo,
+  deleteSticker,
   getStickers,
   modifySticker,
 } from "../APIs/stickerNote";
@@ -145,6 +146,20 @@ export default function StickerNote() {
       });
   };
 
+  const deleteStickerNote = (note_index) => {
+    const deleteConfirm = window.confirm("정말 삭제하시겠습니까?");
+    if (deleteConfirm) {
+      deleteSticker(note_index)
+        .then((res) => {
+          alert("성공적으로 삭제되었습니다!");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
   useEffect(() => {
     getDataBase();
   }, []);
@@ -204,6 +219,7 @@ export default function StickerNote() {
               zIndexIncrement={clonedStickerNoteInfos.length}
               addZIndex={addZIndex}
               zIndexList={zIndexList}
+              deleteStickerNote={deleteStickerNote}
             />
           );
         })}

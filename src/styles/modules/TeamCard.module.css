@@ -1,0 +1,11 @@
+.teamSkills {
+  margin-right: 5px;
+  width: fit-content;
+  padding: 0px 10px;
+  height: 19px;
+  background: #7090b0;
+  border-radius: 60px;
+  color: white;
+  font-size: 11px;
+  text-align: center;
+}

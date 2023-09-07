@@ -60,7 +60,6 @@ export default function Profile() {
   useEffect(() => {
     getUserInfo(userIndex)
       .then(function (res) {
-        const myArray = res.data[0];
         setUsers(res.data[0]);
         setField(res.data[0].fields);
         setUserProfileIdx(res.data[0].user_img_index);
@@ -538,19 +537,20 @@ export default function Profile() {
                   <p className={styles.skillpart}>스킬</p>
                   <div style={recruitWrap}>
                     <div style={recruitContainer2}>
-                      {skills && skills.map((skill, index) => {
-                        //inter -> 실제 skill 배열로 바꾸면 됨
-                        return (
-                          <img
-                            key={index}
-                            src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
-                            width="40px"
-                            height="40px"
-                            style={extool}
-                            alt={`${skill.skill_name} skill`}
-                          />
-                        );
-                      })}
+                      {skills &&
+                        skills.map((skill, index) => {
+                          //inter -> 실제 skill 배열로 바꾸면 됨
+                          return (
+                            <img
+                              key={index}
+                              src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                              width="40px"
+                              height="40px"
+                              style={extool}
+                              alt={`${skill.skill_name} skill`}
+                            />
+                          );
+                        })}
                       <div style={toolss}></div>
                     </div>
                   </div>
