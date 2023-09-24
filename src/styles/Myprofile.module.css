@@ -61,11 +61,10 @@
 
 .profileImage {
   position: relative;
-  height: 251px;
-  width: 251px;
+  width: 182px;
+  height: 182px;
   object-fit: cover;
   border-radius: 100%;
-  margin-top: 100px;
 }
 
 @media screen and (max-width: 768px) {
@@ -78,29 +77,176 @@
 }
 
 .profileManageBtn {
+  width: 189px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   float: right;
   margin-top: -220px;
   margin-right: 20px;
   font-size: 20px;
   font-family: Avenir;
   font-weight: 800;
-  font-family: "Avenir";
   font-style: normal;
   line-height: 33px;
   letter-spacing: 0.06em;
   color: #ffffff;
   padding: 20px;
-  background: #000;
+  background: black;
   border-radius: 30px;
   transition: all 0.2s ease-in-out;
 }
 
+.introductionWrap{
+  display: flex;
+  flex-direction: row;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  gap: 20px;
+}
+
+.careerInfoWrap{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5vh;
+}
+
+.careerCol{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.careerBox{
+  width: 100%;
+  height: 72px;
+  border-radius: 20px;
+  background: #FFF;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 30px 10px 30px;
+  gap: 3vw;
+  justify-content: space-between;
+}
+
+.careerBoxInner{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3vw;
+}
+
+.careerText{
+  color: white;
+  font-family: Noto Sans;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 34px; /* 121.429% */
+  margin: 4vh 0 4vh 0;
+}
+
+.careerData{
+  color: #1D1D1D;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 34px; /* 170% */
+}
+
+.careerDate{
+  color: #6D6D6D;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px; /* 170% */
+}
+
+.careerStatus{
+  border-radius: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #B3B3B3;
+  width: 130px;
+  height: 41px;
+  flex-shrink: 0;
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.9px;
+}
+
+.introduction{
+  display: flex;
+  flex-direction: column;
+  padding: 3.5%;
+  width: 518px;
+  height: 246px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #FFF;
+  box-shadow: 10px 10px 10px rgba(190, 190, 190, 0.5);
+
+}
+
+.intro{
+  color: #1D1D1D;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 34px; /* 170% */
+}
+
+.introData{
+  color: #6D6D6D;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px; /* 170% */
+
+}
+
+.bubbleWrap{
+  position: relative;
+}
+.speechBubble{
+  position: absolute;
+  right: 0;
+}
+
+.profileTop{
+  display: flex;
+  flex-direction: row;
+  padding-top: 100px;
+  justify-content: space-between; /* 요소를 양끝으로 정렬합니다. */
+  margin-bottom: 10px;
+}
+
+.profileInfo{
+  display: flex;
+  flex-direction: row;
+}
+
 .nameContainer {
   display: flex;
-  align-items: center;
-  margin-top: -80px;
-  margin-left: -30px;
-  justify-content: center;
+  flex-direction: column;
+  margin-top: 20%;
+  margin-left: 10px;
+
+  /* align-items: center; */
+
+  /* justify-content: center; */
 }
 
 .name {
@@ -109,23 +255,54 @@
 
   font-family: "Avenir";
   font-style: normal;
-  font-weight: 800;
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 50px;
   padding: 0;
 }
-.texts {
-  padding: 10px;
-  width: 100vw;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.grayLine {
+  width: 100%;
+  height: 0.3px;
+  background-color: #D3D3D3;
+  opacity: 0.5;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.texts {
+  padding-left: 10px;
+  /* width: 100vw; */
   color: #808080;
 }
+
 .limit {
-  margin: 20px 20px 20px 20px;
+  margin: 0 20px 20px 20px;
   max-width: 392px;
+}
+
+.pointButton{
+  width: 249px;
+  height: 57px;
+  border-radius: 29px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  gap: 20px;
+  background: #B3B3B3;
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1px;
+}
+
+.pointEmoji{
+  font-size: 40px;
 }
 
 .loginButton2 {
@@ -528,4 +705,117 @@ footer {
 .starRating {
   width: 18px;
   height: 18px;
+}
+
+.projectRow{
+  display: flex;
+  flex-direction: row;
+}
+
+.skillRow{
+  display: flex;
+  flex-direction: row;
+  gap: 5vw;
+}
+
+.skillImg{
+  width: 106.306px;
+height: 103.2px;
+flex-shrink: 0;
+}
+
+.projectBox{
+  width: 20vw;
+  height: 40vh;
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  box-shadow: 0px 12px 20px 0px rgba(112, 144, 176, 0.20);
+  backdrop-filter: blur(10px);
+}
+
+.teamBox{
+  margin-top: 6vh;
+  margin-left: 1.5vw;
+  display: flex;
+  flex-direction: row;
+  top: 20px;
+}
+
+.teamInnerBox{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: -20px;
+  width: 60%;
+}
+
+.careerType{
+  color: #7C7C7C;
+  font-family: Alef;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 166.667% */
+}
+
+.careerUserData{
+  color: #B3B3B3;
+font-family: Avenir;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+}
+
+.careerWrap{
+  padding-left: 1.6vw;
+  padding-top: 1.5vh;
+}
+
+.topProps{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.recruitBox{
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 20px;
+}
+
+.devideLineGray{
+  background: #B4B4B4;
+  width: 80%;
+  height: 2px;
+  opacity: 0.5;
+  margin: auto;
+}
+
+.teamName{
+  color: #000;
+  font-family: Alef;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35px; /* 145.833% */
+  position: absolute;
+  bottom: 5vh;
+  left: 1vw;
+}
+
+.teamIntro{
+  position: absolute;
+  color: #B3B3B3;
+  font-family: Avenir;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  left: 1vw;
+  bottom: 3vh;
 }

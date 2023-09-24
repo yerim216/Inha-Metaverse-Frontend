@@ -37,7 +37,7 @@ export default function CreateProject() {
   const [selectedValue, setSelectedValue] = useState([]); //경력 선택 값
   const [text, setText] = useState(); //자기소개
   const [job, setJob] = useState([]); //직무 선택 값 불러오기
-  const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
+  const [skill, setSkill] = useState([]); //전체 스킬 불러오기
   const [userSkill, setUserSkill] = useState([]); //스킬 선택 값 불러오기
 
   const [userProfileIdx, setUserProfileIdx] = useState([]);
