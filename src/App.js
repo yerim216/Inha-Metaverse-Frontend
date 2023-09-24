@@ -19,6 +19,7 @@ import Download from "./pages/Download";
 import PostIt from "./components/StickerNote";
 import StickerNote from "./components/StickerNote";
 import ProjectListsPage from "./pages/ProjectListsPage";
+import ProjectMain from "./components/ProjectMain";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "stickerNote",
         element: <StickerNote />,
+      },
+      {
+        path: "main",
+        element: <ProjectMain />,
       },
     ],
   },

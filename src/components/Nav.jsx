@@ -146,7 +146,7 @@ export default function Nav() {
           </div>
         ) : (
           <div>
-            <button onClick={LogClickAlert}>Project</button>
+            <button onClick={LogClickAlert}>MyProject</button>
             <button onClick={LogClickAlert}>MyProfile</button>
           </div>
         )}
