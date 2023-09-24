@@ -24,6 +24,7 @@ export default function Sticker({
   handleClonedStickerNoteInfosChange,
   addZIndex,
   zIndexList,
+  deleteStickerNote,
 }) {
   const [stickyNoteRef, setStickyNoteRef] = useState();
   const [textareaRef, setTextareaRef] = useState();
@@ -137,6 +138,16 @@ export default function Sticker({
             "nextColorViewer_" + note_index
           }`}
         ></div>
+        <div
+          className={`rounded-full w-4 h-4 text-xl absolute right-1 top-1 flex justify-center items-center cursor-pointer hover:scale-125 ${
+            "nextColorViewer_" + note_index
+          }`}
+          onClick={() => {
+            deleteStickerNote(note_index);
+          }}
+        >
+          &times;
+        </div>
       </header>
       <div
         className={`p-2 w-full ${showTextarea ? "hidden" : "block"}`}

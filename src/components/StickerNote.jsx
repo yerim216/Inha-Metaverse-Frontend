@@ -4,13 +4,14 @@ import styles from "../styles/modules/StickerNote.module.css";
 import Sticker from "./Sticker";
 import {
   createStickerMemo,
+  deleteSticker,
   getStickers,
   modifySticker,
 } from "../APIs/stickerNote";
+import RightViewer from "./RightViewer";
 
 export default function StickerNote() {
   const { teamIndex } = useOutletContext();
-  const [infoChanged, setInfoChanged] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add("overflowHidden");
@@ -145,68 +146,98 @@ export default function StickerNote() {
       });
   };
 
+  const deleteStickerNote = (note_index) => {
+    const deleteConfirm = window.confirm("정말 삭제하시겠습니까?");
+    if (deleteConfirm) {
+      deleteSticker(note_index)
+        .then((res) => {
+          alert("성공적으로 삭제되었습니다!");
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
   useEffect(() => {
     getDataBase();
   }, []);
 
+  const handleInputChange = (e) => {
+    setInput({ ...input, content: e.target.value });
+  };
+  const handleUploadBtn = (e) => {
+    e.preventDefault();
+    if (input.content.trim() === "") {
+      alert("내용을 작성해 주세요!");
+      return;
+    }
+    addStickerNote();
+  };
+
   return (
-    <section className={styles.bg}>
-      <form className="ml-[3%] mt-[3%] flex flex-col w-[500px] gap-3 items-end">
-        <textarea
-          className="w-full resize-none outline-none h-32 border p-3"
-          placeholder="노트 작성..."
-          style={{
-            background: "#323232",
-          }}
-          value={input.content}
-          onChange={(e) => {
-            setInput({ ...input, content: e.target.value });
-          }}
-        ></textarea>
-        <div className="flex gap-2">
-          <button
-            className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
-            onClick={(e) => {
-              e.preventDefault();
-              handleModifyStickerMemo();
+    <div className="w-full h-full p-4 xl:pr-80 2xl:pr-96">
+      <RightViewer
+        activated={"stickerNote"}
+        handleInputChange={handleInputChange}
+        handleUploadBtn={handleUploadBtn}
+        input={input}
+      />
+      <section className={styles.bg}>
+        <form className="ml-[3%] mt-[3%] flex flex-col w-[400px] gap-3 items-end">
+          {/* <textarea
+            className="w-full resize-none outline-none h-32 border p-3"
+            placeholder="노트 작성..."
+            style={{
+              background: "#323232",
             }}
-          >
-            저장하기
-          </button>
-          <button
-            className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
-            onClick={(e) => {
-              e.preventDefault();
-              if (input.content.trim() === "") {
-                alert("내용을 작성해 주세요!");
-                return;
-              }
-              addStickerNote();
+            value={input.content}
+            onChange={(e) => {
+              handleInputChange(e);
             }}
-          >
-            노트 등록
-          </button>
-        </div>
-      </form>
-      {stickerNoteInfos &&
-        clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {
-          // setClonedStickerNoteInfos를 통해 정보 변경 역시 가능해야 함.
-          // idx를 이용해, 특정 Sticker에서 값의 변동이 일어났다면 clonedStickerNoteInfos 변경.
-          // 클릭 시, zIndex를 증가시키는 함수 호출.
-          // 로직 : 눌렀을 때, 본인과 나머지 요소들의 zIndex를 비교하여 자신이 제일 크다면 증가 X, 아니라면 증가.
-          return (
-            <Sticker
-              key={idx}
-              stickerNoteInfo={{ ...stickerNoteInfo, idx }}
-              handleClonedStickerNoteInfosChange={
-                handleClonedStickerNoteInfosChange
-              }
-              zIndexIncrement={clonedStickerNoteInfos.length}
-              addZIndex={addZIndex}
-              zIndexList={zIndexList}
-            />
-          );
-        })}
-    </section>
+          ></textarea> */}
+          {/* <div className="flex gap-2">
+            <button
+              className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
+              onClick={(e) => {
+                e.preventDefault();
+                handleModifyStickerMemo();
+              }}
+            >
+              저장하기
+            </button>
+            <button
+              className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
+              onClick={(e) => {
+                handleUploadBtn(e);
+              }}
+            >
+              노트 등록
+            </button>
+          </div> */}
+        </form>
+        {stickerNoteInfos &&
+          clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {
+            // setClonedStickerNoteInfos를 통해 정보 변경 역시 가능해야 함.
+            // idx를 이용해, 특정 Sticker에서 값의 변동이 일어났다면 clonedStickerNoteInfos 변경.
+            // 클릭 시, zIndex를 증가시키는 함수 호출.
+            // 로직 : 눌렀을 때, 본인과 나머지 요소들의 zIndex를 비교하여 자신이 제일 크다면 증가 X, 아니라면 증가.
+            return (
+              <Sticker
+                key={idx}
+                stickerNoteInfo={{ ...stickerNoteInfo, idx }}
+                handleClonedStickerNoteInfosChange={
+                  handleClonedStickerNoteInfosChange
+                }
+                zIndexIncrement={clonedStickerNoteInfos.length}
+                addZIndex={addZIndex}
+                zIndexList={zIndexList}
+                deleteStickerNote={deleteStickerNote}
+              />
+            );
+          })}
+      </section>
+    </div>
   );
 }

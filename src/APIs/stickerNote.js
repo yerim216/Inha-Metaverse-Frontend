@@ -87,17 +87,24 @@ export function modifySticker(stickerInfos) {
   });
 
   const updatedData = data.map((item) => {
+    const stickyNote = document.querySelector(".stickyNote_" + item.note_index);
     return {
       index: item.note_index,
       content: item.note_content,
       x: Math.round(item.note_x),
       y: Math.round(item.note_y),
-      size_x: Math.round(item.size_x),
-      size_y: Math.round(item.size_y),
+      size_x: stickyNote.offsetWidth,
+      size_y: stickyNote.offsetHeight,
       color: item.note_color,
       last_update: dateTime,
     };
   });
 
   return axios.post("/sticker_note/modify", updatedData);
+}
+
+export function deleteSticker(stickerNoteIdx) {
+  return axios.post("/sticker_note/delete", {
+    index: stickerNoteIdx,
+  });
 }

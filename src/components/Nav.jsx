@@ -51,10 +51,6 @@ export default function Nav() {
     freeScroll();
   };
 
-  const handleButtonClick = () => {
-    window.location.href = "/myprofile";
-  };
-
   const LogClickAlert = () => {
     alert("로그인을 해주세요!");
   };
@@ -130,11 +126,29 @@ export default function Nav() {
         )}
 
         {user ? (
-          <button onClick={handleButtonClick} className={styles.navLink}>
-            Profile
-          </button>
+          <div>
+            <button
+              onClick={() => {
+                navigate("/projectlists");
+              }}
+              className={styles.navLink}
+            >
+              MyProject
+            </button>
+            <button
+              onClick={() => {
+                navigate("/myprofile");
+              }}
+              className={styles.navLink}
+            >
+              MyProfile
+            </button>
+          </div>
         ) : (
-          <button onClick={LogClickAlert}>Profile</button>
+          <div>
+            <button onClick={LogClickAlert}>MyProject</button>
+            <button onClick={LogClickAlert}>MyProfile</button>
+          </div>
         )}
       </nav>
     </>

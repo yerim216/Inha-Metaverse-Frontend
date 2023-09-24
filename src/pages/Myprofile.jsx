@@ -60,7 +60,6 @@ export default function Profile() {
   useEffect(() => {
     getUserInfo(userIndex)
       .then(function (res) {
-        const myArray = res.data[0];
         setUsers(res.data[0]);
         setField(res.data[0].fields);
         setUserProfileIdx(res.data[0].user_img_index);
@@ -128,15 +127,26 @@ export default function Profile() {
 
   const introEx = [
     "안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ ",
-    "안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ "
+    "안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ ",
   ];
 
   const careerInfo = [
-    {career :"LF 몰 Champion BPU 사업부 소속 디자이너", date : "2023. 07 ~ 현재", status : "재직중" },
-    {career : "ABCDEFGH 디자인 팀 인턴", date : "2022. 12 ~ 2023. 06", status : "6개월" },
-    {career : "Abcdefg 디자인 팀 웹디자이너", date : "2021. 03 ~ 2022. 03", status : "1년 1개월" },
+    {
+      career: "LF 몰 Champion BPU 사업부 소속 디자이너",
+      date: "2023. 07 ~ 현재",
+      status: "재직중",
+    },
+    {
+      career: "ABCDEFGH 디자인 팀 인턴",
+      date: "2022. 12 ~ 2023. 06",
+      status: "6개월",
+    },
+    {
+      career: "Abcdefg 디자인 팀 웹디자이너",
+      date: "2021. 03 ~ 2022. 03",
+      status: "1년 1개월",
+    },
   ];
-
 
   const namee2 = {
     marginTop: "50px",
@@ -198,38 +208,37 @@ export default function Profile() {
   return (
     <section className={styles.contain}>
       <div className={styles.navItems}>
-          <div className={styles.logoContainer}>
-            <Link to="/">
-              <img
-                src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
-                className={styles.nav}
-                alt="Logo"
-                style={{
-                  height: "36px",
-                  width: "52px",
-                }}
-                onClick={() => (window.location.href = "/")}
-              />
-            </Link>
-          </div>
-          <div className={styles.textContainer}>
-            <a className={styles.navLink}>프로필</a>
-
-            <a className={styles.navLink}>지원</a>
-
-            {userLogin ? (
-              <button className={styles.loginButton} onClick={logout}>
-                <span>로그아웃</span>
-              </button>
-            ) : (
-              <button className={styles.loginButton}>
-                <span>로그인</span>
-              </button>
-            )}
-          </div>
+        <div className={styles.logoContainer}>
+          <Link to="/">
+            <img
+              src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
+              className={styles.nav}
+              alt="Logo"
+              style={{
+                height: "36px",
+                width: "52px",
+              }}
+              onClick={() => (window.location.href = "/")}
+            />
+          </Link>
         </div>
+        <div className={styles.textContainer}>
+          <a className={styles.navLink}>프로필</a>
+
+          <a className={styles.navLink}>지원</a>
+
+          {userLogin ? (
+            <button className={styles.loginButton} onClick={logout}>
+              <span>로그아웃</span>
+            </button>
+          ) : (
+            <button className={styles.loginButton}>
+              <span>로그인</span>
+            </button>
+          )}
+        </div>
+      </div>
       <div className={styles.wrap}>
-        
         <div className={styles.backgroundImage}></div>
         <button
           className={styles.profileManageBtn}
@@ -242,7 +251,6 @@ export default function Profile() {
         </button>
         <div className={styles.profileTop}>
           <div className={styles.profileInfo}>
-
             <img
               src={`/public_assets/profileImg/profileImg_${
                 userProfileIdx ? userProfileIdx : 1
@@ -262,9 +270,8 @@ export default function Profile() {
                 )}
               </div>
             </div>
-
           </div>
-          
+
           <button
             className={styles.pointButton}
             onClick={() => {
@@ -277,39 +284,36 @@ export default function Profile() {
           </button>
         </div>
         <div className={styles.grayLine}></div>
-        
-        <div className={styles.introductionWrap}>  
-          {introEx&&introEx.map((intro, index)=>{
-            return(
-              <div key={index} className={styles.introduction}>
-                <p className={styles.intro}> 나는 이런 인재입니다! 👉🏻</p>
-                <p className={styles.introData}  >
-                  {intro}
-                </p>
-                <div className={styles.bubbleWrap}>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/public_assets/speechBubble.svg`}
-                    className={styles.speechBubble}
-                    alt="speechBubble"
-                    style={{
-                      height: "77px",
-                      width: "77px",
-                    }}
-                  />
+
+        <div className={styles.introductionWrap}>
+          {introEx &&
+            introEx.map((intro, index) => {
+              return (
+                <div key={index} className={styles.introduction}>
+                  <p className={styles.intro}> 나는 이런 인재입니다! 👉🏻</p>
+                  <p className={styles.introData}>{intro}</p>
+                  <div className={styles.bubbleWrap}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/public_assets/speechBubble.svg`}
+                      className={styles.speechBubble}
+                      alt="speechBubble"
+                      style={{
+                        height: "77px",
+                        width: "77px",
+                      }}
+                    />
+                  </div>
                 </div>
-                
-              </div>
-            );
-              
-          })}
+              );
+            })}
         </div>
         <div className={styles.grayLine}></div>
 
         <div className={styles.careerInfoWrap}>
           <p className={styles.careerText}>경력사항 🏢</p>
           <div className={styles.careerCol}>
-            {careerInfo.map((career,index)=>{
-              return(
+            {careerInfo.map((career, index) => {
+              return (
                 <div key={index} className={styles.careerBox}>
                   <p className={styles.careerData}>{career.career}</p>
                   <div className={styles.careerBoxInner}>
@@ -327,7 +331,8 @@ export default function Profile() {
         <div className={styles.careerInfoWrap}>
           <p className={styles.careerText}> 사용스킬 ⚒️</p>
           <div className={styles.skillRow}>
-              {skills && skills.map((skill, index) => {
+            {skills &&
+              skills.map((skill, index) => {
                 return (
                   <img
                     key={index}
@@ -346,8 +351,8 @@ export default function Profile() {
 
         <div className={styles.careerInfoWrap}>
           <p className={styles.careerText}> 프로젝트 ⚙️</p>
-          <div className={styles.skillRow} >
-          {filteredArray.length === 0 ? (
+          <div className={styles.skillRow}>
+            {filteredArray.length === 0 ? (
               <div className={styles.projectBox}>
                 <a href="/">
                   <div className={styles.emptyProject}>
@@ -357,72 +362,74 @@ export default function Profile() {
               </div>
             ) : (
               filteredArray.map((obj, index) => (
-                <div className={styles.projectBox} key={index} 
+                <div
+                  className={styles.projectBox}
+                  key={index}
                   onClick={() => {
-                  // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
-                  navigate("/profile", {
-                    state: { teamIndex: obj.teamInfo.team_index },
-                  });
-                  window.scrollTo({ top: 0, behavior: "auto" });
-                }}
+                    // 코드 수정하고 저장할때마다 팀 프로필 4개씩 다시 불러오는 버그 있음
+                    navigate("/profile", {
+                      state: { teamIndex: obj.teamInfo.team_index },
+                    });
+                    window.scrollTo({ top: 0, behavior: "auto" });
+                  }}
                 >
-                      <div style={part2Wrap}>
-                          {/*  아래가 파란색 있는 거임 */}
-                          {obj.teamInfo.skills[0] !== null ? (
-                            <div style={parts2}>{obj.numOfPeople.team_cnt}</div>
-                          ) : (
-                            <div style={parts2}>팀 내 기술 스택 X</div>
-                          )}
+                  <div style={part2Wrap}>
+                    {/*  아래가 파란색 있는 거임 */}
+                    {obj.teamInfo.skills[0] !== null ? (
+                      <div style={parts2}>{obj.numOfPeople.team_cnt}</div>
+                    ) : (
+                      <div style={parts2}>팀 내 기술 스택 X</div>
+                    )}
+                  </div>
+                  <div className={styles.teamBox}>
+                    <img
+                      key={index}
+                      // src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                      src={`${process.env.PUBLIC_URL}/public_assets/teamProfile.svg`}
+                      width="40px"
+                      height="40px"
+                      className={styles.skillImg}
+                      alt={`${skill.skill_name} skill`}
+                    />
+                    <div className={styles.teamInnerBox}>
+                      <div className={styles.teamName}>
+                        {obj.teamInfo.team_name}
                       </div>
-                      <div className={styles.teamBox}>
-                        <img
-                          key={index}
-                          // src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
-                          src={`${process.env.PUBLIC_URL}/public_assets/teamProfile.svg`}
-                          width="40px"
-                          height="40px"
-                          className={styles.skillImg}
-                          alt={`${skill.skill_name} skill`}
-                        />
-                        <div className={styles.teamInnerBox}>
-                          <div className={styles.teamName}>{obj.teamInfo.team_name}</div>
-                          <div className={styles.teamIntro}>{obj.teamInfo.team_introduction}</div>
-                        </div>
+                      <div className={styles.teamIntro}>
+                        {obj.teamInfo.team_introduction}
                       </div>
-                      <div className={styles.careerWrap}>
-                        <p className={styles.careerType}>
-                          경력무관  ㅣ  개발, 디자인
-                        </p>
-                        <p className={styles.careerUserData}>
-                          프론트엔드, QA, 프로덕트 디자이너
-                        </p>
-                      </div>
-                      
-                      {obj.teamInfo.team_recruting ? (
-                        <div className={styles.recruitBox}>
-                        <div style={dot3}></div>
-                        <p style={lit}>
-                            recruiting {obj.numOfPeople.team_cnt} /
-                            {obj.teamInfo.recruitment_number}
-                          </p>
-                        </div>
-                          
-                        ) : (
-                          <div className={styles.recruitBox}>
-                            <div style={dot3}></div>
-                            <p style={lit}>not recruiting</p>
-                          </div>
-                        )}
-                  {/* <div className={styles.devideLineGray}></div> */}
+                    </div>
+                  </div>
+                  <div className={styles.careerWrap}>
+                    <p className={styles.careerType}>
+                      경력무관 ㅣ 개발, 디자인
+                    </p>
+                    <p className={styles.careerUserData}>
+                      프론트엔드, QA, 프로덕트 디자이너
+                    </p>
+                  </div>
 
+                  {obj.teamInfo.team_recruting ? (
+                    <div className={styles.recruitBox}>
+                      <div style={dot3}></div>
+                      <p style={lit}>
+                        recruiting {obj.numOfPeople.team_cnt} /
+                        {obj.teamInfo.recruitment_number}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className={styles.recruitBox}>
+                      <div style={dot3}></div>
+                      <p style={lit}>not recruiting</p>
+                    </div>
+                  )}
+                  {/* <div className={styles.devideLineGray}></div> */}
                 </div>
-                
               ))
             )}
           </div>
         </div>
 
-   
         {/* <div className={styles.recruit}>
           {user.info.map((item) => (
             <span key={item.id}>
@@ -468,8 +475,6 @@ export default function Profile() {
             </span>
           ))}
         </div> */}
-
-       
       </div>
       <Footer />
     </section>

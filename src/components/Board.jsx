@@ -8,6 +8,7 @@ import Member from "./Member";
 import { useOutletContext } from "react-router-dom";
 import { getTeamInfoByIndex, getTeamMembers } from "../APIs/team";
 import { addScheduleByToDo, getSchedule } from "../APIs/schedule";
+import RightViewer from "./RightViewer";
 
 export default function Board() {
   // ㅆ.. 담당자선택 공유됨
@@ -325,7 +326,8 @@ export default function Board() {
   }, [addTodo_done.todo]);
 
   return (
-    <div className={styles.bg}>
+    <div className={`${styles.bg} xl:pr-80 2xl:pr-96`}>
+      <RightViewer activated={"board"} />
       <section className={styles.toDoSectionContainer}>
         <div className={styles.fullTodoSection} id="toDoSection_notStart">
           <section
