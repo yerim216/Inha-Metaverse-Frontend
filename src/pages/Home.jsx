@@ -12,10 +12,13 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
+
+  const { themeMode, themeModeSet } = useContext(ThemeContext);
 
   const navigate = useNavigate();
   const room = "forum";
@@ -156,11 +159,11 @@ export default function Home() {
       <section>
         <div>
           <Nav />
-          <img
+          {/* <img
             src="/public_assets/darkmodeBg.png"
             alt="darkModeBg"
             className={styles.bg}
-          />
+          /> */}
         </div>
 
         {/* 이미지 크기 이슈 해결 후 추가 예정 */}

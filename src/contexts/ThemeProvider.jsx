@@ -1,19 +1,18 @@
 import React, { createContext, useState } from "react";
 
-export const ThemeProvider = createContext({
-  userInfo: "",
-  userInfoSet: "",
+export const ThemeContext = createContext({
+  themeMode: "",
+  themeModeSet: "",
 });
 
-export default function UserInfoProvider({ children }) {
-  const [userInfo, setUserInfo] = useState();
+export default function ThemeProvider({ children }) {
   const [themeMode, setThemeMode] = useState("light");
-  const userInfoSet = (val) => {
-    setUserInfo(val);
+  const themeModeSet = (theme) => {
+    setThemeMode(theme);
   };
   return (
-    <ThemeProvider.Provider value={{ userInfo, userInfoSet }}>
+    <ThemeContext.Provider value={{ themeMode, themeModeSet }}>
       {children}
-    </ThemeProvider.Provider>
+    </ThemeContext.Provider>
   );
 }

@@ -14,13 +14,12 @@ import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import Download from "./pages/Download";
 import PostIt from "./components/StickerNote";
 import StickerNote from "./components/StickerNote";
 import ProjectListsPage from "./pages/ProjectListsPage";
 import ProjectMain from "./components/ProjectMain";
+import ThemeProvider from "./contexts/ThemeProvider";
 
 const router = createBrowserRouter([
   {
@@ -28,34 +27,60 @@ const router = createBrowserRouter([
     element: (
       <UserInfoProvider>
         <GoogleReCaptchaProvider reCaptchaKey="6LcqNDAmAAAAAKR81rlDOgBrUSXVBQAGLK8iI_Hr">
-          <Home />
+          <ThemeProvider>
+            <Home />
+          </ThemeProvider>
         </GoogleReCaptchaProvider>
       </UserInfoProvider>
     ),
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: (
+      <ThemeProvider>
+        <Profile />
+      </ThemeProvider>
+    ),
   },
   {
     path: "/myprofile",
-    element: <Myprofile />,
+    element: (
+      <ThemeProvider>
+        <Myprofile />
+      </ThemeProvider>
+    ),
   },
   {
     path: "/createproject",
-    element: <CreateProject />,
+    element: (
+      <ThemeProvider>
+        <CreateProject />
+      </ThemeProvider>
+    ),
   },
   {
     path: "/createmyprofile",
-    element: <GenMyprofile />,
+    element: (
+      <ThemeProvider>
+        <GenMyprofile />
+      </ThemeProvider>
+    ),
   },
   {
     path: "/projectlists",
-    element: <ProjectListsPage />,
+    element: (
+      <ThemeProvider>
+        <ProjectListsPage />
+      </ThemeProvider>
+    ),
   },
   {
     path: "/projectmanagertools/:teamIndex",
-    element: <ProjectManagerTools />,
+    element: (
+      <ThemeProvider>
+        <ProjectManagerTools />
+      </ThemeProvider>
+    ),
     children: [
       {
         index: true,

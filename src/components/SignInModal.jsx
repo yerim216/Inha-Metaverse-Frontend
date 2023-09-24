@@ -7,6 +7,7 @@ import "../styles/signInModal.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { getUserInfo } from "../APIs/userinfo";
+import ThemeProvider from "../contexts/ThemeProvider";
 
 export default function SignInModal(props) {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
