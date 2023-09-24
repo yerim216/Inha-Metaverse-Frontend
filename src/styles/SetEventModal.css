@@ -1,3 +1,13 @@
+.ReactModal__Overlay ReactModal__Overlay--after-open{
+    z-index: 3;
+}
+.ReactModal__Content ReactModal__Content--after-open{
+  z-index: 3;
+}
+.ReactModalPortal{
+  z-index: 3;
+
+}
 .modalContent{
     width: 500px;
     height: 300px;
@@ -72,5 +82,40 @@ p{
 }
 
 .closeButton{
-   margin-top: 60px;
+   margin-top: 10px;
 }
+
+/* ColorPicker.module.css */
+.color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .selected {
+    border: 2px solid white; /* 선택된 색상을 강조하는 테두리 스타일 */
+  }
+  
+  .label{
+    display: inline-block;
+  }
+
+  .cate-select{
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+    cursor: pointer;
+  }
+
+  .cate-inbox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* gap: 5px; */
+    transition: transform 0.1s; /* transform 속성에 대한 0.2초 트랜지션 설정 */
+  }
+
+  .cate-inbox:active {
+    transform: scale(1.2); /* 클릭 시 1.2배로 확대 */
+  }

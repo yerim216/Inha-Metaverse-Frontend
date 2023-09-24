@@ -7,13 +7,17 @@ import CalDayGrid from "../components/CalDayGrid";
 
 export default function Mycalendar() {
   const { teamIndex } = useOutletContext();
+  const [changeEvent, setChangeEvent] = useState(false);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
+    setChangeEvent(false);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setChangeEvent(true);
     setIsModalOpen(false);
   };
 
@@ -90,6 +94,35 @@ export default function Mycalendar() {
             contentLabel="이벤트 등록"
           />
         </div>
+      </div>
+
+      <div className={styles.weekDay}>
+        {weekDay &&
+          weekDay.map((day, index) => {
+            if (day === "Su" || day === "Sa") {
+              return (
+                <span key={index} className={styles.weekends}>
+                  {day}
+                </span>
+              );
+            } else {
+              return (
+                <span key={index} className={styles.weekdays}>
+                  {day}
+                </span>
+              );
+            }
+          })}
+      </div>
+      <div className={styles.cellBox}>
+        <CalDayGrid today={today} changeEvent={changeEvent} />
+        {/* <RenderCalendarCell isModalOpen={isModalOpen} /> */}
+        <SetEventModal
+          className={styles.setEvnet}
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="이벤트 등록"
+        />
       </div>
     </>
   );
