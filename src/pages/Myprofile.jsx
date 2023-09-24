@@ -431,7 +431,7 @@ export default function Profile() {
   //   window.href('/')
   // };
   return (
-    <section>
+    <section className={styles.contain}>
       <div className={styles.wrap}>
         <div className={styles.navItems}>
           <div className={styles.logoContainer}>
@@ -539,7 +539,6 @@ export default function Profile() {
                   <div style={recruitWrap}>
                     <div style={recruitContainer2}>
                       {skills && skills.map((skill, index) => {
-                        //inter -> 실제 skill 배열로 바꾸면 됨
                         return (
                           <img
                             key={index}

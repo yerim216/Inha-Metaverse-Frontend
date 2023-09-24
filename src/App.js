@@ -10,6 +10,7 @@ import ToDo from "./pages/ToDo";
 import Board from "./components/Board";
 import ProjectManagerTools from "./pages/ProjectManagerTools";
 import Mycalendar from "./pages/Mycalendar";
+import Calendar2 from "./pages/Calendar2";
 import CreateProject from "./pages/CreateProject";
 import GenMyprofile from "./pages/GenMyprofile";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
@@ -46,10 +47,6 @@ const router = createBrowserRouter([
     path: "/createmyprofile",
     element: <GenMyprofile />,
   },
-  // {
-  //   path: "/mycalendar",
-  //   element: <Mycalendar />,
-  // },
   {
     path: "projectmanagertools/:teamIndex",
     element: <ProjectManagerTools />,

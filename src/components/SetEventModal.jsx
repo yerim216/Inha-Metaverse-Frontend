@@ -12,7 +12,7 @@ function ModalComponent({ isOpen, onRequestClose }) {
   const { teamIndex } = useOutletContext();
   const [userLogin, setUserLogin] = useRecoilState(userState);
 
-  const [inputValue, setInputValue] = useState(''); //event제목 입력 관리
+  const [inputValue, setInputValue] = useState(''); //event 제목 입력 관리
   const inputRef = useRef(null);
 
   const handleInputChange = (event) => {
@@ -37,7 +37,18 @@ function ModalComponent({ isOpen, onRequestClose }) {
     setSelectedEndDate(date);
   };
 
-  const addEventsToDB = async () => { 
+  const [selectedColor, setSelectedColor] = useState(null);
+  const colors = [
+    { name: '기획', code: '#FDEFAE' },
+    { name: '개발', code: '#C7EBE8' },
+    { name: '디자인', code: '#FFE9E9' },
+  ];
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+  };
+
+  const addEventsToDB = async () => {
+
     const startDateObject = new Date(selectedStartDate);
     const sYear = startDateObject.getFullYear();
     const sMonth = String(startDateObject.getMonth() + 1).padStart(2, '0');
@@ -56,19 +67,23 @@ function ModalComponent({ isOpen, onRequestClose }) {
     const userIndex = userLogin.user_index;
 
     const status = '1';
+    console.log(inputNoteValue);
+    const a = JSON.stringify(inputValue);
+    console.log(a);
 
-    const color = '#FFC0CB';
+    const color = "#FFC0CB";
 
     addScheduleByToDo({
       teamIndex: teamIndex, 
-      title: inputValue, 
+      title: inputValue || "New Event", 
       content: inputNoteValue,
       status: 1,
       startDate: formattedStartDate, 
       endDate: formattedEndDate, 
       writer: userIndex, 
       createdAt: createTimestamp, 
-      color: null })
+      color: null 
+    })
     .then(function () {
       console.log("db에 일정 추가 성공");
     })
@@ -79,8 +94,8 @@ function ModalComponent({ isOpen, onRequestClose }) {
   };
 
   const handleClose = () => {
-    onRequestClose(); 
     addEventsToDB(); 
+    onRequestClose(); 
     setInputValue('');
     setSelectedStartDate(new Date());
     setSelectedEndDate(new Date());
@@ -115,7 +130,9 @@ function ModalComponent({ isOpen, onRequestClose }) {
           borderRadius: '4px',
           outline: 'none',
           padding: '3% 5% 3% 5%'
-        }
+        },
+        zIndex: '3'
+
       }}
     >
       <div className="input-container">
@@ -130,7 +147,7 @@ function ModalComponent({ isOpen, onRequestClose }) {
       </div>
 
       <div className="dateContainer">
-        <p>Start Date  </p>          
+        <p>Start Date</p>          
         <DatePicker
           className="custom-startDateInput" 
           selected={selectedStartDate}
@@ -155,6 +172,24 @@ function ModalComponent({ isOpen, onRequestClose }) {
           dateFormatCalendar="MMMM yyyy"
           dateFormat="MMMM d, yyyy"
         />
+      </div>
+
+      <div className="cate-select">
+        <p>Category </p>          
+
+        {colors.map((color,index) => {
+
+          return(
+          <div className="cate-inbox" key={index}>
+          <div
+            className={`color-circle ${selectedColor === color.code ? 'selected' : ''}`}
+            style={{ backgroundColor: color.code }}
+            onClick={() => handleColorSelect(color.code)}
+          ></div>
+          <span className="label">{color.name}</span>
+          </div>
+        );
+        })}
       </div>
 
       <div className='line'></div>

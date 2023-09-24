@@ -8,13 +8,17 @@ import CalDayGrid from "../components/CalDayGrid";
 export default function Mycalendar() {
 
     const { teamIndex } = useOutletContext();
+    const [changeEvent, setChangeEvent] = useState(false);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     
     const openModal = () => {
+      setChangeEvent(false);
       setIsModalOpen(true);
     };
 
     const closeModal = () => {
+      setChangeEvent(true);
       setIsModalOpen(false);
     };
 
@@ -73,7 +77,7 @@ export default function Mycalendar() {
         })}
       </div>
       <div className={styles.cellBox}>
-      <CalDayGrid today={today}/>
+      <CalDayGrid today={today} changeEvent={changeEvent}/>
       {/* <RenderCalendarCell isModalOpen={isModalOpen} /> */}
       <SetEventModal
         className={styles.setEvnet}

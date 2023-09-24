@@ -10,6 +10,15 @@
   width: 100vw;
 }
 
+.contain{
+  width: 100%;
+}
+
+.wrap{
+  width: 75%;
+  margin: auto;
+}
+
 .logoContainer {
   display: flex;
   padding: 45px 0 0 50px;
@@ -53,13 +62,11 @@
 
 .profileImage {
   position: relative;
-  top: -125px;
   height: 251px;
   width: 251px;
-  left: 50%;
-  transform: translateX(-50%);
   object-fit: cover;
-  border-radius: 50px;
+  border-radius: 100%;
+  margin-top: 100px;
 }
 
 @media screen and (max-width: 768px) {
