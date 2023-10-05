@@ -13,12 +13,20 @@ import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
 
-  const { themeMode, themeModeSet } = useContext(ThemeContext);
+  const { themeMode, toggleTheme } = useContext(ThemeContext);
+
+  const [tm, setTm] = useState(theme.lightTheme.home);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.home);
+    else setTm(theme.darkTheme.home);
+  }, [themeMode]);
 
   const navigate = useNavigate();
   const room = "forum";
@@ -165,16 +173,14 @@ export default function Home() {
             className={styles.bg}
           /> */}
         </div>
-
         {/* 이미지 크기 이슈 해결 후 추가 예정 */}
-        <div className="relative">
+        {/* <div className="relative">
           <img
             src="/public_assets/VP.png"
             alt="darkModeBg"
             className={styles.VP}
           />
-        </div>
-
+        </div> */}
         <div className={styles.container}>
           <button onClick={forumClick}>
             <div className={styles.imageContainer}>
@@ -189,28 +195,55 @@ export default function Home() {
           </button>
           <div className={styles.wrapper} onClick={handleClick}>
             <Dot />
-            <p className={styles.tHot}>Office</p>
-            <p className={styles.hotName}>대공간 포럼</p>
+            <p
+              className={styles.tHot}
+              style={{
+                color: tm.mainTextColor,
+              }}
+            >
+              Today Hot
+            </p>
+            <p
+              className={styles.hotName}
+              style={{
+                color: tm.mainTextColor,
+              }}
+            >
+              대공간 포럼
+            </p>
             <View />
-            <hr />
+            <hr
+              style={{
+                backgroundColor: tm.mainTextColor,
+                height: "1px",
+                border: 0,
+              }}
+            />
           </div>
 
           <img
-            src={`${process.env.PUBLIC_URL}/public_assets/vector.png`}
+            src={`${process.env.PUBLIC_URL}/public_assets/icons/${
+              themeMode === "light" ? "vector_light" : "vector_dark"
+            }.svg`}
             className={styles.vector}
             alt="Views"
           />
         </div>
-        <section className="maxWidth">
+        {/* <section className="maxWidth">
           <div className={styles.projectTitle}>
             <Dot />
             <h3>Map</h3>
           </div>
           <Slider />
-        </section>
+        </section> */}
       </section>
       <section className="maxWidth">
-        <div className={styles.projectTitle}>
+        <div
+          className={styles.projectTitle}
+          style={{
+            color: tm.mainTextColor,
+          }}
+        >
           <Dot />
           {/* <h3 id="specificSection">Project</h3> */}
           <h3>Project</h3>
@@ -297,7 +330,12 @@ export default function Home() {
         <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
       </section>
       <section className="mt-10 xl:mt-44 maxWidth">
-        <div className={styles.projectTitle}>
+        <div
+          className={styles.projectTitle}
+          style={{
+            color: tm.mainTextColor,
+          }}
+        >
           <Dot />
           <h3>Story</h3>
         </div>

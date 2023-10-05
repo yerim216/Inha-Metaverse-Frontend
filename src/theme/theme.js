@@ -1,11 +1,29 @@
 export const lightTheme = {
-  projectSide: "",
-  projectBg: "",
+  home: {
+    mainTextColor: "#000",
+  },
+  nav: {
+    mainBgColor: "#c9c9c9",
+  },
+  projectManager: {
+    projectSide: "",
+    projectBg: "",
+    projectRoutingBox: "#181a1c",
+  },
 };
 
 export const darkTheme = {
-  projectSide: "#2D2D2D",
-  projectBg: "",
+  home: {
+    mainTextColor: "#fff",
+  },
+  nav: {
+    mainBgColor: "#ffffff",
+  },
+  projectManager: {
+    projectSide: "#2D2D2D",
+    projectBg: "",
+    projectRoutingBox: "#181a1c",
+  },
 };
 
 export const theme = {

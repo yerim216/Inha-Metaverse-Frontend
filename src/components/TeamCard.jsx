@@ -1,6 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/TeamCard.module.css";
 import { useNavigate } from "react-router";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function TeamCard({ team }) {
   // {
@@ -73,6 +75,14 @@ export default function TeamCard({ team }) {
     arrowBoxRef.current.style.bottom = distanceY + "px";
   };
 
+  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
+
   return (
     <div
       className="relative w-96 h-96"
@@ -87,9 +97,12 @@ export default function TeamCard({ team }) {
           arrowBoxOpen && styles.arrow_box_open
         }`}
         ref={arrowBoxRef}
+        style={{
+          backgroundColor: tm.projectRoutingBox,
+        }}
       >
         <button
-          className="w-1/2 h-1/3 bg-red-300"
+          className="w-full h-1/2"
           onClick={() => {
             if (!arrowBoxOpen) return;
 
@@ -99,10 +112,10 @@ export default function TeamCard({ team }) {
             window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
-          프로젝트 정보
+          프로젝트 보기
         </button>
         <button
-          className="w-1/2 h-1/3 bg-red-300"
+          className="w-full h-1/2"
           onClick={() => {
             if (!arrowBoxOpen) return;
 

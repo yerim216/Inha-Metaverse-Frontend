@@ -2,29 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* 
-      width 100vw를 주니 스크롤 생기는 문제 발생. 
-      body의 overflow-x에 hidden으로 임시(?) 조치
-    */
   width: 100vw;
   overflow: hidden;
   height: 64px;
-  background-color: #ffffff;
   overflow: hidden;
   padding: 0 5vw;
 }
 
 .navLink {
-  float: left;
   color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
   font-size: 18px;
-  line-height: 25px;
-  padding-top: 19px;
-  padding-bottom: 20px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .navLink:hover {

@@ -9,8 +9,7 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #1c1d1e;
-  /* background: white; */
+  transition: all 0.3s ease-in-out;
 }
 
 #root {

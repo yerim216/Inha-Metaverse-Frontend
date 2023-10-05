@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Nav.module.css";
 import OnLogModal from "../components/OnLogModal";
 import Dot from "../components/Dot";
@@ -8,12 +8,23 @@ import { useNavigate } from "react-router-dom";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import { getUserInfo } from "../APIs/userinfo";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import ToggleSwitch from "./ToggleSwitch";
+import { theme } from "../theme/theme";
 
 export default function Nav() {
   const [user, setUser] = useRecoilState(userState);
   const [userProfileIndex, setUserProfileIndex] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const [tm, setTm] = useState(theme.lightTheme.nav);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.nav);
+    else setTm(theme.darkTheme.nav);
+  }, [themeMode]);
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -67,6 +78,13 @@ export default function Nav() {
     freeScroll();
   };
 
+  const logout = () => {
+    window.location.href = "/";
+    setUser(null);
+
+    window.localStorage.clear();
+  };
+
   return (
     <>
       <SignInModal
@@ -78,78 +96,112 @@ export default function Nav() {
         open={signUpModalOpen}
         close={closeSignUpModal}
       ></SignUpModal>
-      <nav className={styles.navbar}>
-        <span
-          className={styles.navLink}
-          onClick={() => {
-            navigate("/");
-            window.scrollTo({ top: 0, behavior: "auto" });
-          }}
-        >
-          Home
-        </span>
-        {user ? (
-          <button
-            className={styles.loginModal}
+      <nav
+        className={styles.navbar}
+        style={{
+          background: tm.mainBgColor,
+        }}
+      >
+        <div className="w-1/3 flex items-center gap-6">
+          <img src="/public_assets/icons/VPSpaceLogo.svg" alt="VPSpaceLogo" />
+          <ToggleSwitch />
+        </div>
+        <div className="flex gap-10 w-1/3 justify-center">
+          <span
+            className={styles.navLink}
             onClick={() => {
-              onClickButton();
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "auto" });
             }}
           >
-            {isOpen && (
-              <OnLogModal
-                open={isOpen}
-                onClose={() => {
-                  setIsOpen(false);
+            Home
+          </span>
+          {user ? (
+            <>
+              <button
+                onClick={() => {
+                  navigate("/projectlists");
+                }}
+                className={styles.navLink}
+              >
+                MyProject
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/myprofile");
+                }}
+                className={styles.navLink}
+              >
+                MyProfile
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={LogClickAlert} className={styles.navLink}>
+                MyProject
+              </button>
+              <button onClick={LogClickAlert} className={styles.navLink}>
+                MyProfile
+              </button>
+            </>
+          )}
+        </div>
+        <div className="flex items-center gap-10 w-1/3 justify-end">
+          {user ? (
+            <button
+              className={styles.loginModal}
+              onClick={() => {
+                onClickButton();
+              }}
+            >
+              {isOpen && (
+                <OnLogModal
+                  open={isOpen}
+                  onClose={() => {
+                    setIsOpen(false);
+                  }}
+                />
+              )}
+              <img
+                src={`/public_assets/profileImg/profileImg_${
+                  userProfileIndex ? userProfileIndex : 1
+                }.png`}
+                alt="profile"
+                style={{
+                  border: "1px solid black",
+                  borderRadius: "100%",
+                  width: "44px",
+                  height: "44px",
+                  objectFit: "cover",
                 }}
               />
-            )}
-            <img
-              src={`/public_assets/profileImg/profileImg_${
-                userProfileIndex ? userProfileIndex : 1
-              }.png`}
-              alt="profile"
-              style={{
-                border: "1px solid black",
-                borderRadius: "100%",
-                width: "44px",
-                height: "44px",
-                objectFit: "cover",
-              }}
-            />
-            <img src="/public_assets/modal.png" alt="profile" />
+              <img src="/public_assets/modal.png" alt="profile" />
+            </button>
+          ) : (
+            <button className={styles.loginButton} onClick={openSignInModal}>
+              <span>Login</span>
+              <Dot />
+            </button>
+          )}
+          <button
+            className="hover:scale-110"
+            onClick={() => {
+              alert("곧 추가될 예정입니다!");
+            }}
+          >
+            <img src="/public_assets/icons/bell.svg" alt="bell" />
           </button>
-        ) : (
-          <button className={styles.loginButton} onClick={openSignInModal}>
-            <span>Login</span>
-            <Dot />
-          </button>
-        )}
-
-        {user ? (
-          <div>
+          {user && (
             <button
               onClick={() => {
-                navigate("/projectlists");
+                logout();
               }}
-              className={styles.navLink}
+              className={`text-sm font-bold cursor-pointer hover:scale-105`}
             >
-              MyProject
+              로그아웃
             </button>
-            <button
-              onClick={() => {
-                navigate("/myprofile");
-              }}
-              className={styles.navLink}
-            >
-              MyProfile
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button onClick={LogClickAlert}>MyProject</button>
-            <button onClick={LogClickAlert}>MyProfile</button>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
     </>
   );

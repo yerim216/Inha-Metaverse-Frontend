@@ -12,3 +12,7 @@
   height: 88%;
   border-radius: 10px;
 }
+
+.carousel .slide {
+  border: none;
+}
