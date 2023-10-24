@@ -6,11 +6,17 @@ import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // DatePicker 스타일 가져오기
 import "../styles/SetEventModal.css";
-import { addScheduleByToDo } from "../APIs/schedule";
+import { addScheduleByToDo, deleteEvent, modifyEvent } from "../APIs/schedule";
 
-function ModalComponent({ isOpen, onRequestClose }) {
+function ModalComponent({ isOpen, onRequestClose, startDay, endDay, title, scheduleIndex, eventColor }) {
+  console.log(title);
+  console.log(typeof(startDay));
+  console.log(endDay);
   const { teamIndex } = useOutletContext();
+
   const [userLogin, setUserLogin] = useRecoilState(userState);
+  const userIndex = userLogin.user_index;
+  console.log(typeof(userIndex));
 
   const [inputValue, setInputValue] = useState(''); //event 제목 입력 관리
   const inputRef = useRef(null);
@@ -29,6 +35,7 @@ function ModalComponent({ isOpen, onRequestClose }) {
   const [selectedStartDate, setSelectedStartDate] = useState(new Date()); //event 시작 날짜 입력 관리
   const [selectedEndDate, setSelectedEndDate] = useState(new Date()); //event 종료 날짜 입력 관리
 
+
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
   };
@@ -39,39 +46,64 @@ function ModalComponent({ isOpen, onRequestClose }) {
 
   const [selectedColor, setSelectedColor] = useState(null);
   const colors = [
-    { name: '기획', code: '#FDEFAE' },
-    { name: '개발', code: '#C7EBE8' },
-    { name: '디자인', code: '#FFE9E9' },
+    { name: '기획', code: '#FBEFB5' },
+    { name: '개발', code: '#C1E8E4' },
+    { name: '디자인', code: '#FBEAE9' },
+    { name: '그 외', code: '#E9F0FE' },
   ];
-  const handleColorSelect = (color) => {
-    setSelectedColor(color);
+
+  useEffect(()=>{
+    if(startDay !== null){
+      setSelectedStartDate(startDay);
+    }
+    if(endDay !== null){
+      setSelectedEndDate(endDay);
+    }
+    if(eventColor === null && selectedColor === null){
+      eventColor = '#E9F0FE'
+    }
+    setInputValue(title);
+
+  },[startDay]);
+
+  //이벤트 삭제
+  const handleDelete = (deleteEventIndex) => {
+    const number = parseInt(deleteEventIndex, 10); // 10진수로 변환
+
+    deleteEvent(number)
+      .then((response) => {
+        console.log("이벤트 삭제 완료 : " + response);
+        // fetchData();
+      })
+      .catch((error) => {
+        console.error("Error delete event from DB:", error);
+      });
+
+      onRequestClose(); 
+      setInputValue('');
+      setSelectedStartDate(new Date());
+      setSelectedEndDate(new Date());
+      setInputNoteValue('');
   };
 
+  const startDateObject = new Date(selectedStartDate);
+  const sYear = startDateObject.getFullYear();
+  const sMonth = String(startDateObject.getMonth() + 1).padStart(2, '0');
+  const sDay = String(startDateObject.getDate()).padStart(2, '0');
+  const formattedStartDate = `${sYear}${sMonth}${sDay}`;
+
+  const endDateObject = new Date(selectedEndDate);
+  const eYear = endDateObject.getFullYear();
+  const eMonth = String(endDateObject.getMonth() + 1).padStart(2, '0');
+  const eDay = String(endDateObject.getDate()).padStart(2, '0');
+  const formattedEndDate = `${eYear}${eMonth}${eDay}`;
+
+  const createTime = new Date();
+  const createTimestamp = createTime.toISOString();
+  console.log(createTimestamp);
+  const status = '1';
+
   const addEventsToDB = async () => {
-
-    const startDateObject = new Date(selectedStartDate);
-    const sYear = startDateObject.getFullYear();
-    const sMonth = String(startDateObject.getMonth() + 1).padStart(2, '0');
-    const sDay = String(startDateObject.getDate()).padStart(2, '0');
-    const formattedStartDate = `${sYear}${sMonth}${sDay}`;
-
-    const endDateObject = new Date(selectedEndDate);
-    const eYear = endDateObject.getFullYear();
-    const eMonth = String(endDateObject.getMonth() + 1).padStart(2, '0');
-    const eDay = String(endDateObject.getDate()).padStart(2, '0');
-    const formattedEndDate = `${eYear}${eMonth}${eDay}`;
-
-    const createTime = new Date();
-    const createTimestamp = createTime.toISOString();
-    
-    const userIndex = userLogin.user_index;
-
-    const status = '1';
-    console.log(inputNoteValue);
-    const a = JSON.stringify(inputValue);
-    console.log(a);
-
-    const color = "#FFC0CB";
 
     addScheduleByToDo({
       teamIndex: teamIndex, 
@@ -82,7 +114,7 @@ function ModalComponent({ isOpen, onRequestClose }) {
       endDate: formattedEndDate, 
       writer: userIndex, 
       createdAt: createTimestamp, 
-      color: null 
+      color: selectedColor 
     })
     .then(function () {
       console.log("db에 일정 추가 성공");
@@ -93,16 +125,59 @@ function ModalComponent({ isOpen, onRequestClose }) {
 
   };
 
+  const modifyEvents = () => {
+
+    modifyEvent({
+      // teamIndex: teamIndex, 
+      // title: "New Event", 
+      // content: 'hi',
+      // status: 1,
+      // startDate: "2023-10-10T00:00:00.000Z", 
+      // endDate: "2023-10-12T00:00:00.000Z", 
+      // writer: userIndex, 
+      // lastUpdate: '2023-08-18T13:53:48.000Z', 
+      // color: '#E9F0FE'
+
+      teamIndex: teamIndex, 
+      title: inputValue || "New Event", 
+      content: inputNoteValue,
+      status: 1,
+      startDate: formattedStartDate, 
+      endDate: formattedEndDate, 
+      writer: userIndex, 
+      lastUpdate: createTimestamp, 
+      color: selectedColor
+    })
+    .then(function () {
+      console.log("일정 수정 성공");
+    })
+    .catch(function (error) {
+      console.log("일정 수정 실패"+error);
+    });
+
+  }
+
   const handleClose = () => {
-    addEventsToDB(); 
+    // scheduleIndex === null ? addEventsToDB() : modifyEvents();
+    addEventsToDB();
     onRequestClose(); 
     setInputValue('');
     setSelectedStartDate(new Date());
     setSelectedEndDate(new Date());
     setInputNoteValue('');
-
+    setSelectedColor(null);
   };
 
+  const handleClose2 = () => {
+    // scheduleIndex === null ? addEventsToDB() : modifyEvents();
+    modifyEvents();
+    onRequestClose(); 
+    setInputValue('');
+    setSelectedStartDate(new Date());
+    setSelectedEndDate(new Date());
+    setInputNoteValue('');
+    setSelectedColor(null);
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -115,7 +190,8 @@ function ModalComponent({ isOpen, onRequestClose }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(105, 105, 105, 0.8)'
+          backgroundColor: 'rgba(105, 105, 105, 0.8)',
+          zIndex: '9999'
         },
         content: {
           position: 'absolute',
@@ -129,9 +205,8 @@ function ModalComponent({ isOpen, onRequestClose }) {
           WebkitOverflowScrolling: 'touch',
           borderRadius: '4px',
           outline: 'none',
-          padding: '3% 5% 3% 5%'
+          padding: '3% 5% 1% 5%'
         },
-        zIndex: '3'
 
       }}
     >
@@ -180,11 +255,11 @@ function ModalComponent({ isOpen, onRequestClose }) {
         {colors.map((color,index) => {
 
           return(
-          <div className="cate-inbox" key={index}>
+          <div key={index} className="cate-inbox" onClick={() => setSelectedColor(color.code)}>
           <div
             className={`color-circle ${selectedColor === color.code ? 'selected' : ''}`}
             style={{ backgroundColor: color.code }}
-            onClick={() => handleColorSelect(color.code)}
+            
           ></div>
           <span className="label">{color.name}</span>
           </div>
@@ -203,8 +278,16 @@ function ModalComponent({ isOpen, onRequestClose }) {
           placeholder="Add Note"
         />
       </div>
-
-      <button className="closeButton" onClick={handleClose}>Save</button>
+      
+      <div className="buttonWrap">
+        {scheduleIndex === null ? (        
+        <button className="closeButton" onClick={()=>handleClose()}>Save</button>):(        
+        <button className="closeButton" onClick={()=>handleClose2()}>Save</button>
+)}
+         {/* <button className="closeButton" onClick={()=>handleClose()}>Save</button> */}
+        <button className="deleteButton" style = {{ display: scheduleIndex === null ? 'none' : 'block' }} onClick={()=>handleDelete(scheduleIndex)}>Delete</button> 
+      </div>
+      
     </Modal>
   );
 }
