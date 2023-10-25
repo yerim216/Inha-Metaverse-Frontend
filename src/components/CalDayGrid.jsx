@@ -1,11 +1,14 @@
 import React,{useEffect, useState} from "react";
 import styles from "../styles/CalDayGrid.module.css";
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek} from 'date-fns';
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, set} from 'date-fns';
 import { useOutletContext, useHistory } from "react-router-dom";
 import { isSameMonth, isSameDay, addDays, parse, format,addMonths} from 'date-fns';
 import CalEventBar from "../components/CalEventBar";
 import CalEventClickModal from "../components/CalEventClickModal";
-import { getSchedule } from "../APIs/schedule";
+import SetEventModal from "../components/SetEventModal";
+import moment from 'moment';
+
+import { getScheduleCalendar } from "../APIs/schedule";
 import { object } from "prop-types";
 import axios from 'axios';
 
@@ -15,91 +18,33 @@ import ReviseEvent from "../components/ReviseEvent";
 export default function CalDayGrid(props) {
     const { teamIndex } = useOutletContext();
     const [eventArr,setEventArr] = useState([]);
-    const [startData,setStartData] = useState('2023-08-26T00:00:00.000Z');
-    const [endData,setEndData] = useState('2023-08-27T00:00:00.000Z');
-    // const [dayEvent,setDayEvent] = useState([]);
     let [scheduleByDate,setScheduleByDate] = useState({});
-    // const [control,setControl] = useState(0);
     const [dayEvent,setDayEvent] = useState([]);
-    // const [filteredEvents,setFilteredEvents] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [modalDeleteButtons, setmodalDeleteButtons] = useState(false);
     const [modalReviseButtons, setmodalReviseButtons] = useState(false);
     const [selectedID, setSelectedId] = useState([]);
     const requestURL = `${window.baseURL}`;
 
-    const handleEventClick = (info) => {
-        const { event } = info;
-    
-        // const eventTitle = event.title;
-        // setSelectedEventTitle(eventTitle); //삭제할 이벤트 제목 저장
-    
-        const eventId = info.schedule_index;
-        setSelectedId(eventId); //삭제할 이벤트 아이디 저장
-    
-        // const eventStart = event.start;
-        // setSelectedStart(eventStart);
-    
-        // const eventEnd = event.end;
-        // setSelectedEnd(eventEnd);
-    
-        // console.log("Clicked ID:", eventStart);
-    
-        setIsOpen(true);
-    
-        // const a = JSON.stringify(eventTitle);
-      };
-
-      const deleteEvent = (deleteEventId) => {
-        //이벤트 삭제하기
-    
-        axios
-          .post(requestURL + "schedule/delete", { index: deleteEventId })
-          .then((response) => {
-            console.log("이벤트 삭제 완료 : " + response);
-            fetchData();
-          })
-          .catch((error) => {
-            console.error("Error adding event to DB:", error);
-          });
-      };
-
       
-      const deleteClick = () => {
-        setmodalDeleteButtons(true);
-        console.log("삭제 누르셨어여");
-        deleteEvent(selectedID); //삭제함수호출
-      };
-      const reviseClick = () => {
-        setmodalReviseButtons(true);
-      };
-
     const fetchData = () => {
-        getSchedule(teamIndex)
+        getScheduleCalendar(teamIndex)
         .then(function (response) {
             setEventArr([...response.data]);
+            const a = JSON.stringify(response);
+            console.log("get Event List" + a)
             })
             .catch(function (error) {
             console.log(error);
             });
       };
-      useEffect(()=>{
-        fetchData();
-    },[]);
 
-    // useEffect(()=>{
-    //     // fetchData();
-    //     getSchedule(teamIndex)
-    //     .then(function (response) {
-    //         console.log(response.data);
-    //         setEventArr([...response.data]);
-    //         })
-    //         .catch(function (error) {
-    //         console.log(error);
-    //         });
-    // },[]);
+    useEffect(()=>{
+        fetchData();
+    },[props.isModalOpen]);
 
     let c = new Date(); // 현재는 month를 현재 날짜로 받아오고 있음'
+    c = props.today;
 
     const monthStart =  startOfMonth(c); //이번 달의 시작 날짜
     const monthEnd = endOfMonth(c); //이번 달의 마지막 날짜
@@ -119,16 +64,13 @@ export default function CalDayGrid(props) {
     let weekCount = fulldayCount/7; //일주일 반복 횟수
 
     let beforeMonthEnd =lastDayOfPreviousMonth.getDay(); //이전 달 마지막 요일이 일 월 화 등 인지를 0 1 2로 표현 
-    console.log(beforeMonthEnd);
-    console.log(lastDayOfPreviousMonth);
-
     let beforeMonthEndDate =lastDayOfPreviousMonth.getDate(); //이전 달의 마지막 날짜
     
 
     let days = {}; //날짜 저장할 오브젝트 
     let eventPriority = {};
 
-    for (let i = beforeMonthEnd; i >= 0 ; i--){ //현재 페이지에 걸쳐진 이전 달 날짜 저장
+    for (let i = beforeMonthEnd; i!=6 && i >= 0 ; i--){ //현재 페이지에 걸쳐진 이전 달 날짜 저장
         const newDate = new Date(lastDayOfPreviousMonth);
         newDate.setDate(newDate.getDate() - i);
 
@@ -170,18 +112,6 @@ export default function CalDayGrid(props) {
         
         days[formattedDate] = i;
     }
-
-    const date = new Date(startData);
-    const dayOfWeek = date.getDay();
-    console.log(dayOfWeek); // ex. 1 (월요일)
-
-    const edate = new Date(endData);
-    const edayOfWeek = edate.getDay();
-    console.log(edayOfWeek); // 출력: 1 (월요일)
-     
-    const dayOfStart = date.getDate(); //시작 날짜의 일
-    const dayOfEnd = edate.getDate(); //종료 날짜의 일(ex. 14일 -> 14)
-    let WholeDate = dayOfEnd-dayOfStart;
 
     const keys = Object.keys(days);
     const firstDayOfPage = keys[0];
@@ -226,39 +156,8 @@ export default function CalDayGrid(props) {
         return false;
     });
 
-    console.log(filteredEvents);
-    // let countForFilter = 0;
-
-    // useEffect(()=>{
-
-    //     if(filterData.length > 0){
-    //         countForFilter = 1;
-    //     }
-
-    // },[filterData]);
-
-    // useEffect(()=>{
-        
-    //     if(countForFilter === 1){
-    //         setFilteredEvents(filterData);
-    //     }
-
-        
-    // },[countForFilter]);
 
     const eventNum = filteredEvents.length > 0 ? filteredEvents.length : 0;
-
-    useEffect(()=>{
-        for (let i = 0; i < eventNum; i++){
-            var eventDay = filteredEvents[i].start_date.substring(8, 10); //이벤트 시작 날짜 (숫자) 
-            var eventDayNum = parseInt(eventDay); //string -> num
-            var eventDayEnd = filteredEvents[i].end_date.substring(8, 10); //이벤트 종료 날짜 (숫자) 
-            var eventDayEndNum = parseInt(eventDayEnd); //string -> num
-            var eventLeng = eventDayEndNum - eventDayNum; //이벤트 길이
-
-            var eventCal = (startDay+eventDayNum)/7;
-        } 
-    },[]);
 
     let lastWeekEvent = [];
     let dayEvnetLast = [];
@@ -272,52 +171,6 @@ export default function CalDayGrid(props) {
         }
 
     },[filteredEvents]);
-
-    // 날짜 별 이벤트 인덱스 저장
-
-        // console.log(filteredEvents);
-    
-        // filteredEvents.forEach((schedule) => {
-        //   const startDate = new Date(schedule.start_date);
-        //   const endDate = new Date(schedule.end_date);
-    
-        //   // 나머지 로직
-        // });
-
-    // useEffect(()=>{
-    //     // if (filteredEvents !== 'undefined'&& Array.isArray(filteredEvents)) {
-    //     if(control === 1){
-    //         control = 2;
-    //         console.log(filteredEvents);
-    //         filteredEvents&&filteredEvents.forEach((schedule) => {
-    //             const startDate = new Date(schedule.start_date);
-    //             const endDate = new Date(schedule.end_date);
-    
-    //             // 시작 날짜부터 종료 날짜까지의 모든 날짜를 처리
-    //             for (let date = startDate; date <= endDate && date <= upperBound; date.setDate(date.getDate() + 1)) {
-    //                 while (date < lowerBound) {
-    //                     date.setDate(date.getDate() + 1); // 이벤트 시작날짜가 현재 페이지 날짜보다 앞서면 시작날짜를 +1 해줌 . 여기서만 임의로
-    //                 }
-    //                 const dateString = date.toISOString().split('T')[0];
-    
-    //                 // 해당 날짜의 스케줄 인덱스를 배열에 추가
-    //                 if (!scheduleByDate[dateString]) {
-    //                     scheduleByDate[dateString] = [];
-    //                 } 
-    //                 // 날짜별로 인덱스, 시작날짜, 종료날짜, 색깔 저장하고 그걸eventbar 에 넘겨주기
-    //                 // 종료날짜 - 시작날짜 또는 토요일 날짜 - 시작날짜 등의 계산은 현재 페이지에서 진행
-    //                 scheduleByDate[dateString].push(schedule);
-    //                 // scheduleByDate[dateString].push(schedule.schedule_index);
-    
-    //             } 
-    //         }); 
-    //     }else{
-    //         console.log("filteredEvent가 빈배열입니다.");
-    //     }
-           
-    //         console.log(scheduleByDate);
-        
-    // },[filteredEvents]);
     
     const dayEntries = Object.entries(days);
     
@@ -393,9 +246,32 @@ function formatDateToYYYYMMDD(dateString) {
     const fullDate = `${year}-${month}-${day}`;
     
     return fullDate;
-    }
+    } 
 
-      
+    const [changeEvent, setChangeEvent] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setChangeEvent(false);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setChangeEvent(true);
+    setIsModalOpen(false);
+  };
+
+  const clickEvent = (title,startDay,endDay,index,color) =>{
+    props.setStartDay(startDay);
+    props.setEndDay(endDay);
+    props.setTitle(title);
+    props.setIsModalOpen(true);
+    props.setScheduleIndex(index);
+    props.setEventColor(color);
+  };
+
+
   return (    
     <>
     <div className={styles.dayGrid}>
@@ -405,24 +281,13 @@ function formatDateToYYYYMMDD(dateString) {
         const dateKey = dayKeys[i]; //현재 페이지 캘린더 전체 날짜 yy-mm-dd
         const dateToString = String(dateKey); //yyyy-mm-dd 형식
 
-
-        // eventIndex.push(scheduleByDate[dateToString]);
-        // const date = new Date(dateToString);
-
-
-        // let dayEventData = [];
-        // dayEventData = scheduleByDate && scheduleByDate[dateToString];      
-        // if(dayEventData != []){
-        //     setDayEvent([dayEventData]);
-        // }  
-
-        
-        // const dateString = date.toISOString().split('T')[0];
         dayEvnetLast = [];
         sum = [];
-        
-        let eventCountperDay = 0;
-        // console.log(dayEvent);
+        let remainingItems = 0;
+        let emptyBoxes = [];
+        let maxItems = 3;
+        let priorityCheck = 0;
+
            return (
             <div key={i} className={styles.dayBox}>
                 <div>
@@ -447,40 +312,12 @@ function formatDateToYYYYMMDD(dateString) {
                         const timeDiff = dateForEnd - dateForStart ;
                         // 밀리초를 일로 변환
                         const daysDiff = timeDiff / (1000 * 60 * 60 * 24) + 1;//이벤트 전체 길이 반환
-                        const eventDay = event.start_date.substring(8, 10); //이벤트 시작 날짜 (숫자) 
-                        const eventDayNum = parseInt(eventDay); //string -> num
-                        const eventDayEnd = event.end_date.substring(8, 10); //이벤트 종료 날짜 (숫자) 
-                        const eventDayEndNum = parseInt(eventDayEnd); //string -> num
-                        let eventLeng = [daysDiff]; //[이벤트 첫 주 길이, 이벤트 반복 주차 횟수, 이벤트 마지막 주차 날짜 수]
-
-                        const startDayOfWeek = getDayOfWeek(formatStartDate);  //이벤트 시작 날짜의 요일값 0~6중 하나
-                        const todayDayOfWeek = getDayOfWeek(dateKey);  //오늘날짜의 요일값 0~6중 하나
-
-                        const forEndDate = new Date(event.end_date);
-                        const endDayOfWeek = forEndDate.getDay(); //이벤트 시작 날짜의 요일값 0~6중 하나
-
-                        const maxBarLen = 7 - startDayOfWeek;
 
                         if(i===0){
                             event["schedule_length"] = daysDiff;
                         }
-
-                        if(maxBarLen < eventLeng[0]){ //이벤트가 한 줄을 넘어가는 경우 예외 처리 
-                            // console.log(event);
-                            let eventRow = (eventLeng[0] - maxBarLen + 1) / 7 ;
-                            
-                            if (eventRow % 1 !== 0) {
-                                eventRow = Math.floor(eventRow) + 1;
-                            }
-                            const eventBarCol = Math.floor(eventRow) // 몫: 걸친 주 개수 , 나머지: 마지막 주의 일요일부터 종료 날짜까지의 날짜 개수 
-                            
-                            eventLeng.push(eventBarCol);
-                            const remainder = (eventLeng[0] - maxBarLen + 1) % 7; // 나머지
-                            eventLeng.push(remainder);
-                            eventLeng[0]=maxBarLen;
-
                         
-                            if(i===0){ //날짜 반복문 안에서 이벤트 계산하는건 첫 1회만 하도록
+                            if(index === 0){ //날짜 반복문 안에서 이벤트 계산하는건 첫 1회만 하도록
 
                                 // 주어진 배열
                                 filteredEvents.sort(function(a, b) {
@@ -493,10 +330,10 @@ function formatDateToYYYYMMDD(dateString) {
                                     }
                                 });
                                         
-                                // 정렬된 배열 출력
-                                console.log(filteredEvents);
                                 
-                                  const dateArray = getDatesBetween(formatStartDate, formatEndDate); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yy-mm-dd','...']
+                                //각 날짜에 이벤트 몇개 있는지 세기
+                                //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yy-mm-dd','...']
+                                  const dateArray = getDatesBetween(formatStartDate, formatEndDate); 
                                   for (let i = 0;i<dateArray.length;i++){
                                       dateArray[i]=convertToFullDate(dateArray[i]);
                                   }
@@ -510,129 +347,68 @@ function formatDateToYYYYMMDD(dateString) {
                                     }
                                 });
 
-                                // const eventValues = dateArray&&dateArray.map(date => eventCount[date]);
-                                // const maxNumber = Math.max(...eventValues);
                                 scheduleByDate={};
 
                                 filteredEvents.forEach((schedule,index) => {
                                     const startDate = new Date(schedule.start_date);
                                     const endDate = new Date(schedule.end_date);
-                        
+                                    schedule["schedule_priority_arr"] = [];
+                                    // schedule["todayStartDay"] = [];
                                     // 시작 날짜부터 종료 날짜까지의 모든 날짜를 처리
                                     for (let date = startDate; date <= endDate && date <= upperBound; date.setDate(date.getDate() + 1)) {
                                         while (date < lowerBound) {
-                                            date.setDate(date.getDate() + 1); // 이벤트 시작날짜가 현재 페이지 날짜보다 앞서면 시작날짜를 +1 해줌 . 여기서만 임의로
+                                            // 이벤트 시작날짜가 현재 페이지 날짜보다 앞서면 시작날짜를 +1 해줌 . 여기서만 임의로
+                                            date.setDate(date.getDate() + 1); 
                                         }
                                         const dateString = date.toISOString().split('T')[0];
-                                        event["schedule_priority"] = [];
+                                        // schedule["todayStartDay"].push(dateString);
 
                                         // 해당 날짜의 스케줄 인덱스를 배열에 추가
                                         if (!scheduleByDate[dateString]) {
                                             scheduleByDate[dateString] = [];
-
                                         } 
                                         // 날짜별로 인덱스, 시작날짜, 종료날짜, 색깔 저장하고 그걸eventbar 에 넘겨주기
                                         // 종료날짜 - 시작날짜 또는 토요일 날짜 - 시작날짜 등의 계산은 현재 페이지에서 진행
                                         scheduleByDate[dateString].push(schedule);
-                                        // const indexe = scheduleByDate[dateString].length;
-                                        // for(let i = 0;i<)
-                                        var arrayLength = scheduleByDate[dateString].length;
-                                        // var index = scheduleByDate[dateString].indexOf(schedule);
+                                        const indexe = scheduleByDate[dateString].length;
+                                        
+                                        schedule["schedule_priority_arr"].push(indexe);
 
-                                        // console.log(schedule.schedule_title+"  "+dateString+"스케줄의 인덱스:"+ arrayLength);
-                                        // scheduleByDate[dateString].push([...arrayLength]);
-                                        event["schedule_priority"].push(arrayLength);
+                                        const maxValue = Math.max(...schedule.schedule_priority_arr);
+                                        schedule["schedule_priority"] = maxValue;
 
-                                        // schedule["schedule_priority"] = [...arrayLength];
-                                        // scheduleByDate[dateString].push(schedule.schedule_index);
-                        
+                                        const todayEvents = scheduleByDate[dateString];
+                                        for (let i = 1; i < scheduleByDate[dateString].length; i++) {
+
+                                            if (todayEvents[i].schedule_priority === todayEvents[i - 1].schedule_priority) {
+                                                
+                                                todayEvents[i].schedule_priority += 1;
+
+                                            }
+                                        }
+
                                     } 
                                 }); 
-                                console.log(scheduleByDate);
                             }
-                            
-                        }            
-            
-                        const eventCal = (startDay + eventDayNum)/7; //grid row 계산에 사용하는 몫 (소수점 포함)
-                        const eventCol = (startDay + eventDayNum) % 7 === 0 ? 7 : (startDay + eventDayNum) % 7; //gird col 계산
-                        // const eventCol = (startDay+eventDayNum)%7; 
-                        const eventRow = eventCol !== 0 ? Math.floor(eventCal) + 1 : Math.floor(eventCal); //grid row 계산
-                        
-                        let eventBarLen = [eventLeng[0] * 10.4 + (eventLeng[0]-1)*0.4 - 0.4];
-            
-                        const weekChange = eventBarLen - eventCol;                   
-                   
-                        Object.keys(weekCut).map((dateKey,i) => {
-                            if (dateKey === dateToString) {
-                            const event = Object.values( weekCut[dateKey]);
-                            const todayToDate = new Date(dateToString);
-                        
-                            {event.map((events,index)=>{
-                                console.log(dateToString+"  "+events);
-                                const formatStartDates = events.start_date.substring(0,10);
-                                const formatEndDates = events.end_date.substring(0,10);
-
-                                const endToDate = new Date(events.end_date);
-
-                                const timeDiff = endToDate - todayToDate; 
-                                const daysDiff = timeDiff / (1000 * 60 * 60 * 24) +1;//이벤트 길이 반환
-
-                                let barLen = 0;
-                                // eventBarLen = 0;
-
-                                if(daysDiff>=7){
-                                    barLen = 7;
-                                    eventBarLen = barLen*10.4 + (barLen -1)*0.4 -0.4;
-                                }else{
-                                    barLen = daysDiff;
-                                    eventBarLen = barLen*10.4 + (barLen -1)*0.4 -0.4;
-                                }
-                                lastWeekEvent.push(
-                                    <div>
-                                        <CalEventBar 
-                                            title={events.schedule_title}
-                                            width={eventBarLen}
-                                            key={index}
-                                        />
-                                    </div>
-                                )
-                                if(i===0){
-                                const dateArray = getDatesBetween(formatStartDates, formatEndDates); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yy-mm-dd','...']
-                                  for (let i = 0;i<dateArray.length;i++){
-                                      dateArray[i]=convertToFullDate(dateArray[i]);
-                                  }
-
-                                  dateArray.forEach(date => {
-                                    if (eventCount[date]) {
-                                        eventCount[date] += 1; 
-                                        // console.log(date + "  "+eventCount[date]);
-                    
-                                    } else {
-                                        eventCount[date] = 1; 
-                                    }
-                                });
-
-                                const eventValues = dateArray&&dateArray.map(date => eventCount[date]);
-                                const maxNumber = Math.max(...eventValues);
-
-                            }
-                            })
-                            }
-                            
-                        }})
-                        
-
-                            // sum = [...lastWeekEvent,...dayEvnetLast];
-                        
-//다시 활성화해줄것!      
-                        
-                            eventCountperDay = eventCountperDay+1;
-
+                                                                            
                             if(index===0){
+                                
+                            {scheduleByDate[dateToString]&&scheduleByDate[dateToString].map((event,indexes)=>{
+                                const todayEvents = scheduleByDate[dateToString];
+                                for (let i = 1; i < scheduleByDate[dateToString].length; i++) {
 
-                            {scheduleByDate[dateToString].map((event,indexes)=>{
-                                // console.log(event);
+                                    if (todayEvents[i].schedule_priority === todayEvents[i - 1].schedule_priority) {
+                                        console.log(todayEvents[i].schedule_title+" "+todayEvents[i].schedule_priority);
+                                        console.log(todayEvents[i-1].schedule_title+" "+todayEvents[i-1].schedule_priority) 
 
+                                        todayEvents[i].schedule_priority += 1;
+
+                                        console.log(todayEvents[i].schedule_title+" "+todayEvents[i].schedule_priority);
+                                        console.log(todayEvents[i-1].schedule_title+" "+todayEvents[i-1].schedule_priority) 
+
+                                    }
+                                }
+                                
                                 const formatStartDate = event.start_date.substring(0,10);
                                 const formatEndDate = event.end_date.substring(0,10);
                                 
@@ -658,161 +434,165 @@ function formatDateToYYYYMMDD(dateString) {
                                 const maxBarLen = 7 - startDayOfWeek;  
 
                                 if(maxBarLen < eventLeng[0]){ //이벤트가 한 줄을 넘어가는 경우 예외 처리 
-                                    // console.log(event);
                                     let eventRow = (eventLeng[0] - maxBarLen + 1) / 7 ;
                                     
                                     if (eventRow % 1 !== 0) {
+                                        //이벤트가 전체 몇 주에 걸쳐있는지를 저장
                                         eventRow = Math.floor(eventRow) + 1;
                                     }
                                     const eventBarCol = Math.floor(eventRow) // 몫: 걸친 주 개수 , 나머지: 마지막 주의 일요일부터 종료 날짜까지의 날짜 개수 
-                                    
-                                    eventLeng.push(eventBarCol);
-                                    const remainder = (eventLeng[0] - maxBarLen + 1) % 7; // 나머지
-                                    eventLeng.push(remainder);
+
                                     eventLeng[0]=maxBarLen;
-        
                                 
-                                    if(i===0){ //날짜 반복문 안에서 이벤트 계산하는건 첫 1회만 하도록
-                                        for (let i = 0; i < eventBarCol; i++) {
-                                            const resultDate = getNextSundayFromDate(dateForStart, i); // i 주 이후의 일요일 날짜
-                                            const formatResult = formatDateToYYYYMMDD(resultDate);
-                                          
-                                            // formatResult 키가 weekCut 객체에 이미 존재하는지 확인
-                                            if (weekCut.hasOwnProperty(formatResult)) {
-                                              // 이미 존재하는 경우 해당 키의 배열에 event 추가
-                                              weekCut[formatResult].push(event);
-                                            } else {
-                                              // 존재하지 않는 경우 새로운 배열을 생성하고 event를 추가
-                                              weekCut[formatResult] = [event];
-                                            }
-                                          }
-        
-                                          const dateArray = getDatesBetween(formatStartDate, formatEndDate); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yy-mm-dd','...']
-                                          for (let i = 0;i<dateArray.length;i++){
-                                              dateArray[i]=convertToFullDate(dateArray[i]);
-                                          }
-        
-                                          dateArray.forEach(date => {
-                                            if (eventCount[date]) {
-                                                eventCount[date] += 1; 
-                            
-                                            } else {
-                                                eventCount[date] = 1; 
-                                            }
-                                        });
+                                    for (let j = 0; j < eventBarCol; j++) {
+                                        const resultDate = getNextSundayFromDate(dateForStart, j); // j주 이후의 일요일 날짜
+                                        const formatResult = formatDateToYYYYMMDD(resultDate); //yyyy-mm-dd
 
-                                        // const eventValues = dateArray&&dateArray.map(date => eventCount[date]);
-                                        // const maxNumber = Math.max(...eventValues);
-        
-                                    }
-                                    
+                                        // formatResult 키가 weekCut 객체에 이미 존재하는지 확인
+                                        if (weekCut.hasOwnProperty(formatResult)) {
+                                            // 이미 추가된 이벤트가 아닌지 체크
+                                            if (!weekCut[formatResult].includes(event)) {
+                                                // 이미 존재하는 경우 해당 키의 배열에 event 추가
+                                                weekCut[formatResult].push(event);
+                                            }
+                                        } else {
+                                            // 존재하지 않는 경우 새로운 배열을 생성하고 event를 추가
+                                            weekCut[formatResult] = [event];
+                                        }
+                                        weekCut[formatResult].sort((a, b) => a.schedule_priority - b.schedule_priority);
+
+                                        }
                                 }
-                                let eventBarLen = [eventLeng[0] * 10.4 + (eventLeng[0]-1)*0.4 - 0.4];
 
-                                // if (formatStartDate!=dateToString) {
-                                //     const onedayWidth = "10.4vw";
-                                //     const onedayTitle = " ";
+                    
+                                let eventBarLen = [eventLeng[0]*10.4 + (eventLeng[0]-1)*0.8 -0.8];
+                    
+                                //이벤트 추가, 수정 모달창에 전달할 시작 종료 날짜 변환 형식
+                                const formattedDStart = moment(formatStartDate, 'YYYY-MM-DD').toDate();
+                                const formattedDEnd = moment(formatEndDate, 'YYYY-MM-DD').toDate();
 
-                                //     dayEvnetLast.push(
-                                //         <div>
-                                //             <CalEventBar 
-                                //                 title={onedayTitle}
-                                //                 width={onedayWidth}
-                                //                 key={index}  
-                                //             />
-                                //         </div>
-                                //     ) 
-                                //   }
-
+                                //오늘 날짜와 이벤트 상의 시작 날짜가 같을 경우 이벤트 바 배열에 이벤트 추가 (하루 단위로 당일에 시작하는 이벤트 넣고 리셋)
                                 if(formatStartDate===dateToString){
-                            
-                                    dayEvnetLast.push(
-                                        <div onClick={()=>handleEventClick(dayEvent)}>
+                                    dayEvnetLast.push({
+                                        priority: event.schedule_priority,
+                                        startDay: formattedDStart,
+                                        endDay: formattedDEnd,
+                                        title: event.schedule_title,
+                                        index: event.schedule_index,
+                                        color: event.schedule_color,
+                                        jsx: (
+                                          <div key={event.schedule_index}>
                                             <CalEventBar 
-                                                title={event.schedule_title}
-                                                width={eventBarLen}
-                                                key={indexes}  
+                                              title={event.schedule_title}
+                                              width={eventBarLen}
+                                              color={event.schedule_color}
                                             />
-                                        </div>
-                                    )
+                                          </div>
+                                        ),
+                                      })
                                 }
                                 
                             })}
-                            // console.log(scheduleByDate);
+
+                            
+                            }
+                            if(index === 0){
+                                Object.keys(weekCut).map((dateKey,i) => {
+                                    if (dateKey === dateToString) {
+                                    const event = Object.values(weekCut[dateKey]);
+                                    const todayToDate = new Date(dateToString);
+                                    {event.map((events,index)=>{
+                                        let eventBarLen = 0;
+                                        const formatStartDates = events.start_date.substring(0,10);
+                                        const formatEndDates = events.end_date.substring(0,10);
+        
+                                        const endToDate = new Date(events.end_date);
+        
+                                        const timeDiff = endToDate - todayToDate; 
+                                        const daysDiff = timeDiff / (1000 * 60 * 60 * 24) + 1;//이벤트 길이 반환
+        
+                                        let barLen = 0;
+        
+                                        if(daysDiff>=7){
+                                            barLen = 7;
+                                            eventBarLen = barLen*10.4 + (barLen -1)*0.8 -0.8;
+                                        }else{
+                                            barLen = daysDiff;
+                                            eventBarLen = barLen*10.4 + (barLen -1)*0.8 -0.8;
+                                        }
+                                      
+                                        const formattedDStart = moment(formatStartDates, 'YYYY-MM-DD').toDate();
+                                        const formattedDEnd = moment(formatEndDates, 'YYYY-MM-DD').toDate();
+
+                                        dayEvnetLast.push({
+                                            priority: events.schedule_priority,
+                                            startDay: formattedDStart,
+                                            endDay: formattedDEnd,
+                                            title: events.schedule_title,
+                                            index: events.schedule_index,
+                                            color: events.schedule_color,
+                                            jsx: (
+                                              <div key={events.schedule_index}>
+                                                <CalEventBar 
+                                                  title={events.schedule_title}
+                                                  width={eventBarLen}
+                                                  color={events.schedule_color}
+                                                  />
+                                              </div>
+                                            ),
+                                          })
+                                        
+                                        dayEvnetLast.sort((a, b) => a.priority - b.priority);
+                                        
+                                    })
+                                    }
+                                }}
+                                )
 
                             }
-               
-
-                        // if (index === filteredEvents.length - 1 && eventCountperDay < eventCount[dateToString]) {
-                        //     const onedayWidth = "10.4vw";
-                        //     const onedayTitle = " ";
-
-                        //     dayEvnetLast.push(
-                        //         <div>
-                        //             <CalEventBar 
-                        //                 title={onedayTitle}
-                        //                 width={onedayWidth}
-                        //                 key={index}  
-                        //             />
-                        //         </div>
-                        //     ) 
-                        //   }
-                        
                     })}
+                    
 
-
-                    {lastWeekEvent.map((event, index) => {
-                    if (index < 3) {
-                        return (
-                        <>
-                            <div key={index}>
-                                {event}
-                            </div>
-                        
-                        </>
-                        );
-                    }return null;                    
-                    })}
-                
-                    {dayEvnetLast.map((events, indexes) => {
-                        if (indexes < 3) {
+                    {dayEvnetLast.map((events, index) => {
+                        console.log(dateToString);
+                        console.log(events.title);
+                        console.log(scheduleByDate);
+                        if (events.priority < 4 && index < 3) {
+                            if(index === 0){ //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리 -> ok
+                                emptyBoxes = Array.from({ length: Math.min(events.priority - 1, maxItems) }, (_, i) => (
+                                    <div key={i} className={styles.emptyBox}></div>
+                                ));
+                                remainingItems = maxItems - emptyBoxes.length;
+                                // maxItems = events.priority -1;
+                                priorityCheck = events.priority;
+                            }else if(events.priority != index +1 && events.priority-priorityCheck != 1){ //이벤트 priority = 1, 3인 경우 -> ok
+                                maxItems -= index +1;
+                                emptyBoxes = Array.from({ length: maxItems }, (_, i) => (
+                                    <div key={i} className={styles.emptyBox}></div>
+                                ));
+                                remainingItems = maxItems;
+                            }else{ // 이벤트 prioity가 순차적인 경우
+                                emptyBoxes = [];
+                                // remainingItems = remainingItems-1;
+                            }
                             return (
-                            <div key={indexes}>
-                                {events}
-                            </div>
-                            );  
-                        } return null;                         
-                    })} 
-
-
+                                <>
+                                    {emptyBoxes}
+                                    {Array.from({ length: Math.min(remainingItems, 1) }, (_, i) => (
+                                        <>
+                                            <span key={index} onClick={()=>clickEvent(events.title,events.startDay,events.endDay,events.index,events.color)} className={styles.eventBarWrap}>
+                                                {events.jsx}
+                                            </span>
+                                        </>
+                                    ))}
+                                </>
+                            ); 
+                        }
+                    })}
                 </div>
         );
     })}
         </div>
-        {/* {isOpen && (
-            <CalEventClickModal 
-                open={isOpen}
-                onClose={() => {
-                setIsOpen(false);
-                }}
-                deleteButtonClick={deleteClick}
-                reviseButtonClick={reviseClick}
-            />
-            )} */}
-
-        {/* {modalReviseButtons && (
-            <ReviseEvent
-                open={isOpen}
-                eventTitle={selectedEventTitle}
-                selectEventId={selectedID}
-                eventStartDate={selectedStart}
-                eventEndDate={selectedEnd}
-                onClose={() => {
-                    setmodalReviseButtons(false);
-                }}
-                fetch={fetchEvents}
-            />
-      )} */}
     </>        
   );
 }

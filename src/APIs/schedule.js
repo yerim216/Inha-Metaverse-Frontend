@@ -44,3 +44,33 @@ export function addScheduleByToDo({
     color: color,
   });
 }
+
+export function deleteEvent(deleteEventIndex) {
+  return axios.post("schedule/delete", { 
+    index: deleteEventIndex 
+  })
+}
+
+export function modifyEvent({
+  teamIndex,
+  title,
+  content,
+  status,
+  startDate,
+  endDate,
+  writer,
+  lastUpdate,
+  color
+}) {
+  return axios.post("/schedule/modify  ", { 
+    team: teamIndex,
+    title: title,
+    content: content,
+    status: status,
+    start_date: startDate,
+    end_date: endDate,
+    writer: writer,
+    last_update: lastUpdate,
+    color: color,
+  })
+}
