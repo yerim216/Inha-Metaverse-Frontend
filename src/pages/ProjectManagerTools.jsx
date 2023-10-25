@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/modules/ProjectManagerTools.module.css";
 import { getTeamInfoByIndex, getTeams } from "../APIs/team";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function ProjectManagerTools() {
   // 버튼 따라 현재 활성화된 프로젝트 관리 툴 실행 : 현재는 투두(board), 캘린더 존재
@@ -28,6 +30,14 @@ export default function ProjectManagerTools() {
 
   const [view, setView] = useState(false);
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
+
   return (
     <>
       <div
@@ -38,6 +48,7 @@ export default function ProjectManagerTools() {
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
+          backgroundColor: tm.background,
         }}
       >
         <Outlet context={{ teamIndex }} />

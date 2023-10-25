@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
 import { getTeamInfoByIndex } from "../APIs/team";
 import "../styles/hideScrollBar.css";
 import RightViewer from "./RightViewer";
+import { theme } from "../theme/theme";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+// import { ThemeModeContext } from "../contexts/ThemeProvider";
 
 export default function ProjectMain() {
   const { teamIndex } = useOutletContext();
@@ -16,6 +19,14 @@ export default function ProjectMain() {
 
   const [userIndex, setUserIndex] = useState();
   const [teamInfo, setTeamInfo] = useState();
+
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
 
   useEffect(() => {
     let userIndex;
@@ -39,7 +50,13 @@ export default function ProjectMain() {
       <section>
         <h5 className="text-white text-[18px]">프로젝트가 진행되고 있어요!</h5>
         <div className="w-full h-[72px] bg-[#272727] mt-4 rounded-full">
-          <div className="w-1/2 h-full bg-black rounded-full flex justify-between items-center px-6">
+          {/* <div className="w-1/2 h-full bg-black rounded-full flex justify-between items-center px-6"> */}
+          <div
+            className="w-1/2 h-full  rounded-full flex justify-between items-center px-6"
+            style={{
+              backgroundColor: tm.progress,
+            }}
+          >
             {/* 인원들 이미지 작성하는 곳 */}
             <div className="flex">
               {teamInfo &&

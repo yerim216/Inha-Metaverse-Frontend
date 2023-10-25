@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import { getUserInfo } from "../APIs/userinfo";
-import { ThemeContext } from "../contexts/ThemeProvider";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
 import ToggleSwitch from "./ToggleSwitch";
 import { theme } from "../theme/theme";
 
@@ -18,7 +18,7 @@ export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.nav);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
   useEffect(() => {

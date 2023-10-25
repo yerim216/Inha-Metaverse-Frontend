@@ -871,8 +871,8 @@ export default function SignUpModal(props) {
                         profileImgIndex === 1 && "rotate-6 scale-125"
                       }`}
                       style={{
-                        border: "2px solid black",
                         borderRadius: "10%",
+                        overflow: "hidden",
                       }}
                       onClick={() => {
                         setProfileImgIndex(1);
@@ -889,8 +889,8 @@ export default function SignUpModal(props) {
                         profileImgIndex === 2 && "rotate-6 scale-125"
                       }`}
                       style={{
-                        border: "2px solid black",
                         borderRadius: "10%",
+                        overflow: "hidden",
                       }}
                       onClick={() => {
                         setProfileImgIndex(2);
@@ -907,8 +907,8 @@ export default function SignUpModal(props) {
                         profileImgIndex === 3 && "rotate-6 scale-125"
                       }`}
                       style={{
-                        border: "2px solid black",
                         borderRadius: "10%",
+                        overflow: "hidden",
                       }}
                       onClick={() => {
                         setProfileImgIndex(3);
@@ -925,8 +925,8 @@ export default function SignUpModal(props) {
                         profileImgIndex === 4 && "rotate-6 scale-125"
                       }`}
                       style={{
-                        border: "2px solid black",
                         borderRadius: "10%",
+                        overflow: "hidden",
                       }}
                       onClick={() => {
                         setProfileImgIndex(4);
@@ -943,8 +943,8 @@ export default function SignUpModal(props) {
                         profileImgIndex === 5 && "rotate-6 scale-125"
                       }`}
                       style={{
-                        border: "2px solid black",
                         borderRadius: "10%",
+                        overflow: "hidden",
                       }}
                       onClick={() => {
                         setProfileImgIndex(5);
@@ -953,6 +953,99 @@ export default function SignUpModal(props) {
                       <img
                         src="/public_assets/profileImg/profileImg_5.png"
                         alt="profile5"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                  </section>
+
+                  <section className="flex mr-auto ml-auto items-center gap-6">
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 11 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        borderRadius: "10%",
+                        overflow: "hidden",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(11);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_11.png"
+                        alt="profile11"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 12 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        borderRadius: "10%",
+                        overflow: "hidden",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(12);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_12.png"
+                        alt="profile12"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 13 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        borderRadius: "10%",
+                        overflow: "hidden",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(13);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_13.png"
+                        alt="profile13"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 14 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        borderRadius: "10%",
+                        overflow: "hidden",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(14);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_14.png"
+                        alt="profile14"
+                        className="w-20 h-20 object-cover"
+                      />
+                    </button>
+                    <button
+                      className={`w-18 h-18 transition-all hover:scale-105 ${
+                        profileImgIndex === 15 && "rotate-6 scale-125"
+                      }`}
+                      style={{
+                        borderRadius: "10%",
+                        overflow: "hidden",
+                      }}
+                      onClick={() => {
+                        setProfileImgIndex(15);
+                      }}
+                    >
+                      <img
+                        src="/public_assets/profileImg/profileImg_15.png"
+                        alt="profile15"
                         className="w-20 h-20 object-cover"
                       />
                     </button>

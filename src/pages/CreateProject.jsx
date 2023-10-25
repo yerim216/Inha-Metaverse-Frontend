@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { getSkills, getUserInfo } from "../APIs/userinfo";
 import { addMember, createTeam } from "../APIs/team";
 import Nav from "../components/Nav";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -17,7 +19,7 @@ export default function CreateProject() {
     name: "",
     introduction: "",
     description: "",
-    recruitment: null,
+    recruitment: 1,
   });
   const navigate = useNavigate();
   const [customPositionInput, setCustomPositionInput] = useState(0);
@@ -94,115 +96,187 @@ export default function CreateProject() {
     });
   }, []);
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.createProject);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.createProject);
+    else setTm(theme.darkTheme.createProject);
+  }, [themeMode]);
+
   return (
     <>
-      <Nav />
-      <img src="/public_assets/VP.png" alt="darkModeBg" className={styles.VP} />
-      <form className={styles.paddingSection}>
-        <h1 className={styles.title}>프로젝트 만들기</h1>
-        <div className="flex items-center gap-6 pb-4 border-b">
-          <div className={styles.middleFont}>팀 이름</div>
-          <input
-            type="text"
-            className="rounded-md p-2"
-            required
-            value={inputs.name}
-            onChange={(e) => {
-              setInputs((cur) => {
-                return { ...cur, name: e.target.value };
-              });
-            }}
-          />
+      <nav
+        className={styles.nav}
+        style={{
+          backgroundColor: tm.navBar,
+          color: tm.textColor,
+        }}
+      >
+        프로젝트만들기
+      </nav>
+      <form
+        className={styles.paddingSection}
+        style={{
+          backgroundColor: tm.bg,
+        }}
+      >
+        <div className="flex items-center gap-6">
+          <div className="flex w-full">
+            <div className={`${styles.middleFont} w-1/5`}>팀 이름</div>
+            <div
+              className="w-4/5 border-b pb-16"
+              style={{
+                borderColor: tm.border,
+              }}
+            >
+              <input
+                type="text"
+                className="rounded-md p-2 w-1/3"
+                required
+                value={inputs.name}
+                onChange={(e) => {
+                  setInputs((cur) => {
+                    return { ...cur, name: e.target.value };
+                  });
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-6 pb-4 border-b">
-          <div className={styles.middleFont}>팀 소개</div>
-          <input
-            type="text"
-            className="rounded-md p-2 w-96"
-            required
-            value={inputs.introduction}
-            onChange={(e) => {
-              setInputs((cur) => {
-                return { ...cur, introduction: e.target.value };
-              });
-            }}
-          />
-        </div>
-        <div className="flex flex-col items-start gap-6 pb-4 border-b">
-          <div className={styles.middleFont}>프로젝트 설명</div>
-          <textarea
-            className="rounded-md w-96 resize-none p-2 outline-none h-44"
-            required
-            value={inputs.description}
-            onChange={(e) => {
-              setInputs((cur) => {
-                return { ...cur, description: e.target.value };
-              });
-            }}
-          ></textarea>
-        </div>
-        <div className="flex items-center gap-6 pb-4 border-b">
-          <div className={styles.middleFont}>모집 인원</div>
-          <input
-            type="number"
-            className="rounded-md p-2"
-            required
-            value={inputs.recruitment}
-            onChange={(e) => {
-              setInputs((cur) => {
-                return { ...cur, recruitment: e.target.value };
-              });
-            }}
-          />
-        </div>
-        <div className="flex flex-col items-start gap-6 pb-4 border-b">
-          <div className={styles.middleFont}>모집 기술 분야(아직 작동 X)</div>
-          {skills &&
-            skills.map((skill) => {
-              return (
-                <div className="flex gap-2 items-center">
-                  <div className="text-white">{skill.skill_name}</div>
-                  <input
-                    type="number"
-                    className="w-10 p-1 rounded-md"
-                    value={0}
-                    onChange={(e) => {}}
-                  />
-                  <span className="text-white">명</span>
-                </div>
-              );
-            })}
-          {Array(customPositionInput)
-            .fill()
-            .map((_, index) => (
-              <div key={index} className="flex gap-2 items-center">
-                <input
-                  type="text"
-                  placeholder="모집 희망 직무 직접 입력"
-                  className="rounded-md p-1"
-                />
-                <input
-                  type="number"
-                  className="w-10 p-1 rounded-md"
-                  value={1}
-                  onChange={(e) => {}}
-                />
-                <span className="text-white">명</span>
-              </div>
-            ))}
-          <button
-            className="text-white"
-            onClick={(e) => {
-              e.preventDefault();
-              setCustomPositionInput((cur) => cur + 1);
+        <div className="flex w-full">
+          <div className={`${styles.middleFont} w-1/5`}>팀 소개</div>
+          <div
+            className="w-4/5 border-b pb-16"
+            style={{
+              borderColor: tm.border,
             }}
           >
-            + 기타
-          </button>
+            <input
+              type="text"
+              className="rounded-md p-2 w-1/3"
+              required
+              value={inputs.introduction}
+              onChange={(e) => {
+                setInputs((cur) => {
+                  return { ...cur, introduction: e.target.value };
+                });
+              }}
+            />
+          </div>
         </div>
-        <div className="flex w-full justify-center gap-8 mb-20">
+
+        <div className="flex w-full">
+          <div className={`${styles.middleFont} w-1/5`}>프로젝트 설명</div>
+          <div
+            className="w-4/5 border-b pb-16"
+            style={{
+              borderColor: tm.border,
+            }}
+          >
+            <textarea
+              className="rounded-md w-96 resize-none p-2 outline-none h-44"
+              required
+              value={inputs.description}
+              onChange={(e) => {
+                setInputs((cur) => {
+                  return { ...cur, description: e.target.value };
+                });
+              }}
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="flex w-full">
+          <div className={`${styles.middleFont} w-1/5`}>모집 인원</div>
+          <div className="w-4/5 flex flex-col gap-8">
+            <div className="w-1/12 flex items-center gap-3">
+              <input
+                type="number"
+                className="rounded-md p-2 w-full"
+                required
+                value={inputs.recruitment}
+                onChange={(e) => {
+                  setInputs((cur) => {
+                    return { ...cur, recruitment: e.target.value };
+                  });
+                }}
+              />
+              <span
+                className="text-[22px]"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                명
+              </span>
+            </div>
+            <div
+              className={styles.skillsContainer}
+              style={{
+                borderColor: tm.textColor,
+              }}
+            >
+              {skills &&
+                skills.map((skill) => {
+                  return (
+                    <div className="flex justify-between items-center mb-6">
+                      <div className="text-white">{skill.skill_name}</div>
+                      <div className="flex gap-2 items-center">
+                        <input
+                          type="number"
+                          className="w-[72px] p-1 rounded-md"
+                          value={0}
+                          onChange={(e) => {}}
+                        />
+                        <span
+                          style={{
+                            color: tm.textColor,
+                          }}
+                        >
+                          명
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              {Array(customPositionInput)
+                .fill()
+                .map((_, index) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      placeholder="모집 희망 직무 직접 입력"
+                      className="rounded-md p-1"
+                    />
+                    <input
+                      type="number"
+                      className="w-10 p-1 rounded-md"
+                      value={1}
+                      onChange={(e) => {}}
+                    />
+                    <span className="text-white">명</span>
+                  </div>
+                ))}
+              <button
+                className="text-white"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCustomPositionInput((cur) => cur + 1);
+                }}
+              >
+                + 직접 입력
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full justify-end gap-8 mt-36">
           <button
             className={styles.changeBtn}
+            style={{
+              backgroundColor: tm.createBtn,
+              color: tm.textColor,
+            }}
             onClick={async (e) => {
               e.preventDefault();
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
@@ -220,7 +294,25 @@ export default function CreateProject() {
               }
             }}
           >
-            팀 개설
+            프로젝트 생성하기
+          </button>
+          <button
+            className={styles.cancelBtn}
+            style={{
+              backgroundColor: tm.cancelBtn,
+              color: tm.textColor,
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              const returnVal = window.confirm(
+                "작업을 취소하고 되돌아가시겠습니까?"
+              );
+              if (returnVal === true) {
+                window.history.back();
+              }
+            }}
+          >
+            취소
           </button>
         </div>
       </form>

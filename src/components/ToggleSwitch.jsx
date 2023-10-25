@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import styles from "../styles/modules/ToggleSwitch.module.css";
-import { ThemeContext } from "../contexts/ThemeProvider";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
 
 export default function ToggleSwitch() {
-  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
 
   return (
     <div

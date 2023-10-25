@@ -12,15 +12,14 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import { ThemeContext } from "../contexts/ThemeProvider";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
   const [user, setUser] = useRecoilState(userState);
 
-  const { themeMode, toggleTheme } = useContext(ThemeContext);
-
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.home);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
   useEffect(() => {

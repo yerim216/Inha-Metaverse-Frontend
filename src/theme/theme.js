@@ -9,7 +9,10 @@ export const lightTheme = {
     projectSide: "",
     projectBg: "",
     projectRoutingBox: "#181a1c",
+    background: "#000",
+    progress: "black",
   },
+  createProject: {},
 };
 
 export const darkTheme = {
@@ -23,6 +26,16 @@ export const darkTheme = {
     projectSide: "#2D2D2D",
     projectBg: "",
     projectRoutingBox: "#181a1c",
+    background: "#1c1d1e",
+    progress: "black",
+  },
+  createProject: {
+    navBar: "#2D2D2D",
+    bg: "#1C1D1E",
+    textColor: "#FFFFFF",
+    border: "#7C7C7C",
+    createBtn: "#000000",
+    cancelBtn: "#9B9B9B",
   },
 };
 

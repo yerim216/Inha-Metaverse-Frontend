@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/View.module.css";
-import { ThemeContext } from "../contexts/ThemeProvider";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 
 export default function View() {
-  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
 
   const [tm, setTm] = useState(theme.lightTheme.home);
 

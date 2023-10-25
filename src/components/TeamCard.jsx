@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/TeamCard.module.css";
 import { useNavigate } from "react-router";
-import { ThemeContext } from "../contexts/ThemeProvider";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 
 export default function TeamCard({ team }) {
@@ -75,7 +75,7 @@ export default function TeamCard({ team }) {
     arrowBoxRef.current.style.bottom = distanceY + "px";
   };
 
-  const { themeMode, toggleTheme } = useContext(ThemeContext);
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.projectManager);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
   useEffect(() => {

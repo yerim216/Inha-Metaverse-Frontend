@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
@@ -18,7 +18,6 @@ import PostIt from "./components/StickerNote";
 import StickerNote from "./components/StickerNote";
 import ProjectListsPage from "./pages/ProjectListsPage";
 import ProjectMain from "./components/ProjectMain";
-import ThemeProvider from "./contexts/ThemeProvider";
 
 const router = createBrowserRouter([
   {
@@ -26,66 +25,43 @@ const router = createBrowserRouter([
     element: (
       <UserInfoProvider>
         <GoogleReCaptchaProvider reCaptchaKey="6LcqNDAmAAAAAKR81rlDOgBrUSXVBQAGLK8iI_Hr">
-          <ThemeProvider>
-            <Home />
-          </ThemeProvider>
+          <Home />
         </GoogleReCaptchaProvider>
       </UserInfoProvider>
     ),
   },
   {
     path: "/profile",
-    element: (
-      <ThemeProvider>
-        <Profile />
-      </ThemeProvider>
-    ),
+    element: <Profile />,
   },
   {
     path: "/myprofile",
-    element: (
-      <ThemeProvider>
-        <Myprofile />
-      </ThemeProvider>
-    ),
+    element: <Myprofile />,
   },
   {
     path: "/createproject",
-    element: (
-      <ThemeProvider>
-        <CreateProject />
-      </ThemeProvider>
-    ),
+    element: <CreateProject />,
   },
   {
     path: "/createmyprofile",
-    element: (
-      <ThemeProvider>
-        <GenMyprofile />
-      </ThemeProvider>
-    ),
+    element: <GenMyprofile />,
   },
   {
     path: "/projectlists",
-    element: (
-      <ThemeProvider>
-        <ProjectListsPage />
-      </ThemeProvider>
-    ),
+    element: <ProjectListsPage />,
   },
   {
     path: "/projectmanagertools/:teamIndex",
-    element: (
-      <ThemeProvider>
-        <ProjectManagerTools />
-      </ThemeProvider>
-    ),
+    element: <ProjectManagerTools />,
     children: [
       {
         index: true,
+        element: <ProjectMain />,
+      },
+      {
+        path: "board",
         element: <Board />,
       },
-      { path: "board", element: <Board /> },
       {
         path: "mycalendar",
         element: <Mycalendar />,

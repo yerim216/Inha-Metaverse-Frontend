@@ -1,9 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 
-export const ThemeContext = createContext({
-  themeMode: "",
-  toggleTheme: "",
-});
+export const ThemeModeContext = createContext();
 
 export default function ThemeProvider({ children }) {
   const theme = localStorage.getItem("theme");
@@ -32,8 +29,8 @@ export default function ThemeProvider({ children }) {
     }
   };
   return (
-    <ThemeContext.Provider value={{ themeMode, toggleTheme }}>
+    <ThemeModeContext.Provider value={{ themeMode, toggleTheme }}>
       {children}
-    </ThemeContext.Provider>
+    </ThemeModeContext.Provider>
   );
 }
