@@ -12,7 +12,17 @@ export const lightTheme = {
     background: "#000",
     progress: "black",
   },
-  createProject: {},
+  createProject: {
+    navBar: "#2D2D2D",
+    bg: "#1C1D1E",
+    textColor: "#FFFFFF",
+    border: "#7C7C7C",
+    createBtn: "#000000",
+    cancelBtn: "#9B9B9B",
+  },
+  board: {
+    whenModalBg: "rgba(105, 105, 105, 0.8)",
+  },
 };
 
 export const darkTheme = {
@@ -36,6 +46,10 @@ export const darkTheme = {
     border: "#7C7C7C",
     createBtn: "#000000",
     cancelBtn: "#9B9B9B",
+  },
+  board: {
+    whenModalBg: "rgba(105, 105, 105, 0.8)",
+    modalBg: "rgb(50,50,50)",
   },
 };
 

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
-import { getSkills, getUserInfo } from "../APIs/userinfo";
-import { addMember, createTeam } from "../APIs/team";
-import Nav from "../components/Nav";
+import { getUserInfo } from "../APIs/userinfo";
+import { addJob, addMember, createTeam, getJobs } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 
@@ -22,7 +21,6 @@ export default function CreateProject() {
     recruitment: 1,
   });
   const navigate = useNavigate();
-  const [customPositionInput, setCustomPositionInput] = useState(0);
 
   const onClickButton = () => {
     setIsOpen(true);
@@ -89,12 +87,85 @@ export default function CreateProject() {
     window.location.href = "/myprofile";
   };
 
-  const [skills, setSkills] = useState();
+  const [jobs, setJobs] = useState();
   useEffect(() => {
-    getSkills().then((res) => {
-      setSkills(res.data);
+    getJobs().then((res) => {
+      setJobs(res.data);
     });
   }, []);
+
+  // skill값 하나하나에 대응되는 input값에 접근해야 하기 때문에, ref를 이용해 동적으로 해당 input값들 관리.
+  const inputRefs = useRef({});
+  useEffect(() => {
+    if (!jobs) return;
+
+    jobs.forEach((job) => {
+      if (!inputRefs.current[job.field_title]) {
+        inputRefs.current[job.field_title] = React.createRef();
+      }
+    });
+    setInputRefsReady(true);
+  }, [jobs]);
+  const [inputRefsReady, setInputRefsReady] = useState(false);
+
+  const handleAddJob = (teamName) => {
+    // jobName + inputRefs.current[jobName].current.value를 통해 각각 값 접근 가능.
+    jobs.map((job) => {
+      const jobName = job.field_title;
+      if (inputRefs.current[jobName].current.value >= 1) {
+        addJob(teamName, jobName, inputRefs.current[jobName].current.value)
+          .then(() => {})
+          .catch((err) => {
+            return false;
+          });
+      }
+    });
+    return true;
+  };
+
+  const [customPositionInputNum, setCustomPositionInputNum] = useState(0);
+  const handleCustomPositionInputNumInc = () => {
+    setCustomJobs((cur) => [...cur, { customJobName: "", recruitmentNum: 1 }]);
+    setCustomPositionInputNum((cur) => cur + 1);
+  };
+  // 커스텀 직무를 관리하는 곳.
+  // customPositionInputNum이 1 증가할 때마다, 아래의 customJobs 배열에 객체 하나가 추가된다.
+  // 객체는 customJobName, recruitmentNum으로 구성됨.
+  const [customJobs, setCustomJobs] = useState([]);
+
+  const handleAddCustomJob = (teamName) => {
+    customJobs.map((info) => {
+      const jobName = info.customJobName;
+      const recruitmentNum = info.recruitmentNum;
+
+      if (jobName.trim() !== "" && recruitmentNum >= 1) {
+        addJob(teamName, jobName, recruitmentNum)
+          .then(() => {})
+          .catch((err) => {
+            return false;
+          });
+      }
+    });
+    return true;
+  };
+
+  // 모집 인원과, 밑에 작성한 실제 직무 상에서의 모집 인원과 일치하는지의 여부를 판단하는 함수
+  const checkRecruitmentNumSame = () => {
+    const recruitmentNum = inputs.recruitment;
+    let rec = 0;
+
+    jobs.map((job) => {
+      const jobName = job.field_title;
+      rec += Number(inputRefs.current[jobName].current.value);
+    });
+
+    customJobs.map((info) => {
+      rec += Number(info.recruitmentNum);
+    });
+
+    if (Number(recruitmentNum) === Number(rec)) return true;
+    return false;
+  };
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.createProject);
@@ -217,17 +288,20 @@ export default function CreateProject() {
                 borderColor: tm.textColor,
               }}
             >
-              {skills &&
-                skills.map((skill) => {
+              {inputRefsReady &&
+                jobs.map((job) => {
                   return (
-                    <div className="flex justify-between items-center mb-6">
-                      <div className="text-white">{skill.skill_name}</div>
-                      <div className="flex gap-2 items-center">
+                    <div className="flex justify-between items-center mb-6 gap-3">
+                      <div className="text-white w-2/3">{job.field_title}</div>
+                      <div className="flex gap-2 items-center w-1/3">
                         <input
                           type="number"
-                          className="w-[72px] p-1 rounded-md"
-                          value={0}
-                          onChange={(e) => {}}
+                          className={`w-2/3 p-1 rounded-md`}
+                          defaultValue={0}
+                          onChange={(e) => {
+                            if (e.target.value < 0) e.target.value = 0;
+                          }}
+                          ref={inputRefs.current[job.field_title]}
                         />
                         <span
                           style={{
@@ -240,29 +314,51 @@ export default function CreateProject() {
                     </div>
                   );
                 })}
-              {Array(customPositionInput)
+              {Array(customPositionInputNum)
                 .fill()
                 .map((_, index) => (
-                  <div key={index} className="flex gap-2 items-center">
+                  <div
+                    key={index}
+                    className="flex justify-between items-center mb-6 gap-3"
+                  >
                     <input
                       type="text"
-                      placeholder="모집 희망 직무 직접 입력"
-                      className="rounded-md p-1"
+                      placeholder="모집 직무 직접 입력"
+                      className="rounded-md p-1 w-2/3"
+                      onChange={(e) => {
+                        const newArr = [...customJobs];
+                        newArr[index].customJobName = e.target.value;
+                        setCustomJobs(newArr);
+                      }}
                     />
-                    <input
-                      type="number"
-                      className="w-10 p-1 rounded-md"
-                      value={1}
-                      onChange={(e) => {}}
-                    />
-                    <span className="text-white">명</span>
+                    <div className="flex gap-2 items-center w-1/3">
+                      <input
+                        type="number"
+                        className="w-2/3 p-1 rounded-md"
+                        value={customJobs[index].recruitmentNum}
+                        onChange={(e) => {
+                          if (e.target.value < 0) return;
+
+                          const newArr = [...customJobs];
+                          newArr[index].recruitmentNum = e.target.value;
+                          setCustomJobs(newArr);
+                        }}
+                      />
+                      <span
+                        style={{
+                          color: tm.textColor,
+                        }}
+                      >
+                        명
+                      </span>
+                    </div>
                   </div>
                 ))}
               <button
                 className="text-white"
                 onClick={(e) => {
                   e.preventDefault();
-                  setCustomPositionInput((cur) => cur + 1);
+                  handleCustomPositionInputNumInc();
                 }}
               >
                 + 직접 입력
@@ -279,18 +375,22 @@ export default function CreateProject() {
             }}
             onClick={async (e) => {
               e.preventDefault();
+              console.log(checkRecruitmentNumSame());
+              if (!checkRecruitmentNumSame()) {
+                alert(
+                  "모집 인원과 실제 직무 상의 인원이 일치하지 않습니다. 다시 확인해주세요!"
+                );
+                return;
+              }
               const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
               if (returnVal === true) {
                 const userIndex = JSON.parse(
                   localStorage.getItem("recoil-persist")
                 ).userState.user_index;
                 const teamName = await createTeam(userIndex, inputs);
-                if (teamName) {
-                  addTeamMember(teamName).then(() => {
-                    alert("팀이 성공적으로 생성되었습니다!");
-                    navigate("/");
-                  });
-                }
+                handleAddJob(teamName) && handleAddCustomJob(teamName)
+                  ? alert("팀이 성공적으로 생성되었습니다!") && navigate("/")
+                  : alert("예상치 못한 오류가 발생했습니다!");
               }
             }}
           >

@@ -18,7 +18,7 @@ export default function RightViewer({
       >
         {/* activated에 따라 보여줄 컨텐츠 변경 */}
         {activated === "main" && <RightViewerContent_Main />}
-        {/* {activated === "board" && <RightViewerContent_Main />} */}
+        {activated === "board" && <RightViewerContent_Main />}
         {/* {activated === "calendar" && <RightViewerContent_Main />} */}
         {activated === "stickerNote" && (
           <RightViewerContent_StickerNote

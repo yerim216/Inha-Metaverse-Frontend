@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProjectBox from "./ProjectBox";
 import styles from "../styles/ProjectLists.module.css";
-import axios from "axios";
 import { getTeams } from "../APIs/team";
 
 export default function ProjectLists({ recruitmentBtnActive }) {
@@ -24,7 +23,6 @@ export default function ProjectLists({ recruitmentBtnActive }) {
 
   // 아래의 요소들은 created_at, recruitment_number, team_description, team_index, team_introduction, team_leader,
   // team_name, team_recruting, team_views, updated_at로 구성됨.
-
   const [randomRecruitingProjects, setRandomRecruitingProjects] = useState([]);
   const [randomNotRecruitingProjects, setRandomNotRecruitingProjects] =
     useState([]);
@@ -51,8 +49,8 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     setNotRecruitingProjects(notRecruiting);
 
     if (recruiting.length !== 0) {
-      if (recruiting.length >= 9)
-        setRandomRecruitingProjects(getRandomElements(recruiting, 9));
+      if (recruiting.length >= 12)
+        setRandomRecruitingProjects(getRandomElements(recruiting, 12));
       else
         setRandomRecruitingProjects(
           getRandomElements(recruiting, recruiting.length)
@@ -60,14 +58,16 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     }
 
     if (notRecruiting.length !== 0) {
-      if (notRecruiting.length >= 9)
-        setRandomNotRecruitingProjects(getRandomElements(notRecruiting, 9));
+      if (notRecruiting.length >= 12)
+        setRandomNotRecruitingProjects(getRandomElements(notRecruiting, 12));
       else
         setRandomNotRecruitingProjects(
           getRandomElements(notRecruiting, notRecruiting.length)
         );
     }
   }, [projectList]);
+
+  console.log(projectList);
 
   // 아래의 요소들은 created_at, recruitment_number, team_description, team_index, team_introduction, team_leader,
   // team_name, team_recruting, team_views, updated_at로 구성됨.

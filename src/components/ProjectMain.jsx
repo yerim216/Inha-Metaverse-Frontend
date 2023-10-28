@@ -5,6 +5,7 @@ import "../styles/hideScrollBar.css";
 import RightViewer from "./RightViewer";
 import { theme } from "../theme/theme";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
+import NoticeBoard from "./NoticeBoard";
 // import { ThemeModeContext } from "../contexts/ThemeProvider";
 
 export default function ProjectMain() {
@@ -43,6 +44,39 @@ export default function ProjectMain() {
     getTeamInfoByIndex(teamIndex).then((res) => setTeamInfo(res.data));
   }, []);
 
+  const getDateInKor = (dateString) => {
+    // Date 객체로 변환
+    const date = new Date(dateString);
+
+    // 월과 일 추출
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    // 월과 일을 문자열로 변환
+    const monthString = month.toString();
+    const dayString = day.toString();
+
+    // "년", "월", "일"을 추가하여 최종 문자열 생성
+    return year + "년 " + monthString + "월 " + dayString + "일";
+  };
+
+  const getDateDifference = (dateString) => {
+    // 주어진 날짜를 Date 객체로 변환
+    const givenDate = new Date(dateString);
+
+    // 현재 날짜를 가져오기
+    const currentDate = new Date();
+
+    // 날짜 차이 계산 (밀리초 단위)
+    const timeDifference = currentDate - givenDate;
+
+    // 밀리초를 일로 변환 (1일 = 24시간 * 60분 * 60초 * 1000밀리초)
+    const daysDifference = timeDifference / (24 * 60 * 60 * 1000);
+
+    return Math.floor(daysDifference) + "일";
+  };
+
   return (
     <section className="w-full h-full p-4 overflow-auto hiddenScrollBar xl:pr-80 2xl:pr-96">
       {/* 우측에 팀원 프로필 보여주는 곳 */}
@@ -73,9 +107,13 @@ export default function ProjectMain() {
             </div>
             <div className="flex flex-col items-end">
               <span className="text-white font-extrabold text-[12px]">
-                총 10일 9시간 30분
+                프로젝트가 시작된 지 총
+                {teamInfo &&
+                  " " + getDateDifference(teamInfo.teamInfo.created_at)}
               </span>
-              <span className="text-[#7C7C7C] text-[12px]">23.01.01 부터</span>
+              <span className="text-[#7C7C7C] text-[12px]">
+                {teamInfo && getDateInKor(teamInfo.teamInfo.created_at)} 부터
+              </span>
             </div>
           </div>
         </div>
@@ -105,60 +143,7 @@ export default function ProjectMain() {
             })}
         </div>
       </section>
-      <section className="mt-8">
-        <div className="w-full flex justify-between items-center">
-          <span className="text-white text-[18px]">게시판</span>
-          <span className="text-[#B3B3B3] text-[12px]">자세히보기 &gt;</span>
-        </div>
-        <div className="flex flex-col gap-4 mt-4">
-          {/* 아래 div가 게시판 글 하나 */}
-          <div className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6">
-            <span className="text-white text-[12px]">
-              어쩌구저쩌구 휴가공지 어쩌구저쩌구
-            </span>
-            <div className="text-[#B3B3B3] text-[12px] flex gap-2">
-              <span>23.01.01</span>
-              <img src="/public_assets/icons/ellipsis.svg" alt="" />
-            </div>
-          </div>
-          <div className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6">
-            <span className="text-white text-[12px]">
-              어쩌구저쩌구 휴가공지 어쩌구저쩌구
-            </span>
-            <div className="text-[#B3B3B3] text-[12px] flex gap-2">
-              <span>23.01.01</span>
-              <img src="/public_assets/icons/ellipsis.svg" alt="" />
-            </div>
-          </div>
-          <div className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6">
-            <span className="text-white text-[12px]">
-              어쩌구저쩌구 휴가공지 어쩌구저쩌구
-            </span>
-            <div className="text-[#B3B3B3] text-[12px] flex gap-2">
-              <span>23.01.01</span>
-              <img src="/public_assets/icons/ellipsis.svg" alt="" />
-            </div>
-          </div>
-          <div className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6">
-            <span className="text-white text-[12px]">
-              어쩌구저쩌구 휴가공지 어쩌구저쩌구
-            </span>
-            <div className="text-[#B3B3B3] text-[12px] flex gap-2">
-              <span>23.01.01</span>
-              <img src="/public_assets/icons/ellipsis.svg" alt="" />
-            </div>
-          </div>
-          <div className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6">
-            <span className="text-white text-[12px]">
-              어쩌구저쩌구 휴가공지 어쩌구저쩌구
-            </span>
-            <div className="text-[#B3B3B3] text-[12px] flex gap-2">
-              <span>23.01.01</span>
-              <img src="/public_assets/icons/ellipsis.svg" alt="" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <NoticeBoard teamIndex={teamIndex} />
     </section>
   );
 }

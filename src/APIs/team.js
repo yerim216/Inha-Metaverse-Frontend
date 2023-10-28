@@ -62,3 +62,15 @@ export function viewUp(teamIndex) {
     index: teamIndex,
   });
 }
+
+export function getJobs() {
+  return axios.get("team/joblist");
+}
+
+export function addJob(teamName, jobName, recruitmentNum) {
+  return axios.post("team/addjob", {
+    team: teamName,
+    job: jobName,
+    num: recruitmentNum,
+  });
+}
