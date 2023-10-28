@@ -12,8 +12,8 @@ export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
   // 팀 구성원 추가
   // 팀 기술스택 추가
-  const [user, setUser] = useRecoilState(userState);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [user, setUser] = useRecoilState(userState);
+  // const [isOpen, setIsOpen] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     introduction: "",
@@ -22,9 +22,9 @@ export default function CreateProject() {
   });
   const navigate = useNavigate();
 
-  const onClickButton = () => {
-    setIsOpen(true);
-  };
+  // const onClickButton = () => {
+  //   setIsOpen(true);
+  // };
 
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {

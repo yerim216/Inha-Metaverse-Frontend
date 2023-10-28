@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Profile.module.css";
 import style from "../styles/Myprofile.module.css";
 
-import Gdot from "../components/Gdot";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
@@ -113,7 +112,6 @@ export default function Profile() {
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
-
   const pImage = {
     paddingTop: "23px",
     boxSizing: "border-box",
@@ -211,34 +209,34 @@ export default function Profile() {
         handleApplyBtn={handleApplyBtn}
       ></ApplyModal>
       <div className={styles.navItems}>
-          <div className={styles.logoContainer}>
-            <img
-              src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
-              className={styles.nav}
-              alt="Logo"
-              style={{
-                height: "36px",
-                width: "52px",
-              }}
-              onClick={() => (window.location.href = "/")}
-            />
-          </div>
-          <div className={styles.textContainer}>
-            <a className={styles.navLink}>프로필</a>
-
-            <a className={styles.navLink}>지원</a>
-
-            {userLogin ? (
-              <button className={styles.loginButton} onClick={logout}>
-                <span>로그아웃</span>
-              </button>
-            ) : (
-              <button className={styles.loginButton}>
-                <span>로그인</span>
-              </button>
-            )}
-          </div>
+        <div className={styles.logoContainer}>
+          <img
+            src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
+            className={styles.nav}
+            alt="Logo"
+            style={{
+              height: "36px",
+              width: "52px",
+            }}
+            onClick={() => (window.location.href = "/")}
+          />
         </div>
+        <div className={styles.textContainer}>
+          <a className={styles.navLink}>프로필</a>
+
+          <a className={styles.navLink}>지원</a>
+
+          {userLogin ? (
+            <button className={styles.loginButton} onClick={logout}>
+              <span>로그아웃</span>
+            </button>
+          ) : (
+            <button className={styles.loginButton}>
+              <span>로그인</span>
+            </button>
+          )}
+        </div>
+      </div>
       <div className={style.wrap}>
         <div className={styles.backgroundImage}></div>
         {/* <img
@@ -270,34 +268,38 @@ export default function Profile() {
         </button>
         <div className={style.profileTop}>
           {/* <div className={style.profileInfo}> */}
-            <div className={styles.nameContainer}>
-                 {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
-                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
-                )  : 
-                (
-                  teamDetail.teamInfo.skills.map((skill,index) => {
-                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
-                  })
-                ) )
-                }
+          <div className={styles.nameContainer}>
+            {teamDetail &&
+              (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                <p className={styles.skill}> 팀 스킬이 없어요 </p>
+              ) : (
+                teamDetail.teamInfo.skills.map((skill, index) => {
+                  return (
+                    <p key={index} className={styles.skill}>
+                      {" "}
+                      {skill.skill_name}{" "}
+                    </p>
+                  );
+                })
+              ))}
 
-              {/* 팀 이름 */}
-              <p className={styles.name}> 
+            {/* 팀 이름 */}
+            <p className={styles.name}>
               {teamDetail && teamDetail.teamInfo.team_name}
-             </p>
-             {/* 팀 소개 */}
-              <div className={styles.introTexts}>
-                {teamDetail && teamDetail.teamInfo.team_introduction === null ? (
-                  <p className={styles.limit}>팀 소개를 입력해보아요!</p>
-                ) : (
-                  <p className={styles.limit}> 
+            </p>
+            {/* 팀 소개 */}
+            <div className={styles.introTexts}>
+              {teamDetail && teamDetail.teamInfo.team_introduction === null ? (
+                <p className={styles.limit}>팀 소개를 입력해보아요!</p>
+              ) : (
+                <p className={styles.limit}>
                   {teamDetail && teamDetail.teamInfo.team_introduction
                     ? teamDetail.teamInfo.team_introduction
-                    : "팀 소개가 없습니다!"} 
-                  </p>
-                )}
-              </div>
+                    : "팀 소개가 없습니다!"}
+                </p>
+              )}
             </div>
+          </div>
           {/* </div> */}
 
           <button
@@ -339,27 +341,39 @@ export default function Profile() {
         ,d</div> */}
 
         <div className={styles.teamInfoBox}>
-            {/* <div className={styles.teamSkillImgWrap}> */}
-              <p className={styles.menuText} style={{color: tm.mainTextColor}}> 사용 스킬 </p>
-              {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
-                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
-                )  : 
-                (
-                  teamDetail.teamInfo.skills.map((skill,index) => {
-                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
-                  })
-                ) )
-              }
-            {/* </div> */}
-            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 관련태그 </p>
-            <div style={{color: tm.mainTextColor}}> 태그가 없습니다 </div>
-            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 팀 </p>
-            <div style={{color: tm.mainTextColor}}> 팀 별명이 없습니다 </div>
+          {/* <div className={styles.teamSkillImgWrap}> */}
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            사용 스킬{" "}
+          </p>
+          {teamDetail &&
+            (teamDetail.teamInfo.skills[0].skill_name === null ? (
+              <p className={styles.skill}> 팀 스킬이 없어요 </p>
+            ) : (
+              teamDetail.teamInfo.skills.map((skill, index) => {
+                return (
+                  <p key={index} className={styles.skill}>
+                    {" "}
+                    {skill.skill_name}{" "}
+                  </p>
+                );
+              })
+            ))}
+          {/* </div> */}
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            관련태그{" "}
+          </p>
+          <div style={{ color: tm.mainTextColor }}> 태그가 없습니다 </div>
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            팀{" "}
+          </p>
+          <div style={{ color: tm.mainTextColor }}> 팀 별명이 없습니다 </div>
         </div>
 
         <div className={styles.grayLine}></div>
 
-        
         <p className={styles.txt}> Team Member</p>
 
         <div className={styles.memSearch}>

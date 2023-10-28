@@ -250,9 +250,7 @@ export default function Board() {
             {/* 매니저 선택 */}
             <div className="mr-auto flex items-center gap-1">
               <span className="mr-[2vw] font-medium">Mangers</span>
-              <div
-                className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
-              >
+              <div className={`flex gap-2 grow ${styles.managerSelector}`}>
                 {memberList &&
                   memberList.map((member, index) => {
                     return (

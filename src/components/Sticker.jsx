@@ -61,6 +61,7 @@ export default function Sticker({
       .toString(16)
       .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`.toUpperCase();
   };
+
   const getNextColorIdx = () => {
     const idx = colors.findIndex((colorCode) => colorCode === rgbToHex());
 
