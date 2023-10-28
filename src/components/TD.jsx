@@ -20,8 +20,6 @@ export default function Todo({
   changeScheduleStatus,
   deleteSchedule,
 }) {
-  console.log(created_at);
-
   const innerContent = useRef();
   const container = useRef();
   const title = useRef();

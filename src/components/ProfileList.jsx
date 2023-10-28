@@ -3,8 +3,8 @@ import React from "react";
 export default function ProfileList({ profile }) {
   return (
     <div className="flex mt-6 gap-6 relative">
-      {/* 접속 중인 상태 나타내주는 dot */}
-      <div className="w-3 h-3 absolute bg-[#03CF5D] rounded-full z-10"></div>
+      {/* 접속 중인 상태 나타내주는 dot : 현재는 주석 처리 */}
+      {/* <div className="w-3 h-3 absolute bg-[#03CF5D] rounded-full z-10"></div> */}
       <img
         key={profile.user_index}
         src={`/public_assets/profileImg/profileImg_${profile.user_img_index}.png`}

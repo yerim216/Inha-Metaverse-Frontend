@@ -1,11 +1,11 @@
-@media screen and (min-width: 1280px) {
+/* @media screen and (min-width: 1280px) {
   .pjb:nth-child(2),
   .pjb:nth-child(5),
   .pjb:nth-child(8) {
     position: relative;
     top: 120px;
   }
-}
+} */
 
 .pjb:hover {
   transform: scale(1.05);

@@ -69,7 +69,7 @@ export default function RightViewerContent_Main() {
       </div>
       <div className="w-full text-white font-extrabold text-lg mt-12">
         <h3 className="flex items-center">
-          팀원 - 접속 중
+          {/* 추후엔 접속, 비접속 팀원으로 구분하여 출력 */}팀원
           <span className="text-[#7c7c7c] font-light ml-2">
             ({memberProfiles && memberProfiles.length})
           </span>
@@ -79,12 +79,12 @@ export default function RightViewerContent_Main() {
             <ProfileList profile={memberProfile} />
           ))}
       </div>
-      <div className="w-full text-white font-extrabold text-lg mt-12">
+      {/* <div className="w-full text-white font-extrabold text-lg mt-12">
         <h3 className="flex items-center">
           팀원 - 오프라인
           <span className="text-[#7c7c7c] font-light ml-2">(0)</span>
         </h3>
-      </div>
+      </div> */}
     </div>
   );
 }

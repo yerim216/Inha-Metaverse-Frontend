@@ -126,3 +126,16 @@
 .managerSelector::-webkit-scrollbar {
   display: none;
 }
+
+.addTodoModal {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  color: white;
+  margin: auto;
+  width: 70vw;
+  height: 72vh;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+}

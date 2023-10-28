@@ -78,7 +78,6 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-  display: felx;
   width: 217px;
   height: 270px;
   border-radius: 15px;

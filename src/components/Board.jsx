@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/modules/Board.module.css";
 import PlusTodoBtn from "../components/PlusTodoBtn";
 import TD from "../components/TD";
@@ -6,11 +6,25 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import Member from "./Member";
 import { useOutletContext } from "react-router-dom";
-import { getTeamInfoByIndex, getTeamMembers } from "../APIs/team";
+import { getTeamInfoByIndex } from "../APIs/team";
 import { addScheduleByToDo, getSchedule } from "../APIs/schedule";
 import RightViewer from "./RightViewer";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function Board() {
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+
+  const [tm, setTm] = useState(theme.lightTheme.board);
+
+  useEffect(() => {
+    if (themeMode === "light") {
+      setTm(theme.lightTheme.board);
+    } else {
+      setTm(theme.darkTheme.board);
+    }
+  }, [themeMode]);
+
   // ㅆ.. 담당자선택 공유됨
   const [addTodo_notStart, setAddTodo_notStart] = useState({
     time: "",
@@ -247,6 +261,9 @@ export default function Board() {
     }
   }, [teamIndex]);
 
+  // 모달창을 통해서 값 추가 관리
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const hideAddTodo = (filterName) => {
     const toHide = document.querySelector(`.${filterName}`);
     toHide.style.display = "none";
@@ -327,6 +344,47 @@ export default function Board() {
 
   return (
     <div className={`${styles.bg} xl:pr-80 2xl:pr-96`}>
+      {/* 모달창 설정하는 파트 시작 */}
+      {isModalOpen && (
+        <div
+          onClick={() => {
+            // 임시로 클릭 시 그냥 사라지게끔 구현했음
+            setIsModalOpen(false);
+          }}
+          className="w-[100vw] h-[100vh] absolute left-0 top-0 z-50 flex justify-center items-center"
+          style={{
+            backgroundColor: tm.whenModalBg,
+          }}
+        >
+          <section
+            className={styles.addTodoModal}
+            style={{
+              backgroundColor: tm.modalBg,
+            }}
+          >
+            {/* 제목 */}
+            <input
+              className={styles.addTodoTitle}
+              type="text"
+              placeholder="제목을 입력해주세요!"
+              // value 및 onChange의 notStart,inProgress,done은 터치한 버튼에 따라서.
+              value={addTodo_notStart.title}
+              onChange={(e) => {
+                setAddTodo_notStart({
+                  ...addTodo_notStart,
+                  title: e.target.value,
+                });
+              }}
+            />
+            {/* 무엇을 해야 하나요 */}
+            {/* 담당자 선택 */}
+            {/* 담당자 선택 */}
+            {/* +버튼 */}
+          </section>
+        </div>
+      )}
+      {/* 모달창 설정하는 파트 끝 */}
+
       <RightViewer activated={"board"} />
       <section className={styles.toDoSectionContainer}>
         <div className={styles.fullTodoSection} id="toDoSection_notStart">
