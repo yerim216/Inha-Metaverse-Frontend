@@ -123,10 +123,10 @@ export default function StickerNote() {
   const addStickerNote = () => {
     const x = clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1]
       ? clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1].note_x + 50
-      : 650;
+      : 120;
     const y = clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1]
       ? clonedStickerNoteInfos[clonedStickerNoteInfos.length - 1].note_y + 50
-      : 100;
+      : 220;
     createStickerMemo({
       teamIndex: teamIndex,
       content: input.content,
@@ -185,38 +185,7 @@ export default function StickerNote() {
         input={input}
       />
       <section className={styles.bg}>
-        <form className="ml-[3%] mt-[3%] flex flex-col w-[400px] gap-3 items-end">
-          {/* <textarea
-            className="w-full resize-none outline-none h-32 border p-3"
-            placeholder="노트 작성..."
-            style={{
-              background: "#323232",
-            }}
-            value={input.content}
-            onChange={(e) => {
-              handleInputChange(e);
-            }}
-          ></textarea> */}
-          {/* <div className="flex gap-2">
-            <button
-              className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
-              onClick={(e) => {
-                e.preventDefault();
-                handleModifyStickerMemo();
-              }}
-            >
-              저장하기
-            </button>
-            <button
-              className="w-20 h-10 rounded-md bg-[#7090B0] px-2 hover:brightness-110"
-              onClick={(e) => {
-                handleUploadBtn(e);
-              }}
-            >
-              노트 등록
-            </button>
-          </div> */}
-        </form>
+        <form className="ml-[3%] mt-[3%] flex flex-col w-[400px] gap-3 items-end"></form>
         {stickerNoteInfos &&
           clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {
             // setClonedStickerNoteInfos를 통해 정보 변경 역시 가능해야 함.

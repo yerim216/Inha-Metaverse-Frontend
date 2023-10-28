@@ -1,16 +1,18 @@
 import React from "react";
 
-export default function PlusTodoBtn({ showAddTodo, filterName }) {
+export default function PlusTodoBtn({ filterName, setIsModalOpen, setStatus }) {
   return (
     <button
       className="mt-2 m-auto"
       onClick={() => {
-        showAddTodo(filterName);
-        // 스크롤 맨 위로 변경
-        const scrollContainer = document.querySelector(
-          `#toDoSection_${filterName}_scroll`
-        );
-        scrollContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+        setIsModalOpen(true);
+        if (filterName === "notStart") {
+          setStatus(0);
+        } else if (filterName === "inProgress") {
+          setStatus(1);
+        } else if (filterName === "done") {
+          setStatus(2);
+        }
       }}
     >
       <img

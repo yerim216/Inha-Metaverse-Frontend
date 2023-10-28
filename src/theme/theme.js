@@ -22,10 +22,12 @@ export const lightTheme = {
   },
   board: {
     whenModalBg: "rgba(105, 105, 105, 0.8)",
+    modalBg: "rgb(50,50,50)",
+    inputTextColor: "rgba(255, 255, 255, 0.5)",
   },
-  profile:{
-    mainTextColor:"black"
-  }
+  profile: {
+    mainTextColor: "black",
+  },
 };
 
 export const darkTheme = {
@@ -52,7 +54,12 @@ export const darkTheme = {
   },
   profile:{
     mainTextColor:"white"
-  }
+  },
+  board: {
+    whenModalBg: "rgba(105, 105, 105, 0.8)",
+    modalBg: "rgb(50,50,50)",
+    inputTextColor: "rgba(255, 255, 255, 0.5)",
+  },
 };
 
 export const theme = {

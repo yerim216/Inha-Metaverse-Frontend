@@ -17,7 +17,8 @@ export default function Member({
         }
       }}
       style={{
-        color: activated ? "white" : "inherit",
+        color: activated ? "white" : "grey",
+        borderColor: activated ? "white" : "grey",
       }}
     >
       {memberName}

@@ -120,7 +120,7 @@ export default function Sticker({
       style={{
         left: stickerPos.x,
         top: stickerPos.y,
-        zIndex: zIndexList[idx],
+        zIndex: zIndexList[idx] + 100,
       }}
       onMouseDown={() => {
         addZIndex(idx);
