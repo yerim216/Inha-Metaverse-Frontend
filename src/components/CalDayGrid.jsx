@@ -12,17 +12,14 @@ import { getScheduleCalendar } from "../APIs/schedule";
 import { object } from "prop-types";
 import axios from 'axios';
 
-import ReviseEvent from "../components/ReviseEvent";
-
 
 export default function CalDayGrid(props) {
     const { teamIndex } = useOutletContext();
     const [eventArr,setEventArr] = useState([]);
     let [scheduleByDate,setScheduleByDate] = useState({});
-    const [dayEvent,setDayEvent] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [modalDeleteButtons, setmodalDeleteButtons] = useState(false);
-    const [modalReviseButtons, setmodalReviseButtons] = useState(false);
+    const [eventOver,setEventOver] = useState(0);
+
+
     const [selectedID, setSelectedId] = useState([]);
     const requestURL = `${window.baseURL}`;
 
@@ -248,20 +245,6 @@ function formatDateToYYYYMMDD(dateString) {
     return fullDate;
     } 
 
-    const [changeEvent, setChangeEvent] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setChangeEvent(false);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setChangeEvent(true);
-    setIsModalOpen(false);
-  };
-
   const clickEvent = (title,startDay,endDay,index,color) =>{
     props.setStartDay(startDay);
     props.setEndDay(endDay);
@@ -271,10 +254,13 @@ function formatDateToYYYYMMDD(dateString) {
     props.setEventColor(color);
   };
 
+  const moreEvent = {
+    // gridTemplateRows: `repeat(${}, ${})`
+  }
 
   return (    
     <>
-    <div className={styles.dayGrid}>
+    <div className={styles.dayGrid} style={moreEvent}>
     
     {dayEntries.map ((day,i) => {
         const dateValue = dayEntries[i][1];
@@ -289,7 +275,7 @@ function formatDateToYYYYMMDD(dateString) {
         let priorityCheck = 0;
 
            return (
-            <div key={i} className={styles.dayBox}>
+            <div key={i} className={styles.dayBox} >
                 <div>
                     <p
                     className={`${styles.boxDate} ${
@@ -543,7 +529,7 @@ function formatDateToYYYYMMDD(dateString) {
                                           })
                                         
                                         dayEvnetLast.sort((a, b) => a.priority - b.priority);
-                                        
+                                        // setEventOver(dayEvnetLast.length);
                                     })
                                     }
                                 }}
@@ -554,18 +540,15 @@ function formatDateToYYYYMMDD(dateString) {
                     
 
                     {dayEvnetLast.map((events, index) => {
-                        console.log(dateToString);
-                        console.log(events.title);
-                        console.log(scheduleByDate);
                         if (events.priority < 4 && index < 3) {
-                            if(index === 0){ //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리 -> ok
+                            if(index === 0){ //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리 
                                 emptyBoxes = Array.from({ length: Math.min(events.priority - 1, maxItems) }, (_, i) => (
                                     <div key={i} className={styles.emptyBox}></div>
                                 ));
                                 remainingItems = maxItems - emptyBoxes.length;
                                 // maxItems = events.priority -1;
                                 priorityCheck = events.priority;
-                            }else if(events.priority != index +1 && events.priority-priorityCheck != 1){ //이벤트 priority = 1, 3인 경우 -> ok
+                            }else if(events.priority != index +1 && events.priority-priorityCheck != 1){ //이벤트 priority = 1, 3인 경우 
                                 maxItems -= index +1;
                                 emptyBoxes = Array.from({ length: maxItems }, (_, i) => (
                                     <div key={i} className={styles.emptyBox}></div>
