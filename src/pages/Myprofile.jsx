@@ -148,30 +148,6 @@ export default function Profile() {
     },
   ];
 
-  const namee2 = {
-    marginTop: "50px",
-    marginLeft: "30px",
-    position: "relative",
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "32px",
-    lineHeight: "44px",
-    display: "flex",
-    alignItems: "center",
-    color: "#000000",
-  };
-
-  const tools2 = {
-    width: "80%",
-    marginLeft: "30px",
-    display: "-webkit-box",
-    WebkitLineClamp: 2, // 최대 2줄로 제한
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
-
   const parts2 = {
     marginRight: "5px",
     width: "fit-content",

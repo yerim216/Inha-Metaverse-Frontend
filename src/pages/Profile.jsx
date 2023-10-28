@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Profile.module.css";
+import style from "../styles/Myprofile.module.css";
+
 import Gdot from "../components/Gdot";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -16,6 +18,8 @@ import {
 } from "../APIs/team";
 import { getUserInfo } from "../APIs/userinfo";
 import ApplyModal from "../components/ApplyModal";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function Profile() {
   const { index } = useParams(); // URL 파라미터 값 가져오기
@@ -77,6 +81,7 @@ export default function Profile() {
 
   // 팀 멤버 정보 변수. 팀 인덱스로 불러 옴.
   const [teamMembers, setTeamMembers] = useState();
+  const [teamSkill, setTeamSkill] = useState();
 
   //전달받은 팀 인덱스값 취득 : teamIndex 변수에 저장
   const location = useLocation();
@@ -86,6 +91,8 @@ export default function Profile() {
     getTeamInfoByIndex(teamIndex)
       .then((res) => {
         setTeamDetail(res.data);
+        setTeamSkill(res.data.teamInfo.skills);
+        console.log(res.data);
         return res.data;
       })
       .then((data) => {
@@ -106,106 +113,6 @@ export default function Profile() {
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
-  const renderProfileContent = () => {
-    // index에 따른 프로필 데이터 로직 구현
-    // ...
-
-    return <div>프로필 페이지 컨텐츠</div>;
-  };
-
-  const officeMove = () => {
-    if (user) {
-      const url = `https://app.vpspace.net/?email=${encodeURIComponent(
-        user.email
-      )}&&room=office${encodeURIComponent(teamIndex)}`;
-
-      window.location.href = url;
-    }
-  };
-
-  const recruitingNum = {
-    display: "inline-block",
-    borderRadius: "100px",
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "800",
-    fontSize: "25px",
-    color: "white",
-    lineHeight: "43px",
-    paddingLeft: "20px",
-  };
-
-  const recruitingNum2 = {
-    display: "inline-block",
-    borderRadius: "100px",
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "25px",
-    color: "white",
-    lineHeight: "43px",
-  };
-
-  const cate = {
-    display: "inline-block",
-    fontFamily: "Avenir",
-    fontStyle: "normal",
-    fontWeight: "800",
-    fontSize: "15px",
-    lineHeight: "19px",
-    alignItems: "center",
-    letterSpacing: "0.04em",
-    flexGrow: "2.2",
-    color: "#ffffff",
-  };
-  const state = {
-    display: "flex",
-    width: "165px",
-    height: "69px",
-    borderRadius: "36.5px",
-    background: "#F4F6F8",
-    fontSize: "25px",
-    fontFamily: "Avenir",
-    fontStyle: "normal",
-    fontWeight: "500",
-    lineHeight: "43px",
-    letterSpacing: "0.15px",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "auto",
-  };
-  const recruitList = {
-    display: "inline-block",
-    fontFamily: "Avenir",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "25px",
-    lineHeight: "43px",
-    alignItems: "center",
-    letterSpacing: "0.15px",
-    flexGrow: "2",
-    color: "#ffffff",
-  };
-
-  const recruitContainer = {
-    display: "grid",
-    gridTemplateColumns: "1.8fr 2fr 0.7fr 0.7fr 1.8fr",
-    width: "100%",
-    margin: "auto",
-    paddingBottom: "13px",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  };
-  const recruitContainer2 = {
-    display: "flex",
-    textAlign: "center",
-    flexDirection: "column",
-    paddingTop: "13px",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "30.29px",
-  };
 
   const pImage = {
     paddingTop: "23px",
@@ -268,10 +175,7 @@ export default function Profile() {
   };
 
   const parts = {
-    // marginRight: "5px",
     width: "80%",
-    // paddingLeft: "10px",
-    // paddingRight: "10px",
     height: "22px",
     display: "flex",
     alignItems: "center",
@@ -282,14 +186,6 @@ export default function Profile() {
     fontSize: "11px",
     fontWeight: 800,
     textAlign: "center",
-    // paddingTop: "2px",
-  };
-
-  const lab = {
-    display: "flex",
-    gap: "5px",
-    width: "180px",
-    alignItems: "center",
   };
 
   const whole = {
@@ -297,134 +193,24 @@ export default function Profile() {
     flexDirection: "column",
     justifyContent: "center",
   };
-  const more = {
-    marginTop: "5px",
-    marginLeft: "5px",
-  };
-  const projectInro = {
-    paddingTop: "23px",
-    boxSizing: "border-box",
-    width: "110px",
-    height: "110px",
-    borderRadius: "100px",
-    marginLeft: "-50px",
-  };
-  const projects = {
-    marginTop: "70px",
-    marginLeft: "90px",
-    width: "593px",
-    height: "160px",
-    background: "#FFFFFF",
-    boxShadow: "0px 20px 40px rgba(255, 255, 255, 0.2)",
-    borderRadius: "20px",
-  };
-  const progressP = {
-    display: "flex",
-    flexDirection: "row",
-    gap: "9px",
-    marginLeft: "-50px",
-  };
 
-  const namee2 = {
-    marginTop: "5px",
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "32px",
-    lineHeight: "44px",
-    display: "flex",
-    alignItems: "center",
-    color: "#000000",
-    marginLeft: "-50px",
-  };
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.profile);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.profile);
+    else setTm(theme.darkTheme.profile);
+  }, [themeMode]);
 
-  const tools2 = {
-    marginTop: "14px",
-    marginLeft: "-50px",
-  };
-  const con3 = {
-    marginLeft: "100px",
-    marginTop: "-75px",
-  };
-  const parts2 = {
-    marginRight: "5px",
-    width: "auto",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    height: "19px",
-    backgroundColor: "#7090B0",
-    borderRadius: "60px",
-    color: "white",
-    fontSize: "11px",
-    textAlign: "center",
-    paddingTop: "2px",
-  };
-  const whole2 = {
-    display: "inline-block",
-    marginLeft: "270px",
-    zIndex: "1",
-    paddingBottom: "30px",
-  };
-
-  const wrappp = {
-    display: "inline-block",
-    marginTop: "30px",
-  };
-
-  const wrappp2 = {
-    display: "inline-block",
-    marginTop: "-200px",
-    paddingBottom: "30px",
-  };
-
-  const con4 = {
-    display: "inline-block",
-
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    marginBottom: "100px",
-  };
-
-  const dot3 = {
-    display: "inline-block",
-
-    marginRight: "16px",
-    backgroundColor: "#E1ECF6",
-    borderRadius: "100px",
-    width: "13.34px",
-    height: "13.34px",
-    display: "inline-block",
-  };
-
-  const eyes = {
-    display: "inline-block",
-    marginRight: "5px",
-    width: "13.75px",
-    height: "9.38px",
-  };
-
-  const viewss = {
-    display: "inline-block",
-    fontFamily: "'Avenir'",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    marginLeft: "395px",
-    zIndex: "2",
-    marginTop: "-30px",
-  };
   return (
-    <section>
+    <section className={styles.contain}>
       <ApplyModal
         open={applyModalOpen}
         close={closeApplyModal}
         openApplyModal={openApplyModal}
         handleApplyBtn={handleApplyBtn}
       ></ApplyModal>
-      <div className={styles.wrap}>
-        <div className={styles.navItems}>
+      <div className={styles.navItems}>
           <div className={styles.logoContainer}>
             <img
               src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
@@ -453,13 +239,14 @@ export default function Profile() {
             )}
           </div>
         </div>
+      <div className={style.wrap}>
         <div className={styles.backgroundImage}></div>
-        <img
+        {/* <img
           src={`${process.env.PUBLIC_URL}/public_assets/profile.PNG`}
           className={styles.profileImage}
           alt="profile"
-        />
-        <button
+        /> */}
+        {/* <button
           className={styles.officeBtn}
           onClick={() => {
             const returnVal =
@@ -470,62 +257,67 @@ export default function Profile() {
           }}
         >
           Office 공간 들어가기
-        </button>
+        </button> */}
+
         <button
-          className={styles.projectManageBtn}
+          className={style.profileManageBtn}
           onClick={() => {
-            navigate(`/projectmanagertools/${teamIndex}`, {
-              state: { teamIndex: teamIndex },
-            });
+            navigate("/createmyprofile");
             window.scrollTo({ top: 0, behavior: "auto" });
           }}
         >
-          프로젝트 관리
+          프로필 수정
         </button>
+        <div className={style.profileTop}>
+          {/* <div className={style.profileInfo}> */}
+            <div className={styles.nameContainer}>
+                 {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
+                )  : 
+                (
+                  teamDetail.teamInfo.skills.map((skill,index) => {
+                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
+                  })
+                ) )
+                }
 
-        <div className={styles.nameContainer}>
-          <Gdot />
-          <p className={styles.name}>
-            {teamDetail && teamDetail.teamInfo.team_name}
-          </p>
+              {/* 팀 이름 */}
+              <p className={styles.name}> 
+              {teamDetail && teamDetail.teamInfo.team_name}
+             </p>
+             {/* 팀 소개 */}
+              <div className={styles.introTexts}>
+                {teamDetail && teamDetail.teamInfo.team_introduction === null ? (
+                  <p className={styles.limit}>팀 소개를 입력해보아요!</p>
+                ) : (
+                  <p className={styles.limit}> 
+                  {teamDetail && teamDetail.teamInfo.team_introduction
+                    ? teamDetail.teamInfo.team_introduction
+                    : "팀 소개가 없습니다!"} 
+                  </p>
+                )}
+              </div>
+            </div>
+          {/* </div> */}
+
+          <button
+            className={style.pointButton}
+            onClick={() => {
+              // navigate("/createmyprofile");
+              window.scrollTo({ top: 0, behavior: "auto" });
+            }}
+          >
+            콕! 찔러보기
+            <p className={style.pointEmoji}>🤏🏻</p>
+          </button>
         </div>
-        <div className={styles.texts}>
-          <p>
-            {teamDetail && teamDetail.teamInfo.team_introduction
-              ? teamDetail.teamInfo.team_introduction
-              : "자기소개가 없습니다!"}
-          </p>
-          <p className={styles.limit}>
-            {teamDetail && teamDetail.teamInfo.team_description}
-          </p>
-        </div>
 
-        {/* <p className={styles.txt}> Skills</p>
+        <div className={styles.grayLine}></div>
 
-      <div className ={styles.recruit2}>      
-          <div style={recruitContainer2}>
-            <img
-              src={`${process.env.PUBLIC_URL}/public_assets/tool.png`}
-              className={styles.tool}
-              alt="Views"
-            />
-            
-            <img
-              src={`${process.env.PUBLIC_URL}/public_assets/lan.png`}
-              className={styles.lan}
-              alt="Views"
-            />
-          </div>
-      </div> */}
-        <div className="flex justify-center w-full -mt-10 gap-8">
+        {/* <div className="flex justify-center w-full -mt-10 gap-8">
           <button
             className={styles.applyBtn}
             onClick={() => {
-              // const returnVal =
-              //   window.confirm("해당 프로젝트에 지원하시겠습니까?");
-              // if (returnVal === true) {
-              //   handleApplyBtn();
-              // }
               setApplyModalOpen(true);
             }}
           >
@@ -544,7 +336,30 @@ export default function Profile() {
           >
             탈퇴하기
           </button>
+        ,d</div> */}
+
+        <div className={styles.teamInfoBox}>
+            {/* <div className={styles.teamSkillImgWrap}> */}
+              <p className={styles.menuText} style={{color: tm.mainTextColor}}> 사용 스킬 </p>
+              {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
+                )  : 
+                (
+                  teamDetail.teamInfo.skills.map((skill,index) => {
+                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
+                  })
+                ) )
+              }
+            {/* </div> */}
+            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 관련태그 </p>
+            <div style={{color: tm.mainTextColor}}> 태그가 없습니다 </div>
+            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 팀 </p>
+            <div style={{color: tm.mainTextColor}}> 팀 별명이 없습니다 </div>
         </div>
+
+        <div className={styles.grayLine}></div>
+
+        
         <p className={styles.txt}> Team Member</p>
 
         <div className={styles.memSearch}>

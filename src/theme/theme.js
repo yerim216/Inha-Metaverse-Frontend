@@ -25,6 +25,9 @@ export const lightTheme = {
     modalBg: "rgb(50,50,50)",
     inputTextColor: "rgba(255, 255, 255, 0.5)",
   },
+  profile: {
+    mainTextColor: "black",
+  },
 };
 
 export const darkTheme = {
