@@ -50,6 +50,9 @@ export const darkTheme = {
     createBtn: "#000000",
     cancelBtn: "#9B9B9B",
   },
+  profile:{
+    mainTextColor:"white"
+  }
 };
 
 export const theme = {
