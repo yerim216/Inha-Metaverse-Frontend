@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/Board.module.css";
 import PlusTodoBtn from "../components/PlusTodoBtn";
 import TD from "../components/TD";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import Member from "./Member";
 import { useOutletContext } from "react-router-dom";
@@ -25,20 +24,7 @@ export default function Board() {
     }
   }, [themeMode]);
 
-  // ㅆ.. 담당자선택 공유됨
-  const [addTodo_notStart, setAddTodo_notStart] = useState({
-    time: "",
-    title: "",
-    todo: "",
-    fullScreen: false,
-  });
-  const [addTodo_inProgress, setAddTodo_inProgress] = useState({
-    time: "",
-    title: "",
-    todo: "",
-    fullScreen: false,
-  });
-  const [addTodo_done, setAddTodo_done] = useState({
+  const [addTodo, setAddTodo] = useState({
     time: "",
     title: "",
     todo: "",
@@ -84,19 +70,6 @@ export default function Board() {
       .catch((err) => console.log(err));
   };
 
-  // const getUserIndex = async () => {
-  //   let userIndex;
-
-  //   if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
-  //     return;
-  //   }
-
-  //   userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
-  //     .user_index;
-
-  //   return userIndex; // userIndex 리턴
-  // };
-
   const getDatabase = () => {
     // 팀 인덱스 가져오는 코드
     getTeamIndex().then((teamIndex) => {
@@ -130,129 +103,56 @@ export default function Board() {
       return [...cur, { memberName, memberIdx }];
     });
   };
-  const deleteManager = (memberName) => {
-    setSelectedManager((cur) =>
-      cur.filter((data) => data.memberName !== memberName)
-    );
-  };
-  const addTodoAtDB = async (filterName) => {
-    // 팀인덱스, 일정 제목, 일정 내용, 일정 상태, 일정 시작일, 일정 종료일, 일정 작성자 인덱스, 생성일, 일정 색상 필요
 
-    getTeamIndex().then((teamIndex) => {
-      // 팀인덱스 정상적으로 받아와짐.
-      if (filterName === "notStart") {
-        // axios
-        //   .post("/todo/put", {
-        //     team: teamIndex,
-        //     title: addTodo_notStart.title,
-        //     content: addTodo_notStart.todo,
-        //     writer: userIndex,
-        //     date: addTodo_notStart.time,
-        //     status: 0,
-        //   })
-        addScheduleByToDo({
-          teamIndex: teamIndex,
-          title: addTodo_notStart.title,
-          content: addTodo_notStart.todo,
-          status: 0,
-          startDate: null,
-          endDate: null,
-          writer: userIndex,
-          createdAt: addTodo_notStart.time,
-          color: null,
-        })
-          .then((res) => {
-            const scheduleIndex = res.data[0].schedule_index;
-            selectedManager.map((manager) => {
-              axios
-                .post("/schedule/put/manager", {
-                  schedule: scheduleIndex,
-                  manager: manager.memberIdx,
-                })
-                .then(() => {
-                  getDatabase();
-                });
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else if (filterName === "inProgress") {
-        // axios
-        //   .post("/todo/put", {
-        //     team: teamIndex,
-        //     title: addTodo_inProgress.title,
-        //     content: addTodo_inProgress.todo,
-        //     writer: userIndex,
-        //     date: addTodo_inProgress.time,
-        //     status: 1,
-        //   })
-        addScheduleByToDo({
-          teamIndex: teamIndex,
-          title: addTodo_inProgress.title,
-          content: addTodo_inProgress.todo,
-          status: 1,
-          startDate: null,
-          endDate: null,
-          writer: userIndex,
-          createdAt: addTodo_inProgress.time,
-          color: null,
-        })
-          .then((res) => {
-            const scheduleIndex = res.data[0].schedule_index;
-            selectedManager.map((manager) => {
-              axios
-                .post("/schedule/put/manager", {
-                  schedule: scheduleIndex,
-                  manager: manager.memberIdx,
-                })
-                .then(() => {
-                  getDatabase();
-                });
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else if (filterName === "done") {
-        // axios
-        //   .post("/todo/put", {
-        //     team: teamIndex,
-        //     title: addTodo_done.title,
-        //     content: addTodo_done.todo,
-        //     writer: userIndex,
-        //     date: addTodo_done.time,
-        //     status: 2,
-        //   })
-        addScheduleByToDo({
-          teamIndex: teamIndex,
-          title: addTodo_done.title,
-          content: addTodo_done.todo,
-          status: 2,
-          startDate: null,
-          endDate: null,
-          writer: userIndex,
-          createdAt: addTodo_done.time,
-          color: null,
-        })
-          .then((res) => {
-            const scheduleIndex = res.data[0].schedule_index;
-            selectedManager.map((manager) => {
-              axios
-                .post("/schedule/put/manager", {
-                  schedule: scheduleIndex,
-                  manager: manager.memberIdx,
-                })
-                .then(() => {
-                  getDatabase();
-                });
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+  // delete
+  const deleteManager = (memberName) => {
+    setSelectedManager((cur) => {
+      return cur.filter((data) => data.memberName !== memberName);
     });
+  };
+
+  // add
+  const addTodoAtDB = async () => {
+    console.log({
+      team: parseInt(teamIndex),
+      title: addTodo.title,
+      content: addTodo.todo,
+      status: status,
+      start_date: null,
+      end_date: null,
+      writer: userIndex,
+      created_at: addTodo.time,
+      color: null,
+    });
+
+    addScheduleByToDo({
+      team: teamIndex,
+      title: addTodo.title,
+      content: addTodo.todo,
+      status: status,
+      start_date: null,
+      end_date: null,
+      writer: userIndex,
+      created_at: addTodo.time,
+      color: null,
+    })
+      .then((res) => {
+        const scheduleIndex = res.data[0].schedule_index;
+        selectedManager.map((manager) => {
+          axios
+            .post("/schedule/put/manager", {
+              schedule: scheduleIndex,
+              manager: manager.memberIdx,
+            })
+            .then(() => {
+              setIsModalOpen(false);
+              getDatabase();
+            });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -262,25 +162,18 @@ export default function Board() {
   }, [teamIndex]);
 
   // 모달창을 통해서 값 추가 관리
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const hideAddTodo = (filterName) => {
-    const toHide = document.querySelector(`.${filterName}`);
-    toHide.style.display = "none";
-  };
-  const showAddTodo = (filterName) => {
-    const toShow = document.querySelector(`.${filterName}`);
-    let time;
-
-    if (filterName === "notStart") {
-      time = document.querySelector(".notStart_time");
-    } else if (filterName === "inProgress") {
-      time = document.querySelector(".inProgress_time");
-    } else if (filterName === "done") {
-      time = document.querySelector(".done_time");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // 모달창이 열릴 때, 현재 시간을 설정 후 표기
+  useEffect(() => {
+    if (isModalOpen) {
+      setTime();
     }
+  }, [isModalOpen]);
 
-    toShow.style.display = "flex";
+  const setTime = () => {
+    let time;
+    time = document.querySelector(".time");
+
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
@@ -291,65 +184,33 @@ export default function Board() {
 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     time.innerHTML = formattedDate;
-
-    if (filterName === "notStart")
-      setAddTodo_notStart({
-        ...addTodo_notStart,
-        time: formattedDate,
-      });
-    else if (filterName === "inProgress")
-      setAddTodo_inProgress({
-        ...addTodo_inProgress,
-        time: formattedDate,
-      });
-    else if (filterName === "done")
-      setAddTodo_done({
-        ...addTodo_done,
-        time: formattedDate,
-      });
+    setAddTodo({
+      ...addTodo,
+      time: formattedDate,
+    });
   };
 
-  const resetAddTodo = (filter) => {
-    if (filter === "notStart")
-      setAddTodo_notStart({ time: "", title: "", todo: "" });
-    else if (filter === "inProgress")
-      setAddTodo_inProgress({ time: "", title: "", todo: "" });
-    else if (filter === "done")
-      setAddTodo_done({ time: "", title: "", todo: "" });
+  const resetAddTodo = () => {
+    setAddTodo({ time: "", title: "", todo: "" });
   };
 
-  const checkPlaceholderVisible = (filterName) => {
-    const placeholder = document.querySelector(`.${filterName}Placeholder`);
-    if (filterName === "notStart") {
-      if (addTodo_notStart.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    } else if (filterName === "inProgress") {
-      if (addTodo_inProgress.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    } else if (filterName === "done") {
-      if (addTodo_done.todo === "") placeholder.style.display = "inline";
-      else placeholder.style.display = "none";
-    }
-  };
-
-  useEffect(() => {
-    checkPlaceholderVisible("notStart");
-  }, [addTodo_notStart.todo]);
-  useEffect(() => {
-    checkPlaceholderVisible("inProgress");
-  }, [addTodo_inProgress.todo]);
-  useEffect(() => {
-    checkPlaceholderVisible("done");
-  }, [addTodo_done.todo]);
+  const addTodoModalRef = useRef();
+  const curStatusRef = useRef();
+  const timeRef = useRef();
+  const [status, setStatus] = useState(0);
 
   return (
     <div className={`${styles.bg} xl:pr-80 2xl:pr-96`}>
       {/* 모달창 설정하는 파트 시작 */}
       {isModalOpen && (
         <div
-          onClick={() => {
-            // 임시로 클릭 시 그냥 사라지게끔 구현했음
-            setIsModalOpen(false);
+          onClick={(e) => {
+            // addTodoModalRef 바깥쪽 영역 클릭 시 사라지게끔 설정
+            if (
+              addTodoModalRef.current &&
+              !addTodoModalRef.current.contains(e.target)
+            )
+              setIsModalOpen(false);
           }}
           className="w-[100vw] h-[100vh] absolute left-0 top-0 z-50 flex justify-center items-center"
           style={{
@@ -357,29 +218,144 @@ export default function Board() {
           }}
         >
           <section
+            ref={addTodoModalRef}
             className={styles.addTodoModal}
             style={{
               backgroundColor: tm.modalBg,
             }}
           >
-            {/* 제목 */}
             <input
               className={styles.addTodoTitle}
+              style={{
+                color: tm.inputTextColor,
+              }}
               type="text"
-              placeholder="제목을 입력해주세요!"
-              // value 및 onChange의 notStart,inProgress,done은 터치한 버튼에 따라서.
-              value={addTodo_notStart.title}
+              placeholder="New Event"
+              // value 및 onChange의 notStart,inProgress,done은 터치한 버튼에 따라서. => 인데 굳이?
+              value={addTodo.title}
               onChange={(e) => {
-                setAddTodo_notStart({
-                  ...addTodo_notStart,
+                setAddTodo({
+                  ...addTodo,
                   title: e.target.value,
                 });
               }}
             />
-            {/* 무엇을 해야 하나요 */}
-            {/* 담당자 선택 */}
-            {/* 담당자 선택 */}
+
+            {/* 현재 날짜 */}
+            <div className="flex items-center gap-[2vw] w-full">
+              <span className="font-medium">Current Date</span>
+              <span className="mr-auto time">0월 00일 00 : 00</span>
+            </div>
+
+            {/* 매니저 선택 */}
+            <div className="mr-auto flex items-center gap-1">
+              <span className="mr-[2vw] font-medium">Mangers</span>
+              <div
+                className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
+              >
+                {memberList &&
+                  memberList.map((member, index) => {
+                    return (
+                      <Member
+                        key={index}
+                        memberName={member.user_name}
+                        activated={selectedManager.some((item) => {
+                          return item.memberName === member.user_name;
+                        })}
+                        addManager={() => {
+                          addManager(member.user_name, member.user_index);
+                        }}
+                        deleteManager={() => {
+                          deleteManager(member.user_name);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* 상태 선택 */}
+            <div className="flex font-medium w-full">
+              <span className="mr-[2vw]">Status</span>
+              <div className="flex items-center gap-10">
+                <div className="flex items-center gap-[10px]">
+                  <div
+                    className={`w-[22px] h-[22px] bg-gray-600 rounded-full transition-all hover:scale-[120%] cursor-pointer ${
+                      status === 0 && "scale-[120%] brightness-125"
+                    }`}
+                    onClick={() => {
+                      setStatus(0);
+                    }}
+                  ></div>
+                  <span>시작 안함</span>
+                </div>
+                <div className="flex items-center gap-[10px]">
+                  <div
+                    className={`w-[22px] h-[22px] bg-blue-500 rounded-full transition-all hover:scale-[120%] cursor-pointer ${
+                      status === 1 && "scale-[120%] brightness-125"
+                    }`}
+                    onClick={() => {
+                      setStatus(1);
+                    }}
+                  ></div>
+                  <span>진행중</span>
+                </div>
+                <div className="flex items-center gap-[10px]">
+                  <div
+                    className={`w-[22px] h-[22px] bg-green-600 rounded-full transition-all hover:scale-[120%] cursor-pointer ${
+                      status === 2 && "scale-[120%] brightness-125"
+                    }`}
+                    onClick={() => {
+                      setStatus(2);
+                    }}
+                  ></div>
+                  <span>완료됨</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 구분선 */}
+            <div className="w-full h-[0.5px] bg-white opacity-70"></div>
+
+            {/* Add Note */}
+            <div className={styles.textarea_container}>
+              <textarea
+                className={styles.textarea}
+                value={addTodo.todo}
+                onChange={(e) => {
+                  setAddTodo({
+                    ...addTodo,
+                    todo: e.target.value,
+                  });
+                }}
+                placeholder="Add Note"
+              ></textarea>
+            </div>
+
             {/* +버튼 */}
+            <div>
+              <button
+                className="cursor-pointer hover:scale-110 text-white"
+                onClick={() => {
+                  if (
+                    addTodo.title.trim() === "" ||
+                    addTodo.todo.trim() === ""
+                  ) {
+                    alert("제목과 내용을 작성해 주세요!");
+                    return;
+                  }
+
+                  if (selectedManager.length === 0) {
+                    alert("담당자를 1명 이상 선택해 주세요!");
+                    return;
+                  }
+                  resetAddTodo();
+                  addTodoAtDB();
+                }}
+              >
+                Save
+              </button>
+            </div>
           </section>
         </div>
       )}
@@ -396,83 +372,7 @@ export default function Board() {
               <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
               <span className="text-white">시작 안함</span>
             </div>
-            <div className={`${styles.addTodo} notStart relative`}>
-              <input
-                className={styles.addTodoTitle}
-                type="text"
-                placeholder="제목을 입력해주세요!"
-                value={addTodo_notStart.title}
-                onChange={(e) => {
-                  setAddTodo_notStart({
-                    ...addTodo_notStart,
-                    title: e.target.value,
-                  });
-                }}
-              />
-              <div className={styles.textarea_container}>
-                <textarea
-                  className={styles.textarea}
-                  value={addTodo_notStart.todo}
-                  onChange={(e) => {
-                    setAddTodo_notStart({
-                      ...addTodo_notStart,
-                      todo: e.target.value,
-                    });
-                  }}
-                ></textarea>
-                <span
-                  className={`${styles.textarea_placeholder} notStartPlaceholder`}
-                >
-                  무엇을 해야 하나요?
-                </span>
-              </div>
-              <div className="mr-auto flex items-center gap-1">
-                <span>담당자 선택</span>
-                <div
-                  className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
-                >
-                  {memberList &&
-                    memberList.map((member, idx) => {
-                      return (
-                        <Member
-                          key={idx}
-                          memberName={member.user_name}
-                          activated={selectedManager.some((item) => {
-                            return item.memberName === member.user_name;
-                          })}
-                          addManager={() => {
-                            addManager(member.user_name, member.user_index);
-                          }}
-                          deleteManager={() => {
-                            deleteManager(member.user_name);
-                          }}
-                        />
-                      );
-                    })}
-                </div>
-              </div>
-              <span className="mr-auto text-sm notStart_time">
-                0월 00일 00 : 00
-              </span>
-              <AiOutlinePlusCircle
-                className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
-                onClick={() => {
-                  if (
-                    addTodo_notStart.title.trim() === "" ||
-                    addTodo_notStart.todo.trim() === ""
-                  )
-                    return;
 
-                  if (selectedManager.length === 0) {
-                    alert("담당자를 1명 이상 선택해 주세요!");
-                    return;
-                  }
-                  resetAddTodo("notStart");
-                  hideAddTodo("notStart");
-                  addTodoAtDB("notStart");
-                }}
-              />
-            </div>
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
@@ -488,7 +388,11 @@ export default function Board() {
                   }
                   return null;
                 })}
-              <PlusTodoBtn showAddTodo={showAddTodo} filterName={"notStart"} />
+              <PlusTodoBtn
+                setIsModalOpen={setIsModalOpen}
+                setStatus={setStatus}
+                filterName={"notStart"}
+              />
             </div>
           </section>
         </div>
@@ -502,84 +406,7 @@ export default function Board() {
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
               <span className="text-white">진행중</span>
             </div>
-            <div className={`${styles.addTodo} inProgress relative`}>
-              <input
-                className={styles.addTodoTitle}
-                type="text"
-                placeholder="제목을 입력해주세요!"
-                value={addTodo_inProgress.title}
-                onChange={(e) => {
-                  setAddTodo_inProgress({
-                    ...addTodo_inProgress,
-                    title: e.target.value,
-                  });
-                }}
-              />
 
-              <div className={styles.textarea_container}>
-                <textarea
-                  className={styles.textarea}
-                  value={addTodo_inProgress.todo}
-                  onChange={(e) => {
-                    setAddTodo_inProgress({
-                      ...addTodo_inProgress,
-                      todo: e.target.value,
-                    });
-                  }}
-                ></textarea>
-                <span
-                  className={`${styles.textarea_placeholder} inProgressPlaceholder`}
-                >
-                  무엇을 해야 하나요?
-                </span>
-              </div>
-              <div className="mr-auto flex items-center gap-1">
-                <span>담당자 선택</span>
-                <div
-                  className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
-                >
-                  {memberList &&
-                    memberList.map((member, index) => {
-                      return (
-                        <Member
-                          key={index}
-                          memberName={member.user_name}
-                          activated={selectedManager.some(
-                            (item) => item.memberName === member.user_name
-                          )}
-                          addManager={() => {
-                            addManager(member.user_name, member.user_index);
-                          }}
-                          deleteManager={() => {
-                            deleteManager(member.name);
-                          }}
-                        />
-                      );
-                    })}
-                </div>
-              </div>
-              <span className="mr-auto text-sm inProgress_time">
-                0월 00일 00 : 00
-              </span>
-              <AiOutlinePlusCircle
-                className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
-                onClick={() => {
-                  if (
-                    addTodo_inProgress.title.trim() === "" ||
-                    addTodo_inProgress.todo.trim() === ""
-                  )
-                    return;
-
-                  if (selectedManager.length === 0) {
-                    alert("담당자를 1명 이상 선택해 주세요!");
-                    return;
-                  }
-                  resetAddTodo("inProgress");
-                  hideAddTodo("inProgress");
-                  addTodoAtDB("inProgress");
-                }}
-              />
-            </div>
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
@@ -596,7 +423,8 @@ export default function Board() {
                   return null;
                 })}
               <PlusTodoBtn
-                showAddTodo={showAddTodo}
+                setIsModalOpen={setIsModalOpen}
+                setStatus={setStatus}
                 filterName={"inProgress"}
               />
             </div>
@@ -612,85 +440,7 @@ export default function Board() {
               <div className="w-3 h-3 bg-green-600 rounded-full"></div>
               <span className="text-white">완료됨</span>
             </div>
-            <div className={`${styles.addTodo} done relative`}>
-              <input
-                className={styles.addTodoTitle}
-                type="text"
-                placeholder="제목을 입력해주세요!"
-                value={addTodo_done.title}
-                onChange={(e) => {
-                  setAddTodo_done({
-                    ...addTodo_done,
-                    title: e.target.value,
-                  });
-                }}
-              />
 
-              <div className={styles.textarea_container}>
-                <textarea
-                  className={styles.textarea}
-                  value={addTodo_done.todo}
-                  onChange={(e) => {
-                    setAddTodo_done({
-                      ...addTodo_done,
-                      todo: e.target.value,
-                    });
-                  }}
-                ></textarea>
-                <span
-                  className={`${styles.textarea_placeholder} donePlaceholder`}
-                >
-                  무엇을 해야 하나요?
-                </span>
-              </div>
-              <div className="mr-auto flex items-center gap-1">
-                <span>담당자 선택</span>
-                <div
-                  className={`flex gap-2 grow w-80 overflow-auto ${styles.managerSelector}`}
-                >
-                  {memberList &&
-                    memberList.map((member, index) => {
-                      return (
-                        <Member
-                          key={index}
-                          memberName={member.user_name}
-                          activated={selectedManager.some(
-                            (item) => item.memberName === member.user_name
-                          )}
-                          addManager={() => {
-                            addManager(member.user_name, member.user_index);
-                          }}
-                          deleteManager={() => {
-                            deleteManager(member.name);
-                          }}
-                        />
-                      );
-                    })}
-                </div>
-              </div>
-              <span className="mr-auto text-sm done_time">
-                0월 00일 00 : 00
-              </span>
-              <AiOutlinePlusCircle
-                className="text-2xl absolute right-3 bottom-3 cursor-pointer transition-all hover:scale-125 text-white"
-                onClick={() => {
-                  if (
-                    addTodo_done.title.trim() === "" ||
-                    addTodo_done.todo.trim() === ""
-                  )
-                    return;
-
-                  if (selectedManager.length === 0) {
-                    alert("담당자를 1명 이상 선택해 주세요!");
-                    return;
-                  }
-
-                  resetAddTodo("done");
-                  hideAddTodo("done");
-                  addTodoAtDB("done");
-                }}
-              />
-            </div>
             <div className={styles.todosContainer}>
               {todos &&
                 todos.map((item, idx) => {
@@ -706,7 +456,11 @@ export default function Board() {
                   }
                   return null;
                 })}
-              <PlusTodoBtn showAddTodo={showAddTodo} filterName={"done"} />
+              <PlusTodoBtn
+                setIsModalOpen={setIsModalOpen}
+                setStatus={setStatus}
+                filterName={"done"}
+              />
             </div>
           </section>
         </div>

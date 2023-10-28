@@ -22,33 +22,44 @@ export function addManagerToSchedule(scheduleIdx, managerIdx) {
 }
 
 export function addScheduleByToDo({
-  teamIndex,
+  team,
   title,
   content,
   status,
-  startDate,
-  endDate,
+  start_date,
+  end_date,
   writer,
-  createdAt,
+  created_at,
   color,
 }) {
-  return axios.post("/schedule/put", {
-    team: teamIndex,
+  console.log({
+    team: team,
     title: title,
     content: content,
     status: status,
-    start_date: startDate,
-    end_date: endDate,
+    start_date: start_date,
+    end_date: end_date,
     writer: writer,
-    created_at: createdAt,
+    created_at: created_at,
+    color: color,
+  });
+  return axios.post("/schedule/put", {
+    team: team,
+    title: title,
+    content: content,
+    status: status,
+    start_date: start_date,
+    end_date: end_date,
+    writer: writer,
+    created_at: created_at,
     color: color,
   });
 }
 
 export function deleteEvent(deleteEventIndex) {
-  return axios.post("schedule/delete", { 
-    index: deleteEventIndex 
-  })
+  return axios.post("schedule/delete", {
+    index: deleteEventIndex,
+  });
 }
 
 export function modifyEvent({
@@ -60,9 +71,9 @@ export function modifyEvent({
   endDate,
   writer,
   lastUpdate,
-  color
+  color,
 }) {
-  return axios.post("/schedule/modify  ", { 
+  return axios.post("/schedule/modify  ", {
     team: teamIndex,
     title: title,
     content: content,
@@ -72,5 +83,5 @@ export function modifyEvent({
     writer: writer,
     last_update: lastUpdate,
     color: color,
-  })
+  });
 }
