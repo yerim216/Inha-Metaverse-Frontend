@@ -106,7 +106,9 @@ export default function Profile() {
   }, []);
 
   const logout = () => {
-    window.localStorage.clear();
+    // window.localStorage.clear();
+    window.localStorage.removeItem("recoil-persist");
+
     setUserLogin(null);
     navigate("/");
     window.scrollTo({ top: 0, behavior: "auto" });

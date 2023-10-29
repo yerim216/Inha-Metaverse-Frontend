@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
-import { useRecoilState } from "recoil";
-import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../APIs/userinfo";
 import { addJob, addMember, createTeam, getJobs } from "../APIs/team";
@@ -269,7 +267,10 @@ export default function CreateProject() {
                 value={inputs.recruitment}
                 onChange={(e) => {
                   setInputs((cur) => {
-                    return { ...cur, recruitment: e.target.value };
+                    return {
+                      ...cur,
+                      recruitment: e.target.value < 0 ? 0 : e.target.value,
+                    };
                   });
                 }}
               />

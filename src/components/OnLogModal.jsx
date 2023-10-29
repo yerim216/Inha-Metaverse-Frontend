@@ -33,7 +33,8 @@ function Modal({ onClose }) {
     window.location.href = "/";
     setUser(null);
 
-    window.localStorage.clear();
+    // window.localStorage.clear();
+    window.localStorage.removeItem("recoil-persist");
   };
   useOutSideClick(modalRef, handleClose);
 
