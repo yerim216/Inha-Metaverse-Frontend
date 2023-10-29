@@ -15,13 +15,12 @@ function ModalComponent({
   endDay,
   title,
   scheduleIndex,
-  eventColor,
+  eventColor
 }) {
   const { teamIndex } = useOutletContext();
 
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIndex = userLogin.user_index;
-  console.log(typeof userIndex);
 
   const [inputValue, setInputValue] = useState(""); //event 제목 입력 관리
   const inputRef = useRef(null);
@@ -66,7 +65,11 @@ function ModalComponent({
     if (eventColor === null && selectedColor === null) {
       eventColor = "#E9F0FE";
     }
+    if(eventColor != null){
+      setSelectedColor(eventColor);
+    }
     setInputValue(title);
+
   }, [startDay]);
 
   //이벤트 삭제
@@ -76,7 +79,6 @@ function ModalComponent({
     deleteEvent(number)
       .then((response) => {
         console.log("이벤트 삭제 완료 : " + response);
-        // fetchData();
       })
       .catch((error) => {
         console.error("Error delete event from DB:", error);
@@ -103,19 +105,18 @@ function ModalComponent({
 
   const createTime = new Date();
   const createTimestamp = createTime.toISOString();
-  console.log(createTimestamp);
   const status = "1";
 
   const addEventsToDB = async () => {
     addScheduleByToDo({
-      teamIndex: teamIndex,
+      team: teamIndex,
       title: inputValue || "New Event",
       content: inputNoteValue,
       status: 1,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
+      start_date: formattedStartDate,
+      end_date: formattedEndDate,
       writer: userIndex,
-      createdAt: createTimestamp,
+      created_at: createTimestamp,
       color: selectedColor,
     })
       .then(function () {
@@ -128,24 +129,14 @@ function ModalComponent({
 
   const modifyEvents = () => {
     modifyEvent({
-      // teamIndex: teamIndex,
-      // title: "New Event",
-      // content: 'hi',
-      // status: 1,
-      // startDate: "2023-10-10T00:00:00.000Z",
-      // endDate: "2023-10-12T00:00:00.000Z",
-      // writer: userIndex,
-      // lastUpdate: '2023-08-18T13:53:48.000Z',
-      // color: '#E9F0FE'
-
-      teamIndex: teamIndex,
+      team: teamIndex,
       title: inputValue || "New Event",
       content: inputNoteValue,
       status: 1,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
+      start_date: formattedStartDate,
+      end_date: formattedEndDate,
       writer: userIndex,
-      lastUpdate: createTimestamp,
+      last_update: createTimestamp,
       color: selectedColor,
     })
       .then(function () {
@@ -169,6 +160,8 @@ function ModalComponent({
 
   const handleClose2 = () => {
     // scheduleIndex === null ? addEventsToDB() : modifyEvents();
+    // addEventsToDB();
+    // handleDelete();
     modifyEvents();
     onRequestClose();
     setInputValue("");

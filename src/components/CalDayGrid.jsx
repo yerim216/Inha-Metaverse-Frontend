@@ -7,8 +7,10 @@ import CalEventBar from "../components/CalEventBar";
 import CalEventClickModal from "../components/CalEventClickModal";
 import SetEventModal from "../components/SetEventModal";
 import moment from 'moment';
-
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 import { getScheduleCalendar } from "../APIs/schedule";
+import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 import { object } from "prop-types";
 import axios from 'axios';
 
@@ -18,18 +20,30 @@ export default function CalDayGrid(props) {
     const [eventArr,setEventArr] = useState([]);
     let [scheduleByDate,setScheduleByDate] = useState({});
     const [eventOver,setEventOver] = useState(0);
+    // const [userName, setUserName] = useState('');
+
+    // const [userLogin, setUserLogin] = useRecoilState(userState);
+    // const userIndex = userLogin.user_index;
 
 
-    const [selectedID, setSelectedId] = useState([]);
-    const requestURL = `${window.baseURL}`;
-
+    // const [selectedID, setSelectedId] = useState([]);
+    // const requestURL = `${window.baseURL}`;
+    // useEffect(() => {
+    //     getUserInfo(userIndex)
+    //       .then(function (res) {
+    //         setUserName(res.data[0].user_name);
+    //         console.log(res.data[0].user_name);
+    //       })
+    //       .catch(function (error) {
+    //         console.log("데이터가 없어서 그래요!!" + error);
+    //       });
+    //   }, []);
       
     const fetchData = () => {
         getScheduleCalendar(teamIndex)
         .then(function (response) {
             setEventArr([...response.data]);
             const a = JSON.stringify(response);
-            console.log("get Event List" + a)
             })
             .catch(function (error) {
             console.log(error);
@@ -506,7 +520,7 @@ function formatDateToYYYYMMDD(dateString) {
                                             barLen = daysDiff;
                                             eventBarLen = barLen*10.4 + (barLen -1)*0.8 -0.8;
                                         }
-                                      
+                                        console.log(events);
                                         const formattedDStart = moment(formatStartDates, 'YYYY-MM-DD').toDate();
                                         const formattedDEnd = moment(formatEndDates, 'YYYY-MM-DD').toDate();
 
@@ -563,7 +577,7 @@ function formatDateToYYYYMMDD(dateString) {
                                     {emptyBoxes}
                                     {Array.from({ length: Math.min(remainingItems, 1) }, (_, i) => (
                                         <>
-                                            <span key={index} onClick={()=>clickEvent(events.title,events.startDay,events.endDay,events.index,events.color)} className={styles.eventBarWrap}>
+                                            <span key={index} onClick={()=>clickEvent(events.title,events.startDay,events.endDay,events.index,events.color,events.created,events.writer)} className={styles.eventBarWrap}>
                                                 {events.jsx}
                                             </span>
                                         </>

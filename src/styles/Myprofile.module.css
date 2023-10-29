@@ -65,6 +65,7 @@
   height: 182px;
   object-fit: cover;
   border-radius: 100%;
+  margin-top: 5vh;
 }
 
 @media screen and (max-width: 768px) {
@@ -234,9 +235,11 @@
 }
 
 .profileInfo{
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* margin: auto 0; */
+  display: flex;
+  flex-direction: row;
+  margin: auto 0;
+  margin-bottom: 2%;
+  
 }
 
 .nameContainer {
@@ -491,7 +494,7 @@
 
   color: #ffffff;
   padding: 5px;
-  margin-left: 105px;
+  margin-left: 2vw;
 }
 .userName {
   font-weight: 1600;

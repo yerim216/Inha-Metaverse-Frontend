@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useOutletContext, useHistory } from "react-router-dom";
 import styles from "../styles/Mycalendar.module.css";
-import RenderCalendarCell from "../components/RenderCalendarCell";
 import SetEventModal from "../components/SetEventModal";
 import CalDayGrid from "../components/CalDayGrid";
 import DatePicker from 'react-datepicker';
@@ -15,8 +14,9 @@ export default function Mycalendar() {
   const [title, setTitle] = useState(null);
   const [scheduleIndex,setScheduleIndex] = useState(null);
   const [eventColor,setEventColor] = useState(null);
-
+  const [createdTime,setCreatedTime] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [writer,setWriter] = useState(null);
 
   console.log(title,startDay,endDay);
   const openModal = () => {
@@ -132,7 +132,10 @@ export default function Mycalendar() {
           setIsModalOpen={setIsModalOpen} 
           setScheduleIndex = {setScheduleIndex} 
           setEventColor = {setEventColor} 
-          isModalOpen = {isModalOpen}/>
+          isModalOpen = {isModalOpen}
+          setCreatedTime = {setCreatedTime}
+          setWriter = {setWriter}
+          />
 
           <SetEventModal
             className={styles.setEvnet}
@@ -144,6 +147,8 @@ export default function Mycalendar() {
             title = {title}
             scheduleIndex = {scheduleIndex}
             eventColor={eventColor}
+            created = {createdTime}
+            writer ={writer}
           />
         </div>
       </div>

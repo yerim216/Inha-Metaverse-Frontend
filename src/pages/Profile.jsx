@@ -268,8 +268,7 @@ export default function Profile() {
         >
           프로필 수정
         </button>
-        <div className={style.profileTop}>
-          {/* <div className={style.profileInfo}> */}
+        <div className={styles.profileTop}>
             <div className={styles.nameContainer}>
                  {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
                   <p className={styles.skill}> 팀 스킬이 없어요 </p>
@@ -300,7 +299,7 @@ export default function Profile() {
             </div>
           {/* </div> */}
 
-          <button
+          {/* <button
             className={style.pointButton}
             onClick={() => {
               // navigate("/createmyprofile");
@@ -309,40 +308,40 @@ export default function Profile() {
           >
             콕! 찔러보기
             <p className={style.pointEmoji}>🤏🏻</p>
-          </button>
+          </button> */}
+
+          <div className="flex justify-center w-full -mt-10 gap-8 h-50">
+            <button
+              className={styles.applyBtn}
+              onClick={() => {
+                setApplyModalOpen(true);
+              }}
+            >
+              지원하기
+            </button>
+            <button
+              className={styles.leaveBtn}
+              onClick={() => {
+                const returnVal = window.confirm(
+                  "해당 프로젝트에서 탈퇴하시겠습니까?"
+                );
+                if (returnVal === true) {
+                  handleLeaveBtn();
+                }
+              }}
+            >
+              탈퇴하기
+            </button>
+          </div>
         </div>
 
         <div className={styles.grayLine}></div>
-
-        {/* <div className="flex justify-center w-full -mt-10 gap-8">
-          <button
-            className={styles.applyBtn}
-            onClick={() => {
-              setApplyModalOpen(true);
-            }}
-          >
-            지원하기
-          </button>
-          <button
-            className={styles.leaveBtn}
-            onClick={() => {
-              const returnVal = window.confirm(
-                "해당 프로젝트에서 탈퇴하시겠습니까?"
-              );
-              if (returnVal === true) {
-                handleLeaveBtn();
-              }
-            }}
-          >
-            탈퇴하기
-          </button>
-        ,d</div> */}
 
         <div className={styles.teamInfoBox}>
             {/* <div className={styles.teamSkillImgWrap}> */}
               <p className={styles.menuText} style={{color: tm.mainTextColor}}> 사용 스킬 </p>
               {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
-                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
+                  <p style={{color: tm.mainTextColor}}> 팀 스킬이 없습니다 </p>
                 )  : 
                 (
                   teamDetail.teamInfo.skills.map((skill,index) => {
@@ -360,7 +359,7 @@ export default function Profile() {
         <div className={styles.grayLine}></div>
 
         
-        <p className={styles.txt}> Team Member</p>
+        <p className={styles.txt} style={{color: tm.mainTextColor}}> 프로젝트의 팀원이예요 </p>
 
         <div className={styles.memSearch}>
           <div className={styles.wrapp}>
