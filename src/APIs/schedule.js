@@ -88,7 +88,7 @@ export function modifyEvent({
     team: team,
     title: title,
     content: content,
-    status: status,
+    status: 1,
     start_date: start_date,
     end_date: end_date,
     writer: writer,

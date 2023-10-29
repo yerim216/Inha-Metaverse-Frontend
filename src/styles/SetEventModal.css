@@ -82,18 +82,22 @@ p {
 .closeButton {
   margin-top: 10px;
   display: inline-block;
+  height: 5vh;
+  width: 20%;
 }
 
 .deleteButton {
   margin-top: 10px;
   display: inline-block;
+  height: 5vh;
+  width: 20%;
 }
 
 .buttonWrap {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 43%;
+  gap: 23%;
 }
 /* ColorPicker.module.css */
 .color-circle {

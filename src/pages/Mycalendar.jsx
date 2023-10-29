@@ -17,8 +17,8 @@ export default function Mycalendar() {
   const [createdTime,setCreatedTime] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [writer,setWriter] = useState(null);
+  const [note,setNote] = useState(null);
 
-  console.log(title,startDay,endDay);
   const openModal = () => {
     setChangeEvent(false);
     setIsModalOpen(true);
@@ -129,6 +129,7 @@ export default function Mycalendar() {
           setStartDay={setStartDay} 
           setEndDay={setEndDay} 
           setTitle = {setTitle} 
+          setNote = {setNote}
           setIsModalOpen={setIsModalOpen} 
           setScheduleIndex = {setScheduleIndex} 
           setEventColor = {setEventColor} 
@@ -149,6 +150,7 @@ export default function Mycalendar() {
             eventColor={eventColor}
             created = {createdTime}
             writer ={writer}
+            note = {note}
           />
         </div>
       </div>

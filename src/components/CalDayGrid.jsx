@@ -259,13 +259,14 @@ function formatDateToYYYYMMDD(dateString) {
     return fullDate;
     } 
 
-  const clickEvent = (title,startDay,endDay,index,color) =>{
+  const clickEvent = (title,startDay,endDay,index,color,note) =>{
     props.setStartDay(startDay);
     props.setEndDay(endDay);
     props.setTitle(title);
     props.setIsModalOpen(true);
     props.setScheduleIndex(index);
     props.setEventColor(color);
+    props.setNote(note);
   };
 
   const moreEvent = {
@@ -480,6 +481,7 @@ function formatDateToYYYYMMDD(dateString) {
                                         title: event.schedule_title,
                                         index: event.schedule_index,
                                         color: event.schedule_color,
+                                        note: event.schedule_content,
                                         jsx: (
                                           <div key={event.schedule_index}>
                                             <CalEventBar 
@@ -531,6 +533,7 @@ function formatDateToYYYYMMDD(dateString) {
                                             title: events.schedule_title,
                                             index: events.schedule_index,
                                             color: events.schedule_color,
+                                            note: events.schedule_content,
                                             jsx: (
                                               <div key={events.schedule_index}>
                                                 <CalEventBar 
@@ -577,7 +580,7 @@ function formatDateToYYYYMMDD(dateString) {
                                     {emptyBoxes}
                                     {Array.from({ length: Math.min(remainingItems, 1) }, (_, i) => (
                                         <>
-                                            <span key={index} onClick={()=>clickEvent(events.title,events.startDay,events.endDay,events.index,events.color,events.created,events.writer)} className={styles.eventBarWrap}>
+                                            <span key={index} onClick={()=>clickEvent(events.title,events.startDay,events.endDay,events.index,events.color,events.note)} className={styles.eventBarWrap}>
                                                 {events.jsx}
                                             </span>
                                         </>

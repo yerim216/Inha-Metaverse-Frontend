@@ -15,7 +15,8 @@ function ModalComponent({
   endDay,
   title,
   scheduleIndex,
-  eventColor
+  eventColor,
+  note
 }) {
   const { teamIndex } = useOutletContext();
 
@@ -68,7 +69,13 @@ function ModalComponent({
     if(eventColor != null){
       setSelectedColor(eventColor);
     }
-    setInputValue(title);
+    if(title !== null){
+      setInputValue(title);
+
+    }
+    if(note !== null){
+      setInputNoteValue(note);
+    }
 
   }, [startDay]);
 
@@ -86,9 +93,9 @@ function ModalComponent({
 
     onRequestClose();
     setInputValue("");
+    setInputNoteValue("");
     setSelectedStartDate(new Date());
     setSelectedEndDate(new Date());
-    setInputNoteValue("");
   };
 
   const startDateObject = new Date(selectedStartDate);
@@ -109,7 +116,7 @@ function ModalComponent({
 
   const addEventsToDB = async () => {
     addScheduleByToDo({
-      team: teamIndex,
+      team: parseInt(teamIndex),
       title: inputValue || "New Event",
       content: inputNoteValue,
       status: 1,
@@ -129,7 +136,7 @@ function ModalComponent({
 
   const modifyEvents = () => {
     modifyEvent({
-      team: teamIndex,
+      team: parseInt(teamIndex),
       title: inputValue || "New Event",
       content: inputNoteValue,
       status: 1,
@@ -152,22 +159,21 @@ function ModalComponent({
     addEventsToDB();
     onRequestClose();
     setInputValue("");
+    setInputNoteValue("");
     setSelectedStartDate(new Date());
     setSelectedEndDate(new Date());
-    setInputNoteValue("");
     setSelectedColor(null);
   };
 
   const handleClose2 = () => {
-    // scheduleIndex === null ? addEventsToDB() : modifyEvents();
-    // addEventsToDB();
-    // handleDelete();
-    modifyEvents();
+    handleDelete(scheduleIndex);
+    addEventsToDB();
+    // modifyEvents();
     onRequestClose();
     setInputValue("");
+    setInputNoteValue("");
     setSelectedStartDate(new Date());
     setSelectedEndDate(new Date());
-    setInputNoteValue("");
     setSelectedColor(null);
   };
 
@@ -281,7 +287,7 @@ function ModalComponent({
             Save
           </button>
         ) : (
-          <button className="closeButton" onClick={() => handleClose2()}>
+          <button className="closeButton" onClick={() => handleClose2(scheduleIndex)}>
             Save
           </button>
         )}
