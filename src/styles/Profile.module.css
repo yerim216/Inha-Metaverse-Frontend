@@ -514,7 +514,7 @@ footer {
   margin-top: 30px;
 }
 
-.skill{
+.skill {
   display: flex;
   justify-content: center;
   color: white;
@@ -522,9 +522,9 @@ footer {
   background-color: black;
   padding: 8px 20px;
   border-radius: 22.5px;
-  border: 0.5px solid #7C7C7C;
+  border: 0.5px solid #7c7c7c;
 
-  color: #7C7C7C;
+  color: #7c7c7c;
   text-align: center;
   font-family: Noto Sans;
   font-size: 14px;
@@ -551,24 +551,23 @@ footer {
   flex-direction: column;
   margin-top: 13vh;
   float: left;
- 
 
   /* align-items: center; */
 
   justify-content: flex-start;
 }
 
-.menuText{
+.menuText {
   opacity: 0.7;
   font-family: Noto Sans;
   font-size: 22px;
   font-style: normal;
   font-weight: 500;
   line-height: 34px; /* 154.545% */
-  width:90%;
+  width: 90%;
 }
 
-.profileTop{
+.profileTop {
   display: flex;
   flex-direction: row;
   padding-top: 5%;
@@ -579,7 +578,7 @@ footer {
 .grayLine {
   width: 100%;
   height: 0.3px;
-  background-color: #D3D3D3;
+  background-color: #d3d3d3;
   opacity: 0.5;
   margin-top: 5vh;
   margin-bottom: 5vh;
@@ -589,14 +588,14 @@ footer {
   max-width: 20%;
 }
 
-.teamSkillImgWrap{
+.teamSkillImgWrap {
   /* display: flex; */
   /* flex-direction: row; */
 }
 
-.teamInfoBox{
+.teamInfoBox {
   display: grid;
-  grid-template-columns: 10% 90%; 
+  grid-template-columns: 10% 90%;
   grid-template-rows: repeat(3, 1fr); /* 세로 3칸으로 나눔 */
   gap: 5px; /* 각 그리드 아이템 사이의 간격 설정 */
   width: 100%; /* 그리드 컨테이너의 폭 설정 */

@@ -83,6 +83,8 @@ export default function TeamCard({ team }) {
     else setTm(theme.darkTheme.projectManager);
   }, [themeMode]);
 
+  console.log(team);
+
   return (
     <div
       className="relative w-96 h-96"
@@ -137,7 +139,7 @@ export default function TeamCard({ team }) {
       >
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">
           {team.teamInfo.skills[0] !== null ? (
-            <div className={styles.teamSkills}>{team.numOfPeople.team_cnt}</div>
+            <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
           ) : (
             <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
           )}

@@ -76,6 +76,42 @@ export default function ProjectMain() {
     return Math.floor(daysDifference) + 1 + "일";
   };
 
+  const getJobByIdx = (index) => {
+    if (!index) return "배정되지 않음";
+
+    if (index === 1) {
+      return "개발기획";
+    } else if (index === 2) {
+      return "서비스기획";
+    } else if (index === 3) {
+      return "프로덕트기획";
+    } else if (index === 4) {
+      return "영업기획";
+    } else if (index === 5) {
+      return "UI디자인";
+    } else if (index === 6) {
+      return "UX디자인";
+    } else if (index === 7) {
+      return "프로덕트 디자인";
+    } else if (index === 8) {
+      return "편집 디자인";
+    } else if (index === 9) {
+      return "REACT";
+    } else if (index === 10) {
+      return "SWIFT";
+    } else if (index === 11) {
+      return "KOTLIN";
+    } else if (index === 12) {
+      return "JAVA";
+    } else if (index === 13) {
+      return "NODE.JS";
+    } else if (index === 14) {
+      return "SPRING BOOT";
+    } else if (index === 15) {
+      return "AI";
+    }
+  };
+
   return (
     <section className="w-full h-full p-4 overflow-auto hiddenScrollBar xl:pr-80 2xl:pr-96">
       {/* 우측에 팀원 프로필 보여주는 곳 */}
@@ -134,7 +170,8 @@ export default function ProjectMain() {
                       {member.user_name}
                     </span>
                     <span className="text-[#7C7C7C] text-[12px]">
-                      {member.user_job || "배정되지 않음"}
+                      {/* {member.user_job || "배정되지 않음"} */}
+                      {getJobByIdx(member.user_job)}
                     </span>
                   </div>
                 </div>

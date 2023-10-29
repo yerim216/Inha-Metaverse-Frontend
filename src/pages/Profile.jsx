@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Footer from "../components/Footer";
 import {
   addMember,
@@ -202,6 +201,22 @@ export default function Profile() {
     else setTm(theme.darkTheme.profile);
   }, [themeMode]);
 
+  // 현재 자신이 팀장인지의 여부에 따라, 지원하기 및 탈퇴하기 버튼을 보여줄 지 정함.
+  const [isTeamLeader, setIsTeamLeader] = useState(false);
+
+  const [isTeamMember, setIsTeamMember] = useState(false);
+  const userIndex = userLogin.user_index;
+  useEffect(() => {
+    if (teamDetail) {
+      teamDetail.teamMembers.map((member) => {
+        if (member.user_index === userIndex) {
+          setIsTeamMember(true);
+          if (member.is_teamleader) setIsTeamLeader(true);
+        }
+      });
+    }
+  }, [teamDetail]);
+
   return (
     <section className={styles.contain}>
       <ApplyModal
@@ -269,16 +284,20 @@ export default function Profile() {
           프로필 수정
         </button>
         <div className={styles.profileTop}>
-            <div className={styles.nameContainer}>
-                 {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
-                  <p className={styles.skill}> 팀 스킬이 없어요 </p>
-                )  : 
-                (
-                  teamDetail.teamInfo.skills.map((skill,index) => {
-                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
-                  })
-                ) )
-                }
+          <div className={styles.nameContainer}>
+            {teamDetail &&
+              (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                <p className={styles.skill}> 팀 스킬이 없어요 </p>
+              ) : (
+                teamDetail.teamInfo.skills.map((skill, index) => {
+                  return (
+                    <p key={index} className={styles.skill}>
+                      {" "}
+                      {skill.skill_name}{" "}
+                    </p>
+                  );
+                })
+              ))}
 
             {/* 팀 이름 */}
             <p className={styles.name}>
@@ -297,69 +316,77 @@ export default function Profile() {
               )}
             </div>
           </div>
-          {/* </div> */}
 
-          {/* <button
-            className={style.pointButton}
-            onClick={() => {
-              // navigate("/createmyprofile");
-              window.scrollTo({ top: 0, behavior: "auto" });
-            }}
-          >
-            콕! 찔러보기
-            <p className={style.pointEmoji}>🤏🏻</p>
-          </button> */}
-
-          <div className="flex justify-center w-full -mt-10 gap-8 h-50">
-            <button
-              className={styles.applyBtn}
-              onClick={() => {
-                setApplyModalOpen(true);
-              }}
-            >
-              지원하기
-            </button>
-            <button
-              className={styles.leaveBtn}
-              onClick={() => {
-                const returnVal = window.confirm(
-                  "해당 프로젝트에서 탈퇴하시겠습니까?"
-                );
-                if (returnVal === true) {
-                  handleLeaveBtn();
-                }
-              }}
-            >
-              탈퇴하기
-            </button>
-          </div>
+          {!isTeamLeader && (
+            <div className="flex justify-center gap-8">
+              {!isTeamMember ? (
+                <button
+                  className={styles.applyBtn}
+                  onClick={() => {
+                    setApplyModalOpen(true);
+                  }}
+                >
+                  지원하기
+                </button>
+              ) : (
+                <button
+                  className={styles.leaveBtn}
+                  onClick={() => {
+                    const returnVal = window.confirm(
+                      "해당 프로젝트에서 탈퇴하시겠습니까?"
+                    );
+                    if (returnVal === true) {
+                      handleLeaveBtn();
+                    }
+                  }}
+                >
+                  탈퇴하기
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         <div className={styles.grayLine}></div>
 
         <div className={styles.teamInfoBox}>
-            {/* <div className={styles.teamSkillImgWrap}> */}
-              <p className={styles.menuText} style={{color: tm.mainTextColor}}> 사용 스킬 </p>
-              {teamDetail && (teamDetail.teamInfo.skills[0].skill_name === null ? (
-                  <p style={{color: tm.mainTextColor}}> 팀 스킬이 없습니다 </p>
-                )  : 
-                (
-                  teamDetail.teamInfo.skills.map((skill,index) => {
-                    return <p key={index} className={styles.skill}> {skill.skill_name} </p>
-                  })
-                ) )
-              }
-            {/* </div> */}
-            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 관련태그 </p>
-            <div style={{color: tm.mainTextColor}}> 태그가 없습니다 </div>
-            <p className={styles.menuText} style={{color: tm.mainTextColor}}> 팀 </p>
-            <div style={{color: tm.mainTextColor}}> 팀 별명이 없습니다 </div>
+          {/* <div className={styles.teamSkillImgWrap}> */}
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            사용 스킬{" "}
+          </p>
+          {teamDetail &&
+            (teamDetail.teamInfo.skills[0].skill_name === null ? (
+              <p style={{ color: tm.mainTextColor }}> 팀 스킬이 없습니다 </p>
+            ) : (
+              teamDetail.teamInfo.skills.map((skill, index) => {
+                return (
+                  <p key={index} className={styles.skill}>
+                    {" "}
+                    {skill.skill_name}{" "}
+                  </p>
+                );
+              })
+            ))}
+          {/* </div> */}
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            관련태그{" "}
+          </p>
+          <div style={{ color: tm.mainTextColor }}> 태그가 없습니다 </div>
+          <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
+            {" "}
+            팀{" "}
+          </p>
+          <div style={{ color: tm.mainTextColor }}> 팀 별명이 없습니다 </div>
         </div>
 
         <div className={styles.grayLine}></div>
 
-        
-        <p className={styles.txt} style={{color: tm.mainTextColor}}> 프로젝트의 팀원이예요 </p>
+        <p className={styles.txt} style={{ color: tm.mainTextColor }}>
+          {" "}
+          프로젝트의 팀원이예요{" "}
+        </p>
 
         <div className={styles.memSearch}>
           <div className={styles.wrapp}>
