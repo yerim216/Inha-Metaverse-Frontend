@@ -389,9 +389,10 @@ export default function CreateProject() {
                   localStorage.getItem("recoil-persist")
                 ).userState.user_index;
                 const teamName = await createTeam(userIndex, inputs);
-                handleAddJob(teamName) && handleAddCustomJob(teamName)
-                  ? alert("팀이 성공적으로 생성되었습니다!") && navigate("/")
-                  : alert("예상치 못한 오류가 발생했습니다!");
+                if (handleAddJob(teamName) && handleAddCustomJob(teamName)) {
+                  alert("팀이 성공적으로 생성되었습니다!");
+                  navigate("/");
+                } else alert("예상치 못한 오류가 발생했습니다!");
               }
             }}
           >

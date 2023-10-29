@@ -125,13 +125,16 @@ export default function Board() {
       color: null,
     });
 
+    const createTime = new Date();
+    const createTimestamp = createTime.toISOString();
+
     addScheduleByToDo({
       team: teamIndex,
       title: addTodo.title,
       content: addTodo.todo,
       status: status,
-      start_date: null,
-      end_date: null,
+      start_date: createTimestamp,
+      end_date: createTimestamp,
       writer: userIndex,
       created_at: addTodo.time,
       color: null,
@@ -347,6 +350,7 @@ export default function Board() {
                     alert("담당자를 1명 이상 선택해 주세요!");
                     return;
                   }
+                  setSelectedManager([]);
                   resetAddTodo();
                   addTodoAtDB();
                 }}

@@ -73,7 +73,7 @@ export default function ProjectMain() {
     // 밀리초를 일로 변환 (1일 = 24시간 * 60분 * 60초 * 1000밀리초)
     const daysDifference = timeDifference / (24 * 60 * 60 * 1000);
 
-    return Math.floor(daysDifference) + "일";
+    return Math.floor(daysDifference) + 1 + "일";
   };
 
   return (

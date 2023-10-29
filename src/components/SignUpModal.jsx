@@ -661,7 +661,7 @@ export default function SignUpModal(props) {
                               <span>{skill.skill_name}</span>
                               <img
                                 width={24}
-                                src="/public_assets/skills/skill_img_1.svg"
+                                src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}
                                 alt="nextBtn"
                               />
                             </button>
