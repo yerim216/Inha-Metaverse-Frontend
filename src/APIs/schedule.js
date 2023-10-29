@@ -63,25 +63,36 @@ export function deleteEvent(deleteEventIndex) {
 }
 
 export function modifyEvent({
-  teamIndex,
+  team,
   title,
   content,
   status,
-  startDate,
-  endDate,
+  start_date,
+  end_date,
   writer,
-  lastUpdate,
+  last_update,
   color,
 }) {
-  return axios.post("/schedule/modify  ", {
-    team: teamIndex,
+  console.log({
+    team: team,
     title: title,
     content: content,
     status: status,
-    start_date: startDate,
-    end_date: endDate,
+    start_date: start_date,
+    end_date: end_date,
     writer: writer,
-    last_update: lastUpdate,
+    last_update: last_update,
+    color: color,
+  })
+  return axios.post("/schedule/modify  ", {
+    team: team,
+    title: title,
+    content: content,
+    status: status,
+    start_date: start_date,
+    end_date: end_date,
+    writer: writer,
+    last_update: last_update,
     color: color,
   });
 }

@@ -26,6 +26,7 @@ export default function Profile() {
   const [responseArray, setResponseArray] = useState([]);
   const navigate = useNavigate();
   const userIndex = userLogin.user_index;
+  console.log(userData);
 
   const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
 
