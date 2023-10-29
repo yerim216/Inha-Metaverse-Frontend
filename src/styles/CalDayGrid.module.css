@@ -15,6 +15,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    cursor: pointer;
 }
 
 .dayBox{
@@ -28,7 +29,6 @@
     background: #323232;
     margin-right:12px;
 }
-
 
 .blueText {
     color: #17A1FA;

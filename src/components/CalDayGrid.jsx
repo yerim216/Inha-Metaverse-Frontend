@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useRef, useState} from "react";
 import styles from "../styles/CalDayGrid.module.css";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, set} from 'date-fns';
 import { useOutletContext, useHistory } from "react-router-dom";
@@ -268,14 +268,63 @@ function formatDateToYYYYMMDD(dateString) {
     props.setEventColor(color);
     props.setNote(note);
   };
+  let eventNumByDay = 0;
 
-  const moreEvent = {
-    // gridTemplateRows: `repeat(${}, ${})`
+  let eventCol = 0;
+  let lineHeight = 0;
+//   const [dayClick,setDayClick] = useState(0);
+
+  const [clickedRow, setClickedRow] = useState(-1);
+
+  const showAllEvents = (dateValue) =>{
+    
+        eventCol = Math.floor(dateValue / 7);
+        setWideRow();
+        // console.log("날짜 클릭 이벤트 발생");
+        // if(eventNumByDay >3){
+        //     lineHeight = 9 * (eventNumByDay+1);
+        // }
+    
   }
+  
+  const setWideRow = () => {
+    const rowHeightArr = [10.4,10.4,10.4,10.4,10.4,10.4]
+    rowHeightArr[eventCol] += 5;
+
+    let styleVariable = "";
+    rowHeightArr.map(height => {
+        styleVariable += (height+"vh ")
+    })
+
+    // eventCol이 몇줄까지 확장되어야 하는지 계산 => 그 값만큼만 더해주면 됨.
+
+    if(eventCol === clickedRow){
+        // 같은거 다시누른거
+        // 꺼주고 값을 다시 -1로
+        gridRef.current.style.gridTemplateRows = "repeat(6, 10.4vh)"
+        dayBoxRef.current.style.gridTemplateRows = "repeat(, 1fr)"
+        console.log("꺼주기")
+        setClickedRow(-1);
+    } else {
+        gridRef.current.style.gridTemplateRows = styleVariable
+        console.log("켜주기")
+        setClickedRow(eventCol);
+    }
+  }
+
+  const gridRef = useRef();
+  const dayBoxRef = useRef();
+  const getMaxEventRow = (rowNum) => {
+
+  };
+  const [gridEventNums, setGridEventNums] = useState([]);
+  useEffect(()=>{},[gridEventNums])
 
   return (    
     <>
-    <div className={styles.dayGrid} style={moreEvent}>
+    <div className={styles.dayGrid} ref={gridRef} style={{
+        gridTemplateRows: "repeat(6, 10.4vh);"
+    }}>
     
     {dayEntries.map ((day,i) => {
         const dateValue = dayEntries[i][1];
@@ -290,12 +339,15 @@ function formatDateToYYYYMMDD(dateString) {
         let priorityCheck = 0;
 
            return (
-            <div key={i} className={styles.dayBox} >
+            <div key={i} className={styles.dayBox} ref={dayBoxRef} style={{
+                gridTemplateRows: "repeat(6, 1fr);"
+            }}>
                 <div>
                     <p
                     className={`${styles.boxDate} ${
                         i === 0 || i % 7 === 6 || i % 7 === 0 ? styles.blueText : ''
                     }`}
+                    onClick={()=>{showAllEvents(i)}}
                     >
                     {dateValue}
                     </p>
@@ -395,18 +447,12 @@ function formatDateToYYYYMMDD(dateString) {
                             if(index===0){
                                 
                             {scheduleByDate[dateToString]&&scheduleByDate[dateToString].map((event,indexes)=>{
+                                console.log(scheduleByDate);
                                 const todayEvents = scheduleByDate[dateToString];
                                 for (let i = 1; i < scheduleByDate[dateToString].length; i++) {
 
                                     if (todayEvents[i].schedule_priority === todayEvents[i - 1].schedule_priority) {
-                                        console.log(todayEvents[i].schedule_title+" "+todayEvents[i].schedule_priority);
-                                        console.log(todayEvents[i-1].schedule_title+" "+todayEvents[i-1].schedule_priority) 
-
                                         todayEvents[i].schedule_priority += 1;
-
-                                        console.log(todayEvents[i].schedule_title+" "+todayEvents[i].schedule_priority);
-                                        console.log(todayEvents[i-1].schedule_title+" "+todayEvents[i-1].schedule_priority) 
-
                                     }
                                 }
                                 
@@ -499,6 +545,8 @@ function formatDateToYYYYMMDD(dateString) {
                             
                             }
                             if(index === 0){
+                                console.log(weekCut);
+
                                 Object.keys(weekCut).map((dateKey,i) => {
                                     if (dateKey === dateToString) {
                                     const event = Object.values(weekCut[dateKey]);
@@ -557,12 +605,17 @@ function formatDateToYYYYMMDD(dateString) {
                     
 
                     {dayEvnetLast.map((events, index) => {
+                        eventNumByDay = dayEvnetLast.length;
+                        // setGridEventNums(4);
+                        // setGridEventNums(cur=>[...cur, dayEvnetLast.length]);
+
                         if (events.priority < 4 && index < 3) {
                             if(index === 0){ //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리 
                                 emptyBoxes = Array.from({ length: Math.min(events.priority - 1, maxItems) }, (_, i) => (
                                     <div key={i} className={styles.emptyBox}></div>
                                 ));
                                 remainingItems = maxItems - emptyBoxes.length;
+                                
                                 // maxItems = events.priority -1;
                                 priorityCheck = events.priority;
                             }else if(events.priority != index +1 && events.priority-priorityCheck != 1){ //이벤트 priority = 1, 3인 경우 
@@ -571,6 +624,7 @@ function formatDateToYYYYMMDD(dateString) {
                                     <div key={i} className={styles.emptyBox}></div>
                                 ));
                                 remainingItems = maxItems;
+                                
                             }else{ // 이벤트 prioity가 순차적인 경우
                                 emptyBoxes = [];
                                 // remainingItems = remainingItems-1;
