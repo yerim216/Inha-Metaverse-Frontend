@@ -77,13 +77,13 @@ export default function ProjectListsPage() {
           height: "100vh",
         }}
       >
-        <div className="w-full h-full p-12 relative grid gap-4 justify-start grid-cols-1 min-[900px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1700px]:grid-cols-4 min-[2100px]:grid-cols-5">
+        <div className="w-full p-12 relative grid gap-4 justify-start grid-cols-1 min-[900px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1700px]:grid-cols-4 min-[2100px]:grid-cols-5">
           {filteredArray &&
             filteredArray.map((team) => {
               return <TeamCard key={team.teamInfo.team_index} team={team} />;
             })}
           <button
-            className="w-40 h-14 bg-transparent rounded-[35px] text-white border border-[#6D6D6D] absolute right-8 bottom-8 flex gap-2 items-center justify-center font-extrabold transition-all hover:scale-105"
+            className="w-40 h-14 bg-black rounded-[35px] text-white border border-[#6D6D6D] fixed right-12 bottom-8 flex gap-2 items-center justify-center font-extrabold transition-all hover:scale-105"
             onClick={() => {
               navigate("/createproject");
               window.scrollTo({ top: 0, behavior: "auto" });

@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
-import { useRecoilState } from "recoil";
-import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../APIs/userinfo";
 import { addJob, addMember, createTeam, getJobs } from "../APIs/team";
@@ -12,8 +10,8 @@ export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
   // 팀 구성원 추가
   // 팀 기술스택 추가
-  const [user, setUser] = useRecoilState(userState);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [user, setUser] = useRecoilState(userState);
+  // const [isOpen, setIsOpen] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     introduction: "",
@@ -22,9 +20,9 @@ export default function CreateProject() {
   });
   const navigate = useNavigate();
 
-  const onClickButton = () => {
-    setIsOpen(true);
-  };
+  // const onClickButton = () => {
+  //   setIsOpen(true);
+  // };
 
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
@@ -269,7 +267,10 @@ export default function CreateProject() {
                 value={inputs.recruitment}
                 onChange={(e) => {
                   setInputs((cur) => {
-                    return { ...cur, recruitment: e.target.value };
+                    return {
+                      ...cur,
+                      recruitment: e.target.value < 0 ? 0 : e.target.value,
+                    };
                   });
                 }}
               />

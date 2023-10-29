@@ -82,7 +82,8 @@ export default function Nav() {
     window.location.href = "/";
     setUser(null);
 
-    window.localStorage.clear();
+    // window.localStorage.clear();
+    window.localStorage.removeItem("recoil-persist");
   };
 
   return (
@@ -104,7 +105,7 @@ export default function Nav() {
       >
         <div className="w-1/3 flex items-center gap-6">
           <img src="/public_assets/icons/VPSpaceLogo.svg" alt="VPSpaceLogo" />
-          <ToggleSwitch />
+          {/* <ToggleSwitch /> */}
         </div>
         <div className="flex gap-10 w-1/3 justify-center">
           <span

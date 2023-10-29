@@ -4,6 +4,9 @@ import styles from "../styles/modules/ProjectManagerTools.module.css";
 import { getTeamInfoByIndex, getTeams } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
+import { getTeamIndex } from "../APIs/userinfo";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil";
 
 export default function ProjectManagerTools() {
   // 버튼 따라 현재 활성화된 프로젝트 관리 툴 실행 : 현재는 투두(board), 캘린더 존재
@@ -17,14 +20,34 @@ export default function ProjectManagerTools() {
 
   const [teamInfos, setTeamInfos] = useState();
 
+  // 현재 유저가 팀 리더인지 아닌지를 구별하는 state.
+  const [isTeamLeader, setIsTeamLeader] = useState(false);
+  const handleTeamLeader = (teamMembers) => {
+    teamMembers.map((member) => {
+      if (member.is_teamleader === true && userIndex === member.user_index) {
+        setIsTeamLeader(true);
+      }
+    });
+  };
+
   useEffect(() => {
     if (teamIndex) {
-      getTeamInfoByIndex(teamIndex).then((res) =>
-        setProjectName(res.data.teamInfo.team_name)
-      );
+      getTeamInfoByIndex(teamIndex).then((res) => {
+        handleTeamLeader(res.data.teamMembers);
+        setProjectName(res.data.teamInfo.team_name);
+      });
     }
     getTeams().then((res) => {
       setTeamInfos(res.data);
+    });
+  }, []);
+
+  const [userLogin, setUserLogin] = useRecoilState(userState);
+  const userIndex = userLogin.user_index;
+
+  useEffect(() => {
+    getTeamIndex(userIndex).then((res) => {
+      console.log(res.data);
     });
   }, []);
 
@@ -211,6 +234,22 @@ export default function ProjectManagerTools() {
               className="w-5"
             />
           </button>
+          {isTeamLeader && (
+            <button
+              className="transition-all hover:scale-125"
+              onClick={() => {
+                setActivated("management");
+                navigate("management", { state: isTeamLeader });
+                window.scrollTo({ top: 0, behavior: "auto" });
+              }}
+            >
+              <img
+                src="/public_assets/icons/pencil.svg"
+                alt="calender"
+                className="w-5"
+              />
+            </button>
+          )}
         </div>
         <div className="flex flex-col gap-5">
           <img src="/public_assets/icons/gear.svg" alt="gear" />
@@ -236,6 +275,7 @@ export default function ProjectManagerTools() {
           {activated === "calendar" && "calendar"}
           {activated === "stickerNote" && "stickerNote"}
           {activated === "main" && "main"}
+          {activated === "management" && "management"}
         </h5>
         <button
           className="text-white absolute right-8 cursor-pointer z-10 underline text-sm hover:scale-105"

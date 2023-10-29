@@ -1,0 +1,53 @@
+.font-lg {
+  font-size: 18px;
+}
+
+.font-lg {
+  font-size: 22px;
+}
+
+.lightFont {
+  font-weight: 400;
+}
+
+.boldFont {
+  font-weight: 700;
+}
+
+.inputContainer {
+  display: flex;
+  font-weight: 700;
+  align-items: center;
+  width: 100%;
+  font-size: 22px;
+  height: 115px;
+}
+
+.inputName {
+  height: 100%;
+  width: 150px;
+  margin-right: 70px;
+  text-align: end;
+}
+
+.inputInfoContainer {
+  height: 100%;
+  border-bottom: 0.5px solid;
+  flex-grow: 1;
+}
+
+.shortInput {
+  width: 30%;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0px 10px;
+  font-weight: 400;
+}
+
+.longInput {
+  width: 95%;
+  height: 40px;
+  border-radius: 18px;
+  padding: 0px 10px;
+  font-weight: 400;
+}

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Profile.module.css";
 import style from "../styles/Myprofile.module.css";
 
-import Gdot from "../components/Gdot";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
@@ -107,12 +106,13 @@ export default function Profile() {
   }, []);
 
   const logout = () => {
-    window.localStorage.clear();
+    // window.localStorage.clear();
+    window.localStorage.removeItem("recoil-persist");
+
     setUserLogin(null);
     navigate("/");
     window.scrollTo({ top: 0, behavior: "auto" });
   };
-
 
   const pImage = {
     paddingTop: "23px",
@@ -211,34 +211,34 @@ export default function Profile() {
         handleApplyBtn={handleApplyBtn}
       ></ApplyModal>
       <div className={styles.navItems}>
-          <div className={styles.logoContainer}>
-            <img
-              src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
-              className={styles.nav}
-              alt="Logo"
-              style={{
-                height: "36px",
-                width: "52px",
-              }}
-              onClick={() => (window.location.href = "/")}
-            />
-          </div>
-          <div className={styles.textContainer}>
-            <a className={styles.navLink}>프로필</a>
-
-            <a className={styles.navLink}>지원</a>
-
-            {userLogin ? (
-              <button className={styles.loginButton} onClick={logout}>
-                <span>로그아웃</span>
-              </button>
-            ) : (
-              <button className={styles.loginButton}>
-                <span>로그인</span>
-              </button>
-            )}
-          </div>
+        <div className={styles.logoContainer}>
+          <img
+            src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
+            className={styles.nav}
+            alt="Logo"
+            style={{
+              height: "36px",
+              width: "52px",
+            }}
+            onClick={() => (window.location.href = "/")}
+          />
         </div>
+        <div className={styles.textContainer}>
+          <a className={styles.navLink}>프로필</a>
+
+          <a className={styles.navLink}>지원</a>
+
+          {userLogin ? (
+            <button className={styles.loginButton} onClick={logout}>
+              <span>로그아웃</span>
+            </button>
+          ) : (
+            <button className={styles.loginButton}>
+              <span>로그인</span>
+            </button>
+          )}
+        </div>
+      </div>
       <div className={style.wrap}>
         <div className={styles.backgroundImage}></div>
         {/* <img
@@ -280,23 +280,23 @@ export default function Profile() {
                 ) )
                 }
 
-              {/* 팀 이름 */}
-              <p className={styles.name}> 
+            {/* 팀 이름 */}
+            <p className={styles.name}>
               {teamDetail && teamDetail.teamInfo.team_name}
-             </p>
-             {/* 팀 소개 */}
-              <div className={styles.introTexts}>
-                {teamDetail && teamDetail.teamInfo.team_introduction === null ? (
-                  <p className={styles.limit}>팀 소개를 입력해보아요!</p>
-                ) : (
-                  <p className={styles.limit}> 
+            </p>
+            {/* 팀 소개 */}
+            <div className={styles.introTexts}>
+              {teamDetail && teamDetail.teamInfo.team_introduction === null ? (
+                <p className={styles.limit}>팀 소개를 입력해보아요!</p>
+              ) : (
+                <p className={styles.limit}>
                   {teamDetail && teamDetail.teamInfo.team_introduction
                     ? teamDetail.teamInfo.team_introduction
-                    : "팀 소개가 없습니다!"} 
-                  </p>
-                )}
-              </div>
+                    : "팀 소개가 없습니다!"}
+                </p>
+              )}
             </div>
+          </div>
           {/* </div> */}
 
           {/* <button

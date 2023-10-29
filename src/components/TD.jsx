@@ -42,9 +42,9 @@ export default function Todo({
     );
     const toDoSection_done = document.querySelector("#toDoSection_done");
 
-    toDoSection_notStart.style.backgroundColor = "black";
-    toDoSection_inProgress.style.backgroundColor = "black";
-    toDoSection_done.style.backgroundColor = "black";
+    toDoSection_notStart.style.backgroundColor = "#1C1D1E";
+    toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
+    toDoSection_done.style.backgroundColor = "#1C1D1E";
     if (
       mouseX >= toDoSection_notStart.getBoundingClientRect().left &&
       mouseX <= toDoSection_notStart.getBoundingClientRect().right &&
@@ -99,25 +99,25 @@ export default function Todo({
       mouseY <= toDoSection_notStart.getBoundingClientRect().bottom
     ) {
       toDoSection_notStart.style.backgroundColor = "rgb(21, 20, 20)";
-      toDoSection_inProgress.style.backgroundColor = "black";
-      toDoSection_done.style.backgroundColor = "black";
+      toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
+      toDoSection_done.style.backgroundColor = "#1C1D1E";
     } else if (
       mouseX >= toDoSection_inProgress.getBoundingClientRect().left &&
       mouseX <= toDoSection_inProgress.getBoundingClientRect().right &&
       mouseY >= toDoSection_inProgress.getBoundingClientRect().top &&
       mouseY <= toDoSection_inProgress.getBoundingClientRect().bottom
     ) {
-      toDoSection_notStart.style.backgroundColor = "black";
+      toDoSection_notStart.style.backgroundColor = "#1C1D1E";
       toDoSection_inProgress.style.backgroundColor = "rgb(21, 20, 20)";
-      toDoSection_done.style.backgroundColor = "black";
+      toDoSection_done.style.backgroundColor = "#1C1D1E";
     } else if (
       mouseX >= toDoSection_done.getBoundingClientRect().left &&
       mouseX <= toDoSection_done.getBoundingClientRect().right &&
       mouseY >= toDoSection_done.getBoundingClientRect().top &&
       mouseY <= toDoSection_done.getBoundingClientRect().bottom
     ) {
-      toDoSection_notStart.style.backgroundColor = "black";
-      toDoSection_inProgress.style.backgroundColor = "black";
+      toDoSection_notStart.style.backgroundColor = "#1C1D1E";
+      toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
       toDoSection_done.style.backgroundColor = "rgb(21, 20, 20)";
     }
   };

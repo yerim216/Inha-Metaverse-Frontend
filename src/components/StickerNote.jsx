@@ -184,7 +184,7 @@ export default function StickerNote() {
         handleUploadBtn={handleUploadBtn}
         input={input}
       />
-      <section className={styles.bg}>
+      <section className={`${styles.bg} area`}>
         <form className="ml-[3%] mt-[3%] flex flex-col w-[400px] gap-3 items-end"></form>
         {stickerNoteInfos &&
           clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {

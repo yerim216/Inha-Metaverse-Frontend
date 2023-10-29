@@ -28,6 +28,13 @@ export const lightTheme = {
   profile: {
     mainTextColor: "black",
   },
+  management: {
+    border: "#7C7C7C",
+    textColor: "#FFF",
+    accentColor: "#0C6EED",
+    inputColor: "#323232",
+    cancelBtn: "#9B9B9B",
+  },
 };
 
 export const darkTheme = {
@@ -52,13 +59,20 @@ export const darkTheme = {
     createBtn: "#000000",
     cancelBtn: "#9B9B9B",
   },
-  profile:{
-    mainTextColor:"white"
+  profile: {
+    mainTextColor: "white",
   },
   board: {
     whenModalBg: "rgba(105, 105, 105, 0.8)",
     modalBg: "rgb(50,50,50)",
     inputTextColor: "rgba(255, 255, 255, 0.5)",
+  },
+  management: {
+    border: "#7C7C7C",
+    textColor: "#FFF",
+    accentColor: "#0C6EED",
+    inputColor: "#323232",
+    cancelBtn: "#9B9B9B",
   },
 };
 

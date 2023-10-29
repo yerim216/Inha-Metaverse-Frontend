@@ -6,7 +6,6 @@ import RightViewer from "./RightViewer";
 import { theme } from "../theme/theme";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import NoticeBoard from "./NoticeBoard";
-// import { ThemeModeContext } from "../contexts/ThemeProvider";
 
 export default function ProjectMain() {
   const { teamIndex } = useOutletContext();
