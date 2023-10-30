@@ -136,11 +136,10 @@ hr {
 }
 
 .navBar {
-  border-bottom: 1px solid #ffffff66;
+  border-bottom: 1px solid;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 14px;
+  flex-direction: column;
+  padding-bottom: 7px;
   margin-top: 38px;
 }
 
@@ -148,16 +147,12 @@ hr {
   display: flex;
   gap: 78px;
   font-size: 32px;
-  color: #ffffff66;
+  margin-bottom: 20px;
 }
 
 .menu {
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-}
-
-.menu:hover {
-  color: #ffffff;
 }
 
 .isRecruiting {
@@ -169,7 +164,6 @@ hr {
 .toggleBtn {
   width: 68px;
   height: 30px;
-  background-color: #7090b0;
   border-radius: 15px;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -193,17 +187,7 @@ hr {
 }
 
 .toggleDot.active {
-  background-color: black;
   left: calc(100% - 24px);
-}
-
-.mozipzoong {
-  color: white;
-}
-
-.filterBox {
-  margin-top: 15px;
-  color: white;
 }
 
 .filterBox div {
@@ -214,10 +198,10 @@ hr {
   display: flex;
   gap: 35px;
   margin-bottom: 15px;
+  font-weight: 500;
 }
 
 .filterFlex div {
-  background-color: rgba(112, 144, 176, 0.25);
   border-radius: 10px;
   padding: 5px 10px;
   cursor: pointer;
@@ -229,6 +213,7 @@ hr {
   align-items: center;
   margin-top: 20px;
   height: 10px;
+  font-weight: 500;
 }
 
 .filteredItems img {
@@ -240,11 +225,10 @@ hr {
   margin-top: 50px;
   width: 100vw;
   height: 300px;
-  background: #1c1d1e;
 }
 
 .contact {
-  border-bottom: 1px solid #c9c9c9;
+  border-bottom: 1px solid;
   padding-bottom: 15px;
   display: flex;
   justify-content: flex-end;
@@ -257,12 +241,10 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: rgba(112, 144, 176, 1);
 }
 
 .rights {
   display: flex;
-  color: #c9c9c9;
   font-size: 16px;
   font-family: Avenir;
   font-style: normal;
@@ -273,7 +255,6 @@ hr {
 }
 
 .companyName {
-  color: #c9c9c9;
   font-size: 16px;
   font-family: Avenir;
   font-style: normal;
@@ -282,7 +263,6 @@ hr {
   letter-spacing: 0.96px;
 }
 .companyAddress {
-  color: #c9c9c9;
   font-size: 12px;
   font-family: Avenir;
   font-style: normal;

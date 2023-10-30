@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
+import TitleWithDescription from "../components/home/TitleWithDescription";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
@@ -125,7 +126,7 @@ export default function Home() {
   // 1) 해당 필터가 이미 활성화(버튼의 색깔로 판단) => filteredItems에서 해당 필터 제거
   // 2) 해당 필터가 비활성화 => filteredItems에 해당 필터 추가
   function handleFilterClick(e) {
-    if (e.target.style.backgroundColor === "rgb(112, 144, 176)") {
+    if (e.target.style.backgroundColor === tm.accentColor) {
       deleteFilterItems(e.target.innerText);
     } else setFilteredItems((arr) => [...arr, e.target.innerText]);
   }
@@ -136,207 +137,181 @@ export default function Home() {
     for (let i = 0; i < filters.length; i++) {
       const filter = filters[i];
       if (filteredItems.includes(filter.innerText)) {
-        filter.style.backgroundColor = "rgba(112, 144, 176, 1)";
+        filter.style.backgroundColor = tm.accentColor;
       } else {
-        filter.style.backgroundColor = "rgba(112, 144, 176, 0.25)";
+        filter.style.backgroundColor = tm.disabledBtnBgColor;
       }
     }
   }, [filteredItems, filterNum]);
 
-  // let why = JSON.parse(localStorage.getItem("recoil-persist"));
-  // let st = Object.values(why)[0];
-  // let test = Object.values(st)[0];
-  // const pattern = /(['"])(.*?)\1/g;
-  // const matches = str.match(pattern);
-
-  useEffect(() => {
-    if (user) {
-      //   if ( user.email === 'test') {
-      //   setUser(null);
-      //   window.localStorage.clear();
-      // }
-    }
-    // if (user.email ===)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <>
-      <section>
-        <div>
-          <Nav />
-          {/* <img
-            src="/public_assets/darkmodeBg.png"
-            alt="darkModeBg"
-            className={styles.bg}
-          /> */}
-        </div>
-        {/* 이미지 크기 이슈 해결 후 추가 예정 */}
-        {/* <div className="relative">
+      <header
+        className="h-full w-full flex justify-center"
+        style={{
+          backgroundColor: tm.bannerBg,
+        }}
+      >
+        <div className="relative">
           <img
-            src="/public_assets/VP.png"
-            alt="darkModeBg"
-            className={styles.VP}
+            src="/public_assets/banner.jpeg"
+            alt="banner"
+            className="h-[100vh]"
           />
-        </div> */}
-        <div className={styles.container}>
-          <button onClick={forumClick}>
-            <div className={styles.imageContainer}>
-              <h1 className={styles.letsJoin}>Let's Join</h1>
-              <img
-                className={`${styles.image}`}
-                // src="https://via.placeholder.com/783x600.jpg"
-                src="/public_assets/todayHot.png"
-                alt="예시 이미지"
-              />
-            </div>
+          {/* 버튼 : 하나의 이미지처럼 보이게끔, 위치 및 크기 요소를 동적으로 할당해 주었음. */}
+          <button
+            className="absolute left-[9%] bottom-[30%] font-bold text-[28px] flex items-center justify-center gap-4 px-[6%] py-[2%] rounded-md hover:scale-[102%]"
+            style={{
+              backgroundColor: tm.accentColor,
+              color: tm.buttonText,
+            }}
+          >
+            프로젝트 시작하기
+            <span>&gt;</span>
           </button>
-          <div className={styles.wrapper} onClick={handleClick}>
-            <Dot />
-            <p
-              className={styles.tHot}
-              style={{
-                color: tm.mainTextColor,
-              }}
-            >
-              Today Hot
-            </p>
-            <p
-              className={styles.hotName}
-              style={{
-                color: tm.mainTextColor,
-              }}
-            >
-              대공간 포럼
-            </p>
-            <View />
-            <hr
-              style={{
-                backgroundColor: tm.mainTextColor,
-                height: "1px",
-                border: 0,
-              }}
-            />
-          </div>
-
-          <img
-            src={`${process.env.PUBLIC_URL}/public_assets/icons/${
-              themeMode === "light" ? "vector_light" : "vector_dark"
-            }.svg`}
-            className={styles.vector}
-            alt="Views"
-          />
         </div>
-        {/* <section className="maxWidth">
-          <div className={styles.projectTitle}>
-            <Dot />
-            <h3>Map</h3>
-          </div>
-          <Slider />
-        </section> */}
-      </section>
+      </header>
       <section className="maxWidth">
+        <Nav />
+        <TitleWithDescription
+          title={"프로젝트"}
+          description={"다양한 아이디어와 함께"}
+        />
         <div
-          className={styles.projectTitle}
+          className={styles.navBar}
           style={{
-            color: tm.mainTextColor,
+            borderColor: tm.borderColor,
           }}
         >
-          <Dot />
-          {/* <h3 id="specificSection">Project</h3> */}
-          <h3>Project</h3>
-        </div>
-        <div className={styles.navBar}>
-          <div className={styles.menus}>
-            <div
-              className={`${styles.menu} ${filterNum === 0 && "text-white"}`}
-              onClick={() => {
-                handleFilterChange(0);
-              }}
-            >
-              기획
-            </div>
-            <div
-              className={`${styles.menu} ${filterNum === 1 && "text-white"}`}
-              onClick={() => {
-                handleFilterChange(1);
-              }}
-            >
-              개발
-            </div>
-            <div
-              className={`${styles.menu} ${filterNum === 2 && "text-white"}`}
-              onClick={() => {
-                handleFilterChange(2);
-              }}
-            >
-              디자인
-            </div>
-            <div
-              className={`${styles.menu} ${filterNum === 3 && "text-white"}`}
-              onClick={() => {
-                handleFilterChange(3);
-              }}
-            >
-              기타
-            </div>
-          </div>
-          <div className={styles.isRecruiting}>
-            <div
-              className={`${styles.toggleBtn} ${
-                recruitmentBtnActive && styles.active
-              }`}
-              onClick={() => {
-                setRecruitmentBtnActive(!recruitmentBtnActive);
-              }}
-            >
+          <div className="flex justify-between items-center">
+            <div className={styles.menus}>
               <div
-                className={`${styles.toggleDot} ${
+                style={{
+                  color: filterNum === 0 ? tm.mainTextColor : tm.hazyTextColor,
+                }}
+                className={`${styles.menu} ${
+                  filterNum === 0 && tm.mainTextColor
+                }`}
+                onClick={() => {
+                  handleFilterChange(0);
+                }}
+              >
+                기획
+              </div>
+              <div
+                style={{
+                  color: filterNum === 1 ? tm.mainTextColor : tm.hazyTextColor,
+                }}
+                className={`${styles.menu} ${
+                  filterNum === 1 && tm.mainTextColor
+                }`}
+                onClick={() => {
+                  handleFilterChange(1);
+                }}
+              >
+                개발
+              </div>
+              <div
+                style={{
+                  color: filterNum === 2 ? tm.mainTextColor : tm.hazyTextColor,
+                }}
+                className={`${styles.menu} ${
+                  filterNum === 2 && tm.mainTextColor
+                }`}
+                onClick={() => {
+                  handleFilterChange(2);
+                }}
+              >
+                디자인
+              </div>
+              <div
+                style={{
+                  color: filterNum === 3 ? tm.mainTextColor : tm.hazyTextColor,
+                }}
+                className={`${styles.menu} ${
+                  filterNum === 3 && tm.mainTextColor
+                }`}
+                onClick={() => {
+                  handleFilterChange(3);
+                }}
+              >
+                기타
+              </div>
+            </div>
+            <div className={styles.isRecruiting}>
+              <div
+                className={`${styles.toggleBtn} ${
                   recruitmentBtnActive && styles.active
                 }`}
-              ></div>
+                style={{
+                  backgroundColor: recruitmentBtnActive
+                    ? tm.accentColor
+                    : tm.disabledBtnBgColor,
+                }}
+                onClick={() => {
+                  setRecruitmentBtnActive(!recruitmentBtnActive);
+                }}
+              >
+                <div
+                  className={`${styles.toggleDot} ${
+                    recruitmentBtnActive && styles.active
+                  }`}
+                ></div>
+              </div>
+              <div
+                style={{
+                  color: tm.mainTextColor,
+                }}
+              >
+                모집중
+              </div>
             </div>
-            <div className={styles.mozipzoong}>모집중</div>
           </div>
-        </div>
-
-        {/* 필터 선택 탭 */}
-        <div className={styles.filterBox}>
           <div className={styles.filterFlex}>
             {filter &&
               filter[filterNum].map((item, idx) => (
-                <div onClick={handleFilterClick} className="filters" key={idx}>
+                <div
+                  onClick={handleFilterClick}
+                  className="filters text-xl"
+                  key={idx}
+                  style={{
+                    color: tm.buttonText,
+                  }}
+                >
                   {item}
                 </div>
               ))}
           </div>
-
-          {/* 선택된 필터들 */}
-          <div className={styles.filteredItems}>
-            {filteredItems.length !== 0 && <img src="/Vector.png" alt="꼬깔" />}
-            {filteredItems.map((filteredItem, idx) => {
-              return (
-                <FilteredItem
-                  filterName={filteredItem}
-                  deleteFilterItems={deleteFilterItems}
-                  key={idx}
-                />
-              );
-            })}
-          </div>
+        </div>
+        {/* 선택된 필터들 */}
+        <div className={styles.filteredItems}>
+          {filteredItems.length !== 0 && (
+            <img src="/public_assets/icons/filter.svg" alt="필터아이콘" />
+          )}
+          {filteredItems.map((filteredItem, idx) => {
+            return (
+              <FilteredItem
+                filterName={filteredItem}
+                deleteFilterItems={deleteFilterItems}
+                key={idx}
+                color={tm.accentColor}
+              />
+            );
+          })}
         </div>
         <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
       </section>
-      <section className="mt-10 xl:mt-44 maxWidth">
+      <section className="mt-10 maxWidth">
         <div
           className={styles.projectTitle}
           style={{
             color: tm.mainTextColor,
           }}
         >
-          <Dot />
-          <h3>Story</h3>
+          <TitleWithDescription
+            title={"스토리"}
+            description={"새로운 소식은 여기에"}
+          />
         </div>
         <Stories />
       </section>

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/ProjectBox.module.css";
 import { useNavigate } from "react-router";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function ProjectBox({
   projectName,
@@ -13,17 +15,31 @@ export default function ProjectBox({
   skills,
 }) {
   const navigate = useNavigate();
+
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.home);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.home);
+    else setTm(theme.darkTheme.home);
+  }, [themeMode]);
+
   return (
     <div
       style={{
-        color: "white",
+        color: tm.mainTextColor,
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         borderRadius: "20px",
         border: "1px solid rgba(255,255,255,0.4)",
         boxShadow: "0px 12px 20px rgba(112, 144, 176, 0.2)",
-        padding: "50px",
+        padding: "45px",
         cursor: "pointer",
         transition: "all 0.2s ease-in-out",
+        fontWeight: 700,
+        height: 350,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
       }}
       className={styles.pjb}
       onClick={() => {
@@ -35,6 +51,7 @@ export default function ProjectBox({
         style={{
           display: "flex",
           gap: "12px",
+          height: "10%",
         }}
       >
         {skills ? (
@@ -42,9 +59,10 @@ export default function ProjectBox({
             <div
               style={{
                 padding: "4px 10px",
-                backgroundColor: "rgba(112, 144, 176, 1)",
+                backgroundColor: tm.accentColor,
                 fontSize: "12px",
                 borderRadius: "10px",
+                color: tm.buttonText,
               }}
             >
               {skill}
@@ -54,46 +72,60 @@ export default function ProjectBox({
           <div
             style={{
               padding: "4px 10px",
-              backgroundColor: "rgba(112, 144, 176, 1)",
+              backgroundColor: tm.accentColor,
               fontSize: "12px",
               borderRadius: "10px",
+              color: tm.buttonText,
             }}
           >
             현재 설정된 모집중인 기술이 없습니다!
           </div>
         )}
-        {/* <div
-          style={{
-            padding: "4px 10px",
-            backgroundColor: "rgba(112, 144, 176, 1)",
-            fontSize: "12px",
-            borderRadius: "10px",
-          }}
-        >
-          GAME
-        </div>
-        <div
-          style={{
-            padding: "4px 10px",
-            backgroundColor: "rgba(112, 144, 176, 1)",
-            fontSize: "12px",
-            borderRadius: "10px",
-          }}
-        >
-          UX/UI
-        </div> */}
       </div>
-      <h1
+      <div
         style={{
-          fontSize: "2rem",
-          marginTop: "10px",
-          fontWeight: "500",
+          fontSize: "20px",
+          marginTop: "15px",
+          height: "20%",
         }}
       >
-        {projectName}
-      </h1>
-      <div className="my-2">{introduction}</div>
+        <h1>{projectName}</h1>
+      </div>
+
+      {/* 여기 스킬 리스트 이미지 */}
+
+      <div
+        className="my-2 font-medium"
+        style={{
+          color: tm.hazyTextColor,
+          height: "30%",
+        }}
+      >
+        {introduction}
+      </div>
       <div className={styles.info}>
+        <div className="flex items-center gap-3">
+          {isRecruiting ? (
+            <>
+              <div
+                className="w-4 h-4 rounded-full"
+                style={{
+                  backgroundColor: tm.accentColor,
+                }}
+              ></div>
+              <span>
+                모집중 ( {numOfMembers}/{recruitmentNumber} )
+              </span>
+            </>
+          ) : (
+            <>
+              <div className="w-3 h-3 bg-white rounded-full"></div>
+              <span>
+                모집중X ( {numOfMembers}/{recruitmentNumber} )
+              </span>
+            </>
+          )}
+        </div>
         <div style={{ display: "flex" }}>
           <div
             style={{
@@ -102,32 +134,20 @@ export default function ProjectBox({
               marginRight: "15px",
             }}
           ></div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img src="6.png" alt="아이콘" />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: tm.hazyTextColor,
+            }}
+          >
+            <img
+              src="/public_assets/icons/show.svg"
+              alt="아이콘"
+              className="w-[17px] mr-2"
+            />
             <span>{views}</span>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          {isRecruiting ? (
-            <>
-              <div
-                className="w-3 h-3 rounded-full"
-                style={{
-                  backgroundColor: "lightgreen",
-                }}
-              ></div>
-              <span>
-                recruiting ( {numOfMembers}/{recruitmentNumber} )
-              </span>
-            </>
-          ) : (
-            <>
-              <div className="w-3 h-3 bg-white rounded-full"></div>
-              <span>
-                not recruiting ( {numOfMembers}/{recruitmentNumber} )
-              </span>
-            </>
-          )}
         </div>
       </div>
     </div>

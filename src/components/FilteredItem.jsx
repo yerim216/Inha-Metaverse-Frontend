@@ -1,13 +1,13 @@
 import React from "react";
 
-export default function FilteredItem({ filterName, deleteFilterItems }) {
+export default function FilteredItem({ filterName, deleteFilterItems, color }) {
   return (
     <div
       style={{
         fontSize: "16px",
-        color: "rgba(112, 144, 176, 1)",
         display: "flex",
         alignItems: "center",
+        color: color,
         gap: "10px",
         cursor: "pointer",
       }}

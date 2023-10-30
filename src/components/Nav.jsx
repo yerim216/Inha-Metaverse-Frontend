@@ -88,6 +88,8 @@ export default function Nav() {
 
   return (
     <>
+      {/* Nav가 absolute라, 따로 margin-top을 주었음 */}
+      <div className="mt-[64px]"></div>
       <SignInModal
         open={signInModalOpen}
         close={closeSignInModal}
@@ -97,15 +99,10 @@ export default function Nav() {
         open={signUpModalOpen}
         close={closeSignUpModal}
       ></SignUpModal>
-      <nav
-        className={styles.navbar}
-        style={{
-          background: tm.mainBgColor,
-        }}
-      >
+      <nav className={styles.navbar}>
         <div className="w-1/3 flex items-center gap-6">
           <img src="/public_assets/icons/VPSpaceLogo.svg" alt="VPSpaceLogo" />
-          {/* <ToggleSwitch /> */}
+          <ToggleSwitch />
         </div>
         <div className="flex gap-10 w-1/3 justify-center">
           <span
@@ -139,7 +136,7 @@ export default function Nav() {
           ) : (
             <>
               <button onClick={LogClickAlert} className={styles.navLink}>
-                MyProject
+                Project
               </button>
               <button onClick={LogClickAlert} className={styles.navLink}>
                 MyProfile

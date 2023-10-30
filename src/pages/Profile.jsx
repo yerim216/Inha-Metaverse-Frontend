@@ -217,6 +217,42 @@ export default function Profile() {
     }
   }, [teamDetail]);
 
+  const getJobByIdx = (index) => {
+    if (!index) return "할당된 역할이 없습니다!";
+
+    if (index === 1) {
+      return "개발기획";
+    } else if (index === 2) {
+      return "서비스기획";
+    } else if (index === 3) {
+      return "프로덕트기획";
+    } else if (index === 4) {
+      return "영업기획";
+    } else if (index === 5) {
+      return "UI디자인";
+    } else if (index === 6) {
+      return "UX디자인";
+    } else if (index === 7) {
+      return "프로덕트 디자인";
+    } else if (index === 8) {
+      return "편집 디자인";
+    } else if (index === 9) {
+      return "REACT";
+    } else if (index === 10) {
+      return "SWIFT";
+    } else if (index === 11) {
+      return "KOTLIN";
+    } else if (index === 12) {
+      return "JAVA";
+    } else if (index === 13) {
+      return "NODE.JS";
+    } else if (index === 14) {
+      return "SPRING BOOT";
+    } else if (index === 15) {
+      return "AI";
+    }
+  };
+
   return (
     <section className={styles.contain}>
       <ApplyModal
@@ -414,9 +450,10 @@ export default function Profile() {
                         </div>
                         <div style={parts}>
                           #
-                          {member.user_job
+                          {/* {member.user_job
                             ? member.user_job
-                            : "할당된 역할이 없습니다!"}
+                            : "할당된 역할이 없습니다!"} */}
+                          {getJobByIdx(member.user_job)}
                         </div>
                       </div>
                     </div>

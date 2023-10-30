@@ -1,12 +1,3 @@
-/* @media screen and (min-width: 1280px) {
-  .pjb:nth-child(2),
-  .pjb:nth-child(5),
-  .pjb:nth-child(8) {
-    position: relative;
-    top: 120px;
-  }
-} */
-
 .pjb:hover {
   transform: scale(1.05);
 }
@@ -19,13 +10,5 @@
 
 .info {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 18px;
-}
-
-.info img {
-  width: 14px;
-  height: 10px;
-  margin-right: 10px;
+  justify-content: space-between;
 }

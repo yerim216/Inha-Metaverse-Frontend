@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Story from "./Story";
 import styles from "../styles/Stories.module.css";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function Stories() {
   const [storyDatabases, setStoryDatabases] = useState();
@@ -82,8 +84,22 @@ export default function Stories() {
     }
   }, [moreBtnActivated]);
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.home);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.home);
+    else setTm(theme.darkTheme.home);
+  }, [themeMode]);
+
   return (
-    <div style={{ display: "flex", marginTop: "40px" }}>
+    <div
+      style={{
+        display: "flex",
+        marginTop: "40px",
+        color: tm.mainTextColor,
+      }}
+    >
       <div
         className={`${styles.storiesContainer_ScrollHider} ${
           moreBtnActivated && styles.halfStoriesContainer_ScrollHider
@@ -119,7 +135,6 @@ export default function Stories() {
                     <h1
                       style={{
                         fontSize: "30px",
-                        color: "white",
                       }}
                     >
                       {selectedStoryDb && selectedStoryDb.profileName}
@@ -127,7 +142,6 @@ export default function Stories() {
                     <span
                       style={{
                         fontSize: "10px",
-                        color: "rgb(112, 144, 176)",
                       }}
                     >
                       {selectedStoryDb && selectedStoryDb.part}
@@ -140,7 +154,7 @@ export default function Stories() {
                 <div className={styles.title}>
                   {selectedStoryDb && selectedStoryDb.title}
                 </div>
-                <p className={`text-white ${styles.content}`}>
+                <p className={`${styles.content}`}>
                   {selectedStoryDb && selectedStoryDb.content}
                 </p>
               </div>

@@ -1,9 +1,16 @@
 export const lightTheme = {
   home: {
     mainTextColor: "#000",
-  },
-  nav: {
-    mainBgColor: "#c9c9c9",
+    hazyTextColor: "#7C7C7C",
+    accentColor: "rgb(12, 110, 237)",
+    disabledBtnBgColor: "rgba(112, 144, 176, 0.25)",
+    borderColor: "#B3B3B3",
+    contentTextColor: "#949494",
+    footerTextColor: "#7090B0",
+    bannerBg: "#F2F3F4",
+    buttonText: "#FFF",
+    storyBg: "#FFF",
+    footerBg: "#F4F6F8",
   },
   projectManager: {
     projectSide: "",
@@ -39,11 +46,21 @@ export const lightTheme = {
 
 export const darkTheme = {
   home: {
-    mainTextColor: "#fff",
+    mainTextColor: "#FFF",
+
+    // 하단은 현재 라이트 모드. 다크로 이후에 전환되어야 함.
+    hazyTextColor: "#7C7C7C",
+    accentColor: "rgb(12, 110, 237)",
+    disabledBtnBgColor: "rgba(112, 144, 176, 0.25)",
+    borderColor: "#B3B3B3",
+    contentTextColor: "#949494",
+    footerTextColor: "#c9c9c9",
+    bannerBg: "#F2F3F4",
+    buttonText: "#FFF",
+    storyBg: "rgba(255, 255, 255, 0.2)",
+    footerBg: "#1c1d1e",
   },
-  nav: {
-    mainBgColor: "#ffffff",
-  },
+
   projectManager: {
     projectSide: "#2D2D2D",
     projectBg: "",
