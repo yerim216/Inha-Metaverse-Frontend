@@ -60,13 +60,30 @@ export default function CreateProject() {
   // const selectedValue2 = designs[selectedOption2];
   // const selectedValue3 = options[selectedOption3];
 
+  const userInfoUpdate = () =>{
+    getUserInfo(userIdx)
+    .then(function (res) {
+      const myArray = Object.values(res.data);
+        setUsers(res.data[0]);
+        setUserProfileIdx(myArray[0].user_img_index);
+        setUserSkill(res.data[0].skills);
+        setSelectedValue(myArray[3]);
+        setText(res.data[0].user_introduction);
+        const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
+        setJob(interestArray);
+        setLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   useEffect(() => {
     getUserInfo(userIdx)
     .then(function (res) {
       const myArray = Object.values(res.data);
-      setUsers(res.data[0]);
-      setUserProfileIdx(myArray[0].user_img_index);
-      setUserSkill(res.data[0].skills);
+        setUsers(res.data[0]);
+        setUserProfileIdx(myArray[0].user_img_index);
+        setUserSkill(res.data[0].skills);
         setSelectedValue(myArray[3]);
         setText(res.data[0].user_introduction);
         console.log(res.data[0].user_introduction);
@@ -88,7 +105,6 @@ export default function CreateProject() {
         putUserImg(userIdx, userProfileIdx);
         const interestArray = res.data[0].fields; // 관심분야만 따로 배열로 빼두기
         setJob(interestArray);
-        // setJob(res.data[0].fields)
         setLoading(false);
 
         setSelectedValue(myArray[3]);
@@ -144,7 +160,6 @@ export default function CreateProject() {
         .catch(function (error) {
           console.log(error);
         });
-      // setJob(userData.fields); // 관심분야 따로 job 배열에 담기
     } else {
       alert("관심 분야는 최대 6개까지 선택 가능합니다!");
     }
@@ -175,6 +190,11 @@ export default function CreateProject() {
     }
   };
 
+  const ex = (event) => {
+    setText(event.target.value)
+    dbIntro(text);
+
+  }
   useEffect(() => {
     getUserInterested()
       .then((response) => {
@@ -282,13 +302,11 @@ export default function CreateProject() {
     window.location.href = "/myprofile";
   };
 
-  const userIndex = userData[0];
-
   const profileSave = () => {
     dbIntro(text);
     dbCareer(selectedValue);
 
-    window.location.href = "/profile";
+    window.location.href = "/myprofile";
   };
 
   //직무 db 저장
@@ -483,7 +501,7 @@ export default function CreateProject() {
           <textarea
             style={option2}
             value={text}
-            onChange={(event) => setText(event.target.value)}
+            onChange={(event) => ex(event)}
           />
         </div>
         <div className={styles2.basic}>
@@ -602,7 +620,7 @@ export default function CreateProject() {
           </div>
         </div>
         <div className="flex w-full justify-center gap-8">
-          <button onClick={profileSave} className={styles.changeBtn}>
+          <button onClick={profileSave} className={styles.changeBtn} style = {{backgroundColor: 'white'}}>
             수정반영
           </button>
         </div>
