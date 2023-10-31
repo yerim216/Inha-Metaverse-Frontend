@@ -79,9 +79,9 @@ export function putUserSkill(userIndex, skillIndex) {
 }
 
 export function deleteUserSkill(userIndex, skillIndex) {
-  return axios.post("/userinfo/interested/delete", {
+  return axios.post("/userinfo/skill/delete", {
     user_index: userIndex,
-    field_index: skillIndex,
+    skill_index: skillIndex,
   });
 }
 

@@ -48,17 +48,9 @@ export default function CreateProject() {
   const [selectedOption2, setSelectedOption2] = useState(0);
   const [selectedOption3, setSelectedOption3] = useState(0);
 
-  // const [selectedIndex1, setSelectedIndex1] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
-  // const [selectedIndex2, setSelectedIndex2] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
-  // const [selectedIndex3, setSelectedIndex3] = useState(""); // 선택한 옵션의 index 값을 저장할 상태 변수
-
   const [plans, setPlans] = useState([{ index: 0, field_title: "기획" }]);
   const [designs, setDesigns] = useState([{ index: 0, field_title: "디자인" }]);
   const [options, setOptions] = useState([{ index: 0, field_title: "개발" }]);
-
-  // const selectedValue1 = plans[selectedOption1];
-  // const selectedValue2 = designs[selectedOption2];
-  // const selectedValue3 = options[selectedOption3];
 
   const userInfoUpdate = () =>{
     getUserInfo(userIdx)
@@ -142,12 +134,10 @@ export default function CreateProject() {
 
   const handleOption2Change = (event) => {
     setSelectedOption1(event.target.value);
-    console.log(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    // setSelectedIndex1(selectedIndex);
     let num = parseInt(selectedIndex); // 정수로 변환
-    // postData(num);
     let len = job.length;
+
     if (len < 6) {
       dbJob(num);
 
@@ -167,9 +157,7 @@ export default function CreateProject() {
 
   const handleOption3Change = (event) => {
     setSelectedOption1(event.target.value);
-    console.log(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
-    // setSelectedIndex1(selectedIndex);
     let num = parseInt(selectedIndex); // 정수로 변환
     let len = job.length;
 
@@ -236,9 +224,6 @@ export default function CreateProject() {
       });
   }, []);
 
-  const onClickButton = () => {
-    setIsOpen(true);
-  };
 
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
@@ -251,7 +236,7 @@ export default function CreateProject() {
 
     deleteUserInterest(userIdx, num); //직무 삭제하기
 
-    rerendering();
+    window.location.reload();
   };
 
   const skillDelete = (index) => {
@@ -259,7 +244,7 @@ export default function CreateProject() {
 
     deleteUserSkill(userIdx,num);//직무 삭제하기
     
-    rerendering();
+    window.location.reload();
   };
 
   const blockScroll = () => {
@@ -274,32 +259,6 @@ export default function CreateProject() {
 
     // 다크모드와 화이트모드 다르게 설정 필요
     document.body.style.backgroundColor = "#111111";
-  };
-
-  const [signInModalOpen, setSignInModalOpen] = useState(false);
-  const openSignInModal = () => {
-    setSignInModalOpen(true);
-    blockScroll();
-  };
-  const closeSignInModal = () => {
-    setSignInModalOpen(false);
-    freeScroll();
-  };
-
-  // 회원가입창 팝업 관리 state
-  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-
-  const openSignUpModal = () => {
-    setSignUpModalOpen(true);
-    blockScroll();
-  };
-
-  const closeSignUpModal = () => {
-    setSignUpModalOpen(false);
-    freeScroll();
-  };
-  const handleButtonClick = () => {
-    window.location.href = "/myprofile";
   };
 
   const profileSave = () => {
@@ -352,14 +311,11 @@ export default function CreateProject() {
       });
   };
 
-  useEffect(() => {}, [job]);
-
   useEffect(() => {
     handleImageChange(userIdx, userProfileIdx);
     setUserProfileIdx(userProfileIdx);
     getSkill();
 
-    // putUserImg(userIndex,userImg);
     console.log("userProfileIdx가 변경되었습니다:", userProfileIdx);
   }, [userProfileIdx]); // userProfileIdx가 변경될 때만 useEffect 내부 코드 실행
 
@@ -444,9 +400,6 @@ export default function CreateProject() {
     flexDirection: "row",
     gap: "20px",
   };
-  const txts = {
-    color: "white",
-  };
 
   const profileImgCss = {
     width: "300px",
@@ -491,7 +444,6 @@ export default function CreateProject() {
                 </option>
               ))}
             </select>
-            {/* <p>선택한 값: {selectedValue.result}</p> */}
           </div>
         </div>
         <div className={styles2.basic}>
@@ -578,6 +530,7 @@ export default function CreateProject() {
                 {userSkill &&
                   userSkill.map((item, index) => (
                     <div key={index} style={jobBox}>
+                      <button onClick={() => skillDelete(item.skill_index)}>
                       <span
                         key={index}
                         className={styles2.skillwrap}
@@ -590,8 +543,10 @@ export default function CreateProject() {
                           alt={`Image ${skill.skill_index}`}
                           style={skillImgMini} 
                         />
+                        <p>x</p>
                       </span>
-                      <button onClick={() => skillDelete(item.skill_index)}>x</button>
+                      
+                      </button>
                     </div>
                   ))}
               </div>
