@@ -15,6 +15,8 @@ import Footer from "../components/Footer";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import TitleWithDescription from "../components/home/TitleWithDescription";
+import SignInModal from "../components/SignInModal";
+import SignUpModal from "../components/SignUpModal";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
@@ -146,6 +148,15 @@ export default function Home() {
 
   return (
     <>
+      <SignInModal
+        open={signInModalOpen}
+        close={closeSignInModal}
+        openSignUpModal={openSignUpModal}
+      ></SignInModal>
+      <SignUpModal
+        open={signUpModalOpen}
+        close={closeSignUpModal}
+      ></SignUpModal>
       <header
         className="h-full w-full flex justify-center"
         style={{
@@ -164,6 +175,11 @@ export default function Home() {
             style={{
               backgroundColor: tm.accentColor,
               color: tm.buttonText,
+            }}
+            onClick={() => {
+              // 로그인 안돼있으면 로그인창 띄우기, 돼있으면 프로젝트 리스트로
+              if (!user) openSignInModal();
+              else navigate("/projectlists");
             }}
           >
             프로젝트 시작하기

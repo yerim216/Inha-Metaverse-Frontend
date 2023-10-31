@@ -19,12 +19,17 @@ import {
   deleteUserInterest,
   putUserSkill,
   getSkills,
-  deleteUserSkill
+  deleteUserSkill,
 } from "../APIs/userinfo";
 import Nav from "../components/Nav";
 import ImageSelector from "../components/ImgSelectModal";
 
 export default function CreateProject() {
+  // 최종 선택된 데이터(1)
+  // 초기 상태에 존재하는 기존 데이터(2)
+  // 1과 2 비교. 무엇이 추가되는지, 무엇이 삭제되는지 판단 후 API 호출
+  // => 추가되는 index 배열 판단하는 함수, 삭제되는 index 배열 판단하는 함수가 존재하면 좋을 듯.
+
   const requestURL = `${window.baseURL}`;
 
   const [loading, setLoading] = useState(true);
@@ -52,10 +57,10 @@ export default function CreateProject() {
   const [designs, setDesigns] = useState([{ index: 0, field_title: "디자인" }]);
   const [options, setOptions] = useState([{ index: 0, field_title: "개발" }]);
 
-  const userInfoUpdate = () =>{
+  const userInfoUpdate = () => {
     getUserInfo(userIdx)
-    .then(function (res) {
-      const myArray = Object.values(res.data);
+      .then(function (res) {
+        const myArray = Object.values(res.data);
         setUsers(res.data[0]);
         setUserProfileIdx(myArray[0].user_img_index);
         setUserSkill(res.data[0].skills);
@@ -68,11 +73,12 @@ export default function CreateProject() {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
+
   useEffect(() => {
     getUserInfo(userIdx)
-    .then(function (res) {
-      const myArray = Object.values(res.data);
+      .then(function (res) {
+        const myArray = Object.values(res.data);
         setUsers(res.data[0]);
         setUserProfileIdx(myArray[0].user_img_index);
         setUserSkill(res.data[0].skills);
@@ -133,7 +139,7 @@ export default function CreateProject() {
   };
 
   const handleOption2Change = (event) => {
-    setSelectedOption1(event.target.value);
+    setSelectedOption2(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
     let num = parseInt(selectedIndex); // 정수로 변환
     let len = job.length;
@@ -156,7 +162,7 @@ export default function CreateProject() {
   };
 
   const handleOption3Change = (event) => {
-    setSelectedOption1(event.target.value);
+    setSelectedOption3(event.target.value);
     const selectedIndex = event.target.value; // 선택한 옵션의 index 값
     let num = parseInt(selectedIndex); // 정수로 변환
     let len = job.length;
@@ -179,10 +185,9 @@ export default function CreateProject() {
   };
 
   const ex = (event) => {
-    setText(event.target.value)
+    setText(event.target.value);
     dbIntro(text);
-
-  }
+  };
   useEffect(() => {
     getUserInterested()
       .then((response) => {
@@ -224,7 +229,6 @@ export default function CreateProject() {
       });
   }, []);
 
-
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value); // 선택한 값을 상태 변수에 저장
     const career = event.target.value;
@@ -242,8 +246,8 @@ export default function CreateProject() {
   const skillDelete = (index) => {
     let num = parseInt(index); // 정수로 변환
 
-    deleteUserSkill(userIdx,num);//직무 삭제하기
-    
+    deleteUserSkill(userIdx, num); //직무 삭제하기
+
     window.location.reload();
   };
 
@@ -352,13 +356,13 @@ export default function CreateProject() {
   };
 
   const skillImgMini = {
-    width:'fitContent',
-    height: '30px'
+    width: "fitContent",
+    height: "30px",
   };
   const jobBox = {
     display: "flex",
     flexDirection: "row",
-    gap: "5px"
+    gap: "5px",
   };
 
   const option = {
@@ -405,7 +409,7 @@ export default function CreateProject() {
     width: "300px",
     height: "300px",
     borderRadius: "50px",
-    objectFit: "cover"// 이미지를 너비와 높이에 맞게 크롭하여 채우기
+    objectFit: "cover", // 이미지를 너비와 높이에 맞게 크롭하여 채우기
   };
 
   return (
@@ -468,7 +472,9 @@ export default function CreateProject() {
                 job.map((item, index) => (
                   <div key={index} style={jobBox}>
                     <span>{item.field_title}</span>
-                    <button onClick={() => handleDelete(item.field_index)}>x</button>
+                    <button onClick={() => handleDelete(item.field_index)}>
+                      x
+                    </button>
                   </div>
                 ))}
             </div>
@@ -525,57 +531,60 @@ export default function CreateProject() {
               <div style={jobselect}>
                 <p style={load}>Loading...</p>
               </div>
-              ) : (
+            ) : (
               <div style={jobselect}>
                 {userSkill &&
                   userSkill.map((item, index) => (
                     <div key={index} style={jobBox}>
                       <button onClick={() => skillDelete(item.skill_index)}>
-                      <span
-                        key={index}
-                        className={styles2.skillwrap}
-                        onClick={() => rerenderingSkills(item.skill_index)}
-                      >
-                        {item.skill_name} 
-                        <img
+                        <span
                           key={index}
-                          src={`/public_assets/skills/skill_img_${item.skill_index}.svg`}              
-                          alt={`Image ${skill.skill_index}`}
-                          style={skillImgMini} 
-                        />
-                        <p>x</p>
-                      </span>
-                      
+                          className={styles2.skillwrap}
+                          onClick={() => rerenderingSkills(item.skill_index)}
+                        >
+                          {item.skill_name}
+                          <img
+                            key={index}
+                            src={`/public_assets/skills/skill_img_${item.skill_index}.svg`}
+                            alt={`Image ${skill.skill_index}`}
+                            style={skillImgMini}
+                          />
+                          <p>x</p>
+                        </span>
                       </button>
                     </div>
                   ))}
               </div>
             )}
             <span>
-                <div className={styles2.skills}>
-                  <div className={styles2.skillBox}>
-                    {skill.map((skill, index) => (
-                      <span
+              <div className={styles2.skills}>
+                <div className={styles2.skillBox}>
+                  {skill.map((skill, index) => (
+                    <span
+                      key={index}
+                      className={styles2.skillwrap}
+                      onClick={() => rerenderingSkills(skill.skill_index)}
+                    >
+                      {skill.skill_name}
+                      <img
                         key={index}
-                        className={styles2.skillwrap}
-                        onClick={() => rerenderingSkills(skill.skill_index)}
-                      >
-                        {skill.skill_name} 
-                        <img
-                          key={index}
-                          src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}              
-                          alt={`Image ${skill.skill_index}`}
-                          style={skillImg} 
-                        />
-                      </span>
-                    ))}
-                  </div>
+                        src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                        alt={`Image ${skill.skill_index}`}
+                        style={skillImg}
+                      />
+                    </span>
+                  ))}
                 </div>
+              </div>
             </span>
           </div>
         </div>
         <div className="flex w-full justify-center gap-8">
-          <button onClick={profileSave} className={styles.changeBtn} style = {{backgroundColor: 'white'}}>
+          <button
+            onClick={profileSave}
+            className={styles.changeBtn}
+            style={{ backgroundColor: "white" }}
+          >
             수정반영
           </button>
         </div>
