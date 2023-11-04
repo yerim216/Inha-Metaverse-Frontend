@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/Nav.module.css";
 import OnLogModal from "../components/OnLogModal";
 import Dot from "../components/Dot";
@@ -9,25 +9,25 @@ import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import { getUserInfo } from "../APIs/userinfo";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
-import ToggleSwitch from "./ToggleSwitch";
 import { theme } from "../theme/theme";
 
-export default function Nav() {
+export default function Nav({ isMainPage }) {
+  // isMainPage를 T/F로 전달받아, 해당 값에 따라 backgroundColor 변경.
   const [user, setUser] = useRecoilState(userState);
   const [userProfileIndex, setUserProfileIndex] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
-  const [tm, setTm] = useState(theme.lightTheme.nav);
-  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
-  useEffect(() => {
-    if (themeMode === "light") setTm(theme.lightTheme.nav);
-    else setTm(theme.darkTheme.nav);
-  }, [themeMode]);
+  // const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  // const [tm, setTm] = useState(theme.lightTheme.nav);
+  // // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  // useEffect(() => {
+  //   if (themeMode === "light") setTm(theme.lightTheme.nav);
+  //   else setTm(theme.darkTheme.nav);
+  // }, [themeMode]);
 
   const onClickButton = () => {
-    setIsOpen(true);
+    setIsOpen((cur) => !cur);
   };
   useEffect(() => {
     if (user) {
@@ -86,6 +86,8 @@ export default function Nav() {
     window.localStorage.removeItem("recoil-persist");
   };
 
+  const loginModalRef = useRef();
+
   return (
     <>
       {/* Nav가 absolute라, 따로 margin-top을 주었음 */}
@@ -99,10 +101,14 @@ export default function Nav() {
         open={signUpModalOpen}
         close={closeSignUpModal}
       ></SignUpModal>
-      <nav className={styles.navbar}>
+      <nav
+        className={styles.navbar}
+        style={{
+          backgroundColor: isMainPage ? "white" : "#F1F3F7",
+        }}
+      >
         <div className="w-1/3 flex items-center gap-6">
           <img src="/public_assets/icons/VPSpaceLogo.svg" alt="VPSpaceLogo" />
-          <ToggleSwitch />
         </div>
         <div className="flex gap-10 w-1/3 justify-center">
           <span
@@ -148,9 +154,12 @@ export default function Nav() {
           {user ? (
             <button
               className={styles.loginModal}
-              onClick={() => {
-                onClickButton();
+              onClick={(e) => {
+                console.log(e.target);
+                setIsOpen(true);
+                // onClickButton();
               }}
+              ref={loginModalRef}
             >
               {isOpen && (
                 <OnLogModal
@@ -158,6 +167,7 @@ export default function Nav() {
                   onClose={() => {
                     setIsOpen(false);
                   }}
+                  loginModalRef={loginModalRef}
                 />
               )}
               <img

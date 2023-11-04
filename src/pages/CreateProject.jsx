@@ -5,6 +5,7 @@ import { getUserInfo } from "../APIs/userinfo";
 import { addJob, addMember, createTeam, getJobs } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
+import Nav from "../components/Nav";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -175,15 +176,7 @@ export default function CreateProject() {
 
   return (
     <>
-      <nav
-        className={styles.nav}
-        style={{
-          backgroundColor: tm.navBar,
-          color: tm.textColor,
-        }}
-      >
-        프로젝트만들기
-      </nav>
+      <Nav />
       <form
         className={styles.paddingSection}
         style={{
@@ -192,7 +185,14 @@ export default function CreateProject() {
       >
         <div className="flex items-center gap-6">
           <div className="flex w-full">
-            <div className={`${styles.middleFont} w-1/5`}>팀 이름</div>
+            <div
+              className={`${styles.middleFont} w-1/5`}
+              style={{
+                color: tm.textColor,
+              }}
+            >
+              팀 이름
+            </div>
             <div
               className="w-4/5 border-b pb-16"
               style={{
@@ -200,6 +200,9 @@ export default function CreateProject() {
               }}
             >
               <input
+                style={{
+                  backgroundColor: tm.inputBg,
+                }}
                 type="text"
                 className="rounded-md p-2 w-1/3"
                 required
@@ -214,7 +217,14 @@ export default function CreateProject() {
           </div>
         </div>
         <div className="flex w-full">
-          <div className={`${styles.middleFont} w-1/5`}>팀 소개</div>
+          <div
+            className={`${styles.middleFont} w-1/5`}
+            style={{
+              color: tm.textColor,
+            }}
+          >
+            팀 소개
+          </div>
           <div
             className="w-4/5 border-b pb-16"
             style={{
@@ -222,6 +232,9 @@ export default function CreateProject() {
             }}
           >
             <input
+              style={{
+                backgroundColor: tm.inputBg,
+              }}
               type="text"
               className="rounded-md p-2 w-1/3"
               required
@@ -236,7 +249,14 @@ export default function CreateProject() {
         </div>
 
         <div className="flex w-full">
-          <div className={`${styles.middleFont} w-1/5`}>프로젝트 설명</div>
+          <div
+            className={`${styles.middleFont} w-1/5`}
+            style={{
+              color: tm.textColor,
+            }}
+          >
+            프로젝트 설명
+          </div>
           <div
             className="w-4/5 border-b pb-16"
             style={{
@@ -245,6 +265,9 @@ export default function CreateProject() {
           >
             <textarea
               className="rounded-md w-96 resize-none p-2 outline-none h-44"
+              style={{
+                backgroundColor: tm.inputBg,
+              }}
               required
               value={inputs.description}
               onChange={(e) => {
@@ -257,10 +280,20 @@ export default function CreateProject() {
         </div>
 
         <div className="flex w-full">
-          <div className={`${styles.middleFont} w-1/5`}>모집 인원</div>
+          <div
+            className={`${styles.middleFont} w-1/5`}
+            style={{
+              color: tm.textColor,
+            }}
+          >
+            모집 인원
+          </div>
           <div className="w-4/5 flex flex-col gap-8">
             <div className="w-1/12 flex items-center gap-3">
               <input
+                style={{
+                  backgroundColor: tm.inputBg,
+                }}
                 type="number"
                 className="rounded-md p-2 w-full"
                 required
@@ -293,9 +326,19 @@ export default function CreateProject() {
                 jobs.map((job) => {
                   return (
                     <div className="flex justify-between items-center mb-6 gap-3">
-                      <div className="text-white w-2/3">{job.field_title}</div>
+                      <div
+                        className="text-white w-2/3"
+                        style={{
+                          color: tm.textColor,
+                        }}
+                      >
+                        {job.field_title}
+                      </div>
                       <div className="flex gap-2 items-center w-1/3">
                         <input
+                          style={{
+                            backgroundColor: tm.inputBg,
+                          }}
                           type="number"
                           className={`w-2/3 p-1 rounded-md`}
                           defaultValue={0}
@@ -323,6 +366,9 @@ export default function CreateProject() {
                     className="flex justify-between items-center mb-6 gap-3"
                   >
                     <input
+                      style={{
+                        backgroundColor: tm.inputBg,
+                      }}
                       type="text"
                       placeholder="모집 직무 직접 입력"
                       className="rounded-md p-1 w-2/3"
@@ -334,6 +380,9 @@ export default function CreateProject() {
                     />
                     <div className="flex gap-2 items-center w-1/3">
                       <input
+                        style={{
+                          backgroundColor: tm.inputBg,
+                        }}
                         type="number"
                         className="w-2/3 p-1 rounded-md"
                         value={customJobs[index].recruitmentNum}
@@ -356,10 +405,12 @@ export default function CreateProject() {
                   </div>
                 ))}
               <button
-                className="text-white"
                 onClick={(e) => {
                   e.preventDefault();
                   handleCustomPositionInputNumInc();
+                }}
+                style={{
+                  color: tm.textColor,
                 }}
               >
                 + 직접 입력
@@ -372,7 +423,7 @@ export default function CreateProject() {
             className={styles.changeBtn}
             style={{
               backgroundColor: tm.createBtn,
-              color: tm.textColor,
+              color: tm.btnText,
             }}
             onClick={async (e) => {
               e.preventDefault();
@@ -402,7 +453,7 @@ export default function CreateProject() {
             className={styles.cancelBtn}
             style={{
               backgroundColor: tm.cancelBtn,
-              color: tm.textColor,
+              color: tm.btnText,
             }}
             onClick={(e) => {
               e.preventDefault();

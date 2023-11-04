@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import Dot from "../components/Dot";
 import Nav from "../components/Nav";
 import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
-import Slider from "../components/Slider";
 import Stories from "../components/Stories";
-import View from "../components/View";
 import { UserInfoContext } from "../contexts/UserInfoProvider";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
@@ -188,7 +185,7 @@ export default function Home() {
         </div>
       </header>
       <section className="maxWidth">
-        <Nav />
+        <Nav isMainPage={true} />
         <TitleWithDescription
           title={"프로젝트"}
           description={"다양한 아이디어와 함께"}

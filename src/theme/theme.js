@@ -11,6 +11,8 @@ export const lightTheme = {
     buttonText: "#FFF",
     storyBg: "#FFF",
     footerBg: "#F4F6F8",
+    modalBg: "#FFF",
+    modalHover: "rgba(244, 246, 248, 0.70)",
   },
   projectManager: {
     projectSide: "",
@@ -20,12 +22,13 @@ export const lightTheme = {
     progress: "black",
   },
   createProject: {
-    navBar: "#2D2D2D",
-    bg: "#1C1D1E",
-    textColor: "#FFFFFF",
+    inputBg: "#F1F3F7",
+    bg: "#FFF",
+    textColor: "#000",
     border: "#7C7C7C",
-    createBtn: "#000000",
-    cancelBtn: "#9B9B9B",
+    createBtn: "#0C6EED",
+    cancelBtn: "#6D758F",
+    btnText: "#FFF",
   },
   board: {
     whenModalBg: "rgba(105, 105, 105, 0.8)",
@@ -41,6 +44,9 @@ export const lightTheme = {
     accentColor: "#0C6EED",
     inputColor: "#323232",
     cancelBtn: "#9B9B9B",
+  },
+  nav: {
+    navBg: "#FFF",
   },
 };
 
@@ -59,6 +65,8 @@ export const darkTheme = {
     buttonText: "#FFF",
     storyBg: "rgba(255, 255, 255, 0.2)",
     footerBg: "#1c1d1e",
+    modalBg: "#FFF",
+    modalHover: "rgba(244, 246, 248, 0.70)",
   },
 
   projectManager: {
@@ -69,12 +77,13 @@ export const darkTheme = {
     progress: "black",
   },
   createProject: {
-    navBar: "#2D2D2D",
+    inputBg: "#FFF",
     bg: "#1C1D1E",
     textColor: "#FFFFFF",
     border: "#7C7C7C",
-    createBtn: "#000000",
-    cancelBtn: "#9B9B9B",
+    createBtn: "#0C6EED",
+    cancelBtn: "#6D758F",
+    btnText: "#FFF",
   },
   profile: {
     mainTextColor: "white",

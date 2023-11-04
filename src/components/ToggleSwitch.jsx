@@ -7,16 +7,14 @@ export default function ToggleSwitch() {
 
   return (
     <div
-      className={`${styles.toggleBtn} ${
-        themeMode === "light" && styles.active
-      }`}
+      className={`${styles.toggleBtn} ${themeMode === "dark" && styles.active}`}
       onClick={() => {
         toggleTheme();
       }}
     >
       <div
         className={`${styles.toggleDot} ${
-          themeMode === "light" && styles.active
+          themeMode === "dark" && styles.active
         }`}
       ></div>
     </div>
