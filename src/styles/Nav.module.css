@@ -3,14 +3,12 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  overflow: hidden;
   height: 64px;
-  overflow: hidden;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   padding: 0 5vw;
-  background-color: white;
+  z-index: 9;
 }
 
 .navLink {
@@ -53,4 +51,5 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  position: relative;
 }

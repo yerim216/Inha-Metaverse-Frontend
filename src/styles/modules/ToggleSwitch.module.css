@@ -1,7 +1,7 @@
 .toggleBtn {
-  width: 68px;
-  height: 30px;
-  background-color: #7090b0;
+  width: 55px;
+  height: 25px;
+  background-color: #e6e8ec;
   border-radius: 15px;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -9,9 +9,9 @@
 }
 
 .toggleDot {
-  width: 20px;
-  height: 20px;
-  background-color: white;
+  width: 16px;
+  height: 16px;
+  background-color: #555;
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
@@ -21,10 +21,10 @@
 }
 
 .toggleBtn.active {
-  background-color: #e1ecf6;
+  background-color: #555;
 }
 
 .toggleDot.active {
-  background-color: black;
-  left: calc(100% - 24px);
+  background-color: #e6e8ec;
+  left: calc(100% - 20px);
 }
