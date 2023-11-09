@@ -57,17 +57,21 @@ export default function Mycalendar() {
    useEffect(() => {
       if (dayMove) {
          localStorage.setItem('date', today);
-         //  setDayMove(0);
       }
    }, [today]);
 
    useEffect(() => {
-      if (localStorage.getItem('date') && localStorage.getItem('date') !== today) {
+      if (dayMove && localStorage.getItem('date') !== today) {
          const storageDate = String(localStorage.getItem('date'));
 
          const toDate = new Date(storageDate);
+         console.log(toDate);
+
          setSelectedStartDate(toDate);
+         setDayMove(0);
       }
+      console.log(today);
+      console.log(localStorage.getItem('date'));
    }, []);
 
    // let today = new Date(); //re: Tue Aug 29 2023 14:39:43 GMT+0900 (한국 표준시)
