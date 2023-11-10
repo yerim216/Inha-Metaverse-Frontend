@@ -25,10 +25,11 @@ export const lightTheme = {
     inputBg: "#F1F3F7",
     bg: "#FFF",
     textColor: "#000",
-    border: "#7C7C7C",
+    border: "#B3B3B3",
     createBtn: "#0C6EED",
     cancelBtn: "#6D758F",
     btnText: "#FFF",
+    fieldBtnBg: "#F1F3F7",
   },
   board: {
     whenModalBg: "rgba(105, 105, 105, 0.8)",
@@ -77,13 +78,14 @@ export const darkTheme = {
     progress: "black",
   },
   createProject: {
-    inputBg: "#FFF",
+    inputBg: "#2C2C2C",
     bg: "#1C1D1E",
     textColor: "#FFFFFF",
     border: "#7C7C7C",
     createBtn: "#0C6EED",
     cancelBtn: "#6D758F",
     btnText: "#FFF",
+    fieldBtnBg: "#2C2C2C",
   },
   profile: {
     mainTextColor: "white",

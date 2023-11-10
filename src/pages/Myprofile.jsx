@@ -354,7 +354,7 @@ export default function Profile() {
                 >
                   <div style={part2Wrap}>
                     {/*  아래가 파란색 있는 거임 */}
-                    {obj.teamInfo.skills[0] !== null ? (
+                    {obj.teamInfo.skills !== null ? (
                       <div style={parts2}>{obj.numOfPeople.team_cnt}</div>
                     ) : (
                       <div style={parts2}>팀 내 기술 스택 X</div>
