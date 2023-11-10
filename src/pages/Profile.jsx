@@ -317,7 +317,7 @@ export default function Profile() {
             <div className={styles.profileTop}>
                <div className={styles.nameContainer}>
                   {teamDetail &&
-                     (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                     (teamDetail.teamInfo.skills === null ? (
                         <p className={styles.skill}> 팀 스킬이 없어요 </p>
                      ) : (
                         teamDetail.teamInfo.skills.map((skill, index) => {
@@ -383,7 +383,7 @@ export default function Profile() {
                   사용 스킬{' '}
                </p>
                {teamDetail &&
-                  (teamDetail.teamInfo.skills[0].skill_name === null ? (
+                  (teamDetail.teamInfo.skills === null ? (
                      <p style={{ color: tm.mainTextColor }}> 팀 스킬이 없습니다 </p>
                   ) : (
                      teamDetail.teamInfo.skills.map((skill, index) => {

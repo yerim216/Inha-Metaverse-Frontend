@@ -138,7 +138,7 @@ export default function TeamCard({ team }) {
         ref={teamCardRef}
       >
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">
-          {team.teamInfo.skills[0] !== null ? (
+          {team.teamInfo.skills !== null ? (
             <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
           ) : (
             <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
