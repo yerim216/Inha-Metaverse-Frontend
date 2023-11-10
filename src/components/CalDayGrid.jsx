@@ -151,6 +151,7 @@ export default function CalDayGrid(props) {
    });
 
    let dayEventLast = [];
+   const [eventChange, setEventChange] = useState(0);
 
    let control = 0;
    useEffect(() => {
@@ -243,25 +244,33 @@ export default function CalDayGrid(props) {
       props.setEventColor(color);
       props.setNote(note);
    };
-   let eventNumByDay = 0;
-
+   // let eventNumByDay = 0;
+   const [eventNumByDay, setEventNumByDay] = useState(0);
    let eventCol = 0;
 
    const [clickedRow, setClickedRow] = useState(-1);
+
    useEffect(() => {
-      if (clickedRow !== -1) {
-         //  const temp = dayEventLast[dayEventLast.length() - 1].priority;
-         //  console.log(temp);
-      }
       const dayBoxes = Array.from(document.querySelectorAll('.dayBox'));
-      if (dayBoxes.length === 0) return;
+      console.log(clickedRow + ' ' + eventNumByDay);
+      console.log(dayBoxes.length);
+      console.log(dayEventLast);
+
+      if (dayBoxes.length === 0 || dayEventLast.length === 0) return;
+      // setEventNumByDay(dayEventLast[dayEventLast.length - 1].priority);
+      console.log(eventNumByDay);
 
       dayBoxes.map((day, index) => {
-         if (Math.floor(index / 7) === clickedRow && eventNumByDay !== 0) {
+         console.log(Math.floor(index / 7));
+         console.log(clickedRow);
+         console.log(eventNumByDay);
+
+         if (Math.floor(index / 7) === clickedRow) {
             day.style.gridTemplateRows = `repeat(${eventNumByDay + 1}, 1fr)`;
+            console.log(eventNumByDay + ' ' + index);
          } else day.style.gridTemplateRows = 'repeat(4, 1fr)';
       });
-   }, [clickedRow, eventNumByDay]);
+   }, [clickedRow, dayEventLast]);
 
    const showAllEvents = (dateValue) => {
       eventCol = Math.floor(dateValue / 7);
@@ -288,8 +297,8 @@ export default function CalDayGrid(props) {
          setClickedRow(-1);
       } else {
          gridRef.current.style.gridTemplateRows = styleVariable;
-         //  dayBoxRef.current.style.gridTemplateRows = 'repeat(5, 1fr)';
-         console.log(dayBoxRef.current);
+         // dayBoxRef.current.style.gridTemplateRows = 'repeat(6, 1fr)';
+         console.log(dayBoxRef);
          console.log('켜주기');
          setClickedRow(eventCol);
       }
@@ -297,6 +306,8 @@ export default function CalDayGrid(props) {
 
    const gridRef = useRef();
    const dayBoxRef = useRef();
+
+   //사용 X
    const [gridEventNums, setGridEventNums] = useState(0);
 
    useEffect(() => {
@@ -325,7 +336,6 @@ export default function CalDayGrid(props) {
                const dateToString = String(dateKey); //yyyy-mm-dd 형식
 
                dayEventLast = [];
-               //    sum = [];
                let remainingItems = 0;
                let emptyBoxes = [];
                let maxItems = 3;
@@ -539,10 +549,10 @@ export default function CalDayGrid(props) {
                                              ),
                                           });
                                        }
-                                       eventNumByDay =
-                                          dayEventLast.length !== 0
-                                             ? dayEventLast[dayEventLast.length - 1].priority
-                                             : 0;
+                                       // eventNumByDay =
+                                       //    dayEventLast.length !== 0
+                                       //       ? dayEventLast[dayEventLast.length - 1].priority
+                                       //       : 0;
                                     });
                               }
                            }
@@ -595,10 +605,10 @@ export default function CalDayGrid(props) {
                                           });
 
                                           dayEventLast.sort((a, b) => a.priority - b.priority);
-                                          eventNumByDay =
-                                             dayEventLast.length !== 0
-                                                ? dayEventLast[dayEventLast.length - 1].priority
-                                                : null;
+                                          // eventNumByDay =
+                                          //    dayEventLast.length !== 0
+                                          //       ? dayEventLast[dayEventLast.length - 1].priority
+                                          //       : null;
                                        });
                                     }
                                  }
@@ -607,11 +617,13 @@ export default function CalDayGrid(props) {
                         })}
 
                      {dayEventLast.map((events, index) => {
+                        // eventNumByDay = dayEventLast.length !== 0 ? dayEventLast[dayEventLast.length - 1].priority : 0;
                         // eventNumByDay = dayEventLast[dayEventLast.length - 1].priority;
-                        console.log(events.startDate + '  ' + eventNumByDay);
+                        // console.log(events.title + '  ' + eventNumByDay);
 
                         if (clickedRow !== -1) {
-                           console.log(eventNumByDay);
+                           //날짜 클릭된 경우 등록된 전체 이벤트 보여주기
+                           // if (events.priority < 4 && index < 3) {
                            if (index === 0) {
                               //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리
                               emptyBoxes = Array.from({ length: Math.min(events.priority - 1, maxItems) }, (_, i) => (
@@ -658,53 +670,58 @@ export default function CalDayGrid(props) {
                                  ))}
                               </>
                            );
-                        } else if (events.priority < 4 && index < 3) {
-                           if (index === 0) {
-                              //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리
-                              emptyBoxes = Array.from({ length: Math.min(events.priority - 1, maxItems) }, (_, i) => (
-                                 <div key={i} className={styles.emptyBox}></div>
-                              ));
-                              remainingItems = maxItems - emptyBoxes.length;
+                           // }
+                           // console.log(eventNumByDay);
+                        } else if (clickedRow === -1) {
+                           if (events.priority < 4 && index < 3) {
+                              if (index === 0) {
+                                 //맨 처음 이벤트의 priority 가 1이 아닌 경우 처리
+                                 emptyBoxes = Array.from(
+                                    { length: Math.min(events.priority - 1, maxItems) },
+                                    (_, i) => <div key={i} className={styles.emptyBox}></div>
+                                 );
+                                 remainingItems = maxItems - emptyBoxes.length;
 
-                              // maxItems = events.priority -1;
-                              priorityCheck = events.priority;
-                           } else if (events.priority != index + 1 && events.priority - priorityCheck != 1) {
-                              //이벤트 priority = 1, 3인 경우
-                              maxItems -= index + 1;
-                              emptyBoxes = Array.from({ length: maxItems }, (_, i) => (
-                                 <div key={i} className={styles.emptyBox}></div>
-                              ));
-                              remainingItems = maxItems;
-                           } else {
-                              // 이벤트 prioity가 순차적인 경우
-                              emptyBoxes = [];
-                              // remainingItems = remainingItems-1;
+                                 // maxItems = events.priority -1;
+                                 priorityCheck = events.priority;
+                              } else if (events.priority != index + 1 && events.priority - priorityCheck != 1) {
+                                 //이벤트 priority = 1, 3인 경우
+                                 maxItems -= index + 1;
+                                 emptyBoxes = Array.from({ length: maxItems }, (_, i) => (
+                                    <div key={i} className={styles.emptyBox}></div>
+                                 ));
+                                 remainingItems = maxItems;
+                              } else {
+                                 // 이벤트 prioity가 순차적인 경우
+                                 emptyBoxes = [];
+                                 // remainingItems = remainingItems-1;
+                              }
+                              return (
+                                 <>
+                                    {emptyBoxes}
+                                    {Array.from({ length: Math.min(remainingItems, 1) }, (_, i) => (
+                                       <>
+                                          <span
+                                             key={index}
+                                             onClick={() =>
+                                                clickEvent(
+                                                   events.title,
+                                                   events.startDay,
+                                                   events.endDay,
+                                                   events.index,
+                                                   events.color,
+                                                   events.note
+                                                )
+                                             }
+                                             className={styles.eventBarWrap}
+                                          >
+                                             {events.jsx}
+                                          </span>
+                                       </>
+                                    ))}
+                                 </>
+                              );
                            }
-                           return (
-                              <>
-                                 {emptyBoxes}
-                                 {Array.from({ length: Math.min(remainingItems, 1) }, (_, i) => (
-                                    <>
-                                       <span
-                                          key={index}
-                                          onClick={() =>
-                                             clickEvent(
-                                                events.title,
-                                                events.startDay,
-                                                events.endDay,
-                                                events.index,
-                                                events.color,
-                                                events.note
-                                             )
-                                          }
-                                          className={styles.eventBarWrap}
-                                       >
-                                          {events.jsx}
-                                       </span>
-                                    </>
-                                 ))}
-                              </>
-                           );
                         }
                      })}
                   </div>
