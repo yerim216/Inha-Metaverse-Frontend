@@ -88,20 +88,6 @@ export default function SignInModal(props) {
     // 모달이 열릴때 openModal 클래스가 생성된다.
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        // <section>
-        //   <header>
-        //     {header}
-        //     <button className="close" onClick={close}>
-        //       &times;
-        //     </button>
-        //   </header>
-        //   <main>{props.children}</main>
-        //   <footer>
-        //     <button className="close" onClick={close}>
-        //       close
-        //     </button>
-        //   </footer>
-        // </section>
         <section className={styles.loginBox} ref={modalRef}>
           <section className={styles.fighteeingBox}>
             <h1 className={styles.fighteeing}>안녕하세요!</h1>

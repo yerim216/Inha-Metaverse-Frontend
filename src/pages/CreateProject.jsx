@@ -2,11 +2,19 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../APIs/userinfo";
-import { addJob, addMember, createTeam, getJobs } from "../APIs/team";
+import {
+  addJob,
+  addMember,
+  createTeam,
+  getJobs,
+  getProjectCategory,
+} from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import Nav from "../components/Nav";
-import FieldBtn from "../components/FieldBtn";
+import ErrorMsg from "../components/ErrorMsg";
+import CategoryBtn from "../components/CategoryBtn";
+import CategoryCard from "../components/CategoryCard";
 
 export default function CreateProject() {
   // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
@@ -23,28 +31,138 @@ export default function CreateProject() {
     introduction: "",
     description: "",
   });
-  const [fields, setFields] = useState([
-    "패션",
-    "리사이클링",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
-    "패션",
+  const handleErrorMsg = (inputName) => {
+    if (inputName === "projectName") {
+      if (inputs.projectName.length >= 20) {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            projectName: "20자를 넘길 수 없습니다.",
+          };
+        });
+      } else {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            projectName: "",
+          };
+        });
+      }
+    } else if (inputName === "teamName") {
+      if (inputs.teamName.length >= 20) {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            teamName: "20자를 넘길 수 없습니다.",
+          };
+        });
+      } else {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            teamName: "",
+          };
+        });
+      }
+    } else if (inputName === "introduction") {
+      if (inputs.introduction.length >= 50) {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            introduction: "50자를 넘길 수 없습니다.",
+          };
+        });
+      } else {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            introduction: "",
+          };
+        });
+      }
+    } else if (inputName === "description") {
+      if (inputs.description.length >= 50) {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            description: "2000자를 넘길 수 없습니다.",
+          };
+        });
+      } else {
+        setErrorMessages((cur) => {
+          return {
+            ...cur,
+            description: "",
+          };
+        });
+      }
+    }
+  };
+  useEffect(() => {
+    handleErrorMsg("projectName");
+    handleErrorMsg("teamName");
+    handleErrorMsg("introduction");
+    handleErrorMsg("description");
+  }, [inputs]);
+
+  // 프로젝트 분야
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    getProjectCategory().then((res) => setCategory(res.data));
+  }, []);
+  // 선택된 프로젝트 분야
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  useEffect(() => {
+    if (selectedCategory.length >= 3) {
+      setErrorMessages((cur) => {
+        return {
+          ...cur,
+          category: "최대 3개까지 선택 가능합니다.",
+        };
+      });
+      return;
+    } else
+      setErrorMessages((cur) => {
+        return {
+          ...cur,
+          category: "",
+        };
+      });
+  }, [selectedCategory]);
+
+  // 모집 분야 : 프로젝트 분야와는 다름. 혼동 주의
+  const [category2, setCategory2] = useState([]);
+
+  // db에서 모집 분야 받아 옴.
+  useEffect(() => {
+    setCategory2([
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+      "ㅎㅇ",
+    ]);
+  }, []);
+
+  const [selectedCategory2, setSelectedCategory2] = useState([
+    { t1: "기획", t2: "서비스 기획", t3: 1 },
+    { t1: "기획", t2: "서비스 기획", t3: 1 },
+    { t1: "기획", t2: "서비스 기획", t3: 1 },
   ]);
+
+  // 에러메세지들 관련 state
+  const [errorMessages, setErrorMessages] = useState({
+    projectName: "",
+    teamName: "",
+    category: "",
+    introduction: "",
+    description: "",
+  });
 
   // const [inputs, setInputs] = useState({
   //   name: "",
@@ -94,27 +212,6 @@ export default function CreateProject() {
     document.body.style.backgroundColor = "#111111";
   };
 
-  const [signInModalOpen, setSignInModalOpen] = useState(false);
-  const openSignInModal = () => {
-    setSignInModalOpen(true);
-    blockScroll();
-  };
-  const closeSignInModal = () => {
-    setSignInModalOpen(false);
-    freeScroll();
-  };
-
-  // 회원가입창 팝업 관리 state
-  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-
-  const openSignUpModal = () => {
-    setSignUpModalOpen(true);
-    blockScroll();
-  };
-  const closeSignUpModal = () => {
-    setSignUpModalOpen(false);
-    freeScroll();
-  };
   const handleButtonClick = () => {
     window.location.href = "/myprofile";
   };
@@ -207,8 +304,102 @@ export default function CreateProject() {
     else setTm(theme.darkTheme.createProject);
   }, [themeMode]);
 
+  // 심사신청 모달 창
+  const [judgeModalOpen, setJudgeModalOpen] = useState(false);
+  const openJudgeModal = () => {
+    setJudgeModalOpen(true);
+    blockScroll();
+  };
+  const closeJudgeModal = () => {
+    setJudgeModalOpen(false);
+    freeScroll();
+  };
+
+  const modalRef = useRef();
+
+  useEffect(() => {
+    // 이벤트 핸들러 함수
+    const handler = (e) => {
+      // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        closeJudgeModal();
+      }
+    };
+
+    // 이벤트 핸들러 등록
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      // 이벤트 핸들러 해제
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+
   return (
     <>
+      {judgeModalOpen && (
+        <div
+          className={`${
+            judgeModalOpen ? "openModal modal" : "modal"
+          } flex justify-center items-center`}
+        >
+          <div
+            ref={modalRef}
+            className={`w-[600px] h-2/5 rounded-[50px] px-[130px] py-20 flex flex-col justify-between items-center
+            ${themeMode === "light" && styles.shadow}
+            ${themeMode !== "light" && "border border-gray-500"}
+          `}
+            style={{
+              backgroundColor: tm.bg,
+            }}
+          >
+            <h2
+              className="font-bold text-[32px]"
+              style={{
+                color: tm.textColor,
+              }}
+            >
+              심사를 신청하시겠습니까?
+            </h2>
+            <pre
+              className="text-center font-normal text-[16px] -mt-6"
+              style={{
+                color: tm.hazyText,
+              }}
+            >
+              {
+                "심사는 2-3일 내로 처리되며,\n승인되면 프로젝트가 올라갑니다.\n베타 서비스 중에는, 바로 프로젝트 제작이 완료됩니다."
+              }
+            </pre>
+            <div className="flex w-full justify-between">
+              <button
+                className="w-[130px] h-[70px] rounded-[40px] text-xl font-bold hover:scale-[103%]"
+                style={{
+                  color: tm.accentBtnText,
+                  backgroundColor: tm.accentColor,
+                }}
+                onClick={() => {
+                  // 여기서 신청 처리
+                }}
+              >
+                네
+              </button>
+              <button
+                className="w-[130px] h-[70px] rounded-[40px] text-xl font-bold hover:scale-[103%]"
+                style={{
+                  color: tm.accentBtnText,
+                  backgroundColor: tm.cancelBtn,
+                }}
+                onClick={() => {
+                  closeJudgeModal();
+                }}
+              >
+                아니오
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Nav />
       <section
         className={styles.paddingSection}
@@ -227,11 +418,12 @@ export default function CreateProject() {
               프로젝트명
             </div>
             <div
-              className="w-5/6 pb-8"
+              className="w-5/6 pb-8 relative"
               style={{
                 borderColor: tm.border,
               }}
             >
+              <ErrorMsg errMsg={errorMessages.projectName} />
               <input
                 style={{
                   color: tm.textColor,
@@ -252,7 +444,7 @@ export default function CreateProject() {
           </div>
         </div>
         <div
-          className="flex items-center gap-6 border-b pb-20"
+          className="flex items-center gap-6 border-b pb-12"
           style={{
             borderColor: tm.border,
           }}
@@ -266,7 +458,8 @@ export default function CreateProject() {
             >
               팀명
             </div>
-            <div className="w-5/6">
+            <div className="w-5/6 relative pb-8">
+              <ErrorMsg errMsg={errorMessages.teamName} />
               <input
                 style={{
                   color: tm.textColor,
@@ -287,7 +480,7 @@ export default function CreateProject() {
           </div>
         </div>
         <div
-          className="flex items-center gap-6 border-b pb-20"
+          className="flex items-center gap-6 border-b pb-12"
           style={{
             borderColor: tm.border,
           }}
@@ -301,17 +494,37 @@ export default function CreateProject() {
             >
               프로젝트 분야
             </div>
-            <div className="w-full px-4">
+            <div className="w-full px-4 relative pb-8">
+              <ErrorMsg errMsg={errorMessages.category} />
               {/* 여기에 분야들 보여주기, 현재는 없어서 */}
               <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-y-6 mt-8">
-                {fields &&
-                  fields.map((field) => (
-                    <FieldBtn
-                      fieldName={field}
-                      btnBg={tm.fieldBtnBg}
-                      textColor={tm.textColor}
-                    />
-                  ))}
+                {category &&
+                  category.map((category) => {
+                    return (
+                      <CategoryBtn
+                        categoryName={category.category_name}
+                        categoryIndex={category.category_index}
+                        selected={selectedCategory.some(
+                          (obj) =>
+                            obj.category_index === category.category_index
+                        )}
+                        handleAddCategory={() => {
+                          if (selectedCategory.length >= 3) return;
+
+                          setSelectedCategory((cur) => {
+                            return [...cur, category];
+                          });
+                        }}
+                        handleDeleteCategory={(index) => {
+                          setSelectedCategory((cur) => {
+                            return cur.filter(
+                              (category) => category.category_index !== index
+                            );
+                          });
+                        }}
+                      />
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -325,12 +538,15 @@ export default function CreateProject() {
           >
             프로젝트 한줄 소개
           </div>
-          <div className="w-full px-4">
+          <div className="w-full px-4 relative pb-8">
+            <ErrorMsg errMsg={errorMessages.introduction} />
             <input
               style={{
                 color: tm.textColor,
                 backgroundColor: tm.inputBg,
               }}
+              placeholder="내용을 입력해주세요."
+              maxLength={50}
               type="text"
               className="rounded-md font-medium p-2 w-full px-12 py-10 mt-8"
               value={inputs.introduction}
@@ -343,7 +559,12 @@ export default function CreateProject() {
           </div>
         </div>
 
-        <div className="w-full">
+        <div
+          className="w-full border-b pb-8"
+          style={{
+            borderColor: tm.border,
+          }}
+        >
           <div
             className={`${styles.middleFont} w-1/6`}
             style={{
@@ -352,16 +573,15 @@ export default function CreateProject() {
           >
             프로젝트 설명
           </div>
-          <div
-            className="w-full px-4 border-b pb-16"
-            style={{
-              borderColor: tm.border,
-            }}
-          >
+          <div className="w-full px-4 pb-8 relative">
+            <ErrorMsg errMsg={errorMessages.description} />
             <textarea
+              placeholder="내용을 입력해주세요."
+              maxLength={2000}
               className="rounded-md font-medium w-full resize-none px-12 py-10 outline-none h-[920px] mt-8"
               style={{
                 backgroundColor: tm.inputBg,
+                color: tm.textColor,
               }}
               value={inputs.description}
               onChange={(e) => {
@@ -373,7 +593,7 @@ export default function CreateProject() {
           </div>
         </div>
 
-        <div className="flex w-full">
+        <div className="w-full">
           <div
             className={`${styles.middleFont} w-1/5`}
             style={{
@@ -382,7 +602,117 @@ export default function CreateProject() {
           >
             모집
           </div>
-          <div className="w-4/5 flex flex-col gap-8">
+          <div className="w-full px-4 pt-8">
+            {/* 분야 / 스킬 / 역할 박스 */}
+            <div
+              className={`h-[600px] rounded-[20px] flex relative ${styles.shadow}`}
+            >
+              {/* 분야, 스킬 표기 박스 */}
+              <div className="w-[55%] h-5/6 flex flex-col justify-between">
+                <div className={styles.recruitmentBox_leftArea}>
+                  <h3
+                    className={styles.recruitmentBox_title}
+                    style={{
+                      color: tm.textColor,
+                    }}
+                  >
+                    분야
+                  </h3>
+                  <div
+                    className={styles.recruitmentBox_inputBox}
+                    style={{
+                      backgroundColor: tm.inputBg,
+                    }}
+                  ></div>
+                  <div
+                    className={`${styles.recruitmentBox_inputBox} flex gap-6`}
+                  >
+                    <div
+                      className="w-3/5 bg-red-50 rounded-[10px]"
+                      style={{
+                        backgroundColor: tm.inputBg,
+                      }}
+                    ></div>
+                    <div
+                      className="w-2/5 bg-red-50 rounded-[10px]"
+                      style={{
+                        backgroundColor: tm.inputBg,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+                <div className={styles.recruitmentBox_leftArea}>
+                  <h3
+                    className={styles.recruitmentBox_title}
+                    style={{
+                      color: tm.textColor,
+                    }}
+                  >
+                    스킬
+                  </h3>
+                  <div
+                    className={styles.recruitmentBox_inputBox}
+                    style={{
+                      backgroundColor: tm.inputBg,
+                    }}
+                  ></div>
+                  <div
+                    className={styles.recruitmentBox_inputBox}
+                    style={{
+                      backgroundColor: tm.inputBg,
+                    }}
+                  ></div>
+                </div>
+              </div>
+              {/* 역할 박스 */}
+              <div className="w-[45%] h-5/6 flex flex-col justify-between relative">
+                <div className={styles.recruitmentBox_rightArea}>
+                  <h3
+                    className={styles.recruitmentBox_title}
+                    style={{
+                      color: tm.textColor,
+                    }}
+                  >
+                    분야
+                  </h3>
+                  <div
+                    style={{
+                      backgroundColor: tm.inputBg,
+                    }}
+                    className="w-full h-5/6 mt-5 rounded-[10px]"
+                  ></div>
+                </div>
+                <div className={`w-full h-1/2 px-14 pt-20`}>
+                  <div
+                    className="wfull h-[145px] rounded-[10px]"
+                    style={{
+                      backgroundColor: tm.inputBg,
+                    }}
+                  >
+                    <ErrorMsg errMsg={errorMessages.projectName} />
+                  </div>
+                </div>
+              </div>
+              {/* 추가하기 버튼 */}
+              <button
+                className="absolute right-12 bottom-8 font-bold text-xl w-[150px] h-12 rounded-3xl hover:scale-[103%]"
+                style={{
+                  color: tm.btnText,
+                  backgroundColor: tm.createBtn,
+                }}
+              >
+                추가하기
+              </button>
+            </div>
+            {/* 선택한 분야 표기 박스 */}
+            <div className="w-full mt-14 grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
+              {selectedCategory2 &&
+                selectedCategory2.map((category2) => (
+                  <CategoryCard category2={category2} />
+                ))}
+            </div>
+          </div>
+          {/* <div className="w-4/5 flex flex-col gap-8">
             <div className="w-1/12 flex items-center gap-3">
               <input
                 style={{
@@ -513,7 +843,7 @@ export default function CreateProject() {
                 + 직접 입력
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex w-full justify-end gap-8 mt-36">
           <button
@@ -523,25 +853,25 @@ export default function CreateProject() {
               color: tm.btnText,
             }}
             onClick={async (e) => {
+              openJudgeModal();
               e.preventDefault();
-              console.log(checkRecruitmentNumSame());
               if (!checkRecruitmentNumSame()) {
                 alert(
                   "모집 인원과 실제 직무 상의 인원이 일치하지 않습니다. 다시 확인해주세요!"
                 );
                 return;
               }
-              const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
-              if (returnVal === true) {
-                const userIndex = JSON.parse(
-                  localStorage.getItem("recoil-persist")
-                ).userState.user_index;
-                const teamName = await createTeam(userIndex, inputs);
-                if (handleAddJob(teamName) && handleAddCustomJob(teamName)) {
-                  alert("팀이 성공적으로 생성되었습니다!");
-                  navigate("/");
-                } else alert("예상치 못한 오류가 발생했습니다!");
-              }
+              // const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
+              // if (returnVal === true) {
+              //   const userIndex = JSON.parse(
+              //     localStorage.getItem("recoil-persist")
+              //   ).userState.user_index;
+              //   const teamName = await createTeam(userIndex, inputs);
+              //   if (handleAddJob(teamName) && handleAddCustomJob(teamName)) {
+              //     alert("팀이 성공적으로 생성되었습니다!");
+              //     navigate("/");
+              //   } else alert("예상치 못한 오류가 발생했습니다!");
+              // }
             }}
           >
             프로젝트 제작하기

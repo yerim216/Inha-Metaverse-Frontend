@@ -74,3 +74,7 @@ export function addJob(teamName, jobName, recruitmentNum) {
     num: recruitmentNum,
   });
 }
+
+export function getProjectCategory() {
+  return axios.get("team/projectCategory");
+}
