@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://app.vpspace.net/";
+// axios.defaults.baseURL = "https://app.vpspace.net/";
+axios.defaults.baseURL = "http://43.201.166.82:3000/";
 
 export function getSchedule(teamIndex) {
   return axios.post("/schedule/list", {
@@ -83,7 +84,7 @@ export function modifyEvent({
     writer: writer,
     last_update: last_update,
     color: color,
-  })
+  });
   return axios.post("/schedule/modify  ", {
     team: team,
     title: title,
