@@ -14,23 +14,6 @@ export default function CalDayGrid(props) {
    const [eventArr, setEventArr] = useState([]);
    let [scheduleByDate, setScheduleByDate] = useState({});
    const [eventOver, setEventOver] = useState(0);
-   // const [userName, setUserName] = useState('');
-
-   // const [userLogin, setUserLogin] = useRecoilState(userState);
-   // const userIndex = userLogin.user_index;
-
-   // const [selectedID, setSelectedId] = useState([]);
-   // const requestURL = `${window.baseURL}`;
-   // useEffect(() => {
-   //     getUserInfo(userIndex)
-   //       .then(function (res) {
-   //         setUserName(res.data[0].user_name);
-   //         console.log(res.data[0].user_name);
-   //       })
-   //       .catch(function (error) {
-   //         console.log("데이터가 없어서 그래요!!" + error);
-   //       });
-   //   }, []);
 
    const fetchData = () => {
       getScheduleCalendar(teamIndex)
@@ -252,22 +235,13 @@ export default function CalDayGrid(props) {
 
    useEffect(() => {
       const dayBoxes = Array.from(document.querySelectorAll('.dayBox'));
-      console.log(clickedRow + ' ' + eventNumByDay);
-      console.log(dayBoxes.length);
-      console.log(dayEventLast);
 
       if (dayBoxes.length === 0 || dayEventLast.length === 0) return;
       // setEventNumByDay(dayEventLast[dayEventLast.length - 1].priority);
-      console.log(eventNumByDay);
 
       dayBoxes.map((day, index) => {
-         console.log(Math.floor(index / 7));
-         console.log(clickedRow);
-         console.log(eventNumByDay);
-
          if (Math.floor(index / 7) === clickedRow) {
             day.style.gridTemplateRows = `repeat(${eventNumByDay + 1}, 1fr)`;
-            console.log(eventNumByDay + ' ' + index);
          } else day.style.gridTemplateRows = 'repeat(4, 1fr)';
       });
    }, [clickedRow, dayEventLast]);

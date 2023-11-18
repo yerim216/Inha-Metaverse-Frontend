@@ -20,6 +20,23 @@ export default function Mycalendar() {
    const [writer, setWriter] = useState(null);
    const [note, setNote] = useState(null);
 
+   const preventClose = (e) => {
+      e.preventDefault();
+      e.returnValue = ''; //Chrome에서 동작하도록; deprecated
+      setStartDay(new Date());
+      localStorage.setItem('date', new Date());
+      console.log('언로드');
+   };
+
+   useEffect(() => {
+      (() => {
+         window.addEventListener('beforeunload', preventClose);
+      })();
+      return () => {
+         window.removeEventListener('beforeunload', preventClose);
+      };
+   }, []);
+
    const openModal = () => {
       setChangeEvent(false);
       setIsModalOpen(true);
@@ -58,21 +75,19 @@ export default function Mycalendar() {
       if (dayMove) {
          localStorage.setItem('date', today);
       }
+      setDayMove(1);
    }, [today]);
 
    useEffect(() => {
-      if (dayMove && localStorage.getItem('date') !== today) {
+      if (dayMove) {
          const storageDate = String(localStorage.getItem('date'));
 
          const toDate = new Date(storageDate);
          console.log(toDate);
 
          setSelectedStartDate(toDate);
-         setDayMove(0);
       }
-      console.log(today);
-      console.log(localStorage.getItem('date'));
-   }, []);
+   }, [dayMove]);
 
    // let today = new Date(); //re: Tue Aug 29 2023 14:39:43 GMT+0900 (한국 표준시)
    let month = today.getMonth(); //오늘 해당 달 mm
@@ -83,8 +98,8 @@ export default function Mycalendar() {
    const [modalOpen, setModalOpen] = useState(false);
 
    const handleStartDateChange = (date) => {
-      setSelectedStartDate(date);
       setDayMove(1);
+      setSelectedStartDate(date);
       console.log(date);
       setModalOpen(false); // 모달을 닫습니다.
    };

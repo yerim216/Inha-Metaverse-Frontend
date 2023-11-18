@@ -1,602 +1,674 @@
 .contain {
-  width: 100%;
+   width: 100%;
 }
 
 .nav {
-  float: left;
-  padding: 0;
-  width: 100vw;
+   float: left;
+   padding: 0;
+   width: 100vw;
 }
 
 .profileImage {
-  position: relative;
-  width: 182px;
-  height: 182px;
-  object-fit: cover;
-  border-radius: 100%;
+   position: relative;
+   width: 182px;
+   height: 182px;
+   object-fit: cover;
+   border-radius: 100%;
 }
 
 .navItems {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
+   display: flex;
+   flex-direction: row;
+   width: 100vw;
 }
 
 .logoContainer {
-  display: flex;
-  padding: 45px 0 0 50px;
-  flex: 9 1;
+   display: flex;
+   padding: 45px 0 0 50px;
+   flex: 9 1;
 }
 .textContainer {
-  display: flex;
-  padding: 48px 68px 48px 48px;
-  justify-content: space-between;
+   display: flex;
+   padding: 48px 68px 48px 48px;
+   justify-content: space-between;
 }
 
 .navLink {
-  font-family: "Avenir";
-  float: left;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  line-height: 25px;
-  padding-left: 56px;
+   font-family: 'Avenir';
+   float: left;
+   color: white;
+   text-align: center;
+   text-decoration: none;
+   font-size: 15px;
+   line-height: 25px;
+   padding-left: 56px;
 
-  cursor: pointer;
+   cursor: pointer;
 }
 
 .loginButton {
-  margin-left: 77px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  line-height: 20px;
+   margin-left: 77px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   line-height: 20px;
 
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  font-size: 15px; /* 버튼 글자 크기 */
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   font-size: 15px; /* 버튼 글자 크기 */
 }
 
 .backgroundImage {
-  height: 0;
-  padding-bottom: 22%; /* 468 / 1536 * 100 */
+   height: 0;
+   padding-bottom: 22%; /* 468 / 1536 * 100 */
 }
 
 .profileImage {
-  position: relative;
-  top: -125px;
-  height: 251px;
-  width: 251px;
-  left: 50%;
-  transform: translateX(-50%);
+   position: relative;
+   top: -125px;
+   height: 251px;
+   width: 251px;
+   left: 50%;
+   transform: translateX(-50%);
 }
 
 @media screen and (max-width: 768px) {
-  .profileImage {
-    height: 150px;
-    width: 150px;
-    top: -140px;
-  }
+   .profileImage {
+      height: 150px;
+      width: 150px;
+      top: -140px;
+   }
 }
 
 .texts {
-  width: 100vw;
-  margin: auto;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  /* margin-left: 260px;
+   width: 100vw;
+   margin: auto;
+   padding: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   /* margin-left: 260px;
   margin-right: -30px; */
-  color: #808080;
+   color: #808080;
 }
 
 .loginButton2 {
-  display: block;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  width: 129.18px;
-  height: 59px;
-  top: 10px;
+   display: block;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   width: 129.18px;
+   height: 59px;
+   top: 10px;
 
-  align-items: center;
+   align-items: center;
 
-  background-color: #7090b0; /* 버튼 배경색 */
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  padding: auto;
-  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-  border-radius: 35.5px;
+   background-color: #7090b0; /* 버튼 배경색 */
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   padding: auto;
+   text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+   border-radius: 35.5px;
 }
 
 .loginButton3 {
-  display: block;
-  margin-top: 15px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  width: 183px;
-  height: 59px;
-  top: 10px;
+   display: block;
+   margin-top: 15px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   width: 183px;
+   height: 59px;
+   top: 10px;
 
-  align-items: center;
+   align-items: center;
 
-  background-color: #7090b0; /* 버튼 배경색 */
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  padding: auto;
-  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-  border-radius: 35.5px;
+   background-color: #7090b0; /* 버튼 배경색 */
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   padding: auto;
+   text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+   border-radius: 35.5px;
 }
 
 .profileButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   margin: 30px;
 }
 
 .characteristics {
-  padding-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  height: 50px;
-  max-width: 707.92px;
-  margin: auto;
-  gap: 10px;
-  text-align: center;
+   padding-top: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: row;
+   height: 50px;
+   max-width: 707.92px;
+   margin: auto;
+   gap: 10px;
+   text-align: center;
 }
 
 .charItem1 {
-  height: 50px;
-  width: 206px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 206px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem2 {
-  height: 50px;
-  width: 180px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 180px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem3 {
-  height: 50px;
-  width: 165.92px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 165.92px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem4 {
-  height: 50px;
-  width: 126px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 126px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 
 .recruit {
-  width: 100%;
-  height: max-content;
-  padding: 18px 0 18px 0;
-  border-radius: 10px;
+   width: 100%;
+   height: max-content;
+   padding: 18px 0 18px 0;
+   border-radius: 10px;
 }
 
 .vec {
-  width: 20px;
-  height: 20px;
+   width: 20px;
+   height: 20px;
 }
 
 .lan {
-  display: block;
+   display: block;
+}
+
+.memBox {
+   margin-left: 90px;
+   width: 80%;
+   height: 60%;
+   border-radius: 80px 40px 40px 80px;
 }
 
 .recruit2 {
-  border-radius: 25px;
-  background-color: white;
-  width: 707px;
-  height: 203px;
-  margin: auto;
-  margin-top: 56px;
-  padding-top: 28px;
+   border-radius: 25px;
+   background-color: white;
+   width: 707px;
+   height: 203px;
+   margin: auto;
+   margin-top: 56px;
+   padding-top: 28px;
 }
 
 .memSearch {
-  width: 90%;
-  height: 380px;
-  margin-left: 2vw;
+   width: 90%;
+   height: 380px;
+   margin-left: 2vw;
 
-  padding-top: 5%;
+   padding-top: 5%;
 
-  margin-bottom: 100px;
-  overflow: hidden;
+   margin-bottom: 100px;
+   overflow: hidden;
 }
 
 .memSearch2 {
-  border-radius: 10px;
-  box-shadow: 0px 0px 20px 0px rgba(225, 225, 225, 0.2);
+   border-radius: 10px;
+   box-shadow: 0px 0px 20px 0px rgba(225, 225, 225, 0.2);
 
-  width: 1087px;
-  height: 358x;
+   width: 1087px;
+   height: 358x;
 
-  background: rgba(255, 255, 255, 0.2);
+   background: rgba(255, 255, 255, 0.2);
 
-  margin: auto;
-  margin-top: 56px;
+   margin: auto;
+   margin-top: 56px;
 }
 
 .memNav {
-  width: 100%;
-  display: flex;
-  color: white;
-  text-align: center;
-  border-bottom: 1px solid gray;
-  padding: 20px 0 20px 0;
+   width: 100%;
+   display: flex;
+   color: white;
+   text-align: center;
+   border-bottom: 1px solid gray;
+   padding: 20px 0 20px 0;
 }
 
 .item1 {
-  flex-grow: 2;
+   flex-grow: 2;
 }
 .item2 {
-  flex-grow: 2.2;
+   flex-grow: 2.2;
 }
 .item3 {
-  flex-grow: 0.7;
+   flex-grow: 0.7;
 }
 .item4 {
-  flex-grow: 0.7;
+   flex-grow: 0.7;
 }
 .item5 {
-  flex-grow: 2;
+   flex-grow: 2;
 }
 .txt {
-  margin-top: 5%;
-  color: #000;
-  font-family: Noto Sans;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 34px; /* 121.429% */
-  margin-left: 3vw;
+   margin-top: 5%;
+   color: #000;
+   font-family: Noto Sans;
+   font-size: 28px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 34px; /* 121.429% */
+   margin-left: 3vw;
 }
 
 .applyBtn {
-  margin-top: 100px;
-  font-size: 30px;
-  font-family: Avenir;
-  font-weight: 800;
-  font-family: "Avenir";
-  font-style: normal;
-  line-height: 33px;
-  letter-spacing: 0.06em;
-  color: #ffffff;
-  padding: 20px;
-  background: #7090b0;
-  border-radius: 30px;
-}
-
-.officeBtn {
-  float: right;
-  margin-top: -220px;
-  margin-right: 20px;
-  font-size: 20px;
-  font-family: Avenir;
-  font-weight: 800;
-  font-family: "Avenir";
-  font-style: normal;
-  line-height: 33px;
-  letter-spacing: 0.06em;
-  color: #ffffff;
-  padding: 20px;
-  background: #000;
-  border-radius: 30px;
-  transition: all 0.3s ease-in-out;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   width: fit-content;
+   font-size: 30px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-family: 'Avenir';
+   font-style: normal;
+   line-height: 33px;
+   letter-spacing: 0.06em;
+   color: #ffffff;
+   padding: 20px;
+   background: #7090b0;
+   border-radius: 30px;
 }
 
 .projectManageBtn {
-  float: right;
-  margin-top: -220px;
-  margin-right: 270px;
-  font-size: 20px;
-  font-family: Avenir;
-  font-weight: 800;
-  font-family: "Avenir";
-  font-style: normal;
-  line-height: 33px;
-  letter-spacing: 0.06em;
-  color: #ffffff;
-  padding: 20px;
-  background: #000;
-  border-radius: 30px;
-  transition: all 0.2s ease-in-out;
+   float: right;
+   margin-top: -220px;
+   margin-right: 270px;
+   font-size: 20px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-family: 'Avenir';
+   font-style: normal;
+   line-height: 33px;
+   letter-spacing: 0.06em;
+   color: #ffffff;
+   padding: 20px;
+   background: #000;
+   border-radius: 30px;
+   transition: all 0.2s ease-in-out;
 }
 
-.officeBtn:hover,
 .projectManageBtn:hover {
-  transform: scale(1.05);
+   transform: scale(1.05);
 }
 
-.applyBtn:hover {
-  filter: brightness(1.2);
+.applyBtnTeam:hover {
+   filter: brightness(1.2);
+   transform: scale(1.05);
+
+   cursor: pointer;
 }
 
 .leaveBtn {
-  margin-top: 100px;
-  font-size: 30px;
-  font-family: Avenir;
-  font-weight: 800;
-  font-family: "Avenir";
-  font-style: normal;
-  line-height: 33px;
-  letter-spacing: 0.06em;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   width: fit-content;
+   height: fit-content;
+   font-size: 30px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-family: 'Avenir';
+   font-style: normal;
+   line-height: 33px;
+   letter-spacing: 0.06em;
 
-  color: #ffffff;
-  padding: 20px;
-  background: grey;
-  border-radius: 30px;
+   color: #ffffff;
+   padding: 20px;
+   background: grey;
+   border-radius: 30px;
 }
 
 .leaveBtn:hover {
-  filter: brightness(1.2);
+   filter: brightness(1.2);
 }
 
 .userName {
-  font-weight: 1600;
-  font-size: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
+   font-weight: 1600;
+   font-size: 30px;
+   margin-left: 10px;
+   margin-right: 10px;
 }
 
 .recruit3 {
-  border-radius: 25px;
-  background-color: white;
-  width: 707px;
-  height: 203px;
-  margin: auto;
-  margin-top: 120px;
-  padding-top: 28px;
+   border-radius: 25px;
+   background-color: white;
+   width: 707px;
+   height: 203px;
+   margin: auto;
+   margin-top: 120px;
+   padding-top: 28px;
 }
 
 .wrapp {
-  display: flex;
+   display: flex;
 
-  width: 100%;
-  height: 300px;
+   width: 100%;
+   height: 300px;
 
-  /* border-radius: 50px; */
-  /* padding-top: 2%; */
+   /* border-radius: 50px; */
+   /* padding-top: 2%; */
 
-  /* margin: auto; */
-  /* padding-left: 55px; */
-  color: #112031;
-  /* 가로 스크롤 */
-  overflow-x: auto;
-  overflow-y: hidden;
+   /* margin: auto; */
+   /* padding-left: 55px; */
+   color: #112031;
+   /* 가로 스크롤 */
+   overflow-x: auto;
+   overflow-y: hidden;
 }
 
 .wrapp::-webkit-scrollbar {
-  margin-top: -40px;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
+   margin-top: -40px;
+   height: 8px;
+   background: rgba(0, 0, 0, 0.4);
+   border-radius: 10px;
 }
 
 /* 스크롤바 막대 설정*/
 .wrapp::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 1);
-  /* 스크롤바 둥글게 설정    */
-  border-radius: 10px;
+   background-color: rgba(255, 255, 255, 1);
+   /* 스크롤바 둥글게 설정    */
+   border-radius: 10px;
 }
 
 .wrapp::-webkit-scrollbar-track {
-  border-radius: 10px;
+   border-radius: 10px;
 }
 footer {
-  margin-bottom: 0;
-  padding-bottom: 0;
+   margin-bottom: 0;
+   padding-bottom: 0;
 }
 
 .footer {
-  background-color: #323232;
-  height: 290px;
-  width: 100vw;
-  margin-top: 96px;
-  padding-top: 50px;
-  color: #7090b0;
+   background-color: #323232;
+   height: 290px;
+   width: 100vw;
+   margin-top: 96px;
+   padding-top: 50px;
+   color: #7090b0;
 }
 
 .lab {
-  display: flex;
-  align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 .footerLogo {
-  display: inline-block;
+   display: inline-block;
 
-  width: 15.68px;
-  height: 15.68px;
-  margin-left: 171px;
+   width: 15.68px;
+   height: 15.68px;
+   margin-left: 171px;
 }
 
 .rights {
-  margin-left: 10px;
-  display: inline-block;
+   margin-left: 10px;
+   display: inline-block;
 }
 
 .lab2 {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 171.2px;
-  gap: 89px;
-  margin-top: 60px;
+   display: flex;
+   justify-content: flex-end;
+   margin-right: 171.2px;
+   gap: 89px;
+   margin-top: 60px;
 }
 
 .footerLogo2 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 25px;
-  height: 19.55px;
+   width: 25px;
+   height: 19.55px;
 }
 
 .footerLogo3 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 20px;
-  height: 19.55px;
+   width: 20px;
+   height: 19.55px;
 }
 
 .footerLogo4 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 12.8px;
-  height: 24.24px;
+   width: 12.8px;
+   height: 24.24px;
 }
 
 .last {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.06em;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 12px;
+   line-height: 16px;
+   letter-spacing: 0.06em;
 
-  color: #808080;
+   color: #808080;
 }
 .last2 {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  /* identical to box height */
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 16px;
+   line-height: 22px;
+   /* identical to box height */
 
-  letter-spacing: 0.06em;
+   letter-spacing: 0.06em;
 
-  color: #7090b0;
+   color: #7090b0;
 }
 .last3 {
-  margin-left: 171px;
-  margin-top: 30px;
+   margin-left: 171px;
+   margin-top: 30px;
 }
 
 .skill {
-  display: flex;
-  justify-content: center;
-  color: white;
-  /* margin-left: 15%; */
-  background-color: black;
-  padding: 8px 20px;
-  border-radius: 22.5px;
-  border: 0.5px solid #7c7c7c;
+   display: flex;
+   justify-content: center;
+   width: fit-content;
+   background-color: white;
+   padding: 8px 20px;
+   border-radius: 22.5px;
+   border: 0.5px solid #7c7c7c;
 
-  color: #7c7c7c;
-  text-align: center;
-  font-family: Noto Sans;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+   color: #7c7c7c;
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 14px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: normal;
 }
 
 .name {
-  color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 50px;
-  /* padding: 0; */
+   color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 700;
+   font-size: 50px;
+   /* padding: 0; */
 }
 
 .introTexts {
-  color: #808080;
+   color: #808080;
 }
 
 .nameContainer {
-  display: flex;
-  flex-direction: column;
-  margin-top: 13vh;
-  float: left;
-
-  /* align-items: center; */
-
-  justify-content: flex-start;
+   display: flex;
+   flex-direction: column;
+   float: left;
+   justify-content: flex-start;
 }
 
 .menuText {
-  opacity: 0.7;
-  font-family: Noto Sans;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 34px; /* 154.545% */
-  width: 90%;
+   opacity: 0.7;
+   font-family: Noto Sans;
+   font-size: 22px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 34px; /* 154.545% */
+   width: 90%;
 }
 
 .profileTop {
-  display: flex;
-  flex-direction: row;
-  padding-top: 5%;
-  justify-content: space-between; /* 요소를 양끝으로 정렬합니다. */
-  margin-bottom: 10px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between; /* 요소를 양끝으로 정렬합니다. */
+   margin-bottom: 10px;
+   padding-top: 5vh;
+   position: relative; /* 부모 div를 relative로 설정 */
 }
 
 .grayLine {
-  width: 100%;
-  height: 0.3px;
-  background-color: #d3d3d3;
-  opacity: 0.5;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+   width: 100%;
+   height: 0.3px;
+   background-color: #d3d3d3;
+   opacity: 0.5;
+   margin-top: 5vh;
+   margin-bottom: 5vh;
 }
 
 .limit {
-  max-width: 20%;
-}
-
-.teamSkillImgWrap {
-  /* display: flex; */
-  /* flex-direction: row; */
+   max-width: 80%;
 }
 
 .teamInfoBox {
-  display: grid;
-  grid-template-columns: 10% 90%;
-  grid-template-rows: repeat(3, 1fr); /* 세로 3칸으로 나눔 */
-  gap: 5px; /* 각 그리드 아이템 사이의 간격 설정 */
-  width: 100%; /* 그리드 컨테이너의 폭 설정 */
+   display: grid;
+   grid-template-columns: 10% 90%;
+   grid-template-rows: repeat(2, 1fr); /* 세로 3칸으로 나눔 */
+   gap: 5px; /* 각 그리드 아이템 사이의 간격 설정 */
+   width: 100%; /* 그리드 컨테이너의 폭 설정 */
+   align-items: center;
+   margin-left: 3vw;
+}
+
+.descriptionBox {
+   width: 60vw;
+   padding: 20px;
+   border-radius: 20px;
+   margin-top: 5vh;
+   white-space: pre-wrap;
+}
+
+.recruitWrap {
+   width: 60vw;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   grid-template-rows: auto;
+   margin-top: 5vh;
+}
+
+.recruitBox {
+   width: 28vw;
+   border-radius: 20px;
+   padding: 6%;
+   margin-right: 5vw;
+   margin-bottom: 3vh;
+   display: flex;
+   flex-direction: column;
+   gap: 3vh;
+}
+
+.recruitName {
+   color: #fff;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+}
+
+.boxTopLayer {
+   display: flex;
+   justify-content: space-between;
+}
+
+.fieldName {
+   border-radius: 29px;
+   background: #0c6eed;
+   padding: 5px 20px 5px 20px;
+   font-family: Noto Sans;
+   font-size: 15px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   letter-spacing: 1px;
+   display: flex;
+   align-items: center;
+}
+
+.recruitMemNum {
+   font-family: Noto Sans;
+   font-size: 13px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   letter-spacing: -0.9px;
+}
+
+.applyBtnTeam {
+   display: flex;
+   padding: 5px 20px;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+   border-radius: 29px;
+   float: right;
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 15px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   letter-spacing: 1px;
 }
