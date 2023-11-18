@@ -3,6 +3,7 @@ import Story from "./Story";
 import styles from "../styles/Stories.module.css";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
+import CommentSection from "./CommentSection";
 
 export default function Stories() {
   const [storyDatabases, setStoryDatabases] = useState();
@@ -22,7 +23,7 @@ export default function Stories() {
         part: "영업 / 마케팅",
         title: "사이드 프로젝트 찾습니다! 1",
         content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
+          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다.  voluptas placeat voluptatum ipsum animi nobis, alias sint!",
         date: "23.01.16 14:28",
       },
       {
@@ -122,7 +123,12 @@ export default function Stories() {
           moreBtnActivated && styles.rightContainerVisible
         }`}
       >
-        <div className={`${styles.bigStory}`}>
+        <div
+          className={`${styles.bigStory}`}
+          style={{
+            backgroundColor: tm.storyBg,
+          }}
+        >
           <div className="w-full h-full px-10 py-8">
             <div
               className="w-full h-full flex flex-col justify-between transition-all opacity-0 duration-500"
@@ -158,29 +164,10 @@ export default function Stories() {
                   {selectedStoryDb && selectedStoryDb.content}
                 </p>
               </div>
-              {/* <div className={styles.commentTopBorder}>
-                <div className={styles.comment}>
-                  <textarea
-                    type="text"
-                    value={comment}
-                    placeholder="댓글을 입력해주세요."
-                    onChange={(e) => {
-                      setComment(e.target.value);
-                    }}
-                    maxLength={200}
-                    className={`w-full h-28 overflow-hidden resize-none ${styles.input}`}
-                  />
-                  <div className="flex justify-between relative bottom-3">
-                    <span>{comment ? comment.length : "0"}/200</span>
-                    <div className={styles.symbolContainer}>
-                      <img src="/public_assets/symbol.png" alt="symbol" />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
+        <CommentSection />
       </section>
     </div>
   );

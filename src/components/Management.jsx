@@ -4,6 +4,9 @@ import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import styles from "../styles/modules/Management.module.css";
 import "../styles/hideScrollBar.css";
+import ModifyProject from "./ModifyProject";
+import ApplyManage from "./ApplyManage";
+import PositionManage from "./PositionManage";
 
 export default function Management() {
   const { teamIndex } = useOutletContext();
@@ -87,175 +90,13 @@ export default function Management() {
       </div>
 
       {/* 1. 프로젝트가 활성화됐을 경우 */}
-      {activated === "project" && (
-        <>
-          <form className="flex flex-col gap-12">
-            <div className={styles.inputContainer}>
-              <div className={styles.inputName}>
-                <h3
-                  style={{
-                    color: tm.textColor,
-                  }}
-                >
-                  프로젝트명
-                </h3>
-              </div>
-              <div
-                className={styles.inputInfoContainer}
-                style={{
-                  borderColor: tm.border,
-                }}
-              >
-                <input
-                  type="text"
-                  className={styles.shortInput}
-                  style={{
-                    backgroundColor: tm.inputColor,
-                    color: tm.textColor,
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.inputContainer}>
-              <div className={styles.inputName}>
-                <h3
-                  style={{
-                    color: tm.textColor,
-                  }}
-                >
-                  팀 명
-                </h3>
-              </div>
-              <div
-                className={styles.inputInfoContainer}
-                style={{
-                  borderColor: tm.border,
-                }}
-              >
-                <input
-                  type="text"
-                  className={styles.shortInput}
-                  style={{
-                    backgroundColor: tm.inputColor,
-                    color: tm.textColor,
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.inputContainer}>
-              <div className={styles.inputName}>
-                <h3
-                  style={{
-                    color: tm.textColor,
-                  }}
-                >
-                  프로젝트 분야
-                </h3>
-              </div>
-              <div
-                className={styles.inputInfoContainer}
-                style={{
-                  borderColor: tm.border,
-                }}
-              >
-                <input
-                  type="text"
-                  className={styles.shortInput}
-                  style={{
-                    backgroundColor: tm.inputColor,
-                    color: tm.textColor,
-                  }}
-                />
-              </div>
-            </div>
-            <div className={styles.inputContainer}>
-              <div className={styles.inputName}>
-                <pre
-                  style={{
-                    color: tm.textColor,
-                  }}
-                >
-                  {"프로젝트\n한줄 소개"}
-                </pre>
-              </div>
-              <div
-                className={styles.inputInfoContainer}
-                style={{
-                  borderColor: tm.border,
-                }}
-              >
-                <input
-                  type="text"
-                  className={styles.longInput}
-                  style={{
-                    backgroundColor: tm.inputColor,
-                    color: tm.textColor,
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className={styles.inputContainer}
-              style={{
-                height: "200px",
-              }}
-            >
-              <div className={styles.inputName}>
-                <h3
-                  style={{
-                    color: tm.textColor,
-                  }}
-                >
-                  프로젝트 설명
-                </h3>
-              </div>
-              <div
-                className={styles.inputInfoContainer}
-                style={{
-                  borderColor: tm.border,
-                }}
-              >
-                <textarea
-                  className="w-[95%] resize-none h-[130px] rounded-[18px] outline-none p-[10px] font-normal"
-                  style={{
-                    backgroundColor: tm.inputColor,
-                    color: tm.textColor,
-                  }}
-                ></textarea>
-              </div>
-            </div>
-          </form>
+      {activated === "project" && <ModifyProject />}
 
-          {/* 버튼 영역 */}
-          <div
-            className="flex gap-[30px] justify-end font-bold text-xl mt-12 mr-8"
-            style={{
-              color: tm.textColor,
-            }}
-          >
-            <button
-              className="hover:brightness-110"
-              style={{
-                padding: "22px 38px",
-                backgroundColor: tm.accentColor,
-                borderRadius: "40px",
-              }}
-            >
-              프로젝트 수정하기
-            </button>
-            <button
-              className="hover:brightness-110"
-              style={{
-                padding: "22px 30px",
-                backgroundColor: tm.cancelBtn,
-                borderRadius: "40px",
-              }}
-            >
-              취소
-            </button>
-          </div>
-        </>
-      )}
+      {/* 2. 지원 관리가 활성화됐을 경우 */}
+      {activated === "apply" && <ApplyManage />}
+
+      {/* 3. 포지션 관리가 활성화됐을 경우 */}
+      {activated === "position" && <PositionManage />}
     </section>
   );
 }

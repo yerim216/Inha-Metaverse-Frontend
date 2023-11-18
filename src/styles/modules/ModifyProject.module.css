@@ -32,9 +32,9 @@
   align-items: center;
   justify-content: space-between;
   /* 
-      width 100vw를 주니 스크롤 생기는 문제 발생. 
-      body의 overflow-x에 hidden으로 임시(?) 조치
-    */
+        width 100vw를 주니 스크롤 생기는 문제 발생. 
+        body의 overflow-x에 hidden으로 임시(?) 조치
+      */
   width: 100vw;
   overflow: hidden;
   height: 64px;
@@ -390,7 +390,7 @@ hr {
 
 .paddingSection {
   width: 100%;
-  padding: 100px 10%;
+  padding: 20px 5%;
   display: flex;
   flex-direction: column;
   gap: 40px;

@@ -1,22 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import styles from "../styles/modules/CreateProject.module.css";
+import styles from "../styles/modules/ModifyProject.module.css";
 import { useNavigate } from "react-router-dom";
 import { getSkills, getUserInfo, getUserInterested } from "../APIs/userinfo";
-import {
-  addJob,
-  addMember,
-  createTeam,
-  getJobs,
-  getProjectCategory,
-} from "../APIs/team";
+import { addJob, addMember, getJobs, getProjectCategory } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
-import Nav from "../components/Nav";
-import ErrorMsg from "../components/ErrorMsg";
-import CategoryBtn from "../components/CategoryBtn";
-import CategoryCard from "../components/CategoryCard";
+import Nav from "./Nav";
+import ErrorMsg from "./ErrorMsg";
+import CategoryBtn from "./CategoryBtn";
+import CategoryCard from "./CategoryCard";
 
-export default function CreateProject() {
+export default function ModifyProject() {
   const [inputs, setInputs] = useState({
     projectName: "",
     teamName: "",
@@ -336,6 +330,83 @@ export default function CreateProject() {
     document.body.style.backgroundColor = "#111111";
   };
 
+  const handleButtonClick = () => {
+    window.location.href = "/myprofile";
+  };
+
+  // skill값 하나하나에 대응되는 input값에 접근해야 하기 때문에, ref를 이용해 동적으로 해당 input값들 관리.
+  const inputRefs = useRef({});
+  useEffect(() => {
+    if (!jobs) return;
+
+    jobs.forEach((job) => {
+      if (!inputRefs.current[job.field_title]) {
+        inputRefs.current[job.field_title] = React.createRef();
+      }
+    });
+    setInputRefsReady(true);
+  }, [jobs]);
+  const [inputRefsReady, setInputRefsReady] = useState(false);
+
+  const handleAddJob = (teamName) => {
+    // jobName + inputRefs.current[jobName].current.value를 통해 각각 값 접근 가능.
+    jobs.map((job) => {
+      const jobName = job.field_title;
+      if (inputRefs.current[jobName].current.value >= 1) {
+        addJob(teamName, jobName, inputRefs.current[jobName].current.value)
+          .then(() => {})
+          .catch((err) => {
+            return false;
+          });
+      }
+    });
+    return true;
+  };
+
+  const [customPositionInputNum, setCustomPositionInputNum] = useState(0);
+  const handleCustomPositionInputNumInc = () => {
+    setCustomJobs((cur) => [...cur, { customJobName: "", recruitmentNum: 1 }]);
+    setCustomPositionInputNum((cur) => cur + 1);
+  };
+  // 커스텀 직무를 관리하는 곳.
+  // customPositionInputNum이 1 증가할 때마다, 아래의 customJobs 배열에 객체 하나가 추가된다.
+  // 객체는 customJobName, recruitmentNum으로 구성됨.
+  const [customJobs, setCustomJobs] = useState([]);
+
+  const handleAddCustomJob = (teamName) => {
+    customJobs.map((info) => {
+      const jobName = info.customJobName;
+      const recruitmentNum = info.recruitmentNum;
+
+      if (jobName.trim() !== "" && recruitmentNum >= 1) {
+        addJob(teamName, jobName, recruitmentNum)
+          .then(() => {})
+          .catch((err) => {
+            return false;
+          });
+      }
+    });
+    return true;
+  };
+
+  // 모집 인원과, 밑에 작성한 실제 직무 상에서의 모집 인원과 일치하는지의 여부를 판단하는 함수
+  const checkRecruitmentNumSame = () => {
+    const recruitmentNum = inputs.recruitment;
+    let rec = 0;
+
+    jobs.map((job) => {
+      const jobName = job.field_title;
+      rec += Number(inputRefs.current[jobName].current.value);
+    });
+
+    customJobs.map((info) => {
+      rec += Number(info.recruitmentNum);
+    });
+
+    if (Number(recruitmentNum) === Number(rec)) return true;
+    return false;
+  };
+
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.createProject);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -375,44 +446,6 @@ export default function CreateProject() {
     };
   });
 
-  const [userIndex, setUserIndex] = useState();
-  useEffect(() => {
-    let userIndex;
-
-    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
-      return;
-    }
-
-    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
-      .user_index;
-
-    setUserIndex(userIndex);
-  }, []);
-
-  const handleSubmit = () => {
-    // inputs에는 projectName, teamName, introduction, description 존재.
-
-    let inputData = {
-      leader: userIndex,
-      name: inputs.teamName,
-      project: inputs.projectName,
-      categories: selectedCategory,
-      introduction: inputs.introduction,
-      description: inputs.description,
-      jobs: selectedJobInputs,
-      skills: selectedSkills,
-    };
-
-    createTeam({ inputData })
-      .then((res) => {
-        console.log(res.data);
-        alert("성공적으로 처리되었습니다!");
-        navigate("/");
-        window.location.reload();
-      })
-      .catch((err) => console.error(err));
-  };
-
   return (
     <>
       {judgeModalOpen && (
@@ -446,7 +479,7 @@ export default function CreateProject() {
               }}
             >
               {
-                "심사는 2-3일 내로 처리되며,\n승인되면 프로젝트가 올라갑니다.\n베타 서비스 중에는, 바로 프로젝트 제작이 완료됩니다."
+                "심사는 2-3일 내로 처리되며,\n승인되면 프로젝트가 수정됩니다.\n베타 서비스 중에는, 바로 프로젝트 수정이 완료됩니다."
               }
             </pre>
             <div className="flex w-full justify-between">
@@ -457,7 +490,7 @@ export default function CreateProject() {
                   backgroundColor: tm.accentColor,
                 }}
                 onClick={() => {
-                  handleSubmit();
+                  // 여기서 신청 처리
                 }}
               >
                 네
@@ -478,7 +511,6 @@ export default function CreateProject() {
           </div>
         </div>
       )}
-      <Nav />
       <section
         className={styles.paddingSection}
         style={{
@@ -713,7 +745,7 @@ export default function CreateProject() {
                       ))}
                     </select>
                     <img
-                      src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                      src={`/public_assets/icons/downArrow_${themeMode}.svg`}
                       alt="downArrow"
                       className="w-5 h-5 absolute right-6"
                     />
@@ -746,7 +778,7 @@ export default function CreateProject() {
                           ))}
                       </select>
                       <img
-                        src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                        src={`/public_assets/icons/downArrow_${themeMode}.svg`}
                         alt="downArrow"
                         className="w-5 h-5 absolute right-6"
                       />
@@ -777,7 +809,7 @@ export default function CreateProject() {
                         <option value={9}>9명</option>
                       </select>
                       <img
-                        src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                        src={`/public_assets/icons/downArrow_${themeMode}.svg`}
                         alt="downArrow"
                         className="w-5 h-5 absolute right-6"
                       />
@@ -868,7 +900,7 @@ export default function CreateProject() {
                             }}
                           >
                             <img
-                              src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                              src={`//public_assets/skills/skill_img_${skill.skill_index}.svg`}
                               alt={`skill_img_${skill.skill_index}`}
                               className="w-12 h-12"
                             />
@@ -913,7 +945,7 @@ export default function CreateProject() {
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-end gap-8 mt-36">
+        <div className="flex w-full justify-end gap-8 mt-12">
           <button
             className={styles.changeBtn}
             style={{
@@ -921,23 +953,17 @@ export default function CreateProject() {
               color: tm.btnText,
             }}
             onClick={async (e) => {
-              if (
-                inputs.teamName.trim() === "" ||
-                inputs.projectName.trim() === "" ||
-                inputs.introduction.trim() === "" ||
-                inputs.description.trim() === ""
-              ) {
+              openJudgeModal();
+              e.preventDefault();
+              if (!checkRecruitmentNumSame()) {
                 alert(
-                  "입력되지 않은 정보가 존재합니다(프로젝트 분야, 모집 제외). 다시 확인해주세요!"
+                  "모집 인원과 실제 직무 상의 인원이 일치하지 않습니다. 다시 확인해주세요!"
                 );
                 return;
               }
-
-              openJudgeModal();
-              e.preventDefault();
             }}
           >
-            프로젝트 제작하기
+            프로젝트 수정하기
           </button>
           <button
             className={styles.cancelBtn}

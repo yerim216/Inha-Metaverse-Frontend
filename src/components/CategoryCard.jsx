@@ -4,7 +4,10 @@ import { theme } from "../theme/theme";
 import styles from "../styles/modules/CreateProject.module.css";
 import "../styles/signInModal.css";
 
-export default function CategoryCard({ category2 }) {
+export default function CategoryCard({
+  selectedJobInput,
+  deleteSelectedJobInput,
+}) {
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.createProject);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -31,7 +34,7 @@ export default function CategoryCard({ category2 }) {
           }}
           className="text-xl w-fit rounded-[30px]"
         >
-          {category2.t1}
+          {selectedJobInput.category}
         </div>
         <h2
           className="text-[30px]"
@@ -39,7 +42,7 @@ export default function CategoryCard({ category2 }) {
             color: tm.textColor,
           }}
         >
-          {category2.t2}
+          {selectedJobInput.title}
         </h2>
         <div
           className="text-[18px]"
@@ -47,7 +50,7 @@ export default function CategoryCard({ category2 }) {
             color: tm.recruitingNum,
           }}
         >
-          {category2.t3}명 모집중
+          {selectedJobInput.recruitmentNum}명 모집중
         </div>
       </div>
       <div className="w-1/2 h-full flex flex-col items-end justify-between ">
@@ -57,7 +60,8 @@ export default function CategoryCard({ category2 }) {
           className="cursor-pointer hover:scale-105"
         />
         <div className="flex gap-4">
-          <div
+          {/* 일단 임시 삭제 조치 */}
+          {/* <div
             style={{
               padding: "7px 21px",
               color: tm.btnText,
@@ -66,14 +70,20 @@ export default function CategoryCard({ category2 }) {
             className="text-xl w-fit rounded-[30px] cursor-pointer hover:scale-105"
           >
             수정
-          </div>
+          </div> */}
           <div
             style={{
               padding: "7px 21px",
               color: tm.btnText,
-              backgroundColor: tm.modifyCancelBtn,
+              backgroundColor: tm.modifyBtn,
             }}
             className="text-xl w-fit rounded-[30px] cursor-pointer hover:scale-105"
+            onClick={() => {
+              const confirm = window.confirm("정말 삭제하시겠습니까?");
+              if (confirm) {
+                deleteSelectedJobInput(selectedJobInput.title);
+              }
+            }}
           >
             삭제
           </div>

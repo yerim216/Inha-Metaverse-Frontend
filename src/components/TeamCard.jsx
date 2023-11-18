@@ -83,8 +83,6 @@ export default function TeamCard({ team }) {
     else setTm(theme.darkTheme.projectManager);
   }, [themeMode]);
 
-  console.log(team);
-
   return (
     <div
       className="relative w-96 h-96"
@@ -101,7 +99,10 @@ export default function TeamCard({ team }) {
         ref={arrowBoxRef}
         style={{
           backgroundColor: tm.projectRoutingBox,
+          color: tm.mainTextColor,
         }}
+        //   background: black;
+        // color: #fff;
       >
         <button
           className="w-full h-1/2"
@@ -131,7 +132,10 @@ export default function TeamCard({ team }) {
         </button>
       </div>
       <button
-        className={`w-96 h-96 bg-[#323232] rounded-xl p-10 flex flex-col relative ${styles.teamCard}`}
+        className={`w-96 h-96 bg-[#323232] rounded-xl p-10 flex flex-col relative ${styles.teamCard} ${styles.shadow}`}
+        style={{
+          backgroundColor: tm.projectCardBg,
+        }}
         onMouseDown={(e) => {
           handleMouseDown(e);
         }}
@@ -139,28 +143,63 @@ export default function TeamCard({ team }) {
       >
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">
           {team.teamInfo.skills !== null ? (
-            <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
+            <div
+              className={styles.teamSkills}
+              style={{
+                color: tm.accentBtnText,
+                backgroundColor: tm.accentColor,
+              }}
+            >
+              팀 내 기술 스택 X
+            </div>
           ) : (
-            <div className={styles.teamSkills}>팀 내 기술 스택 X</div>
+            <div
+              className={styles.teamSkills}
+              style={{
+                color: tm.accentBtnText,
+                backgroundColor: tm.accentColor,
+              }}
+            >
+              팀 내 기술 스택 X
+            </div>
           )}
-          <div className="text-white font-extrabold text-xl">
+          <div
+            className="font-extrabold text-xl"
+            style={{
+              color: tm.mainTextColor,
+            }}
+          >
             {team.teamInfo.team_name}
           </div>
-          <div className="text-[#ECECEC] text-xs">
+          <div
+            className="text-xs"
+            style={{
+              color: tm.hazyTextColor,
+            }}
+          >
             {team.teamInfo.team_introduction}
           </div>
         </div>
         <div
-          className={`w-full h-[30%] flex text-white text-base font-semibold ${
+          className={`w-full h-[30%] flex text-base font-semibold ${
             parseInt(team.numOfPeople.team_cnt) <= 2
               ? "flex-col justify-end gap-2"
               : "pt-6"
           }`}
+          style={{
+            color: tm.accentBtnText,
+          }}
         >
           {parseInt(team.numOfPeople.team_cnt) <= 2
             ? team.teamMembers.map((user, idx) => {
                 return (
-                  <div key={idx} className="w-full flex items-center gap-4">
+                  <div
+                    key={idx}
+                    className="w-full flex items-center gap-4"
+                    style={{
+                      color: tm.mainTextColor,
+                    }}
+                  >
                     <img
                       src={`/public_assets/profileImg/profileImg_${user.user_img_index}.png`}
                       className="w-8 h-8 object-cover rounded-full"
@@ -184,10 +223,13 @@ export default function TeamCard({ team }) {
                       }}
                     >
                       <div
-                        className={`absolute -right-2 bottom-2 w-8 h-4 rounded-lg bg-[#EA2845] text-[8px] flex items-center justify-center ${
+                        className={`absolute -right-2 bottom-2 w-8 h-4 rounded-lg text-[8px] flex items-center justify-center ${
                           parseInt(team.numOfPeople.team_cnt) - 4 <= 0 &&
                           "hidden"
                         }`}
+                        style={{
+                          backgroundColor: tm.accentColor,
+                        }}
                       >
                         +{parseInt(team.numOfPeople.team_cnt) - 4}
                       </div>

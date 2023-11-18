@@ -161,11 +161,20 @@ export default function Home() {
         }}
       >
         <div className="relative">
-          <img
-            src="/public_assets/banner.jpeg"
-            alt="banner"
-            className="h-[100vh]"
-          />
+          {themeMode === "light" ? (
+            <img
+              src="/public_assets/banner_light.jpeg"
+              alt="banner"
+              className="h-[100vh]"
+            />
+          ) : (
+            <img
+              src="/public_assets/banner_dark.jpeg"
+              alt="banner"
+              className="h-[100vh]"
+            />
+          )}
+
           {/* 버튼 : 하나의 이미지처럼 보이게끔, 위치 및 크기 요소를 동적으로 할당해 주었음. */}
           <button
             className="absolute left-[9%] bottom-[30%] font-bold text-[28px] flex items-center justify-center gap-4 px-[6%] py-[2%] rounded-md hover:scale-[102%]"

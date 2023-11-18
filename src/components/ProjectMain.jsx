@@ -117,9 +117,20 @@ export default function ProjectMain() {
       {/* 우측에 팀원 프로필 보여주는 곳 */}
       <RightViewer activated={"main"} />
       <section>
-        <h5 className="text-white text-[18px]">프로젝트가 진행되고 있어요!</h5>
-        <div className="w-full h-[72px] bg-[#272727] mt-4 rounded-full">
-          {/* <div className="w-1/2 h-full bg-black rounded-full flex justify-between items-center px-6"> */}
+        <h5
+          className="text-[18px]"
+          style={{
+            color: tm.mainTextColor,
+          }}
+        >
+          프로젝트가 진행되고 있어요!
+        </h5>
+        <div
+          className="w-full h-[72px] mt-4 rounded-full"
+          style={{
+            backgroundColor: tm.dropDownProjectListBg,
+          }}
+        >
           <div
             className="w-1/2 h-full  rounded-full flex justify-between items-center px-6"
             style={{
@@ -141,7 +152,12 @@ export default function ProjectMain() {
                 ))}
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-white font-extrabold text-[12px]">
+              <span
+                className="font-extrabold text-[12px]"
+                style={{
+                  color: tm.mainTextColor,
+                }}
+              >
                 프로젝트가 시작된 지 총
                 {teamInfo &&
                   " " + getDateDifference(teamInfo.teamInfo.created_at)}
@@ -154,22 +170,44 @@ export default function ProjectMain() {
         </div>
       </section>
       <section className="mt-8">
-        <h5 className="text-white text-[18px]">팀원 프로필</h5>
+        <h5
+          className="text-[18px]"
+          style={{
+            color: tm.mainTextColor,
+          }}
+        >
+          팀원 프로필
+        </h5>
         <div className="w-full h-40 mt-4 overflow-x-auto flex gap-6">
           {teamInfo &&
             teamInfo.teamMembers.map((member) => {
               return (
-                <div className="w-40 h-40 bg-[#323232] rounded-xl flex flex-col justify-center items-center gap-4">
+                <div
+                  className="w-40 h-40 rounded-xl flex flex-col justify-center items-center gap-4"
+                  style={{
+                    backgroundColor: tm.teamMemberProfileCard,
+                  }}
+                >
                   <img
                     key={member.user_index}
                     src={`/public_assets/profileImg/profileImg_${member.user_img_index}.png`}
                     className="w-16 h-16 object-cover rounded-full relative"
                   />
                   <div className="flex flex-col items-center gap-[2px]">
-                    <span className="text-white text-[14px]">
+                    <span
+                      className="text-[14px]"
+                      style={{
+                        color: tm.mainTextColor,
+                      }}
+                    >
                       {member.user_name}
                     </span>
-                    <span className="text-[#7C7C7C] text-[12px]">
+                    <span
+                      className="text-[12px]"
+                      style={{
+                        color: tm.hazyTextColor,
+                      }}
+                    >
                       {/* {member.user_job || "배정되지 않음"} */}
                       {getJobByIdx(member.user_job)}
                     </span>
