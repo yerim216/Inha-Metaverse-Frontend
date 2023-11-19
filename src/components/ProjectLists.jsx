@@ -33,6 +33,8 @@ export default function ProjectLists({ recruitmentBtnActive }) {
     });
   }, []);
 
+  console.log(randomRecruitingProjects);
+
   useEffect(() => {
     const recruiting = [];
     const notRecruiting = [];

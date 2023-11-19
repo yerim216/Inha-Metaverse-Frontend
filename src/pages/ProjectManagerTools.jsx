@@ -260,8 +260,8 @@ export default function ProjectManagerTools() {
               }}
             >
               <img
-                src="/public_assets/icons/pencil.svg"
-                alt="calender"
+                src="/public_assets/icons/management.svg"
+                alt="management"
                 className="w-5"
               />
             </button>
