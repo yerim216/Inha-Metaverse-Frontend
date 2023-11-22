@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from '../styles/Myprofile.module.css';
 import Gdot from '../components/Gdot';
 import StarRating from '../components/StarRating';
@@ -11,6 +11,11 @@ import { BiRightArrowCircle } from 'react-icons/bi';
 import Footer from '../components/Footer';
 import { getTeamIndex, getUserInfo } from '../APIs/userinfo';
 import { getTeamInfoByIndex } from '../APIs/team';
+
+import { ThemeModeContext } from '../contexts/ThemeProvider';
+import { theme } from '../theme/theme';
+
+import Nav from '../components/Nav';
 
 export default function Profile() {
    useEffect(() => {
@@ -123,10 +128,15 @@ export default function Profile() {
       setExpanded(!expanded);
    };
 
-   const introEx = [
-      '안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ ',
-      '안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ ',
-   ];
+   const introEx = ['안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ '];
+
+   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+   const [tm, setTm] = useState(theme.lightTheme.profile);
+   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+   useEffect(() => {
+      if (themeMode === 'light') setTm(theme.lightTheme.profile);
+      else setTm(theme.darkTheme.profile);
+   }, [themeMode]);
 
    const careerInfo = [
       {
@@ -181,39 +191,9 @@ export default function Profile() {
 
    return (
       <section className={styles.contain}>
-         <div className={styles.navItems}>
-            <div className={styles.logoContainer}>
-               <Link to="/">
-                  <img
-                     src={`${process.env.PUBLIC_URL}/public_assets/logo.png`}
-                     className={styles.nav}
-                     alt="Logo"
-                     style={{
-                        height: '36px',
-                        width: '52px',
-                     }}
-                     onClick={() => (window.location.href = '/')}
-                  />
-               </Link>
-            </div>
-            <div className={styles.textContainer}>
-               <a className={styles.navLink}>프로필</a>
+         <Nav />
 
-               <a className={styles.navLink}>지원</a>
-
-               {userLogin ? (
-                  <button className={styles.loginButton} onClick={logout}>
-                     <span>로그아웃</span>
-                  </button>
-               ) : (
-                  <button className={styles.loginButton}>
-                     <span>로그인</span>
-                  </button>
-               )}
-            </div>
-         </div>
          <div className={styles.wrap}>
-            <div className={styles.backgroundImage}></div>
             <button
                className={styles.profileManageBtn}
                onClick={() => {
@@ -250,9 +230,9 @@ export default function Profile() {
                      // navigate("/createmyprofile");
                      window.scrollTo({ top: 0, behavior: 'auto' });
                   }}
+                  style={{ background: tm.modifyBtn }}
                >
-                  콕! 찔러보기
-                  <p className={styles.pointEmoji}>🤏🏻</p>
+                  프로필 수정
                </button>
             </div>
             <div className={styles.grayLine}></div>

@@ -1,821 +1,818 @@
 .nav {
-  float: left;
-  padding: 0;
-  width: 100vw;
+   float: left;
+   padding: 0;
+   width: 100vw;
 }
 
 .navItems {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
+   display: flex;
+   flex-direction: row;
+   width: 100vw;
 }
 
 .contain {
-  width: 100%;
+   width: 100%;
 }
 
 .wrap {
-  width: 75%;
-  margin: auto;
+   width: 75%;
+   margin: auto;
 }
 
 .logoContainer {
-  display: flex;
-  padding: 45px 0 0 50px;
-  flex: 9 1;
+   display: flex;
+   padding: 45px 0 0 50px;
+   flex: 9 1;
 }
 .textContainer {
-  display: flex;
-  padding: 48px 68px 48px 48px;
-  justify-content: space-between;
+   display: flex;
+   padding: 48px 68px 48px 48px;
+   justify-content: space-between;
 }
 
 .navLink {
-  font-family: "Avenir";
-  float: left;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  font-size: 15px;
-  line-height: 25px;
-  padding-left: 56px;
+   font-family: 'Avenir';
+   float: left;
+   color: white;
+   text-align: center;
+   text-decoration: none;
+   font-size: 15px;
+   line-height: 25px;
+   padding-left: 56px;
 
-  cursor: pointer;
+   cursor: pointer;
 }
 
 .loginButton {
-  margin-left: 77px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  line-height: 20px;
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  font-size: 15px; /* 버튼 글자 크기 */
+   margin-left: 77px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   line-height: 20px;
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   font-size: 15px; /* 버튼 글자 크기 */
 }
 
 .backgroundImage {
-  height: 0;
-  padding-bottom: 22%; /* 468 / 1536 * 100 */
+   height: 0;
+   padding-bottom: 22%; /* 468 / 1536 * 100 */
 }
 
 .profileImage {
-  position: relative;
-  width: 182px;
-  height: 182px;
-  object-fit: cover;
-  border-radius: 100%;
-  margin-top: 5vh;
+   position: relative;
+   width: 182px;
+   height: 182px;
+   object-fit: cover;
+   border-radius: 20px;
+   margin-top: 5vh;
 }
 
 @media screen and (max-width: 768px) {
-  .profileImage {
-    height: 150px;
-    width: 150px;
-    top: -140px;
-    object-fit: cover;
-  }
+   .profileImage {
+      height: 150px;
+      width: 150px;
+      top: -140px;
+      object-fit: cover;
+   }
 }
 
 .profileManageBtn {
-  width: 189px;
-  height: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  float: right;
-  margin-top: -220px;
-  margin-right: 20px;
-  font-size: 20px;
-  font-family: Avenir;
-  font-weight: 800;
-  font-style: normal;
-  line-height: 33px;
-  letter-spacing: 0.06em;
-  color: #ffffff;
-  padding: 20px;
-  background: black;
-  border-radius: 30px;
-  transition: all 0.2s ease-in-out;
+   width: 189px;
+   height: 55px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   float: right;
+   margin-top: -220px;
+   margin-right: 20px;
+   font-size: 20px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-style: normal;
+   line-height: 33px;
+   letter-spacing: 0.06em;
+   color: #ffffff;
+   padding: 20px;
+   background: black;
+   border-radius: 30px;
+   transition: all 0.2s ease-in-out;
 }
 
-.introductionWrap{
-  display: flex;
-  flex-direction: row;
-  margin-top: 4vh;
-  margin-bottom: 4vh;
-  gap: 20px;
+.introductionWrap {
+   display: flex;
+   flex-direction: row;
+   margin-top: 4vh;
+   margin-bottom: 4vh;
+   gap: 20px;
 }
 
-.careerInfoWrap{
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 5vh;
+.careerInfoWrap {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 5vh;
 }
 
-.careerCol{
-  display: flex;
-  flex-direction: column;
-  gap: 2vh;
+.careerCol {
+   display: flex;
+   flex-direction: column;
+   gap: 2vh;
 }
 
-.careerBox{
-  width: 100%;
-  height: 72px;
-  border-radius: 20px;
-  background: #FFF;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px 30px 10px 30px;
-  gap: 3vw;
-  justify-content: space-between;
+.careerBox {
+   width: 100%;
+   height: 72px;
+   border-radius: 20px;
+   background: #fff;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   padding: 10px 30px 10px 30px;
+   gap: 3vw;
+   justify-content: space-between;
 }
 
-.careerBoxInner{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 3vw;
+.careerBoxInner {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 3vw;
 }
 
-.careerText{
-  color: white;
-  font-family: Noto Sans;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 34px; /* 121.429% */
-  margin: 4vh 0 4vh 0;
+.careerText {
+   color: white;
+   font-family: Noto Sans;
+   font-size: 28px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: 34px; /* 121.429% */
+   margin: 4vh 0 4vh 0;
 }
 
-.careerData{
-  color: #1D1D1D;
-  font-family: Noto Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 34px; /* 170% */
+.careerData {
+   color: #1d1d1d;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: 34px; /* 170% */
 }
 
-.careerDate{
-  color: #6D6D6D;
-  font-family: Noto Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 34px; /* 170% */
+.careerDate {
+   color: #6d6d6d;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 34px; /* 170% */
 }
 
-.careerStatus{
-  border-radius: 29px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #B3B3B3;
-  width: 130px;
-  height: 41px;
-  flex-shrink: 0;
-  color: #FFF;
-  text-align: center;
-  font-family: Noto Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.9px;
+.careerStatus {
+   border-radius: 29px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: #b3b3b3;
+   width: 130px;
+   height: 41px;
+   flex-shrink: 0;
+   color: #fff;
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: normal;
+   letter-spacing: 0.9px;
 }
 
-.introduction{
-  display: flex;
-  flex-direction: column;
-  padding: 3.5%;
-  width: 518px;
-  height: 246px;
-  flex-shrink: 0;
-  border-radius: 20px;
-  background: #FFF;
-  box-shadow: 10px 10px 10px rgba(190, 190, 190, 0.5);
-
+.introduction {
+   display: flex;
+   flex-direction: column;
+   padding: 3.5%;
+   width: 518px;
+   height: 246px;
+   flex-shrink: 0;
+   border-radius: 20px;
+   background: #fff;
+   box-shadow: 10px 10px 10px rgba(190, 190, 190, 0.5);
 }
 
-.intro{
-  color: #1D1D1D;
-  font-family: Noto Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 34px; /* 170% */
+.intro {
+   color: #1d1d1d;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 34px; /* 170% */
 }
 
-.introData{
-  color: #6D6D6D;
-  font-family: Noto Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 34px; /* 170% */
-
+.introData {
+   color: #6d6d6d;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 34px; /* 170% */
 }
 
-.bubbleWrap{
-  position: relative;
+.bubbleWrap {
+   position: relative;
 }
-.speechBubble{
-  position: absolute;
-  right: 0;
-}
-
-.profileTop{
-  display: flex;
-  flex-direction: row;
-  padding-top: 100px;
-  justify-content: space-between; /* 요소를 양끝으로 정렬합니다. */
-  margin-bottom: 10px;
+.speechBubble {
+   position: absolute;
+   right: 0;
 }
 
-.profileInfo{
-  display: flex;
-  flex-direction: row;
-  margin: auto 0;
-  margin-bottom: 2%;
-  
+.profileTop {
+   display: flex;
+   flex-direction: row;
+   padding-top: 50px;
+   justify-content: space-between; /* 요소를 양끝으로 정렬합니다. */
+   margin-bottom: 10px;
+}
+
+.profileInfo {
+   display: flex;
+   flex-direction: row;
+   margin: auto 0;
+   margin-bottom: 2%;
 }
 
 .nameContainer {
-  display: flex;
-  flex-direction: column;
-  margin-top: 13vh;
-  margin-left: 10px;
+   display: flex;
+   flex-direction: column;
+   margin-top: 13vh;
+   margin-left: 10px;
 }
 
 .name {
-  margin-left: 29.86px;
-  color: white;
+   margin-left: 29.86px;
+   color: white;
 
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 50px;
-  padding: 0;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 700;
+   font-size: 50px;
+   padding: 0;
 }
 
 .grayLine {
-  width: 100%;
-  height: 0.3px;
-  background-color: #D3D3D3;
-  opacity: 0.5;
-  margin-top: 10px;
-  margin-bottom: 10px;
+   width: 100%;
+   height: 0.3px;
+   background-color: #d3d3d3;
+   opacity: 0.5;
+   margin-top: 10px;
+   margin-bottom: 10px;
 }
 
 .texts {
-  padding-left: 10px;
-  /* width: 100vw; */
-  color: #808080;
+   padding-left: 10px;
+   /* width: 100vw; */
+   color: #808080;
 }
 
 .limit {
-  margin: 0 20px 20px 20px;
-  max-width: 392px;
+   margin: 0 20px 20px 20px;
+   max-width: 392px;
 }
 
-.pointButton{
-  width: 249px;
-  height: 57px;
-  border-radius: 29px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 9%;
-  gap: 20px;
-  background: #B3B3B3;
-  color: #FFF;
-  text-align: center;
-  font-family: Noto Sans;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: 1px;
+.pointButton {
+   width: 249px;
+   height: 57px;
+   border-radius: 29px;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   margin-top: 9%;
+   gap: 20px;
+   background: #b3b3b3;
+   color: #fff;
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   letter-spacing: 1px;
 }
 
-.pointEmoji{
-  font-size: 40px;
+.pointEmoji {
+   font-size: 40px;
 }
 
 .loginButton2 {
-  display: block;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  width: 129.18px;
-  height: 59px;
-  top: 10px;
+   display: block;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   width: 129.18px;
+   height: 59px;
+   top: 10px;
 
-  align-items: center;
+   align-items: center;
 
-  background-color: #7090b0; /* 버튼 배경색 */
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  padding: auto;
-  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-  border-radius: 35.5px;
+   background-color: #7090b0; /* 버튼 배경색 */
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   padding: auto;
+   text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+   border-radius: 35.5px;
 }
 
 .loginButton3 {
-  display: block;
-  margin-top: 15px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  width: 183px;
-  height: 59px;
-  top: 10px;
+   display: block;
+   margin-top: 15px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   width: 183px;
+   height: 59px;
+   top: 10px;
 
-  align-items: center;
+   align-items: center;
 
-  background-color: #7090b0; /* 버튼 배경색 */
-  border: none; /* 버튼 테두리 없음 */
-  color: white; /* 버튼 글자색 */
-  padding: auto;
-  text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
-  border-radius: 35.5px;
+   background-color: #7090b0; /* 버튼 배경색 */
+   border: none; /* 버튼 테두리 없음 */
+   color: white; /* 버튼 글자색 */
+   padding: auto;
+   text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+   border-radius: 35.5px;
 }
 
 .profileButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   margin: 30px;
 }
 
 .characteristics {
-  padding-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  height: 50px;
-  max-width: 707.92px;
-  margin: auto;
-  gap: 10px;
-  text-align: center;
+   padding-top: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: row;
+   height: 50px;
+   max-width: 707.92px;
+   margin: auto;
+   gap: 10px;
+   text-align: center;
 }
 
 .charItem1 {
-  height: 50px;
-  width: 206px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 206px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem2 {
-  height: 50px;
-  width: 180px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 180px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem3 {
-  height: 50px;
-  width: 165.92px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 165.92px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .charItem4 {
-  height: 50px;
-  width: 126px;
-  border-radius: 35.5px;
-  background-color: white;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
-  text-align: center;
-  padding: 12px 0;
+   height: 50px;
+   width: 126px;
+   border-radius: 35.5px;
+   background-color: white;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 20px;
+   line-height: 27px;
+   text-align: center;
+   padding: 12px 0;
 }
 .emptyProject {
-  color: #000;
-  font-size: 24px;
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  letter-spacing: 0.96px;
-  position: absolute;
-  margin-top: 50px;
-  margin-left: 160px;
-  width: 50%;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   color: #000;
+   font-size: 24px;
+   font-family: Avenir;
+   font-style: normal;
+   font-weight: 800;
+   line-height: normal;
+   letter-spacing: 0.96px;
+   position: absolute;
+   margin-top: 50px;
+   margin-left: 160px;
+   width: 50%;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .recruit {
-  position: relative;
-  border-radius: 25px;
-  background-color: white;
-  width: 535px;
-  height: 470px;
-  margin: auto;
-  margin-top: 70px;
-  padding-top: 28px;
+   position: relative;
+   border-radius: 25px;
+   background-color: white;
+   width: 535px;
+   height: 470px;
+   margin: auto;
+   margin-top: 70px;
+   padding-top: 28px;
 }
 
 .vec {
-  width: 20px;
-  height: 20px;
-  margin-left: 28px;
+   width: 20px;
+   height: 20px;
+   margin-left: 28px;
 }
 
 .lan {
-  display: block;
+   display: block;
 }
 
 .recruit2 {
-  border-radius: 25px;
-  background-color: white;
-  width: 707px;
-  height: 203px;
-  margin: auto;
-  margin-top: 30px;
-  padding-top: 28px;
+   border-radius: 25px;
+   background-color: white;
+   width: 707px;
+   height: 203px;
+   margin: auto;
+   margin-top: 30px;
+   padding-top: 28px;
 }
 
 .memSearch {
-  width: 1087px;
-  height: 380px;
+   width: 1087px;
+   height: 380px;
 
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  padding-top: 56px;
+   background: rgba(255, 255, 255, 0.2);
+   border-radius: 50px;
+   padding-top: 56px;
 
-  margin: auto;
-  margin-top: 86px;
-  overflow: hidden;
+   margin: auto;
+   margin-top: 86px;
+   overflow: hidden;
 }
 
 .txt {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 33px;
-  /* identical to box height */
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 24px;
+   line-height: 33px;
+   /* identical to box height */
 
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.06em;
+   display: flex;
+   align-items: center;
+   letter-spacing: 0.06em;
 
-  color: #ffffff;
-  padding: 5px;
-  margin-left: 2vw;
+   color: #ffffff;
+   padding: 5px;
+   margin-left: 2vw;
 }
 .userName {
-  font-weight: 1600;
-  font-size: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
+   font-weight: 1600;
+   font-size: 30px;
+   margin-left: 10px;
+   margin-right: 10px;
 }
 
 .recruit3 {
-  border-radius: 25px;
-  background-color: white;
-  width: 707px;
-  height: 203px;
-  margin: auto;
-  margin-top: 120px;
-  padding-top: 28px;
+   border-radius: 25px;
+   background-color: white;
+   width: 707px;
+   height: 203px;
+   margin: auto;
+   margin-top: 120px;
+   padding-top: 28px;
 }
 
 .wrapp {
-  display: flex;
-  flex-direction: row;
+   display: flex;
+   flex-direction: row;
 
-  width: 1087px;
-  height: 270px;
+   width: 1087px;
+   height: 270px;
 
-  border-radius: 50px;
-  padding-top: 30px;
+   border-radius: 50px;
+   padding-top: 30px;
 
-  margin: auto;
-  padding-left: 55px;
-  color: #112031;
-  /* 가로 스크롤 */
-  overflow-x: auto;
-  overflow-y: hidden;
+   margin: auto;
+   padding-left: 55px;
+   color: #112031;
+   /* 가로 스크롤 */
+   overflow-x: auto;
+   overflow-y: hidden;
 }
 
 .wrapp::-webkit-scrollbar {
-  margin-top: -40px;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
+   margin-top: -40px;
+   height: 8px;
+   background: rgba(0, 0, 0, 0.4);
+   border-radius: 10px;
 }
 
 /* 스크롤바 막대 설정*/
 .wrapp::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 1);
-  /* 스크롤바 둥글게 설정    */
-  border-radius: 10px;
+   background-color: rgba(255, 255, 255, 1);
+   /* 스크롤바 둥글게 설정    */
+   border-radius: 10px;
 }
 
 .wrapp::-webkit-scrollbar-track {
-  border-radius: 10px;
+   border-radius: 10px;
 }
 
 footer {
-  margin-bottom: 0;
-  padding-bottom: 0;
+   margin-bottom: 0;
+   padding-bottom: 0;
 }
 
 .footer {
-  background-color: #323232;
-  height: 290px;
-  width: 100vw;
-  margin-top: 96px;
-  padding-top: 50px;
-  color: #7090b0;
+   background-color: #323232;
+   height: 290px;
+   width: 100vw;
+   margin-top: 96px;
+   padding-top: 50px;
+   color: #7090b0;
 }
 
 .lab {
-  display: flex;
-  align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 .footerLogo {
-  display: inline-block;
+   display: inline-block;
 
-  width: 15.68px;
-  height: 15.68px;
-  margin-left: 171px;
+   width: 15.68px;
+   height: 15.68px;
+   margin-left: 171px;
 }
 
 .rights {
-  margin-left: 10px;
-  display: inline-block;
+   margin-left: 10px;
+   display: inline-block;
 }
 
 .lab2 {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 171.2px;
-  gap: 89px;
-  margin-top: 60px;
+   display: flex;
+   justify-content: flex-end;
+   margin-right: 171.2px;
+   gap: 89px;
+   margin-top: 60px;
 }
 
 .footerLogo2 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 25px;
-  height: 19.55px;
+   width: 25px;
+   height: 19.55px;
 }
 
 .footerLogo3 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 20px;
-  height: 19.55px;
+   width: 20px;
+   height: 19.55px;
 }
 
 .footerLogo4 {
-  display: inline-block;
+   display: inline-block;
 
-  width: 12.8px;
-  height: 24.24px;
+   width: 12.8px;
+   height: 24.24px;
 }
 
 .last {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: 0.06em;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 12px;
+   line-height: 16px;
+   letter-spacing: 0.06em;
 
-  color: #808080;
+   color: #808080;
 }
 .last2 {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 22px;
-  /* identical to box height */
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 500;
+   font-size: 16px;
+   line-height: 22px;
+   /* identical to box height */
 
-  letter-spacing: 0.06em;
+   letter-spacing: 0.06em;
 
-  color: #7090b0;
+   color: #7090b0;
 }
 .last3 {
-  margin-left: 171px;
-  margin-top: 30px;
+   margin-left: 171px;
+   margin-top: 30px;
 }
 
 .downArrow {
-  margin-left: "100px";
+   margin-left: '100px';
 }
 
 .part {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
-  margin-right: 151px;
-  letter-spacing: 0.08em;
-  margin-top: 10px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 18px;
+   line-height: 25px;
+   /* identical to box height */
+   margin-right: 151px;
+   letter-spacing: 0.08em;
+   margin-top: 10px;
 }
 
 .mannerpart {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
-  letter-spacing: 0.08em;
-  margin-right: 115px;
-  margin-top: 10px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 18px;
+   line-height: 25px;
+   /* identical to box height */
+   letter-spacing: 0.08em;
+   margin-right: 115px;
+   margin-top: 10px;
 }
 
 .interestpart {
-  width: 100px;
-  margin-top: 8px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
-  letter-spacing: 0.08em;
-  margin-right: 100px;
-  text-align: left;
+   width: 100px;
+   margin-top: 8px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 18px;
+   line-height: 25px;
+   /* identical to box height */
+   letter-spacing: 0.08em;
+   margin-right: 100px;
+   text-align: left;
 }
 .careerpart {
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
-  letter-spacing: 0.08em;
-  margin-right: 151px;
-  margin-top: 10px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 18px;
+   line-height: 25px;
+   /* identical to box height */
+   letter-spacing: 0.08em;
+   margin-right: 151px;
+   margin-top: 10px;
 }
 .skillpart {
-  width: 80px;
-  margin-top: 23px;
-  margin-left: -18px;
-  font-family: "Avenir";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
-  letter-spacing: 0.08em;
+   width: 80px;
+   margin-top: 23px;
+   margin-left: -18px;
+   font-family: 'Avenir';
+   font-style: normal;
+   font-weight: 800;
+   font-size: 18px;
+   line-height: 25px;
+   /* identical to box height */
+   letter-spacing: 0.08em;
 }
 
 .starRating {
-  width: 18px;
-  height: 18px;
+   width: 18px;
+   height: 18px;
 }
 
-.projectRow{
-  display: flex;
-  flex-direction: row;
+.projectRow {
+   display: flex;
+   flex-direction: row;
 }
 
-.skillRow{
-  display: flex;
-  flex-direction: row;
-  gap: 5vw;
+.skillRow {
+   display: flex;
+   flex-direction: row;
+   gap: 5vw;
 }
 
-.skillImg{
-  width: 106.306px;
-height: 103.2px;
-flex-shrink: 0;
+.skillImg {
+   width: 106.306px;
+   height: 103.2px;
+   flex-shrink: 0;
 }
 
-.projectBox{
-  width: 20vw;
-  height: 40vh;
-  border-radius: 20px;
-  background-color: white;
-  border: 1px solid rgba(255, 255, 255, 0.40);
-  box-shadow: 0px 12px 20px 0px rgba(112, 144, 176, 0.20);
-  backdrop-filter: blur(10px);
+.projectBox {
+   width: 20vw;
+   height: 40vh;
+   border-radius: 20px;
+   background-color: white;
+   border: 1px solid rgba(255, 255, 255, 0.4);
+   box-shadow: 0px 12px 20px 0px rgba(112, 144, 176, 0.2);
+   backdrop-filter: blur(10px);
 }
 
-.teamBox{
-  margin-top: 6vh;
-  margin-left: 1.5vw;
-  display: flex;
-  flex-direction: row;
-  top: 20px;
+.teamBox {
+   margin-top: 6vh;
+   margin-left: 1.5vw;
+   display: flex;
+   flex-direction: row;
+   top: 20px;
 }
 
-.teamInnerBox{
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin-top: -20px;
-  width: 60%;
+.teamInnerBox {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   margin-top: -20px;
+   width: 60%;
 }
 
-.careerType{
-  color: #7C7C7C;
-  font-family: Alef;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 166.667% */
+.careerType {
+   color: #7c7c7c;
+   font-family: Alef;
+   font-size: 12px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: 20px; /* 166.667% */
 }
 
-.careerUserData{
-  color: #B3B3B3;
-font-family: Avenir;
-font-size: 12px;
-font-style: normal;
-font-weight: 500;
-line-height: 20px;
+.careerUserData {
+   color: #b3b3b3;
+   font-family: Avenir;
+   font-size: 12px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 20px;
 }
 
-.careerWrap{
-  padding-left: 1.6vw;
-  padding-top: 1.5vh;
+.careerWrap {
+   padding-left: 1.6vw;
+   padding-top: 1.5vh;
 }
 
-.topProps{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.topProps {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
 }
 
-.recruitBox{
-  display: flex;
-  flex-direction: row;
-  float: right;
-  margin-top: 20px;
-  margin-left: 30px;
-  margin-right: 20px;
+.recruitBox {
+   display: flex;
+   flex-direction: row;
+   float: right;
+   margin-top: 20px;
+   margin-left: 30px;
+   margin-right: 20px;
 }
 
-.devideLineGray{
-  background: #B4B4B4;
-  width: 80%;
-  height: 2px;
-  opacity: 0.5;
-  margin: auto;
+.devideLineGray {
+   background: #b4b4b4;
+   width: 80%;
+   height: 2px;
+   opacity: 0.5;
+   margin: auto;
 }
 
-.teamName{
-  color: #000;
-  font-family: Alef;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 35px; /* 145.833% */
-  position: absolute;
-  bottom: 5vh;
-  left: 1vw;
+.teamName {
+   color: #000;
+   font-family: Alef;
+   font-size: 24px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: 35px; /* 145.833% */
+   position: absolute;
+   bottom: 5vh;
+   left: 1vw;
 }
 
-.teamIntro{
-  position: absolute;
-  color: #B3B3B3;
-  font-family: Avenir;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px; /* 150% */
-  left: 1vw;
-  bottom: 3vh;
+.teamIntro {
+   position: absolute;
+   color: #b3b3b3;
+   font-family: Avenir;
+   font-size: 12px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 18px; /* 150% */
+   left: 1vw;
+   bottom: 3vh;
 }
