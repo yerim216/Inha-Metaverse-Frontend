@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
 import styles from "../styles/modules/StickerNote.module.css";
 import Sticker from "./Sticker";
@@ -9,6 +9,8 @@ import {
   modifySticker,
 } from "../APIs/stickerNote";
 import RightViewer from "./RightViewer";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function StickerNote() {
   const { teamIndex } = useOutletContext();
@@ -176,6 +178,14 @@ export default function StickerNote() {
     addStickerNote();
   };
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
+
   return (
     <div className="w-full h-full p-4 xl:pr-80 2xl:pr-96">
       <RightViewer
@@ -184,7 +194,12 @@ export default function StickerNote() {
         handleUploadBtn={handleUploadBtn}
         input={input}
       />
-      <section className={`${styles.bg} area`}>
+      <section
+        className={`${styles.bg} area`}
+        style={{
+          backgroundColor: tm.stickerNoteArea,
+        }}
+      >
         <form className="ml-[3%] mt-[3%] flex flex-col w-[400px] gap-3 items-end"></form>
         {stickerNoteInfos &&
           clonedStickerNoteInfos.map((stickerNoteInfo, idx) => {

@@ -473,3 +473,7 @@ hr {
   height: 60px;
   border-radius: 10px;
 }
+
+.recruitmentBox_inputBox::-webkit-scrollbar {
+  display: none;
+}

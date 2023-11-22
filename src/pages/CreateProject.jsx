@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/CreateProject.module.css";
 import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "../APIs/userinfo";
+import { getSkills, getUserInfo, getUserInterested } from "../APIs/userinfo";
 import {
   addJob,
   addMember,
@@ -17,14 +17,6 @@ import CategoryBtn from "../components/CategoryBtn";
 import CategoryCard from "../components/CategoryCard";
 
 export default function CreateProject() {
-  // 팀 이름, 팀 소개, 프로젝트 설명, 모집 인원
-  // 팀 구성원 추가
-  // 팀 기술스택 추가
-  // const [user, setUser] = useRecoilState(userState);
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // 프로젝트명, 팀명, 프로젝트 한줄 소개, 프로젝트 설명 란.
-  // 프로젝트 분야, 모집 관련 정보는 별도의 state로 관리함.
   const [inputs, setInputs] = useState({
     projectName: "",
     teamName: "",
@@ -112,6 +104,7 @@ export default function CreateProject() {
   }, []);
   // 선택된 프로젝트 분야
   const [selectedCategory, setSelectedCategory] = useState([]);
+
   useEffect(() => {
     if (selectedCategory.length >= 3) {
       setErrorMessages((cur) => {
@@ -130,30 +123,172 @@ export default function CreateProject() {
       });
   }, [selectedCategory]);
 
-  // 모집 분야 : 프로젝트 분야와는 다름. 혼동 주의
-  const [category2, setCategory2] = useState([]);
-
-  // db에서 모집 분야 받아 옴.
+  // 모집 분야 리스트 : 프로젝트 분야와는 다름. 혼동 주의
+  const [jobs, setJobs] = useState();
   useEffect(() => {
-    setCategory2([
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-      "ㅎㅇ",
-    ]);
+    getJobs().then((res) => {
+      setJobs(res.data);
+    });
   }, []);
 
-  const [selectedCategory2, setSelectedCategory2] = useState([
-    { t1: "기획", t2: "서비스 기획", t3: 1 },
-    { t1: "기획", t2: "서비스 기획", t3: 1 },
-    { t1: "기획", t2: "서비스 기획", t3: 1 },
-  ]);
+  // jobCategory와 selectedJobCategory.
+  // selectedJobCategory는 기획/개발/디자인 이렇게 세 개가 존재할 수 있으며, 이것들이 변경될 때마다 useEffect를 이용해 하위 job(ex: 기획 -> 프로덕트 기획, 개발 기획)을 동적으로 보여 줌.
+  // 선택된 하위 job은 jobsToShow에 할당됨.
+  const [jobCategory, setJobCategory] = useState(["기획", "개발", "디자인"]);
+  const [selectedJobCategory, setSelectedJobCategory] = useState("기획");
+  const [jobsToShow, setJobsToShow] = useState([]);
+
+  // 현재 모집 섹션 내에 있는 '분야'에 대한 정보. 우측 하단의 '추가하기' 버튼을 누르면 이 정보가 그대로 전달된다.
+  const [jobInput, setJobInput] = useState({
+    category: "",
+    title: "",
+    recruitmentNum: 1,
+  });
+
+  // 현재 선택된 분야에 대한 정보. 카드 형태로 하단에 보여지게 된다.
+  const [selectedJobInputs, setSelectedJobInputs] = useState([]);
+  const handleAddSelectedJobInput = () => {
+    // 만약 기존에 selected된 값(title)이 존재할 경우, 예외 처리
+    const isDuplicated = selectedJobInputs.some(function (selectedJobInput) {
+      return selectedJobInput.title === jobInput.title;
+    });
+    if (isDuplicated) {
+      alert("중복된 분야는 추가할 수 없습니다!");
+      return;
+    }
+
+    let newArr = [...selectedJobInputs];
+    newArr.push(jobInput);
+    setSelectedJobInputs(newArr);
+
+    if (recruitmentRef.current) {
+      recruitmentRef.current.value = 1;
+    }
+  };
+  const deleteSelectedJobInput = (jobTitle) => {
+    let newArr = [...selectedJobInputs];
+    newArr = newArr.filter((selectedJobInput) => {
+      return selectedJobInput.title !== jobTitle;
+    });
+    setSelectedJobInputs(newArr);
+  };
+
+  // job Category가 변경될 때, 0번째 하위 job이 아닌 기존 순서로 하위 job값이 변경되는 오류 발생. 추가적인 조치 취해주었음.
+  const jobSelectRef = useRef();
+  const recruitmentRef = useRef();
+
+  useEffect(() => {
+    if (!jobsToShow) return;
+    if (!selectedCategory) return;
+
+    if (jobSelectRef.current) {
+      jobSelectRef.current.value = 0;
+      handleJobInputTitle();
+    }
+  }, [jobsToShow, selectedJobCategory]);
+
+  // jobInputTitle을 변경하는 함수
+  const handleJobInputTitle = () => {
+    if (
+      jobSelectRef.current &&
+      jobSelectRef.current.options.selectedIndex >= 0
+    ) {
+      let newJobInput = { ...jobInput };
+      newJobInput.title =
+        jobSelectRef.current.options[
+          jobSelectRef.current.selectedIndex
+        ].getAttribute("jobtitle");
+
+      setJobInput(newJobInput);
+    }
+  };
+
+  const handleJobInputRecruitmentNum = (num) => {
+    let newJobInput = { ...jobInput };
+    newJobInput.recruitmentNum = num;
+
+    setJobInput(newJobInput);
+  };
+
+  useEffect(() => {
+    let newJobInput = { ...jobInput };
+    newJobInput.category = selectedJobCategory;
+    setJobInput(newJobInput);
+  }, [selectedJobCategory]);
+
+  // 상위 카테고리(기획 / 개발 / 디자인)이 변할 경우, 동적으로 하위 job을 변경해주어야 한다.
+  useEffect(() => {
+    if (!jobs) return;
+
+    let newJobsToShow = [];
+    jobs.map((job) => {
+      if (job.job_category === selectedJobCategory) newJobsToShow.push(job);
+    });
+
+    setJobsToShow(newJobsToShow);
+  }, [jobs, selectedJobCategory]);
+
+  // 기술 스택 리스트
+  const [skills, setSkills] = useState([]);
+  useEffect(() => {
+    getSkills().then((res) => setSkills(res.data));
+  }, []);
+  // 스킬 검색창
+  const [skillSearch, setSkillSearch] = useState("");
+  // 검색 결과에 따른 필터링된 스킬 리스트
+  const [filteredSkills, setFilteredSkills] = useState([]);
+  useEffect(() => {
+    if (skills.length === 0) return;
+
+    setFilteredSkills(skills);
+  }, [skills]);
+  // 입력한 skillSearch값에 따른 필터링을 구현하기 위한 메소드
+  const getContains = (skillName) => {
+    if (skillSearch === "") return true;
+    let step;
+    for (step = 0; step < skillSearch.length; step++) {
+      if (skillName[step].toUpperCase() !== skillSearch[step].toUpperCase())
+        return false;
+    }
+    return true;
+  };
+  useEffect(() => {
+    let filtered = [];
+    if (skills) {
+      skills.map((skill) => {
+        const res = getContains(skill.skill_name);
+        if (res) filtered.push(skill);
+      });
+    }
+    setFilteredSkills(filtered);
+  }, [skillSearch]);
+
+  // 선택된 기술 스택 리스트
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const handleAddSelectedSkill = (skill) => {
+    if (selectedSkills.length >= 5) {
+      setErrorMessages((cur) => {
+        return { ...cur, skill: "최대 6개까지 선택 가능합니다." };
+      });
+    }
+
+    if (selectedSkills.length >= 6) return;
+
+    var isAlreadyExist = selectedSkills.some((sk) => {
+      return sk.skill_index === skill.skill_index;
+    });
+    if (isAlreadyExist) return;
+
+    let newArr = [...selectedSkills];
+    newArr.push(skill);
+    setSelectedSkills(newArr);
+  };
+
+  const handleDeleteSelectedSkill = (skillIndex) => {
+    let newArr = [...selectedSkills];
+    newArr = newArr.filter((skill) => skill.skill_index !== skillIndex);
+    setSelectedSkills(newArr);
+  };
 
   // 에러메세지들 관련 state
   const [errorMessages, setErrorMessages] = useState({
@@ -162,19 +297,10 @@ export default function CreateProject() {
     category: "",
     introduction: "",
     description: "",
+    skill: "",
   });
 
-  // const [inputs, setInputs] = useState({
-  //   name: "",
-  //   introduction: "",
-  //   description: "",
-  //   recruitment: 1,
-  // });
   const navigate = useNavigate();
-
-  // const onClickButton = () => {
-  //   setIsOpen(true);
-  // };
 
   const getUserName = async () => {
     if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
@@ -183,8 +309,6 @@ export default function CreateProject() {
 
     const userIndex = JSON.parse(localStorage.getItem("recoil-persist"))
       .userState.user_index;
-    console.log(userIndex);
-
     const userInfo = (await getUserInfo(userIndex)).data[0].user_name;
     return userInfo;
   };
@@ -210,90 +334,6 @@ export default function CreateProject() {
 
     // 다크모드와 화이트모드 다르게 설정 필요
     document.body.style.backgroundColor = "#111111";
-  };
-
-  const handleButtonClick = () => {
-    window.location.href = "/myprofile";
-  };
-
-  const [jobs, setJobs] = useState();
-  useEffect(() => {
-    getJobs().then((res) => {
-      setJobs(res.data);
-    });
-  }, []);
-
-  // skill값 하나하나에 대응되는 input값에 접근해야 하기 때문에, ref를 이용해 동적으로 해당 input값들 관리.
-  const inputRefs = useRef({});
-  useEffect(() => {
-    if (!jobs) return;
-
-    jobs.forEach((job) => {
-      if (!inputRefs.current[job.field_title]) {
-        inputRefs.current[job.field_title] = React.createRef();
-      }
-    });
-    setInputRefsReady(true);
-  }, [jobs]);
-  const [inputRefsReady, setInputRefsReady] = useState(false);
-
-  const handleAddJob = (teamName) => {
-    // jobName + inputRefs.current[jobName].current.value를 통해 각각 값 접근 가능.
-    jobs.map((job) => {
-      const jobName = job.field_title;
-      if (inputRefs.current[jobName].current.value >= 1) {
-        addJob(teamName, jobName, inputRefs.current[jobName].current.value)
-          .then(() => {})
-          .catch((err) => {
-            return false;
-          });
-      }
-    });
-    return true;
-  };
-
-  const [customPositionInputNum, setCustomPositionInputNum] = useState(0);
-  const handleCustomPositionInputNumInc = () => {
-    setCustomJobs((cur) => [...cur, { customJobName: "", recruitmentNum: 1 }]);
-    setCustomPositionInputNum((cur) => cur + 1);
-  };
-  // 커스텀 직무를 관리하는 곳.
-  // customPositionInputNum이 1 증가할 때마다, 아래의 customJobs 배열에 객체 하나가 추가된다.
-  // 객체는 customJobName, recruitmentNum으로 구성됨.
-  const [customJobs, setCustomJobs] = useState([]);
-
-  const handleAddCustomJob = (teamName) => {
-    customJobs.map((info) => {
-      const jobName = info.customJobName;
-      const recruitmentNum = info.recruitmentNum;
-
-      if (jobName.trim() !== "" && recruitmentNum >= 1) {
-        addJob(teamName, jobName, recruitmentNum)
-          .then(() => {})
-          .catch((err) => {
-            return false;
-          });
-      }
-    });
-    return true;
-  };
-
-  // 모집 인원과, 밑에 작성한 실제 직무 상에서의 모집 인원과 일치하는지의 여부를 판단하는 함수
-  const checkRecruitmentNumSame = () => {
-    const recruitmentNum = inputs.recruitment;
-    let rec = 0;
-
-    jobs.map((job) => {
-      const jobName = job.field_title;
-      rec += Number(inputRefs.current[jobName].current.value);
-    });
-
-    customJobs.map((info) => {
-      rec += Number(info.recruitmentNum);
-    });
-
-    if (Number(recruitmentNum) === Number(rec)) return true;
-    return false;
   };
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -335,6 +375,44 @@ export default function CreateProject() {
     };
   });
 
+  const [userIndex, setUserIndex] = useState();
+  useEffect(() => {
+    let userIndex;
+
+    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+      return;
+    }
+
+    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
+      .user_index;
+
+    setUserIndex(userIndex);
+  }, []);
+
+  const handleSubmit = () => {
+    // inputs에는 projectName, teamName, introduction, description 존재.
+
+    let inputData = {
+      leader: userIndex,
+      name: inputs.teamName,
+      project: inputs.projectName,
+      categories: selectedCategory,
+      introduction: inputs.introduction,
+      description: inputs.description,
+      jobs: selectedJobInputs,
+      skills: selectedSkills,
+    };
+
+    createTeam({ inputData })
+      .then((res) => {
+        console.log(res.data);
+        alert("성공적으로 처리되었습니다!");
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       {judgeModalOpen && (
@@ -345,7 +423,7 @@ export default function CreateProject() {
         >
           <div
             ref={modalRef}
-            className={`w-[600px] h-2/5 rounded-[50px] px-[130px] py-20 flex flex-col justify-between items-center
+            className={`w-[600px] h-[400px] rounded-[50px] px-[130px] py-20 flex flex-col justify-between items-center
             ${themeMode === "light" && styles.shadow}
             ${themeMode !== "light" && "border border-gray-500"}
           `}
@@ -379,7 +457,7 @@ export default function CreateProject() {
                   backgroundColor: tm.accentColor,
                 }}
                 onClick={() => {
-                  // 여기서 신청 처리
+                  handleSubmit();
                 }}
               >
                 네
@@ -619,26 +697,91 @@ export default function CreateProject() {
                     분야
                   </h3>
                   <div
-                    className={styles.recruitmentBox_inputBox}
+                    className={`${styles.recruitmentBox_inputBox} flex justify-between items-center relative pl-6`}
                     style={{
                       backgroundColor: tm.inputBg,
                     }}
-                  ></div>
+                  >
+                    <select
+                      className="w-[100%] h-full bg-transparent outline-none appearance-none"
+                      onChange={(e) => {
+                        setSelectedJobCategory(e.target.value);
+                      }}
+                    >
+                      {jobCategory.map((jobcategory) => (
+                        <option>{jobcategory}</option>
+                      ))}
+                    </select>
+                    <img
+                      src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                      alt="downArrow"
+                      className="w-5 h-5 absolute right-6"
+                    />
+                  </div>
                   <div
                     className={`${styles.recruitmentBox_inputBox} flex gap-6`}
                   >
                     <div
-                      className="w-3/5 bg-red-50 rounded-[10px]"
+                      className="w-3/5 rounded-[10px] flex justify-between items-center pl-6 relative"
                       style={{
                         backgroundColor: tm.inputBg,
                       }}
-                    ></div>
+                    >
+                      <select
+                        className="w-[100%] h-full bg-transparent outline-none appearance-none"
+                        onChange={() => {
+                          handleJobInputTitle();
+                        }}
+                        ref={jobSelectRef}
+                      >
+                        {jobsToShow &&
+                          jobsToShow.map((jobtoShow, idx) => (
+                            <option
+                              value={idx}
+                              jobtitle={jobtoShow.job_title}
+                              // jobCategory={jobtoShow.job_index}
+                            >
+                              {jobtoShow.job_title}
+                            </option>
+                          ))}
+                      </select>
+                      <img
+                        src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                        alt="downArrow"
+                        className="w-5 h-5 absolute right-6"
+                      />
+                    </div>
                     <div
-                      className="w-2/5 bg-red-50 rounded-[10px]"
+                      className="w-2/5 rounded-[10px] flex justify-between items-center relative pl-6"
                       style={{
                         backgroundColor: tm.inputBg,
                       }}
-                    ></div>
+                    >
+                      <select
+                        ref={recruitmentRef}
+                        className="w-[100%] h-full bg-transparent outline-none appearance-none"
+                        onChange={(e) => {
+                          handleJobInputRecruitmentNum(
+                            parseInt(e.target.value)
+                          );
+                        }}
+                      >
+                        <option value={1}>1명</option>
+                        <option value={2}>2명</option>
+                        <option value={3}>3명</option>
+                        <option value={4}>4명</option>
+                        <option value={5}>5명</option>
+                        <option value={6}>6명</option>
+                        <option value={7}>7명</option>
+                        <option value={8}>8명</option>
+                        <option value={9}>9명</option>
+                      </select>
+                      <img
+                        src={`public_assets/icons/downArrow_${themeMode}.svg`}
+                        alt="downArrow"
+                        className="w-5 h-5 absolute right-6"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className={styles.recruitmentBox_leftArea}>
@@ -650,18 +793,41 @@ export default function CreateProject() {
                   >
                     스킬
                   </h3>
+                  <input
+                    className={`${styles.recruitmentBox_inputBox} px-6 font-medium`}
+                    style={{
+                      backgroundColor: tm.inputBg,
+                      color: tm.textColor,
+                    }}
+                    value={skillSearch}
+                    onChange={(e) => {
+                      setSkillSearch(e.target.value);
+                    }}
+                  ></input>
                   <div
-                    className={styles.recruitmentBox_inputBox}
+                    className={`${styles.recruitmentBox_inputBox} overflow-x-auto overflow-y-hidden flex items-center gap-2 px-2`}
                     style={{
                       backgroundColor: tm.inputBg,
                     }}
-                  ></div>
-                  <div
-                    className={styles.recruitmentBox_inputBox}
-                    style={{
-                      backgroundColor: tm.inputBg,
-                    }}
-                  ></div>
+                  >
+                    {filteredSkills &&
+                      filteredSkills.map((skill) => {
+                        return (
+                          <button
+                            className="rounded-[10px] h-[80%] px-4 font-semibold"
+                            style={{
+                              color: tm.textColor,
+                              backgroundColor: tm.bg,
+                            }}
+                            onClick={() => {
+                              handleAddSelectedSkill(skill);
+                            }}
+                          >
+                            {skill.skill_name}
+                          </button>
+                        );
+                      })}
+                  </div>
                 </div>
               </div>
               {/* 역할 박스 */}
@@ -673,7 +839,7 @@ export default function CreateProject() {
                       color: tm.textColor,
                     }}
                   >
-                    분야
+                    역할
                   </h3>
                   <div
                     style={{
@@ -689,7 +855,35 @@ export default function CreateProject() {
                       backgroundColor: tm.inputBg,
                     }}
                   >
-                    <ErrorMsg errMsg={errorMessages.projectName} />
+                    <div className="grid grid-cols-3 grid-rows-2 place-items-center w-full h-full">
+                      {selectedSkills &&
+                        selectedSkills.map((skill) => (
+                          <button
+                            className="flex items-center gap-4"
+                            onClick={() => {
+                              handleDeleteSelectedSkill(skill.skill_index);
+                              setErrorMessages((cur) => {
+                                return { ...cur, skill: "" };
+                              });
+                            }}
+                          >
+                            <img
+                              src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                              alt={`skill_img_${skill.skill_index}`}
+                              className="w-12 h-12"
+                            />
+                            <span
+                              className="font-bold"
+                              style={{
+                                color: tm.textColor,
+                              }}
+                            >
+                              x
+                            </span>
+                          </button>
+                        ))}
+                    </div>
+                    <ErrorMsg errMsg={errorMessages.skill} />
                   </div>
                 </div>
               </div>
@@ -700,150 +894,24 @@ export default function CreateProject() {
                   color: tm.btnText,
                   backgroundColor: tm.createBtn,
                 }}
+                onClick={() => {
+                  handleAddSelectedJobInput();
+                }}
               >
                 추가하기
               </button>
             </div>
             {/* 선택한 분야 표기 박스 */}
             <div className="w-full mt-14 grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-              {selectedCategory2 &&
-                selectedCategory2.map((category2) => (
-                  <CategoryCard category2={category2} />
+              {selectedJobInputs &&
+                selectedJobInputs.map((selectedJobInput) => (
+                  <CategoryCard
+                    selectedJobInput={selectedJobInput}
+                    deleteSelectedJobInput={deleteSelectedJobInput}
+                  />
                 ))}
             </div>
           </div>
-          {/* <div className="w-4/5 flex flex-col gap-8">
-            <div className="w-1/12 flex items-center gap-3">
-              <input
-                style={{
-                  color: tm.textColor,
-                  backgroundColor: tm.inputBg,
-                }}
-                type="number"
-                className="rounded-md font-medium p-2 w-full"
-                value={inputs.recruitment}
-                onChange={(e) => {
-                  setInputs((cur) => {
-                    return {
-                      ...cur,
-                      recruitment: e.target.value < 0 ? 0 : e.target.value,
-                    };
-                  });
-                }}
-              />
-              <span
-                className="text-[22px]"
-                style={{
-                  color: tm.textColor,
-                }}
-              >
-                명
-              </span>
-            </div>
-            <div
-              className={styles.skillsContainer}
-              style={{
-                borderColor: tm.textColor,
-              }}
-            >
-              {inputRefsReady &&
-                jobs.map((job) => {
-                  return (
-                    <div className="flex justify-between items-center mb-6 gap-3">
-                      <div
-                        className="text-white w-2/3"
-                        style={{
-                          color: tm.textColor,
-                        }}
-                      >
-                        {job.field_title}
-                      </div>
-                      <div className="flex gap-2 items-center w-1/3">
-                        <input
-                          style={{
-                            color: tm.textColor,
-                            backgroundColor: tm.inputBg,
-                          }}
-                          type="number"
-                          className={`w-2/3 p-1 rounded-md font-medium`}
-                          defaultValue={0}
-                          onChange={(e) => {
-                            if (e.target.value < 0) e.target.value = 0;
-                          }}
-                          ref={inputRefs.current[job.field_title]}
-                        />
-                        <span
-                          style={{
-                            color: tm.textColor,
-                          }}
-                        >
-                          명
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              {Array(customPositionInputNum)
-                .fill()
-                .map((_, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center mb-6 gap-3"
-                  >
-                    <input
-                      style={{
-                        color: tm.textColor,
-                        backgroundColor: tm.inputBg,
-                      }}
-                      type="text"
-                      placeholder="모집 직무 직접 입력"
-                      className="rounded-md font-medium p-1 w-2/3"
-                      onChange={(e) => {
-                        const newArr = [...customJobs];
-                        newArr[index].customJobName = e.target.value;
-                        setCustomJobs(newArr);
-                      }}
-                    />
-                    <div className="flex gap-2 items-center w-1/3">
-                      <input
-                        style={{
-                          color: tm.textColor,
-                          backgroundColor: tm.inputBg,
-                        }}
-                        type="number"
-                        className="w-2/3 p-1 rounded-md font-medium"
-                        value={customJobs[index].recruitmentNum}
-                        onChange={(e) => {
-                          if (e.target.value < 0) return;
-
-                          const newArr = [...customJobs];
-                          newArr[index].recruitmentNum = e.target.value;
-                          setCustomJobs(newArr);
-                        }}
-                      />
-                      <span
-                        style={{
-                          color: tm.textColor,
-                        }}
-                      >
-                        명
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCustomPositionInputNumInc();
-                }}
-                style={{
-                  color: tm.textColor,
-                }}
-              >
-                + 직접 입력
-              </button>
-            </div>
-          </div> */}
         </div>
         <div className="flex w-full justify-end gap-8 mt-36">
           <button
@@ -853,25 +921,20 @@ export default function CreateProject() {
               color: tm.btnText,
             }}
             onClick={async (e) => {
-              openJudgeModal();
-              e.preventDefault();
-              if (!checkRecruitmentNumSame()) {
+              if (
+                inputs.teamName.trim() === "" ||
+                inputs.projectName.trim() === "" ||
+                inputs.introduction.trim() === "" ||
+                inputs.description.trim() === ""
+              ) {
                 alert(
-                  "모집 인원과 실제 직무 상의 인원이 일치하지 않습니다. 다시 확인해주세요!"
+                  "입력되지 않은 정보가 존재합니다(프로젝트 분야, 모집 제외). 다시 확인해주세요!"
                 );
                 return;
               }
-              // const returnVal = window.confirm("해당 팀을 개설하시겠습니까?");
-              // if (returnVal === true) {
-              //   const userIndex = JSON.parse(
-              //     localStorage.getItem("recoil-persist")
-              //   ).userState.user_index;
-              //   const teamName = await createTeam(userIndex, inputs);
-              //   if (handleAddJob(teamName) && handleAddCustomJob(teamName)) {
-              //     alert("팀이 성공적으로 생성되었습니다!");
-              //     navigate("/");
-              //   } else alert("예상치 못한 오류가 발생했습니다!");
-              // }
+
+              openJudgeModal();
+              e.preventDefault();
             }}
           >
             프로젝트 제작하기

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function ProfileList({ profile }) {
+export default function ProfileList({ lightTheme, profile }) {
   const [jobName, setJobName] = useState("직무 없음");
   useEffect(() => {
     if (profile.user_job) {
@@ -48,7 +48,12 @@ export default function ProfileList({ profile }) {
       />
       <div className="flex flex-col gap-1">
         <div className="text-sm">{profile.user_name}</div>
-        <div className="border rounded basis-auto text-[8px] flex-grow-0 flex items-center justify-center text-[#FFFFFF] font-medium">
+        <div
+          className="border rounded basis-auto text-[8px] flex-grow-0 flex items-center justify-center font-medium"
+          style={{
+            color: lightTheme ? "#000" : "#FFFFFF",
+          }}
+        >
           {jobName}
         </div>
       </div>

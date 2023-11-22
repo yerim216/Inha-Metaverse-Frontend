@@ -18,10 +18,9 @@ export default function Story({
   return (
     <div className="mb-10 mr-10">
       <div
-        className="w-full h-80 px-14 py-8"
+        className="w-full h-80 px-14 py-8 relative"
         style={{
           backgroundColor: tm.storyBg,
-          // border: "1px solid rgba(255, 255, 255, 0.4)",
           boxShadow: "0px 12px 20px rgba(112, 144, 176, 0.2)",
           borderRadius: "20px",
         }}
@@ -76,19 +75,20 @@ export default function Story({
         >
           {content}
         </p>
-        <button
-          className={styles.more}
-          onClick={() => {
-            handleMoreBtnClick({ profileName, part, title, content, date });
-          }}
-        >
-          자세히보기
-          <img
-            src="/public_assets/moreArrow.png"
-            alt="moreArrow"
-            className="w-3 h-3"
-          />
-        </button>
+        <div className="flex w-full justify-end absolute right-12 bottom-6">
+          <button
+            className={`${styles.more}`}
+            onClick={() => {
+              handleMoreBtnClick({ profileName, part, title, content, date });
+            }}
+          >
+            자세히보기
+            <img
+              src="/public_assets/icons/moreArrow_dark.svg"
+              alt="moreArrow"
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -90,8 +90,13 @@ export default function ProjectManagerTools() {
         }}
       >
         {/* 드롭다운으로 프로젝트 선택 가능하게 변경하는 부분. margin-right 값을 통해 우측 여백(팀원 상태표시 탭 여백만큼) 설정. */}
-        <div className="w-[100%] h-full bg-[#1C1D1E] border-b-[0.5px] border-[#7c7c7c] xl:mr-80 2xl:mr-96">
-          <div className=" text-white text-xl font-extrabold flex flex-col justify-center h-full gap-3">
+        <div className="w-[100%] h-full border-b-[0.5px] border-[#7c7c7c] xl:mr-80 2xl:mr-96">
+          <div
+            className="text-xl font-extrabold flex flex-col justify-center h-full gap-3"
+            style={{
+              color: tm.mainTextColor,
+            }}
+          >
             <div className="flex gap-2 hover:cursor-pointer items-center">
               <h3
                 className="ml-1"
@@ -108,7 +113,13 @@ export default function ProjectManagerTools() {
                   className={`${view && "rotate-180"}`}
                 />
                 {view && (
-                  <div className="list-none absolute z-10 left-4 top-0 bg-[#272727] flex flex-col items-center p-3 rounded-lg gap-2">
+                  <div
+                    className="list-none absolute z-10 left-4 top-0 flex flex-col items-center p-3 rounded-lg gap-2"
+                    style={{
+                      backgroundColor: tm.dropDownProjectListBg,
+                      color: tm.mainTextColor,
+                    }}
+                  >
                     {teamInfos &&
                       teamInfos.map((teamInfo) => {
                         return (
@@ -135,7 +146,12 @@ export default function ProjectManagerTools() {
             </div>
 
             {/* 추후 스킬들 리스트 API 호출로 변경 */}
-            <div className="w-44 px-4 py-2 rounded-2xl bg-black">
+            <div
+              className="w-44 px-4 py-2 rounded-2xl"
+              style={{
+                backgroundColor: tm.skillsListBg,
+              }}
+            >
               <img src="/public_assets/skillsList.png" alt="skillsList" />
             </div>
           </div>

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getTeamIndex, getUserInfo } from "../APIs/userinfo";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { getTeamInfoByIndex } from "../APIs/team";
 import TeamCard from "../components/TeamCard";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function ProjectListsPage() {
   const navigate = useNavigate();
@@ -68,6 +70,14 @@ export default function ProjectListsPage() {
     );
   }, [array]);
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.home);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.home);
+    else setTm(theme.darkTheme.home);
+  }, [themeMode]);
+
   return (
     <>
       <div
@@ -83,7 +93,12 @@ export default function ProjectListsPage() {
               return <TeamCard key={team.teamInfo.team_index} team={team} />;
             })}
           <button
-            className="w-40 h-14 bg-black rounded-[35px] text-white border border-[#6D6D6D] fixed right-12 bottom-8 flex gap-2 items-center justify-center font-extrabold transition-all hover:scale-105"
+            className="w-40 h-14 bg-black rounded-[35px] border fixed right-12 bottom-8 flex gap-2 items-center justify-center font-extrabold transition-all hover:scale-105"
+            style={{
+              color: tm.mainTextColor,
+              borderColor: tm.borderColor,
+              backgroundColor: tm.footerBg,
+            }}
             onClick={() => {
               navigate("/createproject");
               window.scrollTo({ top: 0, behavior: "auto" });

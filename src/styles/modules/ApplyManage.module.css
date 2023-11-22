@@ -1,0 +1,27 @@
+.paddingSection {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.jobSection {
+  border-bottom: 0.5px solid;
+  padding: 20px 5%;
+}
+
+.jobTitle {
+  font-family: Alef;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.applyCardContainer {
+  display: flex;
+  overflow-x: auto;
+  gap: 30px;
+  padding: 30px 40px;
+}

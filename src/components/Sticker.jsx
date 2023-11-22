@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDrag } from "react-use-gesture";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 // 순서대로 노랭, 초록, 보라돌이, 핑크
 const colors = ["#FDFFAD", "#D1FFAD", "#B8ADFF", "#FDADFF"];
@@ -113,15 +115,24 @@ export default function Sticker({
     getNextColorIdx();
   }, [stickyNoteRef, textareaRef]);
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
+
   return (
     <div
-      className={`w-64 h-64 bg-[#FDFFAD] text-black rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-3xl absolute top-1/4 left-1/4 overflow-hidden resize pb-12 border border-black ${
+      className={`w-64 h-64 bg-[#FDFFAD] text-black rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-3xl absolute top-1/4 left-1/4 overflow-hidden resize pb-12 border ${
         "stickyNote_" + note_index
       }`}
       style={{
         left: stickerPos.x,
         top: stickerPos.y,
         zIndex: zIndexList[idx] + 100,
+        borderColor: tm.stickerNoteArea,
       }}
       onMouseDown={() => {
         addZIndex(idx);

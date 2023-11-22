@@ -102,7 +102,7 @@ export default function Profile() {
             setTeamDetail(res.data);
             setTeamSkill(res.data.teamInfo.skills);
             setTeamRecruit(res.data.teamInfo.jobs);
-            console.log(res.data);
+            console.log(res.data.teamInfo.skills);
             return res.data;
          })
          .then((data) => {
@@ -283,18 +283,23 @@ export default function Profile() {
             </button>
             <div className={styles.profileTop}>
                <div className={styles.nameContainer}>
-                  {teamDetail &&
-                     (teamDetail.teamInfo.skills === null ? (
-                        <p className={styles.skill}> 팀 스킬이 없어요 </p>
-                     ) : (
-                        teamDetail.teamInfo.skills.map((skill, index) => {
-                           return (
-                              <p key={index} className={styles.skill}>
-                                 {skill.skill_name}
-                              </p>
-                           );
-                        })
-                     ))}
+                  <div className={styles.skillContainer}>
+                     {teamDetail &&
+                        (teamDetail.teamInfo.skills === null ? (
+                           <p className={styles.skill} style={{ color: tm.subTextColorDarker }}>
+                              {' '}
+                              팀 스킬이 없어요{' '}
+                           </p>
+                        ) : (
+                           teamDetail.teamInfo.skills.map((skill, index) => {
+                              return (
+                                 <p key={index} className={styles.skill} style={{ color: tm.subTextColorDarker }}>
+                                    {skill}
+                                 </p>
+                              );
+                           })
+                        ))}
+                  </div>
 
                   {/* 팀 이름 */}
                   <p className={styles.name} style={{ color: tm.mainTextColor }}>
@@ -349,18 +354,24 @@ export default function Profile() {
                <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
                   사용 스킬
                </p>
-               {teamDetail &&
-                  (teamDetail.teamInfo.skills === null ? (
-                     <p style={{ color: tm.mainTextColor }}> 팀 스킬이 없습니다 </p>
-                  ) : (
-                     teamDetail.teamInfo.skills.map((skill, index) => {
-                        return (
-                           <p key={index} className={styles.skill}>
-                              {skill.skill_name}
-                           </p>
-                        );
-                     })
-                  ))}
+               <div className={styles.skillImgContainer}>
+                  {teamDetail &&
+                     (teamDetail.teamInfo.skills === null ? (
+                        <p style={{ color: tm.subTextColor }}> 팀 스킬이 없습니다 </p>
+                     ) : (
+                        teamDetail.teamInfo.skills.map((skill, index) => {
+                           return (
+                              <img
+                                 key={index}
+                                 src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${index + 1}.svg`}
+                                 alt="more"
+                                 style={{ width: '25px', height: '25px' }}
+                              />
+                           );
+                        })
+                     ))}
+               </div>
+
                {/* </div> */}
 
                <p className={styles.menuText} style={{ color: tm.mainTextColor }}>

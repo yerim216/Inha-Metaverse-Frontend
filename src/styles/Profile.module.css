@@ -521,7 +521,7 @@ footer {
    border-radius: 22.5px;
    border: 0.5px solid #7c7c7c;
 
-   color: #7c7c7c;
+   color: black;
    text-align: center;
    font-family: Noto Sans;
    font-size: 14px;
@@ -584,11 +584,12 @@ footer {
 
 .teamInfoBox {
    display: grid;
-   grid-template-columns: 10% 90%;
+   grid-template-columns: 13% 87%;
    grid-template-rows: repeat(2, 1fr); /* 세로 3칸으로 나눔 */
    gap: 5px; /* 각 그리드 아이템 사이의 간격 설정 */
    width: 100%; /* 그리드 컨테이너의 폭 설정 */
    align-items: center;
+   justify-content: center;
    margin-left: 3vw;
 }
 
@@ -671,4 +672,17 @@ footer {
    font-weight: 700;
    line-height: normal;
    letter-spacing: 1px;
+}
+
+.skillContainer {
+   display: flex;
+   flex-direction: row;
+   gap: 7px;
+   margin-bottom: 4%;
+}
+
+.skillImgContainer {
+   display: flex;
+   flex-direction: row;
+   gap: 7px;
 }

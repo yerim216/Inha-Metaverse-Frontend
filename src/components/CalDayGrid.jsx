@@ -18,6 +18,7 @@ export default function CalDayGrid(props) {
    const fetchData = () => {
       getScheduleCalendar(teamIndex)
          .then(function (response) {
+            console.log(response.data);
             setEventArr([...response.data]);
             const a = JSON.stringify(response);
          })

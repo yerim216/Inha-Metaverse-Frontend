@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getSchedule } from "../APIs/schedule";
 import { getTeamIndex } from "../APIs/userinfo";
 import { useNavigate } from "react-router";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function NoticeBoard({ teamIndex }) {
   const navigate = useNavigate();
@@ -47,12 +49,30 @@ export default function NoticeBoard({ teamIndex }) {
     return year + "." + monthString + "." + dayString;
   };
 
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.projectManager);
+  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+  useEffect(() => {
+    if (themeMode === "light") setTm(theme.lightTheme.projectManager);
+    else setTm(theme.darkTheme.projectManager);
+  }, [themeMode]);
+
   return (
     <section className="mt-8">
       <div className="w-full flex justify-between items-center">
-        <span className="text-white text-[18px]">게시판</span>
+        <span
+          className="text-[18px]"
+          style={{
+            color: tm.mainTextColor,
+          }}
+        >
+          게시판
+        </span>
         <button
-          className="text-[#B3B3B3] text-[12px] hover:scale-105"
+          className="text-[12px] hover:scale-105"
+          style={{
+            color: tm.hazyTextColor,
+          }}
           onClick={() => {
             navigate(`/projectmanagertools/${teamIndex}/board`);
           }}
@@ -66,15 +86,28 @@ export default function NoticeBoard({ teamIndex }) {
           schedule.map((item) => {
             return (
               <div
-                className="w-full h-12 bg-[#272727] rounded-xl flex justify-between items-center px-6 cursor-pointer"
+                className="w-full h-12 rounded-xl flex justify-between items-center px-6 cursor-pointer"
+                style={{
+                  backgroundColor: tm.teamMemberProfileCard,
+                }}
                 onClick={() => {
                   navigate(`/projectmanagertools/${teamIndex}/board`);
                 }}
               >
-                <span className="text-white text-[12px]">
+                <span
+                  className="text-[12px]"
+                  style={{
+                    color: tm.mainTextColor,
+                  }}
+                >
                   {item.schedule_content || "설정된 content가 비어 있음"}
                 </span>
-                <div className="text-[#B3B3B3] text-[12px] flex gap-2">
+                <div
+                  className="text-[12px] flex gap-2"
+                  style={{
+                    color: tm.hazyTextColor,
+                  }}
+                >
                   <span>{getDateInKor(item.created_at)}</span>
                   <img src="/public_assets/icons/ellipsis.svg" alt="" />
                 </div>
