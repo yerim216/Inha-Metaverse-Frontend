@@ -1,6 +1,8 @@
-import React, { useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/TD.module.css";
 import { BsFillTrashFill } from "react-icons/bs";
+import { ThemeModeContext } from "../contexts/ThemeProvider";
+import { theme } from "../theme/theme";
 
 export default function Todo({
   // 투두 리스트를 가져오는 메소드 : 배열의 원소는 manager_names, todo_team, todo_title, todo_content, writer, todo_date, todo_status로 구성됨.
@@ -42,9 +44,10 @@ export default function Todo({
     );
     const toDoSection_done = document.querySelector("#toDoSection_done");
 
-    toDoSection_notStart.style.backgroundColor = "#1C1D1E";
-    toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
-    toDoSection_done.style.backgroundColor = "#1C1D1E";
+    toDoSection_notStart.style.backgroundColor = "transparent";
+    toDoSection_inProgress.style.backgroundColor = "transparent";
+    toDoSection_done.style.backgroundColor = "transparent";
+
     if (
       mouseX >= toDoSection_notStart.getBoundingClientRect().left &&
       mouseX <= toDoSection_notStart.getBoundingClientRect().right &&
@@ -98,29 +101,39 @@ export default function Todo({
       mouseY >= toDoSection_notStart.getBoundingClientRect().top &&
       mouseY <= toDoSection_notStart.getBoundingClientRect().bottom
     ) {
-      toDoSection_notStart.style.backgroundColor = "rgb(21, 20, 20)";
-      toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
-      toDoSection_done.style.backgroundColor = "#1C1D1E";
+      toDoSection_notStart.style.backgroundColor = tm.todoSectionBg;
+      toDoSection_inProgress.style.backgroundColor = "transparent";
+      toDoSection_done.style.backgroundColor = "transparent";
     } else if (
       mouseX >= toDoSection_inProgress.getBoundingClientRect().left &&
       mouseX <= toDoSection_inProgress.getBoundingClientRect().right &&
       mouseY >= toDoSection_inProgress.getBoundingClientRect().top &&
       mouseY <= toDoSection_inProgress.getBoundingClientRect().bottom
     ) {
-      toDoSection_notStart.style.backgroundColor = "#1C1D1E";
-      toDoSection_inProgress.style.backgroundColor = "rgb(21, 20, 20)";
-      toDoSection_done.style.backgroundColor = "#1C1D1E";
+      toDoSection_notStart.style.backgroundColor = "transparent";
+      toDoSection_inProgress.style.backgroundColor = tm.todoSectionBg;
+      toDoSection_done.style.backgroundColor = "transparent";
     } else if (
       mouseX >= toDoSection_done.getBoundingClientRect().left &&
       mouseX <= toDoSection_done.getBoundingClientRect().right &&
       mouseY >= toDoSection_done.getBoundingClientRect().top &&
       mouseY <= toDoSection_done.getBoundingClientRect().bottom
     ) {
-      toDoSection_notStart.style.backgroundColor = "#1C1D1E";
-      toDoSection_inProgress.style.backgroundColor = "#1C1D1E";
-      toDoSection_done.style.backgroundColor = "rgb(21, 20, 20)";
+      toDoSection_notStart.style.backgroundColor = "transparent";
+      toDoSection_inProgress.style.backgroundColor = "transparent";
+      toDoSection_done.style.backgroundColor = tm.todoSectionBg;
     }
   };
+
+  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+  const [tm, setTm] = useState(theme.lightTheme.board);
+  useEffect(() => {
+    if (themeMode === "light") {
+      setTm(theme.lightTheme.board);
+    } else {
+      setTm(theme.darkTheme.board);
+    }
+  }, [themeMode]);
 
   return (
     <div
@@ -133,6 +146,10 @@ export default function Todo({
     >
       <div
         className={`${styles.TD} cursor-pointer transition-all`}
+        style={{
+          backgroundColor: tm.TDBg,
+          borderColor: tm.TDBorder,
+        }}
         ref={container}
         onClick={(e) => {
           if (e.target === container.current || e.target === title.current) {

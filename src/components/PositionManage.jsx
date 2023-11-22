@@ -4,6 +4,8 @@ import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import ApplyCard from "./ApplyCard";
 import PositionCard from "./PositionCard";
+import { useParams } from "react-router";
+import { getTeamInfoByIndex } from "../APIs/team";
 
 export default function PositionManage() {
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -13,6 +15,18 @@ export default function PositionManage() {
     if (themeMode === "light") setTm(theme.lightTheme.management);
     else setTm(theme.darkTheme.management);
   }, [themeMode]);
+
+  // teamMember를 가져오면, 현재 분야에 따라 분류하여(개발 / 기획 / 디자인) 분류 후 화면에 표시.
+  const [teamMembers, setTeamMembers] = useState();
+  const params = useParams();
+  const teamIndex = params.teamIndex;
+  useEffect(() => {
+    if (teamIndex) {
+      getTeamInfoByIndex(teamIndex).then((res) => {
+        setTeamMembers(res.data.teamMembers);
+      });
+    }
+  }, []);
 
   return (
     <section className={styles.paddingSection}>
@@ -40,15 +54,6 @@ export default function PositionManage() {
             <PositionCard />
             <PositionCard />
           </div>
-          <div
-            className={`w-44 h-48 ${styles.dottedBorder} flex justify-center items-center`}
-            style={{
-              borderColor: tm.border,
-              color: tm.hazyTextColor,
-            }}
-          >
-            추가해주세요!
-          </div>
         </div>
       </div>
       <div className={styles.jobSection}>
@@ -74,15 +79,6 @@ export default function PositionManage() {
             <PositionCard />
             <PositionCard />
           </div>
-          <div
-            className={`w-44 h-48 ${styles.dottedBorder} flex justify-center items-center`}
-            style={{
-              borderColor: tm.border,
-              color: tm.hazyTextColor,
-            }}
-          >
-            추가해주세요!
-          </div>
         </div>
       </div>
       <div className={styles.jobSection}>
@@ -107,15 +103,6 @@ export default function PositionManage() {
             <PositionCard />
             <PositionCard />
             <PositionCard />
-          </div>
-          <div
-            className={`w-44 h-48 ${styles.dottedBorder} flex justify-center items-center`}
-            style={{
-              borderColor: tm.border,
-              color: tm.hazyTextColor,
-            }}
-          >
-            추가해주세요!
           </div>
         </div>
       </div>

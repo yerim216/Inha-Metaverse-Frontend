@@ -86,12 +86,13 @@ export default function ProjectLists({ recruitmentBtnActive }) {
               projectName={item.team_name}
               isRecruiting={true}
               key={item.team_index}
-              recruitmentNumber={item.recruitment_number}
               views={item.team_views}
               introduction={item.team_introduction}
               teamIndex={item.team_index}
               numOfMembers={item.team_member_count}
-              skills={item.skills}
+              skills={item.team_skills}
+              categories={item.team_category}
+              jobs={item.team_jobs}
             />
           ))
         )
@@ -105,12 +106,13 @@ export default function ProjectLists({ recruitmentBtnActive }) {
             projectName={item.team_name}
             isRecruiting={false}
             key={item.team_index}
-            recruitmentNumber={item.recruitment_number}
             views={item.team_views}
             introduction={item.team_introduction}
             teamIndex={item.team_index}
             numOfMembers={item.team_member_count}
             skills={item.skills}
+            categories={item.team_category}
+            jobs={item.team_jobs}
           />
         ))
       )}

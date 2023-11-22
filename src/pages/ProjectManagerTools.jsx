@@ -42,8 +42,67 @@ export default function ProjectManagerTools() {
     });
   }, []);
 
+  //
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIndex = userLogin.user_index;
+
+  // 팀들의 인덱스를 담는 배열.
+  const [team, setTeam] = useState([]);
+
+  // 현재 해당 유저가 진행하는 프로젝트 정보를 담은 배열.
+  const [array, setArray] = useState([]);
+
+  const getTeamIndices = async () => {
+    try {
+      const res = await getTeamIndex(userIndex);
+      setTeam(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTeamIndices();
+  }, []);
+
+  const fetchData = async () => {
+    for (let i = 0; i < team.length; i++) {
+      // 팀인덱스 가져오는건 잘 됨
+      try {
+        const response = await getTeamInfoByIndex(team[i].team_index);
+        setArray((cur) => {
+          return [...cur, response.data];
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (team.length !== 0) {
+      fetchData();
+    }
+  }, [team]);
+
+  // 위의 array 배열에 중복 문제가 발생해, 중복 문제를 제거한 배열.
+  const [filteredArray, setFilteredArray] = useState([]);
+
+  // 중복문제 제거 배열 설정.
+  useEffect(() => {
+    setFilteredArray(
+      array.filter((team, idx) => {
+        return (
+          idx ===
+          array.findIndex(
+            (obj) => obj.teamInfo.team_index === team.teamInfo.team_index
+          )
+        );
+      })
+    );
+  }, [array]);
+
+  //
 
   useEffect(() => {
     getTeamIndex(userIndex).then((res) => {
@@ -114,29 +173,34 @@ export default function ProjectManagerTools() {
                 />
                 {view && (
                   <div
-                    className="list-none absolute z-10 left-4 top-0 flex flex-col items-center p-3 rounded-lg gap-2"
+                    className="list-none absolute z-10 left-4 top-0 flex flex-col items-center p-3 rounded-lg gap-2 overflow-y-auto max-h-[600px]"
                     style={{
                       backgroundColor: tm.dropDownProjectListBg,
                       color: tm.mainTextColor,
                     }}
                   >
-                    {teamInfos &&
-                      teamInfos.map((teamInfo) => {
+                    {filteredArray &&
+                      filteredArray.map((team) => {
                         return (
                           <li
-                            className="hover:scale-105"
+                            className="hover:scale-105 border-b w-full flex justify-center py-1"
+                            style={{
+                              borderColor: "lightgrey",
+                            }}
                             onClick={() => {
                               navigate(
-                                `/projectmanagertools/${teamInfo.team_index}`,
+                                `/projectmanagertools/${team.teamInfo.team_index}`,
                                 {
-                                  state: { teamIndex: teamInfo.team_index },
+                                  state: {
+                                    teamIndex: team.teamInfo.team_index,
+                                  },
                                 }
                               );
                               window.scrollTo({ top: 0, behavior: "auto" });
                               window.location.reload();
                             }}
                           >
-                            {teamInfo.team_name}
+                            {team.teamInfo.team_name}
                           </li>
                         );
                       })}

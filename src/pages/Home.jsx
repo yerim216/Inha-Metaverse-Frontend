@@ -110,7 +110,15 @@ export default function Home() {
       "Android 개발",
     ],
     ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
-    ["일렉 기타", "어쿠스틱 기타", "클래식 기타"],
+    [
+      "일렉 기타",
+      "어쿠스틱 기타",
+      "클래식 기타",
+      "통기타",
+      "할로우 바디 기타",
+      "사일런트 기타",
+      "랩 스틸 기타",
+    ],
   ]);
   const [filterNum, setFilterNum] = useState(0);
   const handleFilterChange = (filterNumber) => {
@@ -294,7 +302,7 @@ export default function Home() {
               filter[filterNum].map((item, idx) => (
                 <div
                   onClick={handleFilterClick}
-                  className="filters text-xl"
+                  className="filters text-xl hover:animate-spin"
                   key={idx}
                   style={{
                     color: tm.buttonText,

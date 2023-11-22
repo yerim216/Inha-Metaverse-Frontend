@@ -175,10 +175,10 @@ export default function TeamCard({ team }) {
         {isTeamLeader && (
           <img
             src={`/public_assets/icons/management${
-              themeMode === "light" && "_light"
-            }.svg`}
+              themeMode === "light" ? "_light" : ""
+            }.svg `}
             alt="management"
-            className={`absolute right-8 top-8 w-6 h-6 z-10 ${styles.absoluteChildren}`}
+            className={`absolute right-8 top-8 w-6 h-6 ${styles.absoluteChildren}`}
           />
         )}
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">

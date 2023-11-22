@@ -13,9 +13,7 @@ import { theme } from "../theme/theme";
 
 export default function Board() {
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
-
   const [tm, setTm] = useState(theme.lightTheme.board);
-
   useEffect(() => {
     if (themeMode === "light") {
       setTm(theme.lightTheme.board);
@@ -228,7 +226,9 @@ export default function Board() {
             }}
           >
             <input
-              className={styles.addTodoTitle}
+              className={`${styles.addTodoTitle} ${
+                themeMode === "dark" && styles.darkAddTodoTitle
+              }`}
               style={{
                 color: tm.inputTextColor,
               }}
@@ -245,13 +245,23 @@ export default function Board() {
             />
 
             {/* 현재 날짜 */}
-            <div className="flex items-center gap-[2vw] w-full">
+            <div
+              className="flex items-center gap-[2vw] w-full"
+              style={{
+                color: tm.textColor,
+              }}
+            >
               <span className="font-medium">Current Date</span>
               <span className="mr-auto time">0월 00일 00 : 00</span>
             </div>
 
             {/* 매니저 선택 */}
-            <div className="mr-auto flex items-center gap-1">
+            <div
+              className="mr-auto flex items-center gap-1"
+              style={{
+                color: tm.textColor,
+              }}
+            >
               <span className="mr-[2vw] font-medium">Mangers</span>
               <div className={`flex gap-2 grow ${styles.managerSelector}`}>
                 {memberList &&
@@ -276,7 +286,12 @@ export default function Board() {
             </div>
 
             {/* 상태 선택 */}
-            <div className="flex font-medium w-full">
+            <div
+              className="flex font-medium w-full"
+              style={{
+                color: tm.textColor,
+              }}
+            >
               <span className="mr-[2vw]">Status</span>
               <div className="flex items-center gap-10">
                 <div className="flex items-center gap-[10px]">
@@ -316,11 +331,14 @@ export default function Board() {
             </div>
 
             {/* 구분선 */}
-            <div className="w-full h-[0.5px] bg-white opacity-70"></div>
+            <div className="w-full h-[0.5px] bg-[#7C7C7C]"></div>
 
             {/* Add Note */}
             <div className={styles.textarea_container}>
               <textarea
+                style={{
+                  color: tm.textColor,
+                }}
                 className={styles.textarea}
                 value={addTodo.todo}
                 onChange={(e) => {
@@ -336,7 +354,10 @@ export default function Board() {
             {/* +버튼 */}
             <div>
               <button
-                className="cursor-pointer hover:scale-110 text-white"
+                className="cursor-pointer hover:scale-110"
+                style={{
+                  color: tm.inputTextColor,
+                }}
                 onClick={() => {
                   if (
                     addTodo.title.trim() === "" ||
@@ -368,11 +389,21 @@ export default function Board() {
         <div className={styles.fullTodoSection} id="toDoSection_notStart">
           <section
             className={`${styles.notStart} ${styles.toDoSection}`}
+            style={{
+              color: tm.todoSectionText,
+              backgroundColor: tm.todoSectionBg,
+            }}
             id="toDoSection_notStart_scroll"
           >
             <div className={styles.notStartBadge}>
               <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
-              <span className="text-white">시작 안함</span>
+              <span
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                시작 안함
+              </span>
             </div>
 
             <div className={styles.todosContainer}>
@@ -402,11 +433,21 @@ export default function Board() {
         <div className={styles.fullTodoSection} id="toDoSection_inProgress">
           <section
             className={`${styles.inProgress} ${styles.toDoSection}`}
+            style={{
+              color: tm.todoSectionText,
+              backgroundColor: tm.todoSectionBg,
+            }}
             id="toDoSection_inProgress_scroll"
           >
             <div className={styles.inProgressBadge}>
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-white">진행중</span>
+              <span
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                진행중
+              </span>
             </div>
 
             <div className={styles.todosContainer}>
@@ -437,10 +478,20 @@ export default function Board() {
           <section
             className={`${styles.done} ${styles.toDoSection}`}
             id="toDoSection_done_scroll"
+            style={{
+              color: tm.todoSectionText,
+              backgroundColor: tm.todoSectionBg,
+            }}
           >
             <div className={styles.doneBadge}>
               <div className="w-3 h-3 bg-green-600 rounded-full"></div>
-              <span className="text-white">완료됨</span>
+              <span
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                완료됨
+              </span>
             </div>
 
             <div className={styles.todosContainer}>

@@ -85,7 +85,7 @@ export default function Management() {
             borderColor: activated === "position" ? tm.accentColor : tm.border,
           }}
         >
-          포지션 관리
+          포지션
         </button>
       </div>
 
