@@ -34,9 +34,9 @@
 
 .scrollArea {
   height: 100%;
-  width: calc(100% - 210px);
+  width: 100%;
   border-radius: 10px;
-  padding: 16px;
+  padding: 16px 18px;
   display: flex;
   overflow-x: scroll;
   gap: 20px;

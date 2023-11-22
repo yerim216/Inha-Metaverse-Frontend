@@ -7,12 +7,13 @@ import { theme } from "../theme/theme";
 export default function ProjectBox({
   projectName,
   isRecruiting,
-  recruitmentNumber,
   views,
   introduction,
   teamIndex,
   numOfMembers,
   skills,
+  categories,
+  jobs,
 }) {
   const navigate = useNavigate();
 
@@ -23,6 +24,18 @@ export default function ProjectBox({
     if (themeMode === "light") setTm(theme.lightTheme.home);
     else setTm(theme.darkTheme.home);
   }, [themeMode]);
+
+  const [recruitmentNumber, setRecruitmentNumber] = useState(0);
+  useEffect(() => {
+    /* 설정된 jobs(모집 분야)가 존재하지 않을 경우, jobs[0]의 recruitment_number값과 job_name값이 null값임. 이에 따라 예외 처리해 주었음. */
+    if (jobs[0].job_name) {
+      let num = 0;
+      jobs.map((job) => {
+        num += job.recruitment_number;
+      });
+      setRecruitmentNumber(num);
+    }
+  }, [jobs]);
 
   return (
     <div
@@ -54,19 +67,22 @@ export default function ProjectBox({
           height: "10%",
         }}
       >
-        {skills ? (
-          skills.map((skill) => {
-            <div
-              style={{
-                padding: "4px 10px",
-                backgroundColor: tm.accentColor,
-                fontSize: "12px",
-                borderRadius: "10px",
-                color: tm.buttonText,
-              }}
-            >
-              {skill}
-            </div>;
+        {/* 설정된 카테고리 분야가 존재하지 않을 경우, categories[0]의 category_index값과 category_name값이 null값임. 이에 따라 예외 처리해 주었음. */}
+        {categories[0].category_index ? (
+          categories.map((category) => {
+            return (
+              <div
+                style={{
+                  padding: "4px 10px",
+                  backgroundColor: tm.accentColor,
+                  fontSize: "12px",
+                  borderRadius: "10px",
+                  color: tm.buttonText,
+                }}
+              >
+                {category.category_name}
+              </div>
+            );
           })
         ) : (
           <div
@@ -78,7 +94,7 @@ export default function ProjectBox({
               color: tm.buttonText,
             }}
           >
-            현재 설정된 모집중인 기술이 없습니다!
+            현재 설정된 프로젝트 카테고리가 없습니다!
           </div>
         )}
       </div>
@@ -86,13 +102,37 @@ export default function ProjectBox({
         style={{
           fontSize: "20px",
           marginTop: "15px",
+          position: "relative",
           height: "20%",
         }}
       >
         <h1>{projectName}</h1>
+        {/* 스킬 리스트 이미지 */}
+        {/* 스킬이 존재하지 않을 경우, skill[0]의 skill_index값과 skill_name값이 null값임. 이에 따라 예외 처리해 주었음. */}
+        <div
+          className={`absolute top-8 ${
+            skills && skills[0].skill_index && "-left-1"
+          }`}
+        >
+          {skills[0].skill_index ? (
+            <section className="flex">
+              {skills.map((skill) => {
+                return (
+                  <img
+                    src={`/public_assets/skills/skill_img_${themeMode}_${skill.skill_index}.svg`}
+                    alt={`skill_img_${themeMode}_5`}
+                    className="w-7"
+                  />
+                );
+              })}
+            </section>
+          ) : (
+            <div className="font-medium text-sm">
+              설정된 기술 스택이 없습니다!
+            </div>
+          )}
+        </div>
       </div>
-
-      {/* 여기 스킬 리스트 이미지 */}
 
       <div
         className="my-2 font-medium"

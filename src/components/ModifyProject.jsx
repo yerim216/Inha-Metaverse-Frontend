@@ -1,22 +1,48 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/ModifyProject.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSkills, getUserInfo, getUserInterested } from "../APIs/userinfo";
-import { addJob, addMember, getJobs, getProjectCategory } from "../APIs/team";
+import { getJobs, getProjectCategory, getTeamInfoByIndex } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
-import Nav from "./Nav";
 import ErrorMsg from "./ErrorMsg";
 import CategoryBtn from "./CategoryBtn";
 import CategoryCard from "./CategoryCard";
 
 export default function ModifyProject() {
+  // 프로젝트 수정 탭에는 초기 데이터 필요, 이를 위한 state 생성
+  const [teamInfo, setTeamInfo] = useState();
+  const params = useParams();
+  const teamIndex = params.teamIndex;
+
+  useEffect(() => {
+    if (teamIndex)
+      getTeamInfoByIndex(teamIndex).then((res) =>
+        setTeamInfo(res.data.teamInfo)
+      );
+  }, []);
+
+  // teamInfo 이용해서 불러오기
+  console.log(teamInfo);
+  useEffect(() => {
+    if (!teamInfo) return;
+
+    let newInput = { ...inputs };
+    newInput.teamName = teamInfo.team_name || "";
+    newInput.projectName = teamInfo.team_project_name || "";
+    newInput.introduction = teamInfo.team_introduction || "";
+    newInput.description = teamInfo.team_description || "";
+
+    setInputs(newInput);
+  }, [teamInfo]);
+
   const [inputs, setInputs] = useState({
     projectName: "",
     teamName: "",
     introduction: "",
     description: "",
   });
+
   const handleErrorMsg = (inputName) => {
     if (inputName === "projectName") {
       if (inputs.projectName.length >= 20) {
@@ -307,15 +333,6 @@ export default function ModifyProject() {
     return userInfo;
   };
 
-  const addTeamMember = async (teamName) => {
-    const userName = await getUserName();
-    addMember(teamName, userName)
-      .then(() => {})
-      .catch((error) => {
-        console.error("Error add team member:", error);
-      });
-  };
-
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
     document.body.style.paddingRight = "16px";
@@ -328,83 +345,6 @@ export default function ModifyProject() {
 
     // 다크모드와 화이트모드 다르게 설정 필요
     document.body.style.backgroundColor = "#111111";
-  };
-
-  const handleButtonClick = () => {
-    window.location.href = "/myprofile";
-  };
-
-  // skill값 하나하나에 대응되는 input값에 접근해야 하기 때문에, ref를 이용해 동적으로 해당 input값들 관리.
-  const inputRefs = useRef({});
-  useEffect(() => {
-    if (!jobs) return;
-
-    jobs.forEach((job) => {
-      if (!inputRefs.current[job.field_title]) {
-        inputRefs.current[job.field_title] = React.createRef();
-      }
-    });
-    setInputRefsReady(true);
-  }, [jobs]);
-  const [inputRefsReady, setInputRefsReady] = useState(false);
-
-  const handleAddJob = (teamName) => {
-    // jobName + inputRefs.current[jobName].current.value를 통해 각각 값 접근 가능.
-    jobs.map((job) => {
-      const jobName = job.field_title;
-      if (inputRefs.current[jobName].current.value >= 1) {
-        addJob(teamName, jobName, inputRefs.current[jobName].current.value)
-          .then(() => {})
-          .catch((err) => {
-            return false;
-          });
-      }
-    });
-    return true;
-  };
-
-  const [customPositionInputNum, setCustomPositionInputNum] = useState(0);
-  const handleCustomPositionInputNumInc = () => {
-    setCustomJobs((cur) => [...cur, { customJobName: "", recruitmentNum: 1 }]);
-    setCustomPositionInputNum((cur) => cur + 1);
-  };
-  // 커스텀 직무를 관리하는 곳.
-  // customPositionInputNum이 1 증가할 때마다, 아래의 customJobs 배열에 객체 하나가 추가된다.
-  // 객체는 customJobName, recruitmentNum으로 구성됨.
-  const [customJobs, setCustomJobs] = useState([]);
-
-  const handleAddCustomJob = (teamName) => {
-    customJobs.map((info) => {
-      const jobName = info.customJobName;
-      const recruitmentNum = info.recruitmentNum;
-
-      if (jobName.trim() !== "" && recruitmentNum >= 1) {
-        addJob(teamName, jobName, recruitmentNum)
-          .then(() => {})
-          .catch((err) => {
-            return false;
-          });
-      }
-    });
-    return true;
-  };
-
-  // 모집 인원과, 밑에 작성한 실제 직무 상에서의 모집 인원과 일치하는지의 여부를 판단하는 함수
-  const checkRecruitmentNumSame = () => {
-    const recruitmentNum = inputs.recruitment;
-    let rec = 0;
-
-    jobs.map((job) => {
-      const jobName = job.field_title;
-      rec += Number(inputRefs.current[jobName].current.value);
-    });
-
-    customJobs.map((info) => {
-      rec += Number(info.recruitmentNum);
-    });
-
-    if (Number(recruitmentNum) === Number(rec)) return true;
-    return false;
   };
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -445,6 +385,47 @@ export default function ModifyProject() {
       document.removeEventListener("mousedown", handler);
     };
   });
+
+  const [userIndex, setUserIndex] = useState();
+  useEffect(() => {
+    let userIndex;
+
+    if (JSON.parse(localStorage.getItem("recoil-persist")).userState === null) {
+      return;
+    }
+
+    userIndex = JSON.parse(localStorage.getItem("recoil-persist")).userState
+      .user_index;
+
+    setUserIndex(userIndex);
+  }, []);
+
+  const handleSubmit = () => {
+    // inputs에는 projectName, teamName, introduction, description 존재.
+
+    let inputData = {
+      leader: userIndex,
+      name: inputs.teamName,
+      project: inputs.projectName,
+      categories: selectedCategory,
+      introduction: inputs.introduction,
+      description: inputs.description,
+      jobs: selectedJobInputs,
+      skills: selectedSkills,
+    };
+
+    console.log(inputData);
+
+    // 수정 처리
+    // createTeam({ inputData })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     alert("성공적으로 처리되었습니다!");
+    //     navigate("/");
+    //     window.location.reload();
+    //   })
+    //   .catch((err) => console.error(err));
+  };
 
   return (
     <>
@@ -490,7 +471,7 @@ export default function ModifyProject() {
                   backgroundColor: tm.accentColor,
                 }}
                 onClick={() => {
-                  // 여기서 신청 처리
+                  handleSubmit();
                 }}
               >
                 네
@@ -900,7 +881,7 @@ export default function ModifyProject() {
                             }}
                           >
                             <img
-                              src={`//public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                              src={`/public_assets/skills/skill_img_${skill.skill_index}.svg`}
                               alt={`skill_img_${skill.skill_index}`}
                               className="w-12 h-12"
                             />
@@ -953,14 +934,8 @@ export default function ModifyProject() {
               color: tm.btnText,
             }}
             onClick={async (e) => {
-              openJudgeModal();
               e.preventDefault();
-              if (!checkRecruitmentNumSame()) {
-                alert(
-                  "모집 인원과 실제 직무 상의 인원이 일치하지 않습니다. 다시 확인해주세요!"
-                );
-                return;
-              }
+              openJudgeModal();
             }}
           >
             프로젝트 수정하기

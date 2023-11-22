@@ -3,6 +3,8 @@ import styles from "../styles/modules/TeamCard.module.css";
 import { useNavigate } from "react-router";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
+import { userState } from "../recoil";
+import { useRecoilState } from "recoil";
 
 export default function TeamCard({ team }) {
   // {
@@ -49,6 +51,35 @@ export default function TeamCard({ team }) {
   //     }
   // }
   //   console.log(team);
+
+  // useEffect(() => {
+  //   if (teamIndex) {
+  //     getTeamInfoByIndex(teamIndex).then((res) => {
+  //       handleTeamLeader(res.data.teamMembers);
+  //       setProjectName(res.data.teamInfo.team_name);
+  //     });
+  //   }
+  //   getTeams().then((res) => {
+  //     setTeamInfos(res.data);
+  //   });
+  // }, []);
+
+  const [userLogin, setUserLogin] = useRecoilState(userState);
+  const userIndex = userLogin.user_index;
+  console.log(team);
+
+  // 현재 유저가 팀 리더인지 아닌지를 구별하는 state.
+  const [isTeamLeader, setIsTeamLeader] = useState(false);
+  const handleTeamLeader = (teamMembers) => {
+    teamMembers.map((member) => {
+      if (member.is_teamleader === true && userIndex === member.user_index) {
+        setIsTeamLeader(true);
+      }
+    });
+  };
+  useEffect(() => {
+    handleTeamLeader(team.teamMembers);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -141,6 +172,15 @@ export default function TeamCard({ team }) {
         }}
         ref={teamCardRef}
       >
+        {isTeamLeader && (
+          <img
+            src={`/public_assets/icons/management${
+              themeMode === "light" ? "_light" : ""
+            }.svg `}
+            alt="management"
+            className={`absolute right-8 top-8 w-6 h-6 ${styles.absoluteChildren}`}
+          />
+        )}
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">
           {team.teamInfo.skills !== null ? (
             <div
