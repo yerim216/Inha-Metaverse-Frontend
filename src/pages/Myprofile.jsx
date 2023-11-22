@@ -227,7 +227,7 @@ export default function Profile() {
                <button
                   className={styles.pointButton}
                   onClick={() => {
-                     // navigate("/createmyprofile");
+                     navigate('/createmyprofile');
                      window.scrollTo({ top: 0, behavior: 'auto' });
                   }}
                   style={{ background: tm.modifyBtn }}

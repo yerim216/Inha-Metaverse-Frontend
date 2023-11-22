@@ -30,10 +30,10 @@ export default function Mycalendar() {
 
    useEffect(() => {
       (() => {
-         window.addEventListener('beforeunload', preventClose);
+         // window.addEventListener('beforeunload', preventClose);
       })();
       return () => {
-         window.removeEventListener('beforeunload', preventClose);
+         // window.removeEventListener('beforeunload', preventClose);
       };
    }, []);
 
@@ -85,7 +85,7 @@ export default function Mycalendar() {
          const toDate = new Date(storageDate);
          console.log(toDate);
 
-         setSelectedStartDate(toDate);
+         // setSelectedStartDate(toDate);
       }
    }, [dayMove]);
 
@@ -99,7 +99,7 @@ export default function Mycalendar() {
 
    const handleStartDateChange = (date) => {
       setDayMove(1);
-      setSelectedStartDate(date);
+      // setSelectedStartDate(date);
       console.log(date);
       setModalOpen(false); // 모달을 닫습니다.
    };
