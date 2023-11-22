@@ -75,7 +75,6 @@ export default function Mycalendar() {
       if (dayMove) {
          localStorage.setItem('date', today);
       }
-      setDayMove(1);
    }, [today]);
 
    useEffect(() => {
@@ -85,7 +84,8 @@ export default function Mycalendar() {
          const toDate = new Date(storageDate);
          console.log(toDate);
 
-         // setSelectedStartDate(toDate);
+         setSelectedStartDate(toDate);
+         // setDayMove(0);
       }
    }, [dayMove]);
 
@@ -99,7 +99,7 @@ export default function Mycalendar() {
 
    const handleStartDateChange = (date) => {
       setDayMove(1);
-      // setSelectedStartDate(date);
+      setSelectedStartDate(date);
       console.log(date);
       setModalOpen(false); // 모달을 닫습니다.
    };

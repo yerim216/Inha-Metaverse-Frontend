@@ -288,7 +288,7 @@ export default function Profile() {
                         (teamDetail.teamInfo.skills === null ? (
                            <p className={styles.skill} style={{ color: tm.subTextColorDarker }}>
                               {' '}
-                              팀 스킬이 없어요{' '}
+                              설정된 프로젝트 분야가 없어요
                            </p>
                         ) : (
                            teamDetail.teamInfo.skills.map((skill, index) => {
@@ -357,7 +357,10 @@ export default function Profile() {
                <div className={styles.skillImgContainer}>
                   {teamDetail &&
                      (teamDetail.teamInfo.skills === null ? (
-                        <p style={{ color: tm.subTextColor }}> 팀 스킬이 없습니다 </p>
+                        <p className={styles.topTxt} style={{ color: tm.mainTextColor }}>
+                           {' '}
+                           팀 스킬이 없습니다{' '}
+                        </p>
                      ) : (
                         teamDetail.teamInfo.skills.map((skill, index) => {
                            return (
@@ -377,7 +380,10 @@ export default function Profile() {
                <p className={styles.menuText} style={{ color: tm.mainTextColor }}>
                   팀
                </p>
-               <div style={{ color: tm.mainTextColor }}> 팀 별명이 없습니다 </div>
+               <div className={styles.topTxt} style={{ color: tm.mainTextColor }}>
+                  {' '}
+                  팀 별명이 없습니다{' '}
+               </div>
             </div>
 
             <div className={styles.grayLine}></div>
@@ -492,7 +498,7 @@ export default function Profile() {
             </p>
 
             <div className={styles.memSearch}>
-               <div className={styles.wrapp}>
+               <div className={`${themeMode === 'light' ? styles.wrapp_light : styles.wrapp_dark}`}>
                   {teamMembers &&
                      teamMembers.map((member, idx) => (
                         <span key={idx} style={no}>
