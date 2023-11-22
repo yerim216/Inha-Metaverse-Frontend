@@ -302,7 +302,7 @@ export default function Home() {
               filter[filterNum].map((item, idx) => (
                 <div
                   onClick={handleFilterClick}
-                  className="filters text-xl hover:animate-spin"
+                  className="filters text-xl"
                   key={idx}
                   style={{
                     color: tm.buttonText,

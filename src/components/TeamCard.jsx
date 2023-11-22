@@ -7,66 +7,10 @@ import { userState } from "../recoil";
 import { useRecoilState } from "recoil";
 
 export default function TeamCard({ team }) {
-  // {
-  //     "teamMembers": [
-  //         {
-  //             "user_index": 6,
-  //             "user_name": "갈파거북이",
-  //             "user_img_index": 1,
-  //             "user_introduction": "{\"{\\\"field_title\\\":\\\"REACT\\\",\\\"field_index\\\":9}\"}",
-  //             "user_job": null,
-  //             "is_teamleader": true
-  //         },
-  //         {
-  //             "user_index": 7,
-  //             "user_name": "햄스터",
-  //             "user_img_index": 5,
-  //             "user_introduction": "가나다라마바사아자차카타파하",
-  //             "user_job": 9,
-  //             "is_teamleader": false
-  //         },
-  //         {
-  //             "user_index": 9,
-  //             "user_name": "갈파거북2",
-  //             "user_img_index": 4,
-  //             "user_introduction": null,
-  //             "user_job": 13,
-  //             "is_teamleader": false
-  //         }
-  //     ],
-  //     "teamInfo": {
-  //         "team_index": 3,
-  //         "team_name": "거북이키우기",
-  //         "team_introduction": "귀여운 거북이를 키워 보아요",
-  //         "team_description": "거북이가 속이 거북하면 거북이거북",
-  //         "team_views": 79,
-  //         "team_recruting": true,
-  //         "recruitment_number": "10",
-  //         "skills": [
-  //             null
-  //         ]
-  //     },
-  //     "numOfPeople": {
-  //         "team_cnt": "3"
-  //     }
-  // }
-  //   console.log(team);
-
-  // useEffect(() => {
-  //   if (teamIndex) {
-  //     getTeamInfoByIndex(teamIndex).then((res) => {
-  //       handleTeamLeader(res.data.teamMembers);
-  //       setProjectName(res.data.teamInfo.team_name);
-  //     });
-  //   }
-  //   getTeams().then((res) => {
-  //     setTeamInfos(res.data);
-  //   });
-  // }, []);
-
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIndex = userLogin.user_index;
-  console.log(team);
+  // console.log(team);
+  console.log(team.teamInfo.skills);
 
   // 현재 유저가 팀 리더인지 아닌지를 구별하는 state.
   const [isTeamLeader, setIsTeamLeader] = useState(false);
