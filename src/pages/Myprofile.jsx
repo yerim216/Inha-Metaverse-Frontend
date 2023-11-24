@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from '../styles/Myprofile.module.css';
 import Gdot from '../components/Gdot';
 import StarRating from '../components/StarRating';
+
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil';
 import user from '../db/user.json';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { BiRightArrowCircle } from 'react-icons/bi';
 import Footer from '../components/Footer';
@@ -34,7 +35,7 @@ export default function Profile() {
    const [responseArray, setResponseArray] = useState([]);
    const navigate = useNavigate();
    const userIndex = userLogin.user_index;
-   console.log(userData);
+   console.log(userIndex);
 
    const [skill, setSkill] = useState([]); //스킬 선택 값 불러오기
 
@@ -76,18 +77,20 @@ export default function Profile() {
             setUserProfileIdx(res.data[0].user_img_index);
             setSkills(res.data[0].fields);
             setJob(res.data[0].user_job);
-            console.log(res.data[0]);
+            console.log(res.data);
          })
          .catch(function (error) {
             console.log('데이터가 없어서 그래요!!' + error);
          });
    }, []);
+   const [teamDetail, setTeamDetail] = useState();
 
    // 팀 인덱스들 배열로 가져오는 함수.
    const getTeamIndices = async () => {
       try {
          const res = await getTeamIndex(userIndex);
          setTeam(res.data);
+         console.log(res);
       } catch (error) {
          console.log(error);
       }
@@ -102,6 +105,7 @@ export default function Profile() {
                return [...cur, response.data];
             });
             console.log(response.data);
+            console.log(array);
          } catch (error) {
             console.error(error);
          }
@@ -110,7 +114,9 @@ export default function Profile() {
 
    useEffect(() => {
       getTeamIndices();
+      console.log('속한 팀 인덱스 받아오기');
    }, []);
+
    useEffect(() => {
       if (team.length !== 0) {
          fetchData();
@@ -120,6 +126,7 @@ export default function Profile() {
    // 중복문제 제거 배열 설정.
    useEffect(() => {
       console.log(filteredArray);
+      console.log(array);
 
       setFilteredArray(
          array.filter((team, idx) => {
@@ -223,7 +230,6 @@ export default function Profile() {
                         {userData.user_name}
                      </p>
                      <div className={styles.texts}>
-                        {/* <p>{userData.titles}</p> */}
                         {userData.user_introduction === null ? (
                            <p className={styles.limit}>자기소개를 입력해보아요!</p>
                         ) : (
@@ -317,18 +323,23 @@ export default function Profile() {
                </p>
                <div className={styles.skillRow}>
                   {filteredArray.length !== 0 ? (
-                     <ProjectBox
-                        projectName={filteredArray.teamInfo.team_name}
-                        isRecruiting={filteredArray.teamInfo.team_recruting}
-                        views={filteredArray.teamInfo.team_views}
-                        introduction={filteredArray.teamInfo.team_introduction}
-                        teamIndex={filteredArray.teamInfo.team_index}
-                        numOfMembers={filteredArray.numOfPeople.team_cnt}
-                        skills={filteredArray.teamInfo.team_skills}
-                        categories={filteredArray.teamInfo.team_category}
-                        jobs={filteredArray.teamInfo.team_jobs}
-                     />
+                     filteredArray.map((teamDetail, index) => {
+                        return (
+                           <ProjectBox
+                              projectName={teamDetail.teamInfo.team_project_name}
+                              isRecruiting={teamDetail.teamInfo.team_recruting}
+                              views={teamDetail.teamInfo.team_views}
+                              introduction={teamDetail.teamInfo.team_introduction}
+                              teamIndex={teamDetail.teamInfo.team_index}
+                              numOfMembers={teamDetail.numOfPeople.team_cnt}
+                              skills={teamDetail.teamInfo.team_skills}
+                              categories={teamDetail.teamInfo.team_category}
+                              jobs={teamDetail.teamInfo.team_jobs}
+                           />
+                        );
+                     })
                   ) : (
+                     // <div></div>
                      <div className={styles.projectBox}>
                         <a href="/createproject">
                            <div className={styles.emptyProject}>

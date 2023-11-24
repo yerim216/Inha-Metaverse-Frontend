@@ -6,7 +6,7 @@ import { ThemeModeContext } from '../contexts/ThemeProvider';
 import { theme } from '../theme/theme';
 
 export default function ApplyModal(props) {
-   const { open, close, openApplyModal, handleApplyBtn, inputText, setInputText, teamRecruit } = props;
+   const { open, close, openApplyModal, handleApplyBtn, inputText, setInputText, teamRecruit, category, job } = props;
 
    const [content, setContent] = useState();
 
@@ -31,8 +31,7 @@ export default function ApplyModal(props) {
                <div className={styles.main}>
                   <div className={styles.part}>
                      <div className={styles.field} style={{ color: tm.mainTextColor }}>
-                        {' '}
-                        분야{' '}
+                        {category}
                      </div>
                      <img
                         src={`${process.env.PUBLIC_URL}/public_assets/Vector_more.svg`}
@@ -43,7 +42,7 @@ export default function ApplyModal(props) {
                            height: 'auto',
                         }}
                      />
-                     <div className={styles.job}>세부 직업</div>
+                     <div className={styles.job}> {job}</div>
                   </div>
                   <div className={styles.applyWrap}>
                      <h1 className={styles.h1}>지원동기</h1>
