@@ -135,7 +135,7 @@ export const darkTheme = {
   },
   createProject: {
     inputBg: "#2C2C2C",
-    bg: "#1C1D1E",
+    bg: "#000",
     textColor: "#FFFFFF",
     border: "#7C7C7C",
     createBtn: "#0C6EED",

@@ -331,7 +331,7 @@ export default function Home() {
         </div>
         <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
       </section>
-      <section className="mt-10 maxWidth">
+      <section className="mt-10 maxWidth relative">
         <div
           className={styles.projectTitle}
           style={{
@@ -342,6 +342,12 @@ export default function Home() {
             title={"스토리"}
             description={"새로운 소식은 여기에"}
           />
+          <button className="absolute right-0 top-44 hover:scale-[103%]">
+            <img
+              src="public_assets/icons/plus_button_circle.svg"
+              alt="plus_button_circle"
+            />
+          </button>
         </div>
         <Stories />
       </section>

@@ -74,7 +74,7 @@ export default function CreateProject() {
         });
       }
     } else if (inputName === "description") {
-      if (inputs.description.length >= 50) {
+      if (inputs.description.length >= 2000) {
         setErrorMessages((cur) => {
           return {
             ...cur,
@@ -684,7 +684,10 @@ export default function CreateProject() {
           <div className="w-full px-4 pt-8">
             {/* 분야 / 스킬 / 역할 박스 */}
             <div
-              className={`h-[600px] rounded-[20px] flex relative ${styles.shadow}`}
+              className={`h-[600px] rounded-[20px] border-2 flex relative ${styles.shadow}`}
+              style={{
+                borderColor: themeMode === "dark" ? "#7C7C7C" : "#FFF",
+              }}
             >
               {/* 분야, 스킬 표기 박스 */}
               <div className="w-[55%] h-5/6 flex flex-col justify-between">

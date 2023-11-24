@@ -69,7 +69,7 @@ export default function SignUpModal(props) {
   const [profileImgIndex, setProfileImgIndex] = useState(1);
 
   const putProfileImg = async () => {
-    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+    const userIndex = (await getUserIndex(email, password)).data.user_index;
 
     // 잘되면 true, 안되면 false 리턴
     try {
@@ -281,7 +281,7 @@ export default function SignUpModal(props) {
   };
 
   const putInterested = async () => {
-    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+    const userIndex = (await getUserIndex(email, password)).data.user_index;
 
     // userIndex + fields 이용해서 ... 잘되면 true, 안되면 false 리턴
     if (selectedFilterIndices.length !== 0) {
@@ -298,7 +298,7 @@ export default function SignUpModal(props) {
   };
 
   const putSkills = async () => {
-    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+    const userIndex = (await getUserIndex(email, password)).data.user_index;
 
     // 잘되면 true, 안되면 false 리턴
     if (selectedSkills.length !== 0) {
@@ -315,7 +315,7 @@ export default function SignUpModal(props) {
   };
 
   const putJob = async () => {
-    const userIndex = (await getUserIndex(email, password)).data[0].user_index;
+    const userIndex = (await getUserIndex(email, password)).data.user_index;
 
     // 잘되면 true, 안되면 false 리턴
     if (selectedJob) {

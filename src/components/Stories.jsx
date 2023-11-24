@@ -10,10 +10,13 @@ export default function Stories() {
   const [moreBtnActivated, setMoreBtnActivated] = useState(false);
   const [selectedStoryDb, setSelectedStoryDb] = useState();
   const [comment, setComment] = useState();
+
+  // 자세히보기 버튼을 누르면 일어나는 함수
   function handleMoreBtnClick(selectedStoryDb) {
     setMoreBtnActivated(true);
     setSelectedStoryDb(selectedStoryDb);
   }
+
   const forHidden = useRef();
 
   useEffect(() => {

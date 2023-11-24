@@ -32,20 +32,18 @@ export default function SignInModal(props) {
       return;
     }
     axios
-      .post("/account/", {
+      .post("/account", {
         email: email,
         pw: password,
       })
       .then(function (response) {
         setErrorMsg();
-        console.log(response.data[0]);
-        setUser(response.data[0]);
+        console.log(response.data);
+        setUser(response.data);
         window.location.reload();
-        return response.data[0];
+        return response.data;
       })
       .then((data) => {
-        // axios
-        //   .post("/userinfo", { email: data.email })
         getUserInfo(data.user_index)
           .then(function (response) {
             userInfoSet(response.data);
@@ -58,6 +56,7 @@ export default function SignInModal(props) {
           });
       })
       .catch(function (error) {
+        console.log(error);
         setErrorMsg("아이디 또는 비밀번호를 잘못 입력하셨습니다!");
       });
   };
