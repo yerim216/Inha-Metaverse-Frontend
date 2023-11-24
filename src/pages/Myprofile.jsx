@@ -71,7 +71,7 @@ export default function Profile() {
         setUsers(res.data[0]);
         setField(res.data[0].fields);
         setUserProfileIdx(res.data[0].user_img_index);
-        setSkills(res.data[0].skills);
+        setSkills(res.data[0].fields);
         setJob(res.data[0].user_job);
         console.log(userData);
       })
