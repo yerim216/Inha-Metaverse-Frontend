@@ -194,7 +194,7 @@ export default function Nav({ isMainPage }) {
           <button
             className="hover:scale-110"
             onClick={() => {
-              alert("곧 추가될 예정입니다!");
+              navigate("/notification");
             }}
           >
             <img src="/public_assets/icons/bell.svg" alt="bell" />

@@ -15,6 +15,7 @@ import Nav from "../components/Nav";
 import ErrorMsg from "../components/ErrorMsg";
 import CategoryBtn from "../components/CategoryBtn";
 import CategoryCard from "../components/CategoryCard";
+import Footer from "../components/Footer";
 
 export default function CreateProject() {
   const [inputs, setInputs] = useState({
@@ -959,6 +960,7 @@ export default function CreateProject() {
           </button>
         </div>
       </section>
+      <Footer />
     </>
   );
 }
