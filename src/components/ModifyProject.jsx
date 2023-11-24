@@ -2,7 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/modules/ModifyProject.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSkills, getUserInfo, getUserInterested } from "../APIs/userinfo";
-import { getJobs, getProjectCategory, getTeamInfoByIndex } from "../APIs/team";
+import {
+  createTeam,
+  getJobs,
+  getProjectCategory,
+  getTeamInfoByIndex,
+  modifyTeam,
+} from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import ErrorMsg from "./ErrorMsg";
@@ -22,8 +28,6 @@ export default function ModifyProject() {
       );
   }, []);
 
-  // teamInfo 이용해서 불러오기
-  console.log(teamInfo);
   useEffect(() => {
     if (!teamInfo) return;
 
@@ -310,6 +314,18 @@ export default function ModifyProject() {
     setSelectedSkills(newArr);
   };
 
+  // 초기 데이터 받아오는 것들
+  console.log(selectedJobInputs);
+  console.log(teamInfo);
+  console.log(selectedSkills);
+  useEffect(() => {
+    if (!teamInfo) return;
+
+    // 무야호
+    setSelectedCategory(teamInfo.team_category);
+    setSelectedSkills(teamInfo.team_skills);
+  }, [teamInfo]);
+
   // 에러메세지들 관련 state
   const [errorMessages, setErrorMessages] = useState({
     projectName: "",
@@ -414,17 +430,15 @@ export default function ModifyProject() {
       skills: selectedSkills,
     };
 
-    console.log(inputData);
-
     // 수정 처리
-    // createTeam({ inputData })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     alert("성공적으로 처리되었습니다!");
-    //     navigate("/");
-    //     window.location.reload();
-    //   })
-    //   .catch((err) => console.error(err));
+    modifyTeam({ inputData })
+      .then((res) => {
+        console.log(res.data);
+        alert("성공적으로 처리되었습니다!");
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -492,12 +506,7 @@ export default function ModifyProject() {
           </div>
         </div>
       )}
-      <section
-        className={styles.paddingSection}
-        style={{
-          backgroundColor: tm.bg,
-        }}
-      >
+      <section className={styles.paddingSection}>
         <div className="flex items-center gap-6">
           <div className="flex w-full">
             <div
