@@ -19,6 +19,7 @@ import StickerNote from "./components/StickerNote";
 import ProjectListsPage from "./pages/ProjectListsPage";
 import ProjectMain from "./components/ProjectMain";
 import Management from "./components/Management";
+import Notification from "./pages/Notification";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: "/download",
     element: <Download />,
+  },
+  {
+    path: "/notification",
+    element: <Notification />,
   },
 ]);
 

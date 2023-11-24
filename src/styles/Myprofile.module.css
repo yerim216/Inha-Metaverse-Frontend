@@ -442,7 +442,7 @@
    position: absolute;
    margin-top: 50px;
    margin-left: 160px;
-   width: 50%;
+   width: 90%;
    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -735,12 +735,12 @@ footer {
 }
 
 .projectBox {
-   width: 300px;
+   width: 60vw;
    height: 40vh;
    border-radius: 20px;
    background-color: white;
-   border: 1px solid rgba(255, 255, 255, 0.4);
-   box-shadow: 0px 12px 20px 0px rgba(112, 144, 176, 0.2);
+   /* border: 1px solid rgba(255, 255, 255, 0.4); */
+   /* box-shadow: 0px 12px 20px 0px rgba(112, 144, 176, 0.2); */
    backdrop-filter: blur(10px);
 }
 

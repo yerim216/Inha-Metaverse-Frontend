@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 
-export default function Footer() {
+export default function Footer({ isFixedToBottom }) {
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.home);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -18,6 +18,8 @@ export default function Footer() {
       style={{
         color: tm.footerTextColor,
         backgroundColor: tm.footerBg,
+        position: isFixedToBottom && "absolute",
+        bottom: isFixedToBottom && 0,
       }}
     >
       <div className={`${styles.footerContents} maxWidth`}>

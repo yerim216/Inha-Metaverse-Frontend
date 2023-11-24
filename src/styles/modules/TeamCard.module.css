@@ -1,11 +1,12 @@
 .teamSkills {
   margin-right: 5px;
   width: fit-content;
-  padding: 0px 10px;
-  height: 19px;
-  border-radius: 60px;
+  padding: 2px 10px;
+  /* height: 19px; */
+  border-radius: 8px;
   font-size: 11px;
   text-align: center;
+  font-weight: 700;
 }
 
 .teamCard {

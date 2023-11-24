@@ -9,14 +9,16 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { BiRightArrowCircle } from 'react-icons/bi';
 import Footer from '../components/Footer';
+import ModifyProject from '../components/ModifyProject';
+
 import { getTeamIndex, getUserInfo } from '../APIs/userinfo';
 import { getTeamInfoByIndex } from '../APIs/team';
-import ProjectBox from '../components/ProjectBox';
 
 import { ThemeModeContext } from '../contexts/ThemeProvider';
 import { theme } from '../theme/theme';
 
 import Nav from '../components/Nav';
+import ProjectBox from '../components/ProjectBox';
 
 export default function Profile() {
    useEffect(() => {
@@ -46,7 +48,7 @@ export default function Profile() {
 
    // 위의 array 배열에 중복 문제가 발생해, 중복 문제를 제거한 배열.
    const [filteredArray, setFilteredArray] = useState([]);
-
+   console.log(filteredArray);
    // 원래는 field에 단순히 필드 정보만 있었는데, field_index가 추가된 object 형태가 되어 오류가 발생했었음.
    const [field, setField] = useState([]); //관심분야 선택 값 불러오기
 
@@ -70,11 +72,11 @@ export default function Profile() {
       getUserInfo(userIndex)
          .then(function (res) {
             setUsers(res.data[0]);
-            // setField(res.data[0].team_index);
+            setField(res.data[0].team_index);
             setUserProfileIdx(res.data[0].user_img_index);
             setSkills(res.data[0].fields);
             setJob(res.data[0].user_job);
-            console.log(userData);
+            console.log(res.data[0]);
          })
          .catch(function (error) {
             console.log('데이터가 없어서 그래요!!' + error);
@@ -97,9 +99,9 @@ export default function Profile() {
          try {
             const response = await getTeamInfoByIndex(team[i].team_index);
             setArray((cur) => {
-               console.log(response.data);
                return [...cur, response.data];
             });
+            console.log(response.data);
          } catch (error) {
             console.error(error);
          }
@@ -117,6 +119,8 @@ export default function Profile() {
 
    // 중복문제 제거 배열 설정.
    useEffect(() => {
+      console.log(filteredArray);
+
       setFilteredArray(
          array.filter((team, idx) => {
             return idx === array.findIndex((obj) => obj.teamInfo.team_index === team.teamInfo.team_index);
@@ -131,7 +135,7 @@ export default function Profile() {
       setExpanded(!expanded);
    };
 
-   const introEx = ['안녕하세요! 저는 김서연입니다.  저와 함께 프로젝트 할 멋진 팀을 기다려요!  챗 주세요^^ '];
+   const introEx = ['안녕하세요! 저는 김서연입니다. 저와 함께 프로젝트 할 멋진 팀을 기다려요! 챗 주세요^^ '];
 
    const { themeMode, toggleTheme } = useContext(ThemeModeContext);
    const [tm, setTm] = useState(theme.lightTheme.profile);
@@ -228,17 +232,6 @@ export default function Profile() {
                      </div>
                   </div>
                </div>
-
-               <button
-                  className={styles.pointButton}
-                  onClick={() => {
-                     navigate('/createmyprofile');
-                     window.scrollTo({ top: 0, behavior: 'auto' });
-                  }}
-                  style={{ background: tm.modifyBtn }}
-               >
-                  프로필 수정
-               </button>
             </div>
             <div className={styles.grayLine}></div>
 
@@ -323,28 +316,26 @@ export default function Profile() {
                   프로젝트 ⚙️
                </p>
                <div className={styles.skillRow}>
-                  {filteredArray.length === 0 ? (
+                  {filteredArray.length !== 0 ? (
+                     <ProjectBox
+                        projectName={filteredArray.teamInfo.team_name}
+                        isRecruiting={filteredArray.teamInfo.team_recruting}
+                        views={filteredArray.teamInfo.team_views}
+                        introduction={filteredArray.teamInfo.team_introduction}
+                        teamIndex={filteredArray.teamInfo.team_index}
+                        numOfMembers={filteredArray.numOfPeople.team_cnt}
+                        skills={filteredArray.teamInfo.team_skills}
+                        categories={filteredArray.teamInfo.team_category}
+                        jobs={filteredArray.teamInfo.team_jobs}
+                     />
+                  ) : (
                      <div className={styles.projectBox}>
-                        <a href="/">
+                        <a href="/createproject">
                            <div className={styles.emptyProject}>
                               진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
                            </div>
                         </a>
                      </div>
-                  ) : (
-                     filteredArray.map((obj, index) => (
-                        <ProjectBox
-                           projectName={obj.teamInfo.team_name}
-                           isRecruiting={obj.teamInfo.team_recruiting}
-                           views={obj.teamInfo.team_views}
-                           introduction={obj.teamInfo.team_introduction}
-                           teamIndex={obj.teamInfo.team_index}
-                           numOfMembers={obj.teamInfo.team_member_count}
-                           skills={obj.teamInfo.team_skills}
-                           categories={obj.teamInfo.team_category}
-                           jobs={obj.teamInfo.team_jobs}
-                        />
-                     ))
                   )}
                </div>
             </div>
