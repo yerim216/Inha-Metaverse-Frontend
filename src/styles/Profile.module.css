@@ -245,12 +245,8 @@
 
 .memSearch {
    width: 90%;
-   height: 380px;
    margin-left: 2vw;
-
    padding-top: 5%;
-
-   margin-bottom: 100px;
    overflow: hidden;
 }
 
@@ -556,7 +552,7 @@ footer {
    border-radius: 22.5px;
    border: 0.5px solid #7c7c7c;
 
-   color: black;
+   color: #7c7c7c;
    text-align: center;
    font-family: Noto Sans;
    font-size: 14px;
@@ -719,10 +715,20 @@ footer {
 .skillImgContainer {
    display: flex;
    flex-direction: row;
-   gap: 7px;
+   gap: 2.5%;
 }
 
 .topTxt {
+   font-family: Noto Sans;
+   font-size: 22px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 34px; /* 154.545% */
+}
+
+.emptyMsg {
+   width: 80%;
+   float: left;
    font-family: Noto Sans;
    font-size: 22px;
    font-style: normal;

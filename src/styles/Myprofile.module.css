@@ -140,7 +140,6 @@
 }
 
 .careerText {
-   color: white;
    font-family: Noto Sans;
    font-size: 28px;
    font-style: normal;
@@ -264,8 +263,6 @@
 
 .name {
    margin-left: 29.86px;
-   color: white;
-
    font-family: 'Avenir';
    font-style: normal;
    font-weight: 700;

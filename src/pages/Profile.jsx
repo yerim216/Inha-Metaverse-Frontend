@@ -20,17 +20,7 @@ import Markdown from '../lib/Markdown/Markdown';
 
 export default function Profile() {
    const exDescription = `# SmartRecipe 프로젝트\n\n"SmartRecipe" 프로젝트는 현대인들의 바쁜 일상에서 더 편리하고 창의적인 요리 경험을 제공하는 웹 어플리케이션입니다.\n\n## 주요 기능\n\n- **맞춤형 레시피 추천:**\n  - 사용자의 식습관과 취향을 고려하여 최적의 레시피를 제안합니다.\n\n- **식재료 관리:**\n  - 냉장고에 있는 식재료를 등록하고 유통기한을 추적합니다.\n\n- **식사 계획 및 쇼핑 목록:**\n  - 주간 또는 월간 식사 계획을 세우고 필요한 식재료를 자동으로 쇼핑 목록에 추가합니다.\n\n- **커뮤니티 기능:**\n  - 다른 사용자들과 레시피를 공유하고 의견을 나눌 수 있는 커뮤니티를 제공합니다.\n\n## 기술 스택\n\n- Frontend: React.js\n- Backend: Node.js, Express.js\n- 데이터베이스: MongoDB\n- 인증 및 보안: JWT, HTTPS\n\n## 프로젝트 목표\n\n"SmartRecipe"의 목표는 사용자들이 더 효율적으로 식사를 계획하고 요리하는 데 도움을 주어, 건강한 식습관을 유지하고 요리에 대한 부담을 줄이는 것입니다. 이 어플리케이션은 사용자들에게 더 많은 즐거움과 창의성을 요리에 더할 수 있도록 지원합니다.`;
-   const recruit = {
-      기획: [
-         { 종류: '서비스 기획', 모집인원: '1' },
-         { 종류: '마케팅 기획', 모집인원: '1' },
-         { 종류: '디자인 기획', 모집인원: '1' },
-      ],
-      개발: [
-         { 종류: 'AI 개발', 모집인원: '1' },
-         { 종류: '백엔드 개발', 모집인원: '2' },
-      ],
-   };
+
    // 지원 모달
    const [applyModalOpen, setApplyModalOpen] = useState(false);
    const openApplyModal = () => {
@@ -100,9 +90,9 @@ export default function Profile() {
       getTeamInfoByIndex(teamIndex)
          .then((res) => {
             setTeamDetail(res.data);
-            setTeamSkill(res.data.teamInfo.skills);
-            setTeamRecruit(res.data.teamInfo.jobs);
-            console.log(res.data.teamInfo.skills);
+            setTeamSkill(res.data.teamInfo.team_skills);
+            setTeamRecruit(res.data.teamInfo.team_jobs);
+            console.log(res.data);
             return res.data;
          })
          .then((data) => {
@@ -132,11 +122,6 @@ export default function Profile() {
       height: '110px',
       borderRadius: '100px',
       marginLeft: '-50px',
-   };
-
-   const no = {
-      paddingBottom: '0',
-      marginBottom: '0',
    };
 
    const hahaha = {
@@ -173,8 +158,11 @@ export default function Profile() {
       overflow: 'hidden',
       whiteSpace: 'normal',
       wordBreak: 'break-word',
-      marginTop: '-10px',
-      height: '40px',
+      fontFamily: 'Noto Sans',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      lineHeight: '12px' /* 100% */,
+      letterSpacing: '0.48px',
    };
 
    const parts = {
@@ -196,6 +184,7 @@ export default function Profile() {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
+      marginTop: '5%',
    };
 
    const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -213,12 +202,13 @@ export default function Profile() {
    const userIndex = userLogin.user_index;
    useEffect(() => {
       if (teamDetail) {
-         teamDetail.teamMembers.map((member) => {
-            if (member.user_index === userIndex) {
-               setIsTeamMember(true);
-               if (member.is_teamleader) setIsTeamLeader(true);
-            }
-         });
+         teamDetail &&
+            teamDetail.teamMembers.map((member) => {
+               if (member.user_index === userIndex) {
+                  setIsTeamMember(true);
+                  if (member.is_teamleader) setIsTeamLeader(true);
+               }
+            });
       }
    }, [teamDetail]);
 
@@ -285,16 +275,17 @@ export default function Profile() {
                <div className={styles.nameContainer}>
                   <div className={styles.skillContainer}>
                      {teamDetail &&
-                        (teamDetail.teamInfo.skills === null ? (
+                        (teamDetail.teamInfo.team_category[0].category_name === null ? (
                            <p className={styles.skill} style={{ color: tm.subTextColorDarker }}>
                               {' '}
                               설정된 프로젝트 분야가 없어요
                            </p>
                         ) : (
-                           teamDetail.teamInfo.skills.map((skill, index) => {
+                           teamDetail &&
+                           teamDetail.teamInfo.team_category.map((skill, index) => {
                               return (
                                  <p key={index} className={styles.skill} style={{ color: tm.subTextColorDarker }}>
-                                    {skill}
+                                    {skill.category_name}
                                  </p>
                               );
                            })
@@ -356,17 +347,17 @@ export default function Profile() {
                </p>
                <div className={styles.skillImgContainer}>
                   {teamDetail &&
-                     (teamDetail.teamInfo.skills === null ? (
+                     (teamDetail.teamInfo.team_skills[0].skill_index === null ? (
                         <p className={styles.topTxt} style={{ color: tm.mainTextColor }}>
                            {' '}
                            팀 스킬이 없습니다{' '}
                         </p>
                      ) : (
-                        teamDetail.teamInfo.skills.map((skill, index) => {
+                        teamDetail.teamInfo.team_skills.map((skill, index) => {
                            return (
                               <img
                                  key={index}
-                                 src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${index + 1}.svg`}
+                                 src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
                                  alt="more"
                                  style={{ width: '25px', height: '25px' }}
                               />
@@ -399,7 +390,7 @@ export default function Profile() {
                   border: tm.border,
                }}
             >
-               <Markdown children={exDescription} />
+               <Markdown children={teamDetail && teamDetail.teamInfo.team_description} />
             </div>
             <br></br>
             <br></br>
@@ -409,85 +400,54 @@ export default function Profile() {
                모집 분야
             </p>
             <div className={styles.recruitWrap}>
-               {recruit.기획.map((recruitMem, index) => {
-                  return (
-                     <div
-                        className={styles.recruitBox}
-                        style={{
-                           color: tm.mainTextColor,
-                           border: tm.border,
-                           boxShadow: tm.boxShadow,
-                           background: tm.txtBoxBackground,
-                        }}
-                     >
-                        <div className={styles.boxTopLayer}>
-                           <div className={styles.fieldName} style={{ color: 'white' }}>
-                              기획
+               {teamDetail && teamDetail.teamInfo.team_jobs[0].job_name !== null ? (
+                  teamDetail.teamInfo.team_jobs.map((recruitMem, index) => {
+                     return (
+                        <div
+                           className={styles.recruitBox}
+                           style={{
+                              color: tm.mainTextColor,
+                              border: tm.border,
+                              boxShadow: tm.boxShadow,
+                              background: tm.txtBoxBackground,
+                           }}
+                        >
+                           <div className={styles.boxTopLayer}>
+                              <div className={styles.fieldName} style={{ color: 'white' }}>
+                                 {recruitMem.job_category}{' '}
+                              </div>
+                              <img
+                                 src={`${process.env.PUBLIC_URL}/public_assets/moreArrow.svg`}
+                                 alt="more"
+                                 style={{ width: '25px', height: '25px' }}
+                              />
                            </div>
-                           <img
-                              src={`${process.env.PUBLIC_URL}/public_assets/moreArrow.svg`}
-                              alt="more"
-                              style={{ width: '25px', height: '25px' }}
-                           />
-                        </div>
-                        <p className={styles.recruitName} style={{ color: tm.mainTextColor }}>
-                           {recruitMem.종류}{' '}
-                        </p>
-                        <div>
-                           <p className={styles.recruitMemNum} style={{ color: tm.subTextColor }}>
-                              {recruitMem.모집인원}명 모집중
+                           <p className={styles.recruitName} style={{ color: tm.mainTextColor }}>
+                              {recruitMem.job_name}{' '}
                            </p>
-                           <div
-                              className={styles.applyBtnTeam}
-                              onClick={() => {
-                                 setApplyModalOpen(true);
-                              }}
-                              style={{ color: tm.color, background: tm.btnBackground }}
-                           >
-                              지원하기{' '}
+                           <div>
+                              <p className={styles.recruitMemNum} style={{ color: tm.subTextColor }}>
+                                 {recruitMem.recruitment_number}명 모집중
+                              </p>
+                              <div
+                                 className={styles.applyBtnTeam}
+                                 onClick={() => {
+                                    setApplyModalOpen(true);
+                                 }}
+                                 style={{ color: tm.color, background: tm.btnBackground }}
+                              >
+                                 지원하기{' '}
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  );
-               })}
-               {recruit.개발.map((recruitMem, index) => {
-                  return (
-                     <div
-                        className={styles.recruitBox}
-                        style={{
-                           color: tm.mainTextColor,
-                           boxShadow: tm.boxShadow,
-                           border: tm.border,
-                           background: tm.txtBoxBackground,
-                        }}
-                     >
-                        <div className={styles.boxTopLayer}>
-                           <div className={styles.fieldName} style={{ color: 'white' }}>
-                              개발
-                           </div>
-                           <img
-                              src={`${process.env.PUBLIC_URL}/public_assets/moreArrow.svg`}
-                              alt="more"
-                              style={{ width: '25px', height: '25px' }}
-                           />
-                        </div>
-                        <p className={styles.recruitName} style={{ color: tm.mainTextColor }}>
-                           {recruitMem.종류}{' '}
-                        </p>
-                        <div>
-                           <p className={styles.recruitMemNum} style={{ color: tm.subTextColor }}>
-                              {recruitMem.모집인원}명 모집중
-                           </p>
-                           <div
-                              className={styles.applyBtnTeam}
-                              style={{ color: tm.color, background: tm.btnBackground }}
-                           >
-                              지원하기
-                           </div>
-                        </div>
-                     </div>
-                  );
-               })}
+                     );
+                  })
+               ) : (
+                  <div className={styles.emptyMsg} style={{ color: tm.mainTextColor }}>
+                     {' '}
+                     모집 분야가 없습니다{' '}
+                  </div>
+               )}
             </div>
 
             <br></br>
@@ -501,7 +461,7 @@ export default function Profile() {
                <div className={`${themeMode === 'light' ? styles.wrapp_light : styles.wrapp_dark}`}>
                   {teamMembers &&
                      teamMembers.map((member, idx) => (
-                        <span key={idx} style={no}>
+                        <div key={idx} style={{ margin: 0, padding: 0 }}>
                            <div
                               className={styles.memBox}
                               style={{
@@ -537,7 +497,7 @@ export default function Profile() {
                                  </div>
                               </div>
                            </div>
-                        </span>
+                        </div>
                      ))}
                </div>
             </div>

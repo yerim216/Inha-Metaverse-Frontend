@@ -70,7 +70,7 @@ export default function Profile() {
       getUserInfo(userIndex)
          .then(function (res) {
             setUsers(res.data[0]);
-            setField(res.data[0].fields);
+            // setField(res.data[0].team_index);
             setUserProfileIdx(res.data[0].user_img_index);
             setSkills(res.data[0].fields);
             setJob(res.data[0].user_job);
@@ -215,7 +215,9 @@ export default function Profile() {
                   />
 
                   <div className={styles.nameContainer}>
-                     <p className={styles.name}>{userData.user_name}</p>
+                     <p className={styles.name} style={{ color: tm.mainTextColor }}>
+                        {userData.user_name}
+                     </p>
                      <div className={styles.texts}>
                         {/* <p>{userData.titles}</p> */}
                         {userData.user_introduction === null ? (
@@ -259,11 +261,17 @@ export default function Profile() {
             <div className={styles.grayLine}></div>
 
             <div className={styles.careerInfoWrap}>
-               <p className={styles.careerText}>경력사항 🏢</p>
+               <p className={styles.careerText} style={{ color: tm.mainTextColor }}>
+                  경력사항 🏢
+               </p>
                <div className={styles.careerCol}>
                   {careerInfo.map((career, index) => {
                      return (
-                        <div key={index} className={styles.careerBox} style={{ background: tm.txtBoxBackground }}>
+                        <div
+                           key={index}
+                           className={styles.careerBox}
+                           style={{ background: tm.txtBoxBackground, boxShadow: tm.boxShadow }}
+                        >
                            <p className={styles.careerData} style={{ color: tm.mainTextColor }}>
                               {career.career}
                            </p>
@@ -286,7 +294,10 @@ export default function Profile() {
             <div className={styles.grayLine}></div>
 
             <div className={styles.careerInfoWrap}>
-               <p className={styles.careerText}> 사용스킬 ⚒️</p>
+               <p className={styles.careerText} style={{ color: tm.mainTextColor }}>
+                  {' '}
+                  사용스킬 ⚒️
+               </p>
                <div className={styles.skillRow}>
                   {skills &&
                      skills.map((skill, index) => {
@@ -307,7 +318,10 @@ export default function Profile() {
             <div className={styles.grayLine}></div>
 
             <div className={styles.careerInfoWrap}>
-               <p className={styles.careerText}> 프로젝트 ⚙️</p>
+               <p className={styles.careerText} style={{ color: tm.mainTextColor }}>
+                  {' '}
+                  프로젝트 ⚙️
+               </p>
                <div className={styles.skillRow}>
                   {filteredArray.length === 0 ? (
                      <div className={styles.projectBox}>
