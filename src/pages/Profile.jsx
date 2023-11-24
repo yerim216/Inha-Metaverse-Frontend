@@ -51,7 +51,7 @@ export default function Profile() {
 
    const handleApplyBtn = async () => {
       const userName = await getUserInfos();
-      console.log(userLogin.user_index, teamIndex, inputText, job);
+
       applyToTeam(userLogin.user_index, teamIndex, inputText, job)
          .then(() => {
             alert('성공적으로 처리되었습니다!');

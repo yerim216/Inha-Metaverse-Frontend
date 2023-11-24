@@ -208,15 +208,6 @@ export default function Profile() {
          <Nav />
 
          <div className={styles.wrap}>
-            <button
-               className={styles.profileManageBtn}
-               onClick={() => {
-                  navigate('/createmyprofile');
-                  window.scrollTo({ top: 0, behavior: 'auto' });
-               }}
-            >
-               프로필 수정
-            </button>
             <div className={styles.profileTop}>
                <div className={styles.profileInfo}>
                   <img
@@ -238,6 +229,15 @@ export default function Profile() {
                      </div>
                   </div>
                </div>
+               <button
+                  className={styles.profileManageBtn}
+                  onClick={() => {
+                     navigate('/createmyprofile');
+                     window.scrollTo({ top: 0, behavior: 'auto' });
+                  }}
+               >
+                  프로필 수정
+               </button>
             </div>
             <div className={styles.grayLine}></div>
 
