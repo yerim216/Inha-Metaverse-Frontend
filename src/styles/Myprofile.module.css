@@ -84,8 +84,8 @@
    justify-content: center;
    align-items: center;
    float: right;
-   /* margin-top: -220px; */
    margin-right: 20px;
+   margin-top: 18vh;
    font-size: 20px;
    font-family: Avenir;
    font-weight: 800;
@@ -94,11 +94,73 @@
    letter-spacing: 0.06em;
    color: #ffffff;
    padding: 20px;
-   background: black;
+   background: #6d758f;
    border-radius: 30px;
    transition: all 0.2s ease-in-out;
 }
+.dateDifTxt {
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: normal;
+   letter-spacing: 0.9px;
+   padding: 5px 0 5px 0;
+}
 
+.txtWrap {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   margin-top: 3px;
+}
+.jobDate {
+   font-family: Noto Sans;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 500;
+   padding: 0;
+}
+.dateDiffer {
+   border-radius: 29px;
+   display: flex;
+   padding: 4px 17px;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
+}
+.dateTxt {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   gap: 40px;
+}
+.resultInner {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.result {
+   width: 95%;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   border-radius: 10px;
+   padding: 10px 23px 10px 20px;
+}
+.jobName {
+   width: 60%;
+   font-family: Noto Sans;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 34px; /* 212.5% */
+}
 .introductionWrap {
    display: flex;
    width: 100%;
@@ -229,6 +291,7 @@
    font-weight: 500;
    line-height: 34px; /* 170% */
    width: 100%;
+   margin-top: 30px;
 }
 
 .bubbleWrap {
@@ -432,18 +495,27 @@
    padding: 12px 0;
 }
 .emptyProject {
-   color: #000;
    font-size: 24px;
    font-family: Avenir;
    font-style: normal;
-   font-weight: 800;
+   font-weight: 700;
    line-height: normal;
    letter-spacing: 0.96px;
-   position: absolute;
-   margin-top: 50px;
-   margin-left: 160px;
-   width: 90%;
-   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   margin-top: 20px;
+   margin-bottom: 30px;
+   width: 100%;
+}
+
+.emptySkill {
+   font-size: 24px;
+   font-family: Avenir;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   letter-spacing: 0.96px;
+   margin-top: 15px;
+   margin-bottom: 15px;
+   width: 100%;
 }
 
 .recruit {

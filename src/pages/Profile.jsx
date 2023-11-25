@@ -55,7 +55,7 @@ export default function Profile() {
       applyToTeam(userLogin.user_index, teamIndex, inputText, job)
          .then(() => {
             alert('성공적으로 처리되었습니다!');
-            window.location.reload();
+            // window.location.reload();
          })
          .catch((error) => {
             alert('이미 해당 프로젝트에 속해 있습니다!');
@@ -171,7 +171,7 @@ export default function Profile() {
 
    const parts = {
       width: 'fit-content',
-      padding: '0 3% 0 3%',
+      padding: '0 7px 0 7px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -356,9 +356,9 @@ export default function Profile() {
                            return (
                               <img
                                  key={index}
-                                 src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${skill.skill_index}.svg`}
+                                 src={`${process.env.PUBLIC_URL}/public_assets/skills/skill_img_${themeMode}_${skill.skill_index}.svg`}
                                  alt="more"
-                                 style={{ width: '25px', height: '25px' }}
+                                 style={{ width: '33px', height: '33px' }}
                               />
                            );
                         })
