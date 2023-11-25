@@ -1,133 +1,312 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Modal from 'react-modal';
-import styles from "../styles/ImgSelectModal.module.css";
-import 
-{ getUserInfo,
-  putUserImg,
-} 
-from "../APIs/userinfo";
-import { useRecoilState } from "recoil";
-import { userState } from "../recoil";
+import styles from '../styles/ImgSelectModal.module.css';
+import { getUserInfo, putUserImg } from '../APIs/userinfo';
+import { useRecoilState } from 'recoil';
+import { userState } from '../recoil';
 
-const ImageSelector = (userProfileIdx) => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [userLogin, setUserLogin] = useRecoilState(userState);
-  const userIdx = userLogin.user_index;
+import { ThemeModeContext } from '../contexts/ThemeProvider';
+import { theme } from '../theme/theme';
 
-  // const [userProfileIdx, setUserProfileIdx] = useState();
+const ImageSelector = ({ userProfileIdx, setUserProfileIdx }) => {
+   const [modalIsOpen, setModalIsOpen] = useState(false);
+   const [userLogin, setUserLogin] = useRecoilState(userState);
+   const userIdx = userLogin.user_index;
 
-  const images = ['1','2','3','4','5'];
+   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+   const [tm, setTm] = useState(theme.lightTheme.profile);
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
+   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+   useEffect(() => {
+      if (themeMode === 'light') setTm(theme.lightTheme.profile);
+      else setTm(theme.darkTheme.profile);
+   }, [themeMode]);
 
-  const handleImageChange = (userIdx,image) => {
-    putUserImg(userIdx, image)
-    .then(function () {
-      console.log("유저 프로필 이미지 저장 성공");
+   const openModal = () => {
+      setModalIsOpen(true);
+   };
 
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  };
+   const handleImageChange = (userIdx, userProfileIdx) => {
+      putUserImg(userIdx, userProfileIdx)
+         .then(function () {
+            console.log('유저 프로필 이미지 저장 성공');
+         })
+         .catch(function (error) {
+            console.log(error);
+         });
+   };
 
-  const closeModal = (image) => {
-    rerendering();
-    getUserInfo(userIdx)
-      .then(function (res) {
-        const myArray = res.data[0];
-        console.log(res.data[0].user_img_index);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+   const rerendering = () => {
+      getUserInfo(userIdx)
+         .then(function (res) {
+            setUserProfileIdx(res.data[0].user_img_index);
+         })
+         .catch(function (error) {
+            console.log(error);
+         });
+   };
 
-      handleImageChange(userIdx,image);
-    setModalIsOpen(false);
-  };
+   const clickApplyBtn = () => {
+      handleImageChange(userIdx, userProfileIdx);
+      setModalIsOpen(false);
+   };
 
-  const rerendering = () => {
-    getUserInfo(userIdx)
-      .then(function (res) {
-        userProfileIdx = res.data[0].user_img_index;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
+   const closeModal = () => {
+      rerendering();
+      setModalIsOpen(false);
+   };
 
-  const profileImgCss = {
-    margin: 'auto',
-    width: "150px",
-    height: "150px",
-    borderRadius: "30px",
-    objectFit: "cover", // 이미지를 너비와 높이에 맞게 크롭하여 채우기
-    cursor: "pointer"
-  };
- 
-  const wrap = {
-    display: "flex",
-    flexDirection: "row"
-  };
+   const customModalStyles = {
+      content: {
+         backgroundColor: '#1C1D1E',
+         width: '60%', // 모달의 너비
+         height: '60%', // 모달의 높이
+         top: '50%', // 모달이 화면의 중앙에 위치하도록 설정
+         left: '50%', // 모달이 화면의 중앙에 위치하도록 설정
+         transform: 'translate(-50%, -50%)', // 모달이 정확한 중앙에 위치하도록 설정
+         borderRadius: '40px',
+      },
+   };
 
-  const customModalStyles = {
-    content: {
-      backgroundColor: '#1C1D1E',
-      width: '70%', // 모달의 너비
-      height: '60%', // 모달의 높이
-      top: '50%', // 모달이 화면의 중앙에 위치하도록 설정
-      left: '50%', // 모달이 화면의 중앙에 위치하도록 설정
-      transform: 'translate(-50%, -50%)', // 모달이 정확한 중앙에 위치하도록 설정
-      borderRadius: '40px'
-    },
-  };
+   const close = {
+      color: 'white',
+      float: 'right',
+      marginTop: '40px',
+      marginBottom: '50px',
+      fontSize: '20px',
+      fontFamily: 'Avenir',
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+      backgroundColor: '#9B9B9B',
+      padding: '5px 10px 5px 10px',
+      borderRadius: '40px',
+   };
 
-  const title = {
-    marginTop: '20px',
-    marginLeft: '20px',
-    marginBottom: '50px',
-    color:'white',
-    fontSize: '50px',
-    fontFamily: 'Avenir',
-    fontStyle: 'normal',
-    fontWeight: '900',
-    lineHeight: 'normal',
-  }
+   const apply = {
+      color: 'white',
+      float: 'right',
+      marginTop: '40px',
+      marginBottom: '50px',
+      fontSize: '20px',
+      fontFamily: 'Avenir',
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+      backgroundColor: '#0C6EED',
+      padding: '5px 10px 5px 10px',
+      borderRadius: '40px',
+   };
 
-  const close = {
-    color:'white',
-    float:'right',
-    marginRight: '20px',
-    marginTop: '70px',
-    marginBottom: '50px',
-    fontSize: '20px',
-    fontFamily: 'Avenir',
-    fontStyle: 'normal',
-    fontWeight: '600',
-    lineHeight: 'normal',
-  }
-  return (
-    <div>
-      <button className={styles.imgtxt} onClick={openModal}>이미지 교체하기</button>
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customModalStyles}>
-        <h2 style={title}>이미지 선택하기</h2>
-        <div style = {wrap}>
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={`/public_assets/profileImg/profileImg_${image}.png`}              
-              alt={`Image ${index}`}
-              onClick={() => closeModal(image)}
-              style ={profileImgCss} 
-            />
-          ))}
-        </div>
-        <button style={close} onClick={closeModal}>닫기</button>
-      </Modal>
-    </div>
-  );
+   return (
+      <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+         <button className={styles.imgtxt} onClick={openModal} style={{ color: tm.mainTextColor }}>
+            프로필 사진
+         </button>
+         <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customModalStyles}>
+            <div>
+               <li className={styles.screen}>
+                  <h1 className={styles.title} style={{ color: tm.mainTextColor }}>
+                     프로필 이미지를 선택해 주세요!
+                  </h1>
+                  <section className="flex mr-auto ml-auto items-center gap-6">
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 1 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(1);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_1.png"
+                           alt="profile1"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 2 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(2);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_2.png"
+                           alt="profile2"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 3 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(3);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_3.png"
+                           alt="profile3"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 4 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(4);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_4.png"
+                           alt="profile4"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 5 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(5);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_5.png"
+                           alt="profile5"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                  </section>
+
+                  <section className="flex mr-auto ml-auto items-center gap-6">
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 11 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(11);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_11.png"
+                           alt="profile11"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 12 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(12);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_12.png"
+                           alt="profile12"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 13 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(13);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_13.png"
+                           alt="profile13"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 14 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(14);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_14.png"
+                           alt="profile14"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                     <button
+                        className={`w-18 h-18 transition-all hover:scale-105 ${
+                           userProfileIdx === 15 && 'rotate-6 scale-125'
+                        }`}
+                        style={{
+                           borderRadius: '10%',
+                           overflow: 'hidden',
+                        }}
+                        onClick={() => {
+                           setUserProfileIdx(15);
+                        }}
+                     >
+                        <img
+                           src="/public_assets/profileImg/profileImg_15.png"
+                           alt="profile15"
+                           className="w-20 h-20 object-cover"
+                        />
+                     </button>
+                  </section>
+                  <section className="flex mr-auto ml-auto items-center gap-[30px]">
+                     <button style={apply} onClick={clickApplyBtn}>
+                        적용하기
+                     </button>
+                     <button style={close} onClick={closeModal}>
+                        닫기
+                     </button>
+                  </section>
+               </li>
+            </div>
+         </Modal>
+      </div>
+   );
 };
 
 export default ImageSelector;

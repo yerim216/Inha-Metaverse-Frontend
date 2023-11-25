@@ -12,7 +12,7 @@ import { BiRightArrowCircle } from 'react-icons/bi';
 import Footer from '../components/Footer';
 import ModifyProject from '../components/ModifyProject';
 
-import { getTeamIndex, getUserInfo } from '../APIs/userinfo';
+import { getTeamIndex, getUserInfo, getUserCareer } from '../APIs/userinfo';
 import { getTeamInfoByIndex } from '../APIs/team';
 
 import { ThemeModeContext } from '../contexts/ThemeProvider';
@@ -58,6 +58,9 @@ export default function Profile() {
    const [skills, setSkills] = useState([]); //스킬 선택 값 불러오기
    const [userProfileIdx, setUserProfileIdx] = useState();
 
+   const [detailCareer, setDetailCareer] = useState([]);
+   const [ing, setIng] = useState(false);
+
    const requestURL = `${window.baseURL}`;
 
    const logout = () => {
@@ -75,7 +78,7 @@ export default function Profile() {
             setUsers(res.data[0]);
             setField(res.data[0].team_index);
             setUserProfileIdx(res.data[0].user_img_index);
-            setSkills(res.data[0].fields);
+            setSkills(res.data[0].skills);
             setJob(res.data[0].user_job);
             console.log(res.data);
          })
@@ -95,7 +98,30 @@ export default function Profile() {
          console.log(error);
       }
    };
+   function calculateDateDifference(syear, smonth, eyear, emonth) {
+      const startDate = new Date(syear, smonth - 1); // 월은 0부터 시작하므로 smonth에서 1을 빼줍니다.
+      const endDate = new Date(eyear, emonth - 1);
+      const currentDate = new Date();
+      // endDate와 현재 날짜를 비교하여 ing 변수를 업데이트
+      if (endDate >= currentDate) {
+         setIng(true);
+         console.log('ㅑㅜ햐ㅜㅎ');
+      } else {
+         setIng(false);
+         console.log('ㅑㅜ햐ㅜㅎ');
+      }
+      // 날짜 차이 계산
+      const timeDifference = endDate - startDate;
 
+      // 차이를 기간으로 변환
+      const monthsDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30)); // 평균 월 길이를 기준으로 계산
+      const yearsDifference = Math.floor(monthsDifference / 12);
+
+      return {
+         years: yearsDifference,
+         months: (monthsDifference % 12) + 1,
+      };
+   }
    const fetchData = async () => {
       for (let i = 0; i < team.length; i++) {
          // 팀인덱스 가져오는건 잘 됨
@@ -111,6 +137,38 @@ export default function Profile() {
          }
       }
    };
+
+   const getUserCareerData = () => {
+      getUserCareer(userIndex).then(function (res) {
+         console.log(res.data);
+         const arr = res.data;
+         arr.map((arr, index) => {
+            const dateDifference = calculateDateDifference(
+               arr.start_year,
+               arr.start_month,
+               arr.end_year,
+               arr.end_month
+            );
+            setDetailCareer(() => [
+               [
+                  {
+                     job: arr.career_content,
+                     syear: arr.start_year,
+                     smonth: arr.start_month,
+                     eyear: arr.end_year,
+                     emonth: arr.end_month,
+                     dateDifference: dateDifference,
+                     ing: ing,
+                  },
+               ],
+            ]);
+         });
+      });
+   };
+
+   useEffect(() => {
+      getUserCareerData();
+   }, []);
 
    useEffect(() => {
       getTeamIndices();
@@ -151,24 +209,6 @@ export default function Profile() {
       if (themeMode === 'light') setTm(theme.lightTheme.profile);
       else setTm(theme.darkTheme.profile);
    }, [themeMode]);
-
-   const careerInfo = [
-      {
-         career: 'LF 몰 Champion BPU 사업부 소속 디자이너',
-         date: '2023. 07 ~ 현재',
-         status: '재직중',
-      },
-      {
-         career: 'ABCDEFGH 디자인 팀 인턴',
-         date: '2022. 12 ~ 2023. 06',
-         status: '6개월',
-      },
-      {
-         career: 'Abcdefg 디자인 팀 웹디자이너',
-         date: '2021. 03 ~ 2022. 03',
-         status: '1년 1개월',
-      },
-   ];
 
    const parts2 = {
       marginRight: '5px',
@@ -264,29 +304,77 @@ export default function Profile() {
                   경력사항 🏢
                </p>
                <div className={styles.careerCol}>
-                  {careerInfo.map((career, index) => {
-                     return (
-                        <div
-                           key={index}
-                           className={styles.careerBox}
-                           style={{ background: tm.txtBoxBackground, boxShadow: tm.boxShadow }}
-                        >
-                           <p className={styles.careerData} style={{ color: tm.mainTextColor }}>
-                              {career.career}
-                           </p>
-                           <div className={styles.careerBoxInner}>
-                              <p className={styles.careerDate}>{career.date}</p>
-                              <p
-                                 className={`${
-                                    career.status === '재직중' ? styles.careerStatusTrue : styles.careerStatus
-                                 }`}
+                  {detailCareer.length !== 0 ? (
+                     detailCareer &&
+                     detailCareer.map((career, index) => {
+                        return (
+                           <div className={styles.resultInner}>
+                              <div
+                                 className={styles.result}
+                                 style={{
+                                    boxShadow: tm.boxShadow,
+                                    color: tm.mainTextColor,
+                                    background: tm.txtBoxBackground,
+                                    border: tm.txtBoxBorder,
+                                 }}
                               >
-                                 {career.status}
-                              </p>
+                                 <div className={styles.jobName} style={{ color: tm.mainTextColor }}>
+                                    {career[0].job}
+                                 </div>
+                                 <div className={styles.dateTxt}>
+                                    <div className={styles.txtWrap}>
+                                       <div className={styles.jobDate} style={{ color: tm.hazyText }}>
+                                          {' '}
+                                          {career[0].syear}.
+                                       </div>
+                                       <div className={styles.jobDate} style={{ color: tm.hazyText }}>
+                                          {' '}
+                                          {career[0].smonth} ~
+                                       </div>
+                                       <div
+                                          className={styles.jobDate}
+                                          style={{ color: tm.hazyText, marginLeft: '5px' }}
+                                       >
+                                          {' '}
+                                          {career[0].eyear}.
+                                       </div>
+                                       <div className={styles.jobDate} style={{ color: tm.hazyText }}>
+                                          {' '}
+                                          {career[0].emonth}
+                                       </div>
+                                    </div>
+                                    {!career[0].ing ? (
+                                       <div className={styles.dateDiffer} style={{ background: tm.dateBg }}>
+                                          {career[0].dateDifference.years !== 0 ? (
+                                             <div className={styles.dateDifTxt} style={{ color: tm.dateColor }}>
+                                                {career[0].dateDifference.years}년
+                                             </div>
+                                          ) : null}
+
+                                          <div className={styles.dateDifTxt} style={{ color: tm.dateColor }}>
+                                             {' '}
+                                             {career[0].dateDifference.months}개월
+                                          </div>
+                                       </div>
+                                    ) : (
+                                       <div
+                                          className={styles.dateDiffer}
+                                          style={{ background: '#0C6EED', color: 'white' }}
+                                       >
+                                          {' '}
+                                          재직중{' '}
+                                       </div>
+                                    )}
+                                 </div>
+                              </div>
                            </div>
-                        </div>
-                     );
-                  })}
+                        );
+                     })
+                  ) : (
+                     <div className={styles.emptySkill} style={{ color: tm.mainTextColor }}>
+                        경력이 없어요. 경력을 입력해보아요!
+                     </div>
+                  )}
                </div>
             </div>
 
@@ -298,7 +386,8 @@ export default function Profile() {
                   사용스킬 ⚒️
                </p>
                <div className={styles.skillRow}>
-                  {skills &&
+                  {skills !== null ? (
+                     skills &&
                      skills.map((skill, index) => {
                         return (
                            <img
@@ -310,7 +399,13 @@ export default function Profile() {
                               alt={`${skill.field_title} skill`}
                            />
                         );
-                     })}
+                     })
+                  ) : (
+                     <div className={styles.emptySkill} style={{ color: tm.mainTextColor }}>
+                        {' '}
+                        사용하는 스킬이 없어요. 스킬을 선택해보아요!{' '}
+                     </div>
+                  )}
                </div>
             </div>
 
@@ -335,17 +430,13 @@ export default function Profile() {
                               skills={teamDetail.teamInfo.team_skills}
                               categories={teamDetail.teamInfo.team_category}
                               jobs={teamDetail.teamInfo.team_jobs}
+                              isInMyprofile={true}
                            />
                         );
                      })
                   ) : (
-                     // <div></div>
-                     <div className={styles.projectBox}>
-                        <a href="/createproject">
-                           <div className={styles.emptyProject}>
-                              진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
-                           </div>
-                        </a>
+                     <div className={styles.emptyProject} style={{ color: tm.mainTextColor }}>
+                        진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
                      </div>
                   )}
                </div>

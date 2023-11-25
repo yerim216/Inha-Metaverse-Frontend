@@ -420,22 +420,8 @@ export default function CreateProject() {
                <textarea style={option2} value={text} onChange={(event) => ex(event)} />
             </div>
             <div className={styles2.basic}>
-               <span className={styles2.middleFont}>관심 분야</span>
-               {loading ? (
-                  <div style={jobselect}>
-                     <p style={load}>Loading...</p>
-                  </div>
-               ) : (
-                  <div style={jobselect}>
-                     {job &&
-                        job.map((item, index) => (
-                           <div key={index} style={jobBox}>
-                              <span>{item.field_title}</span>
-                              <button onClick={() => handleDelete(item.field_index)}>x</button>
-                           </div>
-                        ))}
-                  </div>
-               )}
+               <span className={styles2.middleFont}>분야</span>
+
                <div className={styles2.n}></div>
                <div style={option4}>
                   <select style={option3} value={selectedOption1} onChange={handleOption1Change}>
