@@ -78,7 +78,7 @@ export default function Notification() {
                   category = "[지원(리더)]";
                   break;
                 case 4:
-                  category = "[지원](?)";
+                  category = "[지원 승인]";
                   break;
                 case 5:
                   category = "[쪽지]";
@@ -99,7 +99,7 @@ export default function Notification() {
                   message = `${notification.user_name} 님이 ${notification.team_name} 프로젝트에 지원했습니다.`;
                   break;
                 case 4:
-                  message = "지원 승인 알림";
+                  message = `${notification.team_name} 프로젝트에 초대되셨습니다.`;
                   break;
                 case 5:
                   message = "쪽지 관련 알림";

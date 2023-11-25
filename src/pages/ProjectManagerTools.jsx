@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/modules/ProjectManagerTools.module.css";
 import { getTeamInfoByIndex, getTeams } from "../APIs/team";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
@@ -126,6 +126,13 @@ export default function ProjectManagerTools() {
     else setTm(theme.darkTheme.projectManager);
   }, [themeMode]);
 
+  const location = useLocation();
+  // 현재 URL에 'management'이 포함되어 있는지 확인
+  const isIncludeInUrl =
+    location.pathname.includes("main") ||
+    location.pathname.includes("board") ||
+    location.pathname.includes("stickerNote");
+
   return (
     <>
       <div
@@ -155,7 +162,12 @@ export default function ProjectManagerTools() {
         }}
       >
         {/* 드롭다운으로 프로젝트 선택 가능하게 변경하는 부분. margin-right 값을 통해 우측 여백(팀원 상태표시 탭 여백만큼) 설정. */}
-        <div className="w-[100%] h-full border-b-[0.5px] border-[#7c7c7c] xl:mr-80 2xl:mr-96">
+        {/* 추가로 아직 캘린더 및 매니지먼트 페이지에는 우측 여백 필요 X. 이에 url 이용 예외처리 해 주었음. */}
+        <div
+          className={`w-[100%] h-full border-b-[0.5px] border-[#7c7c7c] ${
+            isIncludeInUrl && "xl:mr-80 2xl:mr-96"
+          }`}
+        >
           <div
             className="text-xl font-extrabold flex flex-col justify-center h-full gap-3"
             style={{

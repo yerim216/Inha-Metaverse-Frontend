@@ -10,6 +10,7 @@ import PositionManage from "./PositionManage";
 
 export default function Management() {
   const { teamIndex } = useOutletContext();
+
   const { state } = useLocation();
 
   const navigate = useNavigate();

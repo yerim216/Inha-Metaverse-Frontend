@@ -76,6 +76,7 @@ export const lightTheme = {
     subTextColorDarker: "#7C7C7C",
     btnBackground: "rgba(112, 144, 176, 0.20)",
     modifyBtn: "#394046",
+    textArea: "#F1F3F7",
   },
   management: {
     border: "#7C7C7C",
@@ -166,6 +167,7 @@ export const darkTheme = {
     subTextColorDarker: "#7C7C7C",
     btnBackground: "rgba(112, 144, 176, 0.20)",
     modifyBtn: "#394046",
+    textArea: "#2C2C2C",
   },
   board: {
     whenModalBg: "rgba(105, 105, 105, 0.8)",
