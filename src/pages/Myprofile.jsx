@@ -310,7 +310,12 @@ export default function Profile() {
                            <div className={styles.resultInner}>
                               <div
                                  className={styles.result}
-                                 style={{ boxShadow: tm.boxShadow, color: tm.mainTextColor }}
+                                 style={{
+                                    boxShadow: tm.boxShadow,
+                                    color: tm.mainTextColor,
+                                    background: tm.txtBoxBackground,
+                                    border: tm.txtBoxBorder,
+                                 }}
                               >
                                  <div className={styles.jobName} style={{ color: tm.mainTextColor }}>
                                     {career[0].job}

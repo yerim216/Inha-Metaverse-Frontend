@@ -124,7 +124,6 @@ export default function Mycalendar() {
             <span className={styles.year}>{currentMonth}</span>
             <span className={styles.month}>{year}</span>
           </div>
-
           <img
             src="/public_assets/dateMore.svg"
             width="fit-content"
@@ -133,7 +132,6 @@ export default function Mycalendar() {
             cursor="pointer"
             onClick={handleDivClick}
           />
-
           <DatePicker
             className="custom-startDate"
             selected={today}
@@ -145,7 +143,6 @@ export default function Mycalendar() {
             // dateFormat="MMMM d, yyyy"
             dateFormat="yyyy"
           />
-
           <button className={styles.putEvent} onClick={openModal}>
             <p className={styles.putEventTxt}>일정등록</p>
           </button>

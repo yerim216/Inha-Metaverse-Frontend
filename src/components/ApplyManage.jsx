@@ -3,8 +3,14 @@ import styles from "../styles/modules/ApplyManage.module.css";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import ApplyCard from "./ApplyCard";
+import { useParams } from "react-router";
+import { getApplied } from "../APIs/team";
+import ApplyModal from "./ApplyModal";
 
 export default function ApplyManage() {
+  const params = useParams();
+  const teamIndex = params.teamIndex;
+
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.management);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -20,6 +26,12 @@ export default function ApplyManage() {
     newArr[jobIdx] = !newArr[jobIdx];
     setJobsOpen(newArr);
   };
+
+  const [applies, setApplies] = useState();
+  useEffect(() => {
+    getApplied(teamIndex).then((res) => setApplies(res.data));
+  }, []);
+  console.log(applies);
 
   return (
     <section className={styles.paddingSection}>

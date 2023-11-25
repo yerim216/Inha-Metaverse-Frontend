@@ -40,15 +40,11 @@ export default function Nav({ isMainPage }) {
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
     document.body.style.paddingRight = "16px";
-    document.body.style.backgroundColor = "white";
   };
 
   const freeScroll = () => {
     document.body.style.overflowY = "auto";
     document.body.style.paddingRight = "0px";
-
-    // 다크모드와 화이트모드 다르게 설정 필요
-    document.body.style.backgroundColor = "#111111";
   };
 
   // 로그인창 팝업 관리 state

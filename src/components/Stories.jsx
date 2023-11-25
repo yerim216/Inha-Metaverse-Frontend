@@ -4,9 +4,13 @@ import styles from "../styles/Stories.module.css";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import CommentSection from "./CommentSection";
+import { getStories } from "../APIs/story";
+import { getUserInfo } from "../APIs/userinfo";
 
 export default function Stories() {
   const [storyDatabases, setStoryDatabases] = useState();
+  console.log(storyDatabases);
+
   const [moreBtnActivated, setMoreBtnActivated] = useState(false);
   const [selectedStoryDb, setSelectedStoryDb] = useState();
   const [comment, setComment] = useState();
@@ -20,64 +24,9 @@ export default function Stories() {
   const forHidden = useRef();
 
   useEffect(() => {
-    setStoryDatabases([
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 1",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다.  voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 2",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 3",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 4",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 5",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 6",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dicta repudiandae doloremque quo, voluptate est non harum minus veritatis officia cumque fuga voluptas placeat voluptatum ipsum animi nobis, alias sint!",
-        date: "23.01.16 14:28",
-      },
-      {
-        profileName: "Cherry",
-        part: "영업 / 마케팅",
-        title: "사이드 프로젝트 찾습니다! 6",
-        content:
-          "안녕하세요~ 어제 가입했는데 제 본캐는 대학생입니다. 영업과 마케팅이 주특기입니다. 다양한 백그라운드를 가진분들과 재밌는 사이드 프로젝트를 하고 싶습니다 :) 잘 부탁드려요!",
-        date: "23.01.16 14:28",
-      },
-    ]);
+    getStories().then((res) => {
+      setStoryDatabases(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -95,6 +44,37 @@ export default function Stories() {
     if (themeMode === "light") setTm(theme.lightTheme.home);
     else setTm(theme.darkTheme.home);
   }, [themeMode]);
+
+  const [userImgIdx, setuserImgIdx] = useState();
+
+  useEffect(() => {
+    if (!selectedStoryDb) return;
+    getUserInfo(selectedStoryDb.user_index).then((res) => {
+      setuserImgIdx(res.data[0].user_img_index);
+    });
+  }, [selectedStoryDb]);
+
+  const getDateDifference = (dateString) => {
+    // 주어진 날짜를 Date 객체로 변환
+    const givenDate = new Date(dateString);
+
+    // 현재 날짜를 가져오기
+    const currentDate = new Date();
+
+    // 날짜 차이 계산 (밀리초 단위)
+    const timeDifference = currentDate - givenDate;
+
+    // 밀리초를 시간으로 변환 (1일 = 24시간 * 60분 * 60초 * 1000밀리초)
+    const minutesDifference = timeDifference / (60 * 1000);
+
+    if (Math.floor(minutesDifference) + 1 < 60)
+      return Math.floor(minutesDifference) + 1 + "분";
+
+    if (Math.floor(minutesDifference) + 1 < 24 * 60)
+      return Math.floor(minutesDifference / 60) + 1 + "시간";
+
+    return Math.floor(minutesDifference / (24 * 60)) + 1 + "일";
+  };
 
   return (
     <div
@@ -140,37 +120,51 @@ export default function Stories() {
               <div>
                 <div className={styles.header}>
                   <div className={styles.leftHeader}>
-                    <img src="/public_assets/profileImg.png" alt="profile" />
+                    <img
+                      src={`/public_assets/profileImg/profileImg_${userImgIdx}.png`}
+                      alt="profile"
+                      className="w-14 rounded-full"
+                    />
                     <h1
                       style={{
-                        fontSize: "30px",
+                        fontSize: "26px",
+                        fontWeight: 500,
                       }}
                     >
-                      {selectedStoryDb && selectedStoryDb.profileName}
+                      {selectedStoryDb && selectedStoryDb.user_name}
                     </h1>
                     <span
                       style={{
                         fontSize: "10px",
                       }}
                     >
-                      {selectedStoryDb && selectedStoryDb.part}
+                      {selectedStoryDb &&
+                      selectedStoryDb.field_category &&
+                      selectedStoryDb.field_title
+                        ? selectedStoryDb.field_category +
+                          "/" +
+                          selectedStoryDb.field_title
+                        : "직무 없음"}
                     </span>
                   </div>
                   <div className={styles.rightHeader}>
-                    {selectedStoryDb && selectedStoryDb.date}
+                    {selectedStoryDb &&
+                      getDateDifference(selectedStoryDb.created_at) + " 전"}
                   </div>
                 </div>
                 <div className={styles.title}>
-                  {selectedStoryDb && selectedStoryDb.title}
+                  {selectedStoryDb && selectedStoryDb.story_title}
                 </div>
                 <p className={`${styles.content}`}>
-                  {selectedStoryDb && selectedStoryDb.content}
+                  {selectedStoryDb && selectedStoryDb.story_content}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <CommentSection />
+        <CommentSection
+          storyIdx={selectedStoryDb && selectedStoryDb.story_index}
+        />
       </section>
     </div>
   );

@@ -9,8 +9,6 @@ import { useRecoilState } from "recoil";
 export default function TeamCard({ team }) {
   const [userLogin, setUserLogin] = useRecoilState(userState);
   const userIndex = userLogin.user_index;
-  // console.log(team);
-  console.log(team.teamInfo.skills);
 
   // 현재 유저가 팀 리더인지 아닌지를 구별하는 state.
   const [isTeamLeader, setIsTeamLeader] = useState(false);
@@ -126,29 +124,37 @@ export default function TeamCard({ team }) {
           />
         )}
         <div className="border-b border-[#7C7C7C] w-full h-[70%] flex flex-col items-start gap-6">
-          {team.teamInfo.skills !== null ? (
+          {team.teamInfo.team_skills &&
+          team.teamInfo.team_skills[0].skill_index !== null ? (
             <div
-              className={styles.teamSkills}
+              className="px-3 py-1 rounded-xl flex gap-2 items-center w-fit relative -top-3"
               style={{
-                color: tm.accentBtnText,
-                backgroundColor: tm.accentColor,
+                backgroundColor: tm.skillsListBg,
               }}
             >
-              팀 내 기술 스택 X
+              {team.teamInfo.team_skills.map((skill) => {
+                return (
+                  <img
+                    src={`/public_assets/skills/skill_img_${themeMode}_${skill.skill_index}.svg`}
+                    alt={`/public_assets/skills/skill_img_${themeMode}_${skill.skill_index}`}
+                    className="w-6"
+                  />
+                );
+              })}
             </div>
           ) : (
             <div
-              className={styles.teamSkills}
+              className="px-3 py-1 rounded-xl flex gap-2 items-center w-fit relative -top-3 font-extrabold"
               style={{
-                color: tm.accentBtnText,
-                backgroundColor: tm.accentColor,
+                backgroundColor: tm.skillsListBg,
+                color: tm.mainTextColor,
               }}
             >
               팀 내 기술 스택 X
             </div>
           )}
           <div
-            className="font-extrabold text-xl"
+            className="font-extrabold text-xl -mt-3"
             style={{
               color: tm.mainTextColor,
             }}

@@ -15,6 +15,8 @@ export const lightTheme = {
       modalHover: 'rgba(244, 246, 248, 0.70)',
       storyCommentSection: '#F2F3F4',
       storyCommentTextAreaBg: '#FFF',
+      whenModalBg: 'rgba(105, 105, 105, 0.8)',
+      storyHazyText: '#1C1D1E',
    },
    projectManager: {
       projectSide: '#F2F3F4',
@@ -28,7 +30,7 @@ export const lightTheme = {
       accentBtnText: '#FFF',
       mainTextColor: '#000',
       hazyTextColor: '#949494',
-      skillsListBg: '#D6D6D7',
+      skillsListBg: '#F1F3F7',
       teamMemberProfileCard: '#F1F3F7',
       stickerNoteArea: '#F1F3F7',
       stickerNoteAddArea: '#FFF',
@@ -71,6 +73,7 @@ export const lightTheme = {
       boxShadow: '0px 8px 24px 0px rgba(149, 157, 165, 0.2)',
       border: 'none',
       txtBoxBackground: 'white',
+      txtBoxBorder: 'none',
       subTextColor: '#b3b3b3',
       subTextColorDarker: '#7C7C7C',
       btnBackground: 'rgba(112, 144, 176, 0.20)',
@@ -95,6 +98,8 @@ export const lightTheme = {
    },
    notification: {
       border: '#D3D3D3',
+      mainText: '#000',
+      notificationBg: '#F4F6F8',
    },
 };
 
@@ -117,6 +122,8 @@ export const darkTheme = {
       modalHover: 'rgba(244, 246, 248, 0.70)',
       storyCommentSection: '#3A3A3A',
       storyCommentTextAreaBg: '#2C2C2C',
+      whenModalBg: 'rgba(105, 105, 105, 0.8)',
+      storyHazyText: '#EAEAEA',
    },
 
    projectManager: {
@@ -160,6 +167,7 @@ export const darkTheme = {
       background: 'black',
       boxShadow: 'none',
       border: '0.3px solid rgba(255, 255, 255, 0.4)',
+      txtBoxBorder: '#7C7C7C',
       txtBoxBackground: '#2C2C2C',
       subTextColor: '#b3b3b3',
       subTextColorDarker: '#7C7C7C',
@@ -192,6 +200,11 @@ export const darkTheme = {
       positionCardContainer: '#323232',
       positionCardBg: 'rgba(255, 255, 255, 0.20)',
       hazyTextColor: '#7C7C7C',
+   },
+   notification: {
+      border: '#D3D3D3',
+      mainText: '#FFF',
+      notificationBg: '#2C2C2C',
    },
 };
 

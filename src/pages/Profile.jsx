@@ -297,7 +297,6 @@ export default function Profile() {
                            })
                         ))}
                   </div>
-
                   {/* 팀 이름 */}
                   <p className={styles.name} style={{ color: tm.mainTextColor }}>
                      {teamDetail && teamDetail.teamInfo.team_name}

@@ -38,3 +38,9 @@
   line-height: 2;
   letter-spacing: -0.02em;
 }
+
+.story_title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 20px 0px;
+}

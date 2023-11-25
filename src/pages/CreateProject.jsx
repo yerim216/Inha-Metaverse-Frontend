@@ -146,6 +146,9 @@ export default function CreateProject() {
     recruitmentNum: 1,
   });
 
+  // "역할" 탭에 존재하는 데이터를 받기 위한 state.
+  const [role, setRole] = useState("");
+
   // 현재 선택된 분야에 대한 정보. 카드 형태로 하단에 보여지게 된다.
   const [selectedJobInputs, setSelectedJobInputs] = useState([]);
   const handleAddSelectedJobInput = () => {
@@ -200,6 +203,11 @@ export default function CreateProject() {
           jobSelectRef.current.selectedIndex
         ].getAttribute("jobtitle");
 
+      setRole(
+        jobSelectRef.current.options[
+          jobSelectRef.current.selectedIndex
+        ].getAttribute("description")
+      );
       setJobInput(newJobInput);
     }
   };
@@ -314,27 +322,14 @@ export default function CreateProject() {
     return userInfo;
   };
 
-  const addTeamMember = async (teamName) => {
-    const userName = await getUserName();
-    addMember(teamName, userName)
-      .then(() => {})
-      .catch((error) => {
-        console.error("Error add team member:", error);
-      });
-  };
-
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
     document.body.style.paddingRight = "16px";
-    document.body.style.backgroundColor = "white";
   };
 
   const freeScroll = () => {
     document.body.style.overflowY = "auto";
     document.body.style.paddingRight = "0px";
-
-    // 다크모드와 화이트모드 다르게 설정 필요
-    document.body.style.backgroundColor = "#111111";
   };
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -739,15 +734,17 @@ export default function CreateProject() {
                         ref={jobSelectRef}
                       >
                         {jobsToShow &&
-                          jobsToShow.map((jobtoShow, idx) => (
-                            <option
-                              value={idx}
-                              jobtitle={jobtoShow.job_title}
-                              // jobCategory={jobtoShow.job_index}
-                            >
-                              {jobtoShow.job_title}
-                            </option>
-                          ))}
+                          jobsToShow.map((jobtoShow, idx) => {
+                            return (
+                              <option
+                                value={idx}
+                                jobtitle={jobtoShow.job_title}
+                                description={jobtoShow.description}
+                              >
+                                {jobtoShow.job_title}
+                              </option>
+                            );
+                          })}
                       </select>
                       <img
                         src={`public_assets/icons/downArrow_${themeMode}.svg`}
@@ -848,9 +845,12 @@ export default function CreateProject() {
                   <div
                     style={{
                       backgroundColor: tm.inputBg,
+                      color: tm.textColor,
                     }}
-                    className="w-full h-5/6 mt-5 rounded-[10px]"
-                  ></div>
+                    className="w-full h-5/6 mt-5 rounded-[10px] py-4 px-6 text-lg font-medium"
+                  >
+                    {role}
+                  </div>
                 </div>
                 <div className={`w-full h-1/2 px-14 pt-20`}>
                   <div
