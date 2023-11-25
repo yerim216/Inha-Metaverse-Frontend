@@ -17,7 +17,7 @@
 .wrap {
    width: 75%;
    margin: auto;
-   padding-bottom: 3vh;
+   /* padding-bottom: 10vh; */
 }
 
 .logoContainer {
@@ -187,7 +187,7 @@
 .careerInfoWrap {
    display: flex;
    flex-direction: column;
-   /* margin-bottom: 2vh; */
+   margin-bottom: 2vh;
 }
 
 .careerCol {
@@ -813,7 +813,8 @@ footer {
    flex-direction: row;
    gap: 30px;
    overflow-y: scroll;
-   height: auto;
+   padding: 30px 0 30px 0;
+   /* height: auto; */
 }
 
 .skillImg {

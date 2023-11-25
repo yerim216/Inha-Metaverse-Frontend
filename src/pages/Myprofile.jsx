@@ -413,7 +413,6 @@ export default function Profile() {
 
             <div className={styles.careerInfoWrap}>
                <p className={styles.careerText} style={{ color: tm.mainTextColor }}>
-                  {' '}
                   프로젝트 ⚙️
                </p>
                <div className={styles.skillRow}>

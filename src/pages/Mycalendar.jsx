@@ -30,23 +30,6 @@ export default function Mycalendar() {
       else setTm(theme.darkTheme.calendar);
    }, [themeMode]);
 
-   const preventClose = (e) => {
-      e.preventDefault();
-      e.returnValue = ''; //Chrome에서 동작하도록; deprecated
-      setStartDay(new Date());
-      localStorage.setItem('date', new Date());
-      console.log('언로드');
-   };
-
-   useEffect(() => {
-      (() => {
-         window.addEventListener('beforeunload', preventClose);
-      })();
-      return () => {
-         window.removeEventListener('beforeunload', preventClose);
-      };
-   }, []);
-
    const openModal = () => {
       setChangeEvent(false);
       setIsModalOpen(true);
