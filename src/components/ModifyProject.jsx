@@ -23,9 +23,9 @@ export default function ModifyProject() {
 
   useEffect(() => {
     if (teamIndex)
-      getTeamInfoByIndex(teamIndex).then((res) =>
-        setTeamInfo(res.data.teamInfo)
-      );
+      getTeamInfoByIndex(teamIndex).then((res) => {
+        setTeamInfo(res.data.teamInfo);
+      });
   }, []);
 
   useEffect(() => {
@@ -46,6 +46,9 @@ export default function ModifyProject() {
     introduction: "",
     description: "",
   });
+
+  // "역할" 탭에 존재하는 데이터를 받기 위한 state.
+  const [role, setRole] = useState("");
 
   const handleErrorMsg = (inputName) => {
     if (inputName === "projectName") {
@@ -223,6 +226,11 @@ export default function ModifyProject() {
           jobSelectRef.current.selectedIndex
         ].getAttribute("jobtitle");
 
+      setRole(
+        jobSelectRef.current.options[
+          jobSelectRef.current.selectedIndex
+        ].getAttribute("description")
+      );
       setJobInput(newJobInput);
     }
   };
@@ -314,16 +322,24 @@ export default function ModifyProject() {
     setSelectedSkills(newArr);
   };
 
-  // 초기 데이터 받아오는 것들
-  console.log(selectedJobInputs);
-  console.log(teamInfo);
-  console.log(selectedSkills);
   useEffect(() => {
     if (!teamInfo) return;
 
-    // 무야호
-    setSelectedCategory(teamInfo.team_category);
-    setSelectedSkills(teamInfo.team_skills);
+    if (teamInfo.team_category[0].category_index !== null)
+      setSelectedCategory(teamInfo.team_category);
+    if (teamInfo.team_skills[0].skill_index !== null)
+      setSelectedSkills(teamInfo.team_skills);
+    if (teamInfo.team_jobs[0].job_category !== null) {
+      let newArr = [];
+      teamInfo.team_jobs.map((job) => {
+        newArr.push({
+          category: job.job_category,
+          recruitmentNum: job.recruitment_number,
+          title: job.job_name,
+        });
+      });
+      setSelectedJobInputs(newArr);
+    }
   }, [teamInfo]);
 
   // 에러메세지들 관련 state
@@ -352,15 +368,11 @@ export default function ModifyProject() {
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
     document.body.style.paddingRight = "16px";
-    document.body.style.backgroundColor = "white";
   };
 
   const freeScroll = () => {
     document.body.style.overflowY = "auto";
     document.body.style.paddingRight = "0px";
-
-    // 다크모드와 화이트모드 다르게 설정 필요
-    document.body.style.backgroundColor = "#111111";
   };
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -420,6 +432,7 @@ export default function ModifyProject() {
     // inputs에는 projectName, teamName, introduction, description 존재.
 
     let inputData = {
+      team: teamIndex,
       leader: userIndex,
       name: inputs.teamName,
       project: inputs.projectName,
@@ -761,7 +774,7 @@ export default function ModifyProject() {
                             <option
                               value={idx}
                               jobtitle={jobtoShow.job_title}
-                              // jobCategory={jobtoShow.job_index}
+                              description={jobtoShow.description}
                             >
                               {jobtoShow.job_title}
                             </option>
@@ -866,9 +879,12 @@ export default function ModifyProject() {
                   <div
                     style={{
                       backgroundColor: tm.inputBg,
+                      color: tm.textColor,
                     }}
-                    className="w-full h-5/6 mt-5 rounded-[10px]"
-                  ></div>
+                    className="w-full h-5/6 mt-5 rounded-[10px] py-4 px-6 text-lg font-medium"
+                  >
+                    {role}
+                  </div>
                 </div>
                 <div className={`w-full h-1/2 px-14 pt-20`}>
                   <div

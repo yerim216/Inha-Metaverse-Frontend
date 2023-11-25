@@ -14,6 +14,9 @@ import { theme } from "../theme/theme";
 import TitleWithDescription from "../components/home/TitleWithDescription";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
+import StoryModal from "../components/StoryModal";
+import { getPageCount, getTeamsWithFilter } from "../APIs/team";
+import { getUserInterested } from "../APIs/userinfo";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
@@ -40,6 +43,16 @@ export default function Home() {
     freeScroll();
   };
 
+  const [storyModalOpen, setStoryModalOpen] = useState(false);
+  const openStoryModal = () => {
+    setStoryModalOpen(true);
+    blockScroll();
+  };
+  const closeStoryModal = () => {
+    setStoryModalOpen(false);
+    freeScroll();
+  };
+
   const forumClick = () => {
     if (user) {
       // 이미 파일이 다운로드 되어있는지 확인.
@@ -61,15 +74,11 @@ export default function Home() {
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
     document.body.style.paddingRight = "16px";
-    document.body.style.backgroundColor = "white";
   };
 
   const freeScroll = () => {
     document.body.style.overflowY = "auto";
     document.body.style.paddingRight = "0px";
-
-    // 다크모드와 화이트모드 다르게 설정 필요
-    document.body.style.backgroundColor = "#111111";
   };
 
   // 회원가입창 팝업 관리 state
@@ -84,42 +93,73 @@ export default function Home() {
     freeScroll();
   };
 
-  // max-width가 필요한 굿엔 maxWidth 클래스명을 적용해 주면 됨.
-  const [count, setCount] = useState(0);
-  function handleClick() {
-    setCount(count + 1);
-  }
-
   // 우측 상단의 모집중 필터 버튼.
   const [recruitmentBtnActive, setRecruitmentBtnActive] = useState(true);
+
+  // 필터링되지 않은(기획/개발/디자인/기타로 나뉘지 않은) 직무(관심분야) 데이터.
+  const [filters, setFilters] = useState([]);
+  useEffect(() => {
+    getUserInterested()
+      .then((res) => {
+        setFilters(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  // 화면에 보여줄 필터 : 기획 / 개발 / 디자인 / 기타로 나뉨.
+  const [filter, setFilter] = useState([[], [], [], []]);
 
   // 필터링된 아이템을 관리하는 state.
   const [filteredItems, setFilteredItems] = useState([]);
 
-  // 기획/개발/디자인/기타 등,
-  // 추후에 db에서 가져 옴. 현재는 임시로 설정해 둠.
-  const [filter, setFilter] = useState([
-    ["개발 기획", "서비스 기획", "프로덕트 기획", "영업 기획"],
-    [
-      "프론트엔드",
-      "백엔드",
-      "머신러닝",
-      "AI 개발",
-      "QA 엔진",
-      "IOS 개발",
-      "Android 개발",
-    ],
-    ["UX 디자인", "UI 디자인", "프로덕트 디자인", "편집 디자인"],
-    [
-      "일렉 기타",
-      "어쿠스틱 기타",
-      "클래식 기타",
-      "통기타",
-      "할로우 바디 기타",
-      "사일런트 기타",
-      "랩 스틸 기타",
-    ],
-  ]);
+  // 필터 버튼을 누르면 레이아웃의 변경이 필요함. 이를 관리하기 위한 state.
+  const [filterMode, setFilterMode] = useState(false);
+
+  // 주어진 string값을 통해 filters에서 해당 인덱스를 찾는 함수.
+  const getFilterIndex = (fieldTitle) => {
+    return filters.find((obj) => obj.field_title === fieldTitle);
+  };
+
+  const [selectedIndices, setSelectedIndices] = useState([]);
+
+  // filteredItems가 변경될 때마다, 아래의 로직을 이용하여 실시간으로 필터링된 프로젝트를 불러 옴.
+  useEffect(() => {
+    if (!filters) return;
+    let selectedFilterIndices = [];
+
+    filteredItems.map((item) => {
+      const found = getFilterIndex(item);
+      selectedFilterIndices.push(found.field_index);
+    });
+
+    if (selectedFilterIndices.length !== 0) {
+      setFilterMode(true);
+
+      setSelectedIndices(selectedFilterIndices);
+    } else {
+      setFilterMode(false);
+    }
+  }, [filteredItems, filters]);
+
+  useEffect(() => {
+    if (!filters) return;
+
+    let newArr = [[], [], [], []];
+    filters.map((field) => {
+      const fieldCategory = field.field_category;
+      if (fieldCategory === "기획") {
+        newArr[0].push(field);
+      } else if (fieldCategory === "개발") {
+        newArr[1].push(field);
+      } else if (fieldCategory === "디자인") {
+        newArr[2].push(field);
+      } else {
+        newArr[3].push(field);
+      }
+    });
+    setFilter(newArr);
+  }, [filters]);
+
   const [filterNum, setFilterNum] = useState(0);
   const handleFilterChange = (filterNumber) => {
     setFilterNum(filterNumber);
@@ -149,7 +189,7 @@ export default function Home() {
         filter.style.backgroundColor = tm.disabledBtnBgColor;
       }
     }
-  }, [filteredItems, filterNum]);
+  }, [filter, filteredItems, filterNum]);
 
   return (
     <>
@@ -162,6 +202,7 @@ export default function Home() {
         open={signUpModalOpen}
         close={closeSignUpModal}
       ></SignUpModal>
+      <StoryModal opened={storyModalOpen} closeModal={closeStoryModal} />
       <header
         className="h-full w-full flex justify-center"
         style={{
@@ -308,7 +349,7 @@ export default function Home() {
                     color: tm.buttonText,
                   }}
                 >
-                  {item}
+                  {item.field_title}
                 </div>
               ))}
           </div>
@@ -329,7 +370,11 @@ export default function Home() {
             );
           })}
         </div>
-        <ProjectLists recruitmentBtnActive={recruitmentBtnActive} />
+        <ProjectLists
+          recruitmentBtnActive={recruitmentBtnActive}
+          filterMode={filterMode}
+          selectedIndices={selectedIndices}
+        />
       </section>
       <section className="mt-10 maxWidth relative">
         <div
@@ -342,7 +387,12 @@ export default function Home() {
             title={"스토리"}
             description={"새로운 소식은 여기에"}
           />
-          <button className="absolute right-0 top-44 hover:scale-[103%]">
+          <button
+            className="absolute right-0 top-44 hover:scale-[103%]"
+            onClick={() => {
+              openStoryModal();
+            }}
+          >
             <img
               src="public_assets/icons/plus_button_circle.svg"
               alt="plus_button_circle"

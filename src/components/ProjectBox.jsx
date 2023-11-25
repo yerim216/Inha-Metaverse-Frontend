@@ -26,8 +26,8 @@ export default function ProjectBox({
   }, [themeMode]);
 
   const [recruitmentNumber, setRecruitmentNumber] = useState(0);
+
   useEffect(() => {
-    /* 설정된 jobs(모집 분야)가 존재하지 않을 경우, jobs[0]의 recruitment_number값과 job_name값이 null값임. 이에 따라 예외 처리해 주었음. */
     if (jobs[0].job_name) {
       let num = 0;
       jobs.map((job) => {

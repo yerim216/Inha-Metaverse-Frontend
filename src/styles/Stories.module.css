@@ -77,7 +77,7 @@
 
 .title {
   margin: 25px 0px;
-  font-weight: 800;
+  font-weight: 700;
   margin: 18px 0px;
   font-family: "Avenir";
   font-size: 20px;
@@ -115,8 +115,8 @@
 .content {
   font-family: "Avenir";
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 2;
   letter-spacing: -0.02em;
   display: -webkit-box;

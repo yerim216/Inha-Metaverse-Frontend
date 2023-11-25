@@ -22,6 +22,11 @@ export default function ProjectManagerTools() {
 
   // 현재 유저가 팀 리더인지 아닌지를 구별하는 state.
   const [isTeamLeader, setIsTeamLeader] = useState(false);
+
+  // 현재 표기해주는 팀의 기술 스택.
+  const [skills, setSkills] = useState();
+  console.log(skills);
+
   const handleTeamLeader = (teamMembers) => {
     teamMembers.map((member) => {
       if (member.is_teamleader === true && userIndex === member.user_index) {
@@ -35,6 +40,7 @@ export default function ProjectManagerTools() {
       getTeamInfoByIndex(teamIndex).then((res) => {
         handleTeamLeader(res.data.teamMembers);
         setProjectName(res.data.teamInfo.team_name);
+        setSkills(res.data.teamInfo.team_skills);
       });
     }
     getTeams().then((res) => {
@@ -209,14 +215,27 @@ export default function ProjectManagerTools() {
               </div>
             </div>
 
-            {/* 추후 스킬들 리스트 API 호출로 변경 */}
             <div
-              className="w-44 px-4 py-2 rounded-2xl"
+              className="px-3 py-1 rounded-xl flex gap-2 items-center w-fit"
               style={{
                 backgroundColor: tm.skillsListBg,
               }}
             >
-              <img src="/public_assets/skillsList.png" alt="skillsList" />
+              {/* <img src="/public_assets/skillsList.png" alt="skillsList" /> */}
+              {skills && skills[0].skill_index ? (
+                skills.map((skillInfo) => {
+                  console.log(skillInfo);
+                  return (
+                    <img
+                      src={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}.svg`}
+                      alt={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}`}
+                      className="w-6"
+                    />
+                  );
+                })
+              ) : (
+                <span className="text-base">기술 스택 없음</span>
+              )}
             </div>
           </div>
         </div>

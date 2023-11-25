@@ -28,6 +28,36 @@ export default function PositionManage() {
     }
   }, []);
 
+  // 개발 / 기획 / 디자인
+  const [developmentMem, setDevelopmentMem] = useState([]);
+  const [planMem, setPlanMem] = useState([]);
+  const [designMem, setDesignMem] = useState([]);
+  useEffect(() => {
+    if (!teamMembers) return;
+
+    let dev = [];
+    let plan = [];
+    let design = [];
+
+    teamMembers.map((member) => {
+      const category = member.field_category;
+
+      if (category === "개발") {
+        dev.push(member);
+      } else if (category === "기획") {
+        plan.push(member);
+      } else if (category === "디자인") {
+        design.push(member);
+      } else {
+        alert("지정되지 않은 직무 분야가 감지되었습니다!");
+      }
+    });
+
+    setDevelopmentMem(dev);
+    setPlanMem(plan);
+    setDesignMem(design);
+  }, [teamMembers]);
+
   return (
     <section className={styles.paddingSection}>
       {/* 개발, 기획, 디자인, 기타로 구성 : 기타는 현재 존재하지 않아서, 일단 제외 처리함. */}
@@ -47,12 +77,18 @@ export default function PositionManage() {
               backgroundColor: tm.positionCardContainer,
             }}
           >
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
+            {developmentMem.length !== 0 ? (
+              developmentMem.map((member) => <PositionCard member={member} />)
+            ) : (
+              <div
+                className="font-semibold"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 직무의 팀원이 존재하지 않습니다!
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -72,12 +108,18 @@ export default function PositionManage() {
               backgroundColor: tm.positionCardContainer,
             }}
           >
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
+            {planMem.length !== 0 ? (
+              planMem.map((member) => <PositionCard member={member} />)
+            ) : (
+              <div
+                className="font-semibold"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 직무의 팀원이 존재하지 않습니다!
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -97,12 +139,18 @@ export default function PositionManage() {
               backgroundColor: tm.positionCardContainer,
             }}
           >
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
-            <PositionCard />
+            {designMem.length !== 0 ? (
+              designMem.map((member) => <PositionCard member={member} />)
+            ) : (
+              <div
+                className="font-semibold"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 직무의 팀원이 존재하지 않습니다!
+              </div>
+            )}
           </div>
         </div>
       </div>
