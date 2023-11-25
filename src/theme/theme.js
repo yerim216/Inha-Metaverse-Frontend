@@ -101,6 +101,12 @@ export const lightTheme = {
       mainText: '#000',
       notificationBg: '#F4F6F8',
    },
+   calendar: {
+      calBg: '#F1F3F7',
+      dateColor: 'black',
+      hazyTextColor: 'black',
+      subTextColor: '#7090B0',
+   },
 };
 
 export const darkTheme = {
@@ -205,6 +211,12 @@ export const darkTheme = {
       border: '#D3D3D3',
       mainText: '#FFF',
       notificationBg: '#2C2C2C',
+   },
+   calendar: {
+      calBg: '#323232',
+      dateColor: '#777',
+      hazyTextColor: '#c9c9c9',
+      subTextColor: '#b3b3b3',
    },
 };
 

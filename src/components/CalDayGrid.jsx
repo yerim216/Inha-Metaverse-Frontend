@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styles from '../styles/CalDayGrid.module.css';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, set } from 'date-fns';
 import { useOutletContext, useHistory } from 'react-router-dom';
@@ -9,11 +9,22 @@ import SetEventModal from '../components/SetEventModal';
 import moment from 'moment';
 import { getScheduleCalendar } from '../APIs/schedule';
 
+import { ThemeModeContext } from '../contexts/ThemeProvider';
+import { theme } from '../theme/theme';
+
 export default function CalDayGrid(props) {
    const { teamIndex } = useOutletContext();
    const [eventArr, setEventArr] = useState([]);
    let [scheduleByDate, setScheduleByDate] = useState({});
    const [eventOver, setEventOver] = useState(0);
+
+   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+   const [tm, setTm] = useState(theme.lightTheme.calendar);
+   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+   useEffect(() => {
+      if (themeMode === 'light') setTm(theme.lightTheme.calendar);
+      else setTm(theme.darkTheme.calendar);
+   }, [themeMode]);
 
    const fetchData = () => {
       getScheduleCalendar(teamIndex)
@@ -323,6 +334,7 @@ export default function CalDayGrid(props) {
                      ref={dayBoxRef}
                      style={{
                         gridTemplateRows: 'repeat(6, 1fr);',
+                        background: tm.calBg,
                      }}
                   >
                      <div>
@@ -333,6 +345,7 @@ export default function CalDayGrid(props) {
                            onClick={() => {
                               showAllEvents(i);
                            }}
+                           style={{ color: i === 0 || i % 7 === 6 || i % 7 === 0 ? '' : tm.subTextColor }}
                         >
                            {dateValue}
                         </p>

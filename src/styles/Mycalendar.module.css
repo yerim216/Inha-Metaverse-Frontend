@@ -1,92 +1,91 @@
 .wrap {
-  color: white;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-left: 20px;
-  padding-top: 2vh;
-  overflow-y: auto;
+   color: white;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   padding-left: 20px;
+   padding-top: 2vh;
+   overflow-y: auto;
 }
 
 .topDate {
-  display: flex;
-  align-items: center;
-  margin-left: 1.3vw;
-  gap: 0.3vw;
+   display: flex;
+   align-items: center;
+   margin-left: 1.3vw;
+   gap: 0.3vw;
 }
 
 .year {
-  color: #c9c9c9;
-  font-size: 1.1vw;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1vh;
+   color: #c9c9c9;
+   font-size: 1.1vw;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 1vh;
 }
 
 .month {
-  color: #777;
-  text-align: center;
-  font-family: Inter;
-  font-size: 1.05vw;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1vh;
+   /* color: #777; */
+   text-align: center;
+   font-family: Inter;
+   font-size: 1.05vw;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 1vh;
 }
 
 .putEvent {
-  position: absolute;
-  right: 5vw;
-  top: 25vh;
-  border-radius: 6px;
-  background: #7090b0;
-  width: 6.2vw;
-  height: 5vh;
-  /* margin-left: 76vw; */
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+   position: absolute;
+   right: 5vw;
+   top: 25vh;
+   border-radius: 6px;
+   background: #7090b0;
+   width: 6.2vw;
+   height: 5vh;
+   /* margin-left: 76vw; */
+   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
 .putEventTxt {
-  color: #fff;
-  font-family: Avenir;
-  font-size: 1.07vw;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1vh; /* 66.667% */
+   color: #fff;
+   font-family: Avenir;
+   font-size: 1.07vw;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 1vh; /* 66.667% */
 }
 
 .weekDay {
-  font-family: Inter;
-  font-size: 1.2vw;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-left: 7vw;
-  margin-top: 2.5vh;
-  margin-bottom: 5vh;
+   font-family: Inter;
+   font-size: 1.2vw;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   margin-left: 7vw;
+   margin-top: 2.5vh;
+   margin-bottom: 5vh;
 }
 
 .weekends {
-  color: #17a1fa;
-  margin-right: 9.8vw;
+   color: #17a1fa;
+   margin-right: 9.8vw;
 }
 
 .weekdays {
-  color: #b3b3b3;
-  margin-right: 9.8vw;
+   margin-right: 9.8vw;
 }
 
 .cellBox {
-  margin-left: 7vw;
+   margin-left: 7vw;
 }
 
 .setEvnet {
-  z-index: 3;
+   z-index: 3;
 }
 
 .datePointer {
-  cursor: pointer;
+   cursor: pointer;
 }
 
 .react-datepicker__input-containerP {
-  background-color: black !important;
+   background-color: black !important;
 }

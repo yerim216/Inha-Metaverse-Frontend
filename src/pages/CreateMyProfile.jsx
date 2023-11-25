@@ -88,7 +88,7 @@ export default function CreateMyProfile() {
          setUserName(res.data[0].user_name);
          setIntro(res.data[0].user_introduction);
          setUserProfileIdx(res.data[0].user_img_index);
-         console.log(res.data[0]);
+         setSelectedJob(res.data[0].user_job);
       });
 
       getUserCareer(userIdx).then(function (res) {
@@ -419,7 +419,7 @@ export default function CreateMyProfile() {
                      onClick={() => handleNameChange()}
                      placeholder="내용을 입력해주세요."
                   ></input>
-                  <ErrorMsg style={{ bottom: '-20px' }} errMsg={errorMessages.userName} />
+                  <ErrorMsg errMsg={errorMessages.userName} />
                </div>
                <div className={styles.nameWrap}>
                   <p className={styles.name} style={{ color: tm.textColor }}>
@@ -678,6 +678,7 @@ export default function CreateMyProfile() {
                      background: tm.inputBg,
                      color: tm.textColor,
                      width: '90%',
+                     height: '78px',
                   }}
                >
                   {filteredSkills &&

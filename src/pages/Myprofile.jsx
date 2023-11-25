@@ -304,7 +304,8 @@ export default function Profile() {
                   경력사항 🏢
                </p>
                <div className={styles.careerCol}>
-                  {detailCareer &&
+                  {detailCareer.length !== 0 ? (
+                     detailCareer &&
                      detailCareer.map((career, index) => {
                         return (
                            <div className={styles.resultInner}>
@@ -368,7 +369,12 @@ export default function Profile() {
                               </div>
                            </div>
                         );
-                     })}
+                     })
+                  ) : (
+                     <div className={styles.emptySkill} style={{ color: tm.mainTextColor }}>
+                        경력이 없어요. 경력을 입력해보아요!
+                     </div>
+                  )}
                </div>
             </div>
 
@@ -424,11 +430,11 @@ export default function Profile() {
                               skills={teamDetail.teamInfo.team_skills}
                               categories={teamDetail.teamInfo.team_category}
                               jobs={teamDetail.teamInfo.team_jobs}
+                              isInMyprofile={true}
                            />
                         );
                      })
                   ) : (
-                     // <div></div>
                      <div className={styles.emptyProject} style={{ color: tm.mainTextColor }}>
                         진행중인 프로젝트가 없어요. 프로젝트를 시작해 보아요!
                      </div>
