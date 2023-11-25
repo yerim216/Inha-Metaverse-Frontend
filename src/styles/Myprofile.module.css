@@ -79,14 +79,12 @@
 }
 
 .profileManageBtn {
-   width: 189px;
-   height: 55px;
    display: flex;
    justify-content: center;
    align-items: center;
    float: right;
    margin-right: 20px;
-   margin-top: 18vh;
+   margin-top: 5%;
    font-size: 20px;
    font-family: Avenir;
    font-weight: 800;
@@ -94,10 +92,25 @@
    line-height: 33px;
    letter-spacing: 0.06em;
    color: #ffffff;
-   padding: 20px;
+}
+
+.modifyProjectBtn {
    background: #6d758f;
+   width: 198px;
+   height: 55px;
+   font-size: 25px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-family: 'Avenir';
+   font-style: normal;
+   line-height: 33px;
+   letter-spacing: 0.06em;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: #ffffff;
+   padding: 20px;
    border-radius: 30px;
-   transition: all 0.2s ease-in-out;
 }
 .dateDifTxt {
    text-align: center;

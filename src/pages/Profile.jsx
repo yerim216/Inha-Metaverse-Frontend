@@ -268,15 +268,6 @@ export default function Profile() {
             job={job}
          ></ApplyModal>
          <div className={style.wrap}>
-            <button
-               className={style.profileManageBtn}
-               onClick={() => {
-                  navigate('/createmyprofile');
-                  window.scrollTo({ top: 0, behavior: 'auto' });
-               }}
-            >
-               프로필 수정
-            </button>
             <div className={styles.profileTop}>
                <div className={styles.nameContainer}>
                   <div className={styles.skillContainer}>
@@ -314,24 +305,40 @@ export default function Profile() {
                      )}
                   </div>
                </div>
-
-               {!isTeamLeader && (
-                  <div className="flex justify-center gap-8">
-                     {!isTeamMember ? (
-                        <div></div>
-                     ) : (
-                        <button
-                           className={styles.leaveBtn}
-                           onClick={() => {
-                              const returnVal = window.confirm('해당 프로젝트에서 탈퇴하시겠습니까?');
-                              if (returnVal === true) {
-                                 handleLeaveBtn();
-                              }
-                           }}
-                        >
-                           탈퇴하기
-                        </button>
+               {!isTeamLeader ? (
+                  <div className={style.profileManageBtn}>
+                     {!isTeamMember ? null : (
+                        <div className={style.btnWrap}>
+                           {' '}
+                           <button
+                              className={styles.leaveBtn}
+                              onClick={() => {
+                                 const returnVal = window.confirm('해당 프로젝트에서 탈퇴하시겠습니까?');
+                                 if (returnVal === true) {
+                                    handleLeaveBtn();
+                                 }
+                              }}
+                           >
+                              탈퇴하기
+                           </button>
+                        </div>
                      )}
+                  </div>
+               ) : (
+                  <div className={style.profileManageBtn}>
+                     <button
+                        className={style.modifyProjectBtn}
+                        onClick={() => {
+                           navigate(`/projectmanagertools/${teamIndex}/management`, {
+                              state: {
+                                 teamIndex,
+                              },
+                           });
+                           window.scrollTo({ top: 0, behavior: 'auto' });
+                        }}
+                     >
+                        프로젝트 수정
+                     </button>
                   </div>
                )}
             </div>
