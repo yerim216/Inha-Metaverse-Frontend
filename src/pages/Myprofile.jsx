@@ -271,6 +271,7 @@ export default function Profile() {
                </div>
                <button
                   className={styles.profileManageBtn}
+                  style={{ background: tm.modifyBtn, marginTop: '18%' }}
                   onClick={() => {
                      navigate('/createmyprofile');
                      window.scrollTo({ top: 0, behavior: 'auto' });
