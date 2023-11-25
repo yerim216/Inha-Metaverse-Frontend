@@ -9,8 +9,14 @@ import ApplyManage from './ApplyManage';
 import PositionManage from './PositionManage';
 
 export default function Management() {
+<<<<<<< HEAD
    const { teamIndex } = useOutletContext();
    const { state } = useLocation();
+=======
+  const { teamIndex } = useOutletContext();
+
+  const { state } = useLocation();
+>>>>>>> f2bab080d7abcd0496c801f9c6a9b31edb71df75
 
    const navigate = useNavigate();
    if (!state) {

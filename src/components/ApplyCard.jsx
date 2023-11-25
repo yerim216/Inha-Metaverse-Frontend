@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import ApplyModal from "./ApplyModal";
+import { addMember } from "../APIs/team";
 
-export default function ApplyCard({ userInfo }) {
+export default function ApplyCard({ applyInfo }) {
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.management);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -38,12 +39,8 @@ export default function ApplyCard({ userInfo }) {
         open={applyModalOpen}
         close={closeApplyModal}
         openApplyModal={openApplyModal}
-        // handleApplyBtn={handleApplyBtn}
-        // setInputText={setInputText}
-        // inputText={inputText}
-        // teamRecruit={""} //선택한 직무의 종류와 직무명 받아오기
-        // category={category}
-        // job={job}
+        isInApplyCard={true}
+        applyInfo={applyInfo}
       ></ApplyModal>
       <div
         className="w-[250px] h-[190px] rounded-xl flex flex-col p-4 relative"
@@ -65,25 +62,31 @@ export default function ApplyCard({ userInfo }) {
         </button>
         {/* 스킬 리스트 */}
         <div className="flex gap-2 absolute bottom-4 right-4">
-          <img
-            src="/public_assets/skills/skill_img_1.svg"
-            alt="skill_img_1"
-            className="w-6 h-6"
-          />
-          <img
-            src="/public_assets/skills/skill_img_2.svg"
-            alt="skill_img_2"
-            className="w-6 h-6"
-          />
-          <img
-            src="/public_assets/skills/skill_img_3.svg"
-            alt="skill_img_3"
-            className="w-6 h-6"
-          />
+          {applyInfo && applyInfo.user_info.skills ? (
+            applyInfo.user_info.skills.map((skill, idx) => {
+              // 추후 스킬 관련 처리 필요. 현재는 임시 이미지
+              return (
+                <img
+                  src={`/public_assets/skills/skill_img_${idx + 1}.svg`}
+                  alt="skill_img_1"
+                  className="w-6 h-6"
+                />
+              );
+            })
+          ) : (
+            <div
+              className="text-sm font-medium"
+              style={{
+                color: tm.textColor,
+              }}
+            >
+              기술 스택 없음
+            </div>
+          )}
         </div>
         <img
-          src="/public_assets/profileImg/profileImg_1.png"
-          alt="profileImg_1"
+          src={`/public_assets/profileImg/profileImg_${applyInfo.user_info.user_img_index}.png`}
+          alt="profile"
           className="rounded-full w-16 h-16"
         />
         <h3
@@ -92,7 +95,7 @@ export default function ApplyCard({ userInfo }) {
             color: tm.textColor,
           }}
         >
-          유저닉네임
+          {applyInfo.user_info.user_name}
         </h3>
         <span
           className="text-[12px] font-normal mt-2"
@@ -100,7 +103,7 @@ export default function ApplyCard({ userInfo }) {
             color: tm.textColor,
           }}
         >
-          개발
+          {applyInfo.user_info.apply_job[0].apply_job_title}
         </span>
       </div>
     </>

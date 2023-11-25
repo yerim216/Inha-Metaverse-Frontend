@@ -31,7 +31,40 @@ export default function ApplyManage() {
   useEffect(() => {
     getApplied(teamIndex).then((res) => setApplies(res.data));
   }, []);
-  console.log(applies);
+
+  const [applies_dev, setApplies_dev] = useState([]);
+  const [applies_plan, setApplies_plan] = useState([]);
+  const [applies_design, setApplies_design] = useState([]);
+  const [applies_guitar, setApplies_guitar] = useState([]);
+
+  useEffect(() => {
+    if (!applies) return;
+
+    let newDev = [];
+    let newPlan = [];
+    let newDesign = [];
+    let newGuitar = [];
+
+    applies.map((apply) => {
+      // apply_job이 여러 개일 수도 있나? 확인 필요
+
+      const applyJobCategory = apply.user_info.apply_job[0].apply_job_category;
+      if (applyJobCategory === "개발") {
+        newDev.push(apply);
+      } else if (applyJobCategory === "기획") {
+        newPlan.push(apply);
+      } else if (applyJobCategory === "디자인") {
+        newDesign.push(apply);
+      } else {
+        newGuitar.push(apply);
+      }
+    });
+
+    setApplies_dev(newDev);
+    setApplies_plan(newPlan);
+    setApplies_design(newDesign);
+    setApplies_guitar(newGuitar);
+  }, [applies]);
 
   return (
     <section className={styles.paddingSection}>
@@ -66,9 +99,23 @@ export default function ApplyManage() {
         </button>
         {jobsOpen[0] && (
           <div className={styles.applyCardContainer}>
+            {applies_dev.length !== 0 ? (
+              applies_dev.map((apply, idx) => {
+                return <ApplyCard applyInfo={apply} key={idx} />;
+              })
+            ) : (
+              <div
+                className="font-bold text-lg"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 분야의 지원자가 없습니다!
+              </div>
+            )}
+            {/* <ApplyCard />
             <ApplyCard />
-            <ApplyCard />
-            <ApplyCard />
+            <ApplyCard /> */}
           </div>
         )}
       </div>
@@ -102,9 +149,20 @@ export default function ApplyManage() {
         </button>
         {jobsOpen[1] && (
           <div className={styles.applyCardContainer}>
-            <ApplyCard />
-            <ApplyCard />
-            <ApplyCard />
+            {applies_plan.length !== 0 ? (
+              applies_plan.map((apply, idx) => {
+                return <ApplyCard applyInfo={apply} key={idx} />;
+              })
+            ) : (
+              <div
+                className="font-bold text-lg"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 분야의 지원자가 없습니다!
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -138,9 +196,20 @@ export default function ApplyManage() {
         </button>
         {jobsOpen[2] && (
           <div className={styles.applyCardContainer}>
-            <ApplyCard />
-            <ApplyCard />
-            <ApplyCard />
+            {applies_design.length !== 0 ? (
+              applies_design.map((apply, idx) => {
+                return <ApplyCard applyInfo={apply} key={idx} />;
+              })
+            ) : (
+              <div
+                className="font-bold text-lg"
+                style={{
+                  color: tm.textColor,
+                }}
+              >
+                해당 분야의 지원자가 없습니다!
+              </div>
+            )}
           </div>
         )}
       </div>
