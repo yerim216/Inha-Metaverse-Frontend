@@ -1,0 +1,19 @@
+.views {
+    width: 40.77px;
+    height: 13.91px;
+}
+
+.images {
+    display: inline-block;
+    width: 18.46px;
+    height: 18.46px;
+    margin-right: 10px;
+}
+
+.views {
+    display: flex;
+    align-items: center;
+}
+.viewsData {
+    color:white;
+}

@@ -1,0 +1,283 @@
+.wrap {
+   width: 80%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 60px;
+   position: relative;
+}
+
+.imgWrap {
+   display: flex;
+   width: 100%;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.profileImgCss {
+   width: 20%;
+   height: 20%;
+   border-radius: 20px;
+   object-fit: cover;
+}
+
+.topWrap {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   gap: 10%;
+   width: 90%;
+   margin-top: 2%;
+}
+
+.nameWrap {
+   display: flex;
+   flex-direction: row;
+   gap: 5%;
+   align-items: center;
+   width: 50%;
+   position: relative;
+   padding-bottom: 3%;
+}
+
+.name {
+   font-family: Alef;
+   font-size: 22px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+}
+
+.inputBox {
+   border-radius: 10px;
+   display: flex;
+   padding: 10px 15px;
+   /* justify-content: center; */
+   align-items: center;
+}
+
+.devideLine {
+   width: 100%;
+   height: 1px;
+   background: #b3b3b3;
+}
+
+.introduction {
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
+   height: 100%;
+}
+
+.careerWrap {
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
+   width: 100%;
+   padding-left: 2%;
+   padding-bottom: 3%;
+}
+
+.career {
+   display: flex;
+   flex-direction: row;
+   width: 88%;
+}
+
+.careerIn {
+   width: 100%;
+   display: flex;
+   position: relative;
+   flex-direction: column;
+   gap: 20px;
+   padding-bottom: 3%;
+}
+
+.dateSelect {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   gap: 10px;
+   justify-content: center;
+   align-items: center;
+}
+.result {
+   width: 95%;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   border-radius: 10px;
+   background: #2c2c2c;
+   padding: 10px 23px 10px 20px;
+}
+
+.resultWrap {
+   display: flex;
+   flex-direction: column;
+   width: 88%;
+   gap: 15px;
+}
+
+.resultInner {
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+
+.dateTxt {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   gap: 40px;
+}
+
+.jobName {
+   width: 60%;
+   font-family: Noto Sans;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 600;
+   line-height: 34px; /* 212.5% */
+}
+
+.txtWrap {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   margin-top: 3px;
+}
+
+.jobDate {
+   font-family: Noto Sans;
+   font-size: 16px;
+   font-style: normal;
+   font-weight: 500;
+   padding: 0;
+}
+.plusBtn {
+   width: 30px;
+   height: 30px;
+   margin-left: 5%;
+   cursor: pointer;
+}
+
+.minusBtn {
+   width: 30px;
+   height: 30px;
+   margin-left: 3%;
+   cursor: pointer;
+}
+
+.dateDiffer {
+   border-radius: 29px;
+   display: flex;
+   padding: 4px 17px;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
+}
+
+.dateDifTxt {
+   text-align: center;
+   font-family: Noto Sans;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: normal;
+   letter-spacing: 0.9px;
+}
+
+.skillWrap {
+   display: flex;
+   flex-direction: column;
+   padding-left: 2%;
+   margin-bottom: 30%;
+   gap: 40px;
+}
+
+.skillImgSrch {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   border-radius: 10px;
+   padding: 10px 33px;
+   width: 100%;
+   overflow-x: scroll;
+   gap: 2.5%;
+}
+.skillImg {
+   width: 38px;
+   height: 38px;
+}
+
+.deleteSkill {
+   margin-right: 3%;
+}
+
+.skillName {
+   border-radius: 10px;
+   border: 1px solid #b8b8b8;
+   display: flex;
+   padding: 11px;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   gap: 10px;
+}
+.skillImgWrap {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   width: 100%;
+   height: fit-content;
+   gap: 2%;
+}
+
+.btnWrap {
+   display: flex;
+   flex-direction: row;
+   position: absolute;
+   right: 5%;
+   bottom: 0;
+   gap: 20px;
+   margin-bottom: 20%;
+}
+
+.saveBtn {
+   display: inline-flex;
+   padding: 22px 38px;
+   align-items: center;
+   gap: 10px;
+   border-radius: 40px;
+   background: #0c6eed;
+   color: #fff;
+   text-align: center;
+   font-family: Inter;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   cursor: pointer;
+}
+
+.deleteBtn {
+   border-radius: 40px;
+   background: #9b9b9b;
+   display: inline-flex;
+   padding: 14px 30px;
+   align-items: center;
+   gap: 10px;
+   color: #fff;
+   text-align: center;
+   font-family: Inter;
+   font-size: 20px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   cursor: pointer;
+}

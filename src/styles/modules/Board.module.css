@@ -1,0 +1,158 @@
+.bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.toDoSectionContainer {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+  height: 95%;
+}
+
+.fullTodoSection {
+  width: 31%;
+  border-radius: 15px;
+}
+
+.toDoSection {
+  width: 100%;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.toDoSection::-webkit-scrollbar {
+  display: none;
+}
+
+.notStartBadge {
+  display: flex;
+  align-items: center;
+  width: 90px;
+  gap: 5px;
+  padding: 0px 5px;
+}
+
+.inProgressBadge {
+  display: flex;
+  align-items: center;
+  width: 70px;
+  gap: 5px;
+  padding: 2px 5px;
+}
+
+.doneBadge {
+  display: flex;
+  align-items: center;
+  width: 70px;
+  gap: 5px;
+  padding: 2px 5px;
+}
+
+.addTodo {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  gap: 10px;
+  background: #323232;
+}
+
+.addTodo input {
+  width: 100%;
+}
+
+.textarea_container {
+  position: relative;
+  width: 100%;
+  height: 20vh;
+}
+
+.textarea_placeholder {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 40%;
+}
+
+.textarea {
+  width: 100%;
+  resize: none;
+  outline: none;
+  background: none;
+}
+
+.textarea::-webkit-scrollbar {
+  background-color: black;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-radius: 2px;
+}
+
+.todosContainer {
+  height: 95%;
+  overflow: auto;
+}
+
+.managerSelector::-webkit-scrollbar {
+  display: none;
+}
+
+.addTodoModal {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  color: white;
+  margin: auto;
+  width: 70vw;
+  height: 72vh;
+  border-radius: 50px;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 3% 5% 1%;
+}
+
+.addTodoTitle {
+  font-size: 30px;
+  font-weight: 600;
+  background: none;
+  width: 100%;
+  margin: 30px 0px;
+}
+
+.darkAddTodoTitle::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.changeButton {
+  background: #f1f0ef;
+  border-radius: 10px;
+  padding: 2px 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.curStatus {
+  font-size: 40px;
+  font-weight: 600;
+}

@@ -1,0 +1,30 @@
+.toggleBtn {
+  width: 55px;
+  height: 25px;
+  background-color: #e6e8ec;
+  border-radius: 15px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.toggleDot {
+  width: 16px;
+  height: 16px;
+  background-color: #555;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 4px;
+  border-radius: 100%;
+  transition: all 0.2s ease-in-out;
+}
+
+.toggleBtn.active {
+  background-color: #555;
+}
+
+.toggleDot.active {
+  background-color: #e6e8ec;
+  left: calc(100% - 20px);
+}

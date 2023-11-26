@@ -1,0 +1,13 @@
+{
+    "maps" : [
+        {"id":1, "Name": "Ping Pong Track1" },
+        {"id":2, "Name": "Ping Pong Track2" },
+        {"id":3, "Name": "Ping Pong Track3" },
+        {"id":4, "Name": "Ping Pong Track4" },
+        {"id":5, "Name": "Ping Pong Track5" },
+        {"id":6, "Name": "Ping Pong Track6" },
+        {"id":7, "Name": "Ping Pong Track7" },
+        {"id":8, "Name": "Ping Pong Track8" },
+        {"id":9, "Name": "Ping Pong Track9" }
+    ]
+}

@@ -1,0 +1,49 @@
+.filtersSection {
+  position: absolute;
+  height: 100px;
+  top: 60%;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: -1;
+}
+
+.contentSection {
+  width: 70%;
+  position: absolute;
+}
+
+.filterBtn {
+  height: 30px;
+  background: #f4f6f8;
+  border: 0.5px solid #000000;
+  border-radius: 15px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.warning {
+  display: flex;
+  color: red;
+  margin-bottom: 15px;
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.filterBox {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+}

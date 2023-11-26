@@ -1,0 +1,79 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.n {
+margin-top: 20px;
+}
+
+.option{
+    height: 210px;
+}
+
+.skillwrap{
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  font-size: 17px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.skills{
+  margin-top: 20px;
+  width: 1000px;
+  height: 250px;
+  padding:30px;
+  background-color: white ;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.skillBox{
+  width: 100%;
+  margin: auto;
+  /* display: flex; */
+  /* gap: 30px; */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space:pre-line;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.imgtxt {
+  cursor: pointer;
+  margin-top: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px #fff;
+}
+
+.profileImg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.name {
+  margin-top: 160px;
+}
+.middleFont {
+  color: white;
+  text-align: right;
+  font-size: 28px;
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  margin-bottom: 10px;
+}
+
+.basic {
+  margin-top: 20px;
+}
