@@ -77,6 +77,7 @@ export const lightTheme = {
       btnBackground: 'rgba(112, 144, 176, 0.20)',
       modifyBtn: '#394046',
       textArea: '#F1F3F7',
+      dateBg: '#ECECEC',
    },
    management: {
       border: '#7C7C7C',
@@ -174,6 +175,7 @@ export const darkTheme = {
       btnBackground: 'rgba(112, 144, 176, 0.20)',
       modifyBtn: '#394046',
       textArea: '#2C2C2C',
+      dateBg: '#D6DBE8',
    },
    board: {
       whenModalBg: 'rgba(105, 105, 105, 0.8)',

@@ -364,6 +364,25 @@
    border-radius: 30px;
 }
 
+.profileManageBtn {
+   width: 198px;
+   height: 55px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   float: right;
+   margin-right: 20px;
+   margin-top: 7%;
+   font-size: 20px;
+   font-family: Avenir;
+   font-weight: 800;
+   font-style: normal;
+   line-height: 33px;
+   border-radius: 30px;
+   letter-spacing: 0.06em;
+   color: #ffffff;
+}
+
 .leaveBtn:hover {
    filter: brightness(1.2);
 }

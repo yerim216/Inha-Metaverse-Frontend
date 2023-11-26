@@ -271,7 +271,7 @@ export default function Profile() {
                </div>
                <button
                   className={styles.profileManageBtn}
-                  style={{ background: tm.modifyBtn, marginTop: '18%' }}
+                  style={{ background: tm.modifyBtn, marginTop: '13%' }}
                   onClick={() => {
                      navigate('/createmyprofile');
                      window.scrollTo({ top: 0, behavior: 'auto' });
@@ -316,7 +316,7 @@ export default function Profile() {
                                     boxShadow: tm.boxShadow,
                                     color: tm.mainTextColor,
                                     background: tm.txtBoxBackground,
-                                    border: tm.txtBoxBorder,
+                                    border: tm.border,
                                  }}
                               >
                                  <div className={styles.jobName} style={{ color: tm.mainTextColor }}>
@@ -347,12 +347,12 @@ export default function Profile() {
                                     {!career[0].ing ? (
                                        <div className={styles.dateDiffer} style={{ background: tm.dateBg }}>
                                           {career[0].dateDifference.years !== 0 ? (
-                                             <div className={styles.dateDifTxt} style={{ color: tm.dateColor }}>
+                                             <div className={styles.dateDifTxt} style={{ color: 'black' }}>
                                                 {career[0].dateDifference.years}년
                                              </div>
                                           ) : null}
 
-                                          <div className={styles.dateDifTxt} style={{ color: tm.dateColor }}>
+                                          <div className={styles.dateDifTxt} style={{ color: 'black' }}>
                                              {' '}
                                              {career[0].dateDifference.months}개월
                                           </div>

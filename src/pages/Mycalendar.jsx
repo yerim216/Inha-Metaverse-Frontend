@@ -21,7 +21,7 @@ export default function Mycalendar() {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [writer, setWriter] = useState(null);
    const [note, setNote] = useState(null);
-
+   const [eventChange, setEventChange] = useState(false);
    const { themeMode, toggleTheme } = useContext(ThemeModeContext);
    const [tm, setTm] = useState(theme.lightTheme.calendar);
    // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -64,23 +64,23 @@ export default function Mycalendar() {
    const [today, setSelectedStartDate] = useState(new Date());
    const [dayMove, setDayMove] = useState(0);
 
-   useEffect(() => {
-      if (dayMove) {
-         localStorage.setItem('date', today);
-      }
-      setDayMove(1);
-   }, [today]);
+   //  useEffect(() => {
+   //     if (dayMove) {
+   //        localStorage.setItem('date', today);
+   //     }
+   //     setDayMove(1);
+   //  }, [today]);
 
-   useEffect(() => {
-      if (dayMove) {
-         const storageDate = String(localStorage.getItem('date'));
+   //  useEffect(() => {
+   //     if (dayMove) {
+   //        const storageDate = String(localStorage.getItem('date'));
 
-         const toDate = new Date(storageDate);
-         console.log(toDate);
+   //        const toDate = new Date(storageDate);
+   //        console.log(toDate);
 
-         // setSelectedStartDate(toDate);
-      }
-   }, [dayMove]);
+   //        // setSelectedStartDate(toDate);
+   //     }
+   //  }, [dayMove]);
 
    // let today = new Date(); //re: Tue Aug 29 2023 14:39:43 GMT+0900 (한국 표준시)
    let month = today.getMonth(); //오늘 해당 달 mm
@@ -92,10 +92,19 @@ export default function Mycalendar() {
 
    const handleStartDateChange = (date) => {
       setDayMove(1);
-      // setSelectedStartDate(date);
+      setSelectedStartDate(date);
+      localStorage.setItem('date', date);
+
       console.log(date);
       setModalOpen(false); // 모달을 닫습니다.
    };
+
+   useEffect(() => {
+      const storageDate = String(localStorage.getItem('date'));
+
+      const toDate = new Date(storageDate);
+      setSelectedStartDate(toDate);
+   }, [eventChange]);
 
    const handleDivClick = () => {
       setModalOpen(!modalOpen); // 모달의 열림/닫힘 상태를 토글합니다.
@@ -119,6 +128,7 @@ export default function Mycalendar() {
                   height="fit-content"
                   alt="profile"
                   cursor="pointer"
+                  style={{ cursor: 'pointer' }}
                   onClick={handleDivClick}
                />
                <DatePicker
@@ -130,6 +140,7 @@ export default function Mycalendar() {
                   showYearDropdown
                   dateFormatCalendar="MMMM yyyy"
                   // dateFormat="MMMM d, yyyy"
+                  style={{ cursor: 'pointer' }}
                   dateFormat="yyyy"
                />
                <button className={styles.putEvent} onClick={openModal}>
@@ -183,6 +194,8 @@ export default function Mycalendar() {
                   created={createdTime}
                   writer={writer}
                   note={note}
+                  today={today}
+                  setEventChange={setEventChange}
                />
             </div>
          </div>

@@ -306,7 +306,7 @@ export default function Profile() {
                   </div>
                </div>
                {!isTeamLeader ? (
-                  <div className={style.profileManageBtn}>
+                  <div className={styles.profileManageBtn}>
                      {!isTeamMember ? null : (
                         <div className={style.btnWrap}>
                            {' '}
@@ -325,7 +325,7 @@ export default function Profile() {
                      )}
                   </div>
                ) : (
-                  <div className={style.profileManageBtn}>
+                  <div className={styles.profileManageBtn}>
                      <button
                         className={style.modifyProjectBtn}
                         onClick={() => {
