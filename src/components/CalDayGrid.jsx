@@ -114,7 +114,7 @@ export default function CalDayGrid(props) {
 
    const filteredEvents = eventArr.filter((event) => {
       //햔재 페이지에서 보여줄 events만 새로운 배열에 저장
-
+      console.log(event.start_date);
       const startDate = new Date(event.start_date);
       const endDate = new Date(event.end_date);
       const betweenDate = getDatesBetween(startDate, endDate); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yyyy-mm-dd','...']
@@ -558,7 +558,7 @@ export default function CalDayGrid(props) {
                                           const endToDate = new Date(events.end_date);
 
                                           const timeDiff = endToDate - todayToDate;
-                                          const daysDiff = timeDiff / (1000 * 60 * 60 * 24) + 1; //이벤트 길이 반환
+                                          const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1; //이벤트 길이 반환
 
                                           let barLen = 0;
 
@@ -569,7 +569,7 @@ export default function CalDayGrid(props) {
                                              barLen = daysDiff;
                                              eventBarLen = barLen * 10.4 + (barLen - 1) * 0.8 - 0.8;
                                           }
-                                          console.log(events);
+
                                           const formattedDStart = moment(formatStartDates, 'YYYY-MM-DD').toDate();
                                           const formattedDEnd = moment(formatEndDates, 'YYYY-MM-DD').toDate();
 
