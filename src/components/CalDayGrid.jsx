@@ -112,19 +112,37 @@ export default function CalDayGrid(props) {
    const lowerBound = new Date(firstDayOfPage); //현재 페이지의 첫 날짜
    const upperBound = new Date(lastDayOfPage); //현재 페이지의 마지막 날짜
 
-   const filteredEvents = eventArr.filter((event) => {
+   const filteredEvents = [];
+   eventArr.forEach((event) => {
       //햔재 페이지에서 보여줄 events만 새로운 배열에 저장
-      console.log(event.start_date);
+      // console.log(event.start_date);
       const startDate = new Date(event.start_date);
       const endDate = new Date(event.end_date);
-      const betweenDate = getDatesBetween(startDate, endDate); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yyyy-mm-dd','...']
+
+      const nextStartDate = new Date(startDate);
+      nextStartDate.setDate(startDate.getDate() + 1);
+
+      const nextEndDate = new Date(endDate);
+      nextEndDate.setDate(endDate.getDate() + 1);
+
+      const betweenDate = getDatesBetween(nextStartDate, nextEndDate); //시작날짜 ~ 종료날짜 사이의 날짜 구하기['yyyy-mm-dd','...']
       const betweenDateNum = betweenDate.length;
-      if ((startDate >= lowerBound && startDate <= upperBound) || (endDate >= lowerBound && endDate <= upperBound)) {
-         return true;
+
+      if (
+         (nextStartDate >= lowerBound && nextStartDate <= upperBound) ||
+         (nextEndDate >= lowerBound && nextEndDate <= upperBound)
+      ) {
+         // Return the modified event or any other transformation
+         filteredEvents.push({
+            ...event,
+            start_date: nextStartDate.toISOString(), // Convert to string if needed
+            end_date: nextEndDate.toISOString(),
+         });
+         return;
       }
       for (let i = 0; i < betweenDateNum; i++) {
          if (event.start_date === null && event.end_date === null) {
-            return false;
+            return;
          }
          const parts = betweenDate[i].split('-');
          const year = `20${parts[0]}`;
@@ -139,11 +157,17 @@ export default function CalDayGrid(props) {
          if (currentDate > firDay) {
             // console.log("시작날짜가 현재 페이지 이전날짜인 이벤트 탐지 완료");
 
-            return true;
+            filteredEvents.push({
+               ...event,
+               start_date: nextStartDate.toISOString(), // Convert to string if needed
+               end_date: nextEndDate.toISOString(),
+            });
+            return;
          }
       }
-      return false;
+      return;
    });
+   console.log(filteredEvents);
 
    let dayEventLast = [];
    const [eventChange, setEventChange] = useState(0);
@@ -514,7 +538,10 @@ export default function CalDayGrid(props) {
 
                                        //이벤트 추가, 수정 모달창에 전달할 시작 종료 날짜 변환 형식
                                        const formattedDStart = moment(formatStartDate, 'YYYY-MM-DD').toDate();
+                                       const nextDay = moment(formattedDStart).add(1, 'days').toDate();
+
                                        const formattedDEnd = moment(formatEndDate, 'YYYY-MM-DD').toDate();
+                                       const nextEDay = moment(formattedDEnd).add(1, 'days').toDate();
 
                                        //오늘 날짜와 이벤트 상의 시작 날짜가 같을 경우 이벤트 바 배열에 이벤트 추가 (하루 단위로 당일에 시작하는 이벤트 넣고 리셋)
                                        if (formatStartDate === dateToString) {
@@ -571,7 +598,10 @@ export default function CalDayGrid(props) {
                                           }
 
                                           const formattedDStart = moment(formatStartDates, 'YYYY-MM-DD').toDate();
+                                          const nextDay = moment(formattedDStart).add(1, 'days').toDate();
+
                                           const formattedDEnd = moment(formatEndDates, 'YYYY-MM-DD').toDate();
+                                          const nextEDay = moment(formattedDStart).add(1, 'days').toDate();
 
                                           dayEventLast.push({
                                              priority: events.schedule_priority,
