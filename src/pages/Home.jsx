@@ -15,11 +15,11 @@ import TitleWithDescription from "../components/home/TitleWithDescription";
 import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import StoryModal from "../components/StoryModal";
-import { getPageCount, getTeamsWithFilter } from "../APIs/team";
 import { getUserInterested } from "../APIs/userinfo";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
+
   const [user, setUser] = useRecoilState(userState);
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -390,6 +390,11 @@ export default function Home() {
           <button
             className="absolute right-0 top-44 hover:scale-[103%]"
             onClick={() => {
+              if (!user) {
+                alert("먼저 로그인을 해주세요!");
+                return;
+              }
+
               openStoryModal();
             }}
           >
