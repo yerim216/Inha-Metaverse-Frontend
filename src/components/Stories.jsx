@@ -9,7 +9,7 @@ import { getUserInfo } from "../APIs/userinfo";
 
 export default function Stories() {
   const [storyDatabases, setStoryDatabases] = useState();
-  console.log(storyDatabases);
+  // console.log(storyDatabases);
 
   const [moreBtnActivated, setMoreBtnActivated] = useState(false);
   const [selectedStoryDb, setSelectedStoryDb] = useState();

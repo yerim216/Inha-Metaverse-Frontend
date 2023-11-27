@@ -271,7 +271,7 @@ export default function SignUpModal(props) {
         created_at: dateTime,
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         return true;
       })
       .catch((error) => {

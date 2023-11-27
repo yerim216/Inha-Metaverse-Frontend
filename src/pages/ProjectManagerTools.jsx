@@ -25,8 +25,6 @@ export default function ProjectManagerTools() {
 
   // 현재 표기해주는 팀의 기술 스택.
   const [skills, setSkills] = useState();
-  console.log(skills);
-
   const handleTeamLeader = (teamMembers) => {
     teamMembers.map((member) => {
       if (member.is_teamleader === true && userIndex === member.user_index) {
@@ -111,9 +109,7 @@ export default function ProjectManagerTools() {
   //
 
   useEffect(() => {
-    getTeamIndex(userIndex).then((res) => {
-      console.log(res.data);
-    });
+    getTeamIndex(userIndex).then((res) => {});
   }, []);
 
   const [view, setView] = useState(false);
@@ -236,7 +232,6 @@ export default function ProjectManagerTools() {
               {/* <img src="/public_assets/skillsList.png" alt="skillsList" /> */}
               {skills && skills[0].skill_index ? (
                 skills.map((skillInfo) => {
-                  console.log(skillInfo);
                   return (
                     <img
                       src={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}.svg`}

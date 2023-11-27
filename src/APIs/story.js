@@ -36,12 +36,12 @@ export function getStoryCommentsInThumb(storyIdx) {
 
 // 현재는 대댓글 기능 제외.
 export function writeComment({ storyIdx, userIdx, content }) {
-  console.log({
-    story: storyIdx,
-    user: userIdx,
-    content,
-    parent: null,
-  });
+  // console.log({
+  //   story: storyIdx,
+  //   user: userIdx,
+  //   content,
+  //   parent: null,
+  // });
 
   return axios.post("/story/reply", {
     story: storyIdx,

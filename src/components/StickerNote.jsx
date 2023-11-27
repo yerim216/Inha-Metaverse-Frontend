@@ -103,7 +103,7 @@ export default function StickerNote() {
   };
 
   const handleModifyStickerMemo = () => {
-    console.log(clonedStickerNoteInfos);
+    // console.log(clonedStickerNoteInfos);
     modifySticker(clonedStickerNoteInfos)
       .then((res) => {
         alert("변경사항이 성공적으로 저장되었습니다!");

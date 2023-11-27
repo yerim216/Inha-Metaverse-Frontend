@@ -34,17 +34,17 @@ export function createStickerMemo({
     current.getSeconds();
   let dateTime = cDate + " " + cTime;
 
-  console.log({
-    team: teamIndex,
-    content: content,
-    writer: writerIndex,
-    x: x,
-    y: y,
-    size_x: size_x,
-    size_y: size_y,
-    color: color,
-    created_at: dateTime,
-  });
+  // console.log({
+  //   team: teamIndex,
+  //   content: content,
+  //   writer: writerIndex,
+  //   x: x,
+  //   y: y,
+  //   size_x: size_x,
+  //   size_y: size_y,
+  //   color: color,
+  //   created_at: dateTime,
+  // });
 
   return axios.post("/sticker_note/put", {
     team: teamIndex,

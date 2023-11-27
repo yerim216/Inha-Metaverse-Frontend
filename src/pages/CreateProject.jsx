@@ -417,7 +417,7 @@ export default function CreateProject() {
 
     createTeam({ inputData })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         alert("성공적으로 처리되었습니다!");
         navigate("/");
         window.location.reload();

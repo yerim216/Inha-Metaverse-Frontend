@@ -24,7 +24,7 @@ export default function FilteredItems({
                     fields,
                     selectedFilter
                   );
-                  console.log(filterIndex);
+                  // console.log(filterIndex);
                   deleteFilterIndex(filterIndex);
                   // 제대로 된 필터인덱스 뭐시기 해서 삭제해야함
                 }}

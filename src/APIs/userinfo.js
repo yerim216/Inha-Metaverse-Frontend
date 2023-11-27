@@ -45,14 +45,14 @@ export function putUserCareer(
   endYear,
   endMonth
 ) {
-  console.log({
-    index: userIndex,
-    career: userCareer,
-    start_year: startYear,
-    start_month: startMonth,
-    end_year: endYear,
-    end_month: endMonth,
-  });
+  // console.log({
+  //   index: userIndex,
+  //   career: userCareer,
+  //   start_year: startYear,
+  //   start_month: startMonth,
+  //   end_year: endYear,
+  //   end_month: endMonth,
+  // });
 
   return axios.post("/userinfo/put/career", {
     index: userIndex,

@@ -6,8 +6,8 @@ function useOutSideClick(ref1, ref2, callback) {
       // ref1 => 눌렀을때 뜨는 모달창
       // ref2 => 누르는 부분
       // event.target => 누른 부분. nav가 될수도, 배너이미지가 될수도.
-      console.log(ref1.current.contains(event.target));
-      console.log(ref2.current.contains(event.target));
+      // console.log(ref1.current.contains(event.target));
+      // console.log(ref2.current.contains(event.target));
 
       // console.log(ref1.current);
       // console.log(ref2.current);

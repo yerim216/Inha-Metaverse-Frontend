@@ -111,17 +111,17 @@ export default function Board() {
 
   // add
   const addTodoAtDB = async () => {
-    console.log({
-      team: parseInt(teamIndex),
-      title: addTodo.title,
-      content: addTodo.todo,
-      status: status,
-      start_date: null,
-      end_date: null,
-      writer: userIndex,
-      created_at: addTodo.time,
-      color: null,
-    });
+    // console.log({
+    //   team: parseInt(teamIndex),
+    //   title: addTodo.title,
+    //   content: addTodo.todo,
+    //   status: status,
+    //   start_date: null,
+    //   end_date: null,
+    //   writer: userIndex,
+    //   created_at: addTodo.time,
+    //   color: null,
+    // });
 
     const createTime = new Date();
     const createTimestamp = createTime.toISOString();

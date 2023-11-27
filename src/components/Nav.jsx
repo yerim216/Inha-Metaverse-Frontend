@@ -151,7 +151,7 @@ export default function Nav({ isMainPage }) {
             <button
               className={styles.loginModal}
               onClick={(e) => {
-                console.log(e.target);
+                // console.log(e.target);
                 setIsOpen(true);
                 // onClickButton();
               }}

@@ -30,13 +30,11 @@ export default function Notification() {
   }, []);
 
   const [notifications, setNotifications] = useState();
-  console.log(notifications);
 
   useEffect(() => {
     if (!userIndex) return;
 
     getNotifications(userIndex).then((res) => {
-      console.log(res.data);
       setNotifications(res.data.notifications);
     });
   }, [userIndex]);

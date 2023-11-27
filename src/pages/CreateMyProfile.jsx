@@ -114,13 +114,14 @@ export default function CreateMyProfile() {
     });
   };
 
-  useEffect(() => {
-    console.log(typeof job);
-  }, [job]);
+  // useEffect(() => {
+  //   // console.log(typeof job);
+  // }, [job]);
+
   const getField = () => {
     getUserInterested()
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
 
         const categories = response.data.map(({ field_category }) => ({
           field_category,
@@ -142,7 +143,7 @@ export default function CreateMyProfile() {
             field_title,
             field_description,
           }));
-        console.log(plannig);
+        // console.log(plannig);
         // setPlanField([...planField, ...plannig]);
         if (field.length < 4)
           setField((field) => [...field, { 기획: plannig }]);
@@ -194,12 +195,12 @@ export default function CreateMyProfile() {
       });
   };
 
-  useEffect(() => {
-    console.log(planField);
-  }, [planField]);
+  // useEffect(() => {
+  //   console.log(planField);
+  // }, [planField]);
 
   useEffect(() => {
-    console.log(field);
+    // console.log(field);
     //   const keys = field.map((item) => Object.keys(item));
     const key = field.reduce((accumulator, item) => {
       const itemKeys = Object.keys(item);
@@ -207,7 +208,7 @@ export default function CreateMyProfile() {
     }, []);
 
     setKey(key);
-    console.log(keys);
+    // console.log(keys);
   }, [field]);
 
   useEffect(() => {
@@ -222,12 +223,12 @@ export default function CreateMyProfile() {
 
   const handleSelectJob = (event) => {
     setSelectedJob(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleSetCareer = (event) => {
     setJob(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
     if (job !== "") {
       setErrorMessages((cur) => {
         return { ...cur, jobName: "" };
@@ -304,7 +305,7 @@ export default function CreateMyProfile() {
     const startDate = new Date(syear, smonth - 1); // 월은 0부터 시작하므로 smonth에서 1을 빼줍니다.
     const endDate = new Date(eyear, emonth - 1);
 
-    console.log(syear);
+    // console.log(syear);
     // 날짜 차이 계산
     const timeDifference = endDate - startDate;
 

@@ -11,7 +11,7 @@ export default function PositionCard({ member }) {
     else setTm(theme.darkTheme.management);
   }, [themeMode]);
 
-  console.log(member);
+  // console.log(member);
 
   return (
     <div

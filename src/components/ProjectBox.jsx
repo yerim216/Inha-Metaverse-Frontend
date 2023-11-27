@@ -41,7 +41,7 @@ export default function ProjectBox({
     }
   }, [jobs]);
 
-  console.log(jobs);
+  // console.log(jobs);
 
   return (
     <div

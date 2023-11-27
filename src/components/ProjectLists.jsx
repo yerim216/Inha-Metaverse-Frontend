@@ -57,7 +57,7 @@ export default function ProjectLists({
       });
       setCurrentPage(1);
     } else {
-      console.log("필터링 ON");
+      // console.log("필터링 ON");
       getPageCountWithFilter(selectedIndices).then((res) => {
         setPageCount(res.data.lastpage);
       });

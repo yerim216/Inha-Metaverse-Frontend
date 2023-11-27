@@ -33,17 +33,17 @@ export function addScheduleByToDo({
   created_at,
   color,
 }) {
-  console.log({
-    team: team,
-    title: title,
-    content: content,
-    status: status,
-    start_date: start_date,
-    end_date: end_date,
-    writer: writer,
-    created_at: created_at,
-    color: color,
-  });
+  // console.log({
+  //   team: team,
+  //   title: title,
+  //   content: content,
+  //   status: status,
+  //   start_date: start_date,
+  //   end_date: end_date,
+  //   writer: writer,
+  //   created_at: created_at,
+  //   color: color,
+  // });
   return axios.post("/schedule/put", {
     team: team,
     title: title,
@@ -74,17 +74,17 @@ export function modifyEvent({
   last_update,
   color,
 }) {
-  console.log({
-    team: team,
-    title: title,
-    content: content,
-    status: status,
-    start_date: start_date,
-    end_date: end_date,
-    writer: writer,
-    last_update: last_update,
-    color: color,
-  });
+  // console.log({
+  //   team: team,
+  //   title: title,
+  //   content: content,
+  //   status: status,
+  //   start_date: start_date,
+  //   end_date: end_date,
+  //   writer: writer,
+  //   last_update: last_update,
+  //   color: color,
+  // });
   return axios.post("/schedule/modify  ", {
     team: team,
     title: title,

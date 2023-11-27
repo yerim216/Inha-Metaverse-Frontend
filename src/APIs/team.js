@@ -43,12 +43,12 @@ export function getTeamInfoByIndex(teamIndex) {
 }
 
 export function createTeam({ inputData }) {
-  console.log({ ...inputData });
+  // console.log({ ...inputData });
   return axios.post("/team", { ...inputData });
 }
 
 export function modifyTeam({ inputData }) {
-  console.log({ ...inputData });
+  // console.log({ ...inputData });
   return axios.put("/team", { ...inputData });
 }
 
@@ -79,9 +79,9 @@ export function getPageCount() {
 }
 
 export function getPageCountWithFilter(indices) {
-  console.log({
-    filtering: indices,
-  });
+  // console.log({
+  //   filtering: indices,
+  // });
   return axios.post("team/filter_lastpage", {
     filtering: indices,
   });
