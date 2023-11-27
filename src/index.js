@@ -6,6 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import ThemeProvider from "./contexts/ThemeProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+// 초기에 로컬스토리지(recoil-persist)에 아무것도 존재하지 않을 시 오류 발생함. 이에 최초 렌더링 시 임의로라도 null값을 넣게끔 수정.
+if (localStorage.getItem("recoil-persist") === null) {
+  localStorage.setItem("recoil-persist", JSON.stringify({ userState: null }));
+}
+
 root.render(
   <ThemeProvider>
     <App />

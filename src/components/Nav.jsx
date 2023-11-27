@@ -190,7 +190,7 @@ export default function Nav({ isMainPage }) {
           <button
             className="hover:scale-110"
             onClick={() => {
-              navigate("/notification");
+              user ? navigate("/notification") : LogClickAlert();
             }}
           >
             <img src="/public_assets/icons/bell.svg" alt="bell" />

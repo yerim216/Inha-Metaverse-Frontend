@@ -277,6 +277,8 @@ export default function ModifyProject() {
   // 입력한 skillSearch값에 따른 필터링을 구현하기 위한 메소드
   const getContains = (skillName) => {
     if (skillSearch === "") return true;
+    if (skillSearch.length > skillName.length) return false;
+
     let step;
     for (step = 0; step < skillSearch.length; step++) {
       if (skillName[step].toUpperCase() !== skillSearch[step].toUpperCase())

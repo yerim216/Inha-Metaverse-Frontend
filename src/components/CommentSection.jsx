@@ -161,11 +161,16 @@ export default function CommentSection({ storyIdx }) {
         <button
           className="cursor-pointer transition-all hover:scale-105"
           onClick={() => {
+            if (!userIndex) {
+              alert("댓글을 작성하시려면 먼저 로그인 해 주세요!");
+              return;
+            }
             if (commentInput.trim() === "") {
               alert("댓글을 작성해 주세요!");
               return;
             }
-            handleWriteComment();
+
+            // handleWriteComment();
           }}
         >
           <img src="/public_assets/icons/accentBtn.svg" alt="accentBtn" />
