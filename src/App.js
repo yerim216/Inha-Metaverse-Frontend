@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <UserInfoProvider>
-        <GoogleReCaptchaProvider reCaptchaKey="6LcqNDAmAAAAAKR81rlDOgBrUSXVBQAGLK8iI_Hr">
+        <GoogleReCaptchaProvider reCaptchaKey="6LceFx4pAAAAAIT-f9-OKPbKz6fp-SUUXbh87xcP">
           <Home />
         </GoogleReCaptchaProvider>
       </UserInfoProvider>
