@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ }}
         with:
           source-directory: 'output'
-          destination-github-username: OFFICIAL_ACCOUNT_EMAIL
-          destination-repository-name: PERSONAL_REPO_SECRETE_FOR_VERCEL
+          destination-github-username: ${{OFFICIAL_ACCOUNT_EMAIL}}
+          destination-repository-name: ${{PERSONAL_REPO_SECRETE_FOR_VERCEL}}
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
