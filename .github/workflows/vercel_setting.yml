@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Install Git
+      - name: Install Git
+        run: |
+          apt-get update
+          apt-get install -y git
+
       # Install rbenv
       - name: Install rbenv
         run: |
