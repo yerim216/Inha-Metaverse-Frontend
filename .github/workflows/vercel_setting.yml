@@ -7,11 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
+    container: ubuntu:latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Git
-        run: apt-get update && apt-get install -y git
       - name: Install mustache (to update the date)
         run: apk add ruby && gem install mustache
       - name: creates output
