@@ -10,12 +10,13 @@ jobs:
     container: pandoc/latex
     steps:
       - uses: actions/checkout@v2
+      - name: Install Git
+        run: sudo apt-get update && sudo apt-get install -y git
       - name: Install mustache (to update the date)
         run: apk add ruby && gem install mustache
       - name: creates output
         run: sh ./build.sh
 
-      # Add the following steps to initialize and push to the personal repository
       - name: Initialize and push to personal repository
         run: |
           git init
@@ -32,7 +33,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.PERSONAL_REPO_SECRETE_FOR_VERCEL }}
         with:
           source-directory: 'output'
-          destination-github-username: "${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}"
+          destination-github-username: yerim216
           destination-repository-name: vpspace_web
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
