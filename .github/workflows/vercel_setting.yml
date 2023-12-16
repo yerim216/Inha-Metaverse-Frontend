@@ -7,18 +7,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu:latest
+    container: pandoc/latex
     steps:
       - uses: actions/checkout@v2
-      - name: Install Git
-        run: apt-get update && apt-get install -y git
-      - name: Install Ruby
-        run: apt-get update && apt-get install -y ruby
       - name: Install mustache (to update the date)
-        run: gem install mustache
+        run: apk add ruby && gem install mustache
       - name: creates output
         run: sh ./build.sh
 
+      # Add the following steps to initialize and push to the personal repository
       - name: Initialize and push to personal repository
         run: |
           git init
