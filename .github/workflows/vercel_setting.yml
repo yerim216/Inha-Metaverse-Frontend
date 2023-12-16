@@ -10,22 +10,32 @@ jobs:
     container: pandoc/latex
     steps:
       - uses: actions/checkout@v2
+
+      # Install Ruby
+      - name: Install Ruby
+        run: |
+          apt-get update
+          apt-get install -y ruby
+
       - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+        run: gem install mustache
+
       - name: creates output
         run: sh ./build.sh
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.PERSONAL_REPO_SECRETE_FOR_VERCEL }}
-        with:
-          source-directory: 'output'
-          destination-github-username: ${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}
-          destination-repository-name: Inha-Metaverse-Frontend
-          user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+
+      # Clone the destination repository
+      - name: Clone destination repository
+        run: git clone https://github.com/${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}/Inha-Metaverse-Frontend.git output
+
+      # Push to the destination repository
+      - name: Push to another repository
+        run: |
+          cd output
+          git config user.name "${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}"
+          git config user.email "${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}"
+          git add .
+          git commit -m "Update from main repository"
+          git push --force "https://${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}:${{ secrets.PERSONAL_REPO_SECRETE_FOR_VERCEL }}@github.com/${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}/Inha-Metaverse-Frontend.git" main
+
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
-
