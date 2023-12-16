@@ -10,6 +10,8 @@ jobs:
     container: ubuntu:latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Git
+        run: apt-get update && apt-get install -y git
       - name: Install Ruby
         run: apt-get update && apt-get install -y ruby
       - name: Install mustache (to update the date)
