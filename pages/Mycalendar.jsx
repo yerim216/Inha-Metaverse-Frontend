@@ -1,216 +1,234 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  useOutletContext,
-  BrowserRouter,
-  Route,
-  Link,
-  Switch,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import { useOutletContext, BrowserRouter, Route, Link, Switch, useNavigate, useLocation } from 'react-router-dom';
 
-import styles from "../styles/Mycalendar.module.css";
-import SetEventModal from "../components/SetEventModal";
-import CalDayGrid from "../components/CalDayGrid";
-import DatePicker from "react-datepicker";
-import "../styles/Mycalendar.css";
-import { ThemeModeContext } from "../contexts/ThemeProvider";
-import { theme } from "../theme/theme";
+import styles from '../styles/Mycalendar.module.css';
+import SetEventModal from '../components/SetEventModal';
+import CalDayGrid from '../components/CalDayGrid';
+import DatePicker from 'react-datepicker';
+import '../styles/Mycalendar.css';
+import { ThemeModeContext } from '../contexts/ThemeProvider';
+import { theme } from '../theme/theme';
+
+import { getScheduleCalendar } from '../APIs/schedule';
 
 export default function Mycalendar() {
-  const { teamIndex } = useOutletContext();
-  const [changeEvent, setChangeEvent] = useState(false);
-  const [startDay, setStartDay] = useState(null);
-  const [endDay, setEndDay] = useState(null);
-  const [title, setTitle] = useState(null);
-  const [scheduleIndex, setScheduleIndex] = useState(null);
-  const [eventColor, setEventColor] = useState(null);
-  const [createdTime, setCreatedTime] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [writer, setWriter] = useState(null);
-  const [note, setNote] = useState(null);
-  const [eventChange, setEventChange] = useState(false);
-  const { themeMode, toggleTheme } = useContext(ThemeModeContext);
-  const [tm, setTm] = useState(theme.lightTheme.calendar);
-  // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
-  useEffect(() => {
-    if (themeMode === "light") setTm(theme.lightTheme.calendar);
-    else setTm(theme.darkTheme.calendar);
-  }, [themeMode]);
+   const { teamIndex } = useOutletContext();
+   const [changeEvent, setChangeEvent] = useState(false);
+   const [startDay, setStartDay] = useState(null);
+   const [endDay, setEndDay] = useState(null);
+   const [title, setTitle] = useState(null);
+   const [scheduleIndex, setScheduleIndex] = useState(null);
+   const [eventColor, setEventColor] = useState(null);
+   const [createdTime, setCreatedTime] = useState(null);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [writer, setWriter] = useState(null);
+   const [note, setNote] = useState(null);
+   const [eventChange, setEventChange] = useState(false);
+   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
+   const [tm, setTm] = useState(theme.lightTheme.calendar);
+   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
+   useEffect(() => {
+      if (themeMode === 'light') setTm(theme.lightTheme.calendar);
+      else setTm(theme.darkTheme.calendar);
+   }, [themeMode]);
 
-  const openModal = () => {
-    setChangeEvent(false);
-    setIsModalOpen(true);
-  };
+   const openModal = () => {
+      setChangeEvent(false);
+      setIsModalOpen(true);
+   };
 
-  const closeModal = () => {
-    setChangeEvent(true);
-    setIsModalOpen(false);
-    setStartDay(new Date());
-    setEndDay(new Date());
-    setTitle("");
-    setScheduleIndex(null);
-    setEventColor(null);
-  };
+   const closeModal = () => {
+      setChangeEvent(true);
+      setIsModalOpen(false);
+      setStartDay(new Date());
+      setEndDay(new Date());
+      setTitle('');
+      setScheduleIndex(null);
+      setEventColor(null);
+   };
 
-  var monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  var weekDay = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+   var monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+   ];
+   var weekDay = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-  const [today, setSelectedStartDate] = useState(new Date());
-  const [dayMove, setDayMove] = useState(0);
+   const [today, setToday] = useState(new Date());
+   const [dayMove, setDayMove] = useState(0);
 
-  //  useEffect(() => {
-  //     if (dayMove) {
-  //        localStorage.setItem('date', today);
-  //     }
-  //     setDayMove(1);
-  //  }, [today]);
+   let month = today && today.getMonth(); //오늘 해당 달 mm
+   let year = today && today.getFullYear(); //오늘 해당 년도 yyyy
 
-  //  useEffect(() => {
-  //     if (dayMove) {
-  //        const storageDate = String(localStorage.getItem('date'));
+   let currentMonth = monthNames[month]; //오늘 해당 달 숫자 -> 영어로
 
-  //        const toDate = new Date(storageDate);
-  //        console.log(toDate);
+   //localStorage에 date key 가 존재하지 않는 경우 초기값 저장
+   useEffect(() => {
+      const isDateKeyExists = localStorage.getItem('date') !== null;
 
-  //        // setSelectedStartDate(toDate);
-  //     }
-  //  }, [dayMove]);
+      if (isDateKeyExists) {
+         const storageDate = String(localStorage.getItem('date'));
+         const toDate = new Date(storageDate);
 
-  // let today = new Date(); //re: Tue Aug 29 2023 14:39:43 GMT+0900 (한국 표준시)
-  let month = today.getMonth(); //오늘 해당 달 mm
-  let year = today.getFullYear(); //오늘 해당 년도 yyyy
+         setToday(toDate);
+      } else {
+         localStorage.setItem('date', new Date());
+      }
+   }, []);
 
-  let currentMonth = monthNames[month]; //오늘 해당 달 숫자 -> 영어로
+   const [modalOpen, setModalOpen] = useState(false);
+   const [update, setUpdate] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState(false);
+   const handleTodayDate = (date) => {
+      setDayMove(1);
+      setToday(date);
+      localStorage.setItem('date', date);
 
-  const handleStartDateChange = (date) => {
-    setDayMove(1);
-    setSelectedStartDate(date);
-    localStorage.setItem("date", date);
+      setModalOpen(false); // 모달을 닫습니다.
+   };
 
-    // console.log(date);
-    setModalOpen(false); // 모달을 닫습니다.
-  };
+   useEffect(() => {
+      const storageDate = String(localStorage.getItem('date'));
 
-  useEffect(() => {
-    const storageDate = String(localStorage.getItem("date"));
+      const toDate = new Date(storageDate);
+      setToday(toDate);
+   }, [eventChange]);
 
-    const toDate = new Date(storageDate);
-    setSelectedStartDate(toDate);
-  }, [eventChange]);
+   const handleDivClick = () => {
+      setModalOpen(!modalOpen); // 모달의 열림/닫힘 상태를 토글합니다.
+   };
+   const location = useLocation();
+   const navigate = useNavigate();
 
-  const handleDivClick = () => {
-    setModalOpen(!modalOpen); // 모달의 열림/닫힘 상태를 토글합니다.
-  };
+   const [url, setUrl] = useState(null);
 
-  return (
-    <>
-      <div className={`${styles.wrap}`}>
-        <div className={styles.topDate}>
-          <div className={styles.datePointer} onClick={handleDivClick}>
-            <span className={styles.year} style={{ color: tm.hazyTextColor }}>
-              {currentMonth}
-            </span>
-            <span className={styles.month} style={{ color: tm.dateColor }}>
-              {year}
-            </span>
-          </div>
-          <img
-            src="/public_assets/dateMore.svg"
-            width="fit-content"
-            height="fit-content"
-            alt="profile"
-            cursor="pointer"
-            style={{ cursor: "pointer" }}
-            onClick={handleDivClick}
-          />
-          <DatePicker
-            className="custom-startDate"
-            selected={today}
-            onChange={handleStartDateChange}
-            popperPlacement="bottom-start"
-            withPortal
-            showYearDropdown
-            dateFormatCalendar="MMMM yyyy"
-            // dateFormat="MMMM d, yyyy"
-            style={{ cursor: "pointer" }}
-            dateFormat="yyyy"
-          />
-          <button className={styles.putEvent} onClick={openModal}>
-            <p className={styles.putEventTxt}>일정등록</p>
-          </button>
-        </div>
+   useEffect(() => {
+      const currentUrl = location.pathname + location.search;
+      setUrl(currentUrl);
+   }, []);
 
-        <div className={styles.weekDay}>
-          {weekDay &&
-            weekDay.map((day, index) => {
-              if (day === "Su" || day === "Sa") {
-                return (
-                  <span key={index} className={styles.weekends}>
-                    {day}
+   useEffect(() => {
+      // React Router를 사용하는 경우 location 객체의 변경을 감지
+      const unlisten = navigate;
+
+      const newUrl = location.pathname + location.search;
+
+      if (url !== newUrl) {
+         // 컴포넌트 언마운트 시에 이벤트 리스너 제거
+         return () => {
+            unlisten();
+
+            // 페이지 URL 변경을 감지하여 실행할 함수
+            localStorage.setItem('date', new Date());
+         };
+      }
+   }, [location]);
+
+   if (update === true) {
+      setUpdate(false);
+   }
+
+   return (
+      <>
+         <div className={`${styles.wrap}`}>
+            <div className={styles.topDate}>
+               <div className={styles.datePointer} onClick={handleDivClick}>
+                  <span className={styles.year} style={{ color: tm.hazyTextColor }}>
+                     {currentMonth}
                   </span>
-                );
-              } else {
-                return (
-                  <span
-                    key={index}
-                    className={styles.weekdays}
-                    style={{ color: tm.subTextColor }}
-                  >
-                    {day}
+                  <span className={styles.month} style={{ color: tm.dateColor }}>
+                     {year}
                   </span>
-                );
-              }
-            })}
-        </div>
-        <div className={styles.cellBox}>
-          <CalDayGrid
-            today={today}
-            setStartDay={setStartDay}
-            setEndDay={setEndDay}
-            setTitle={setTitle}
-            setNote={setNote}
-            setIsModalOpen={setIsModalOpen}
-            setScheduleIndex={setScheduleIndex}
-            setEventColor={setEventColor}
-            isModalOpen={isModalOpen}
-            setCreatedTime={setCreatedTime}
-            setWriter={setWriter}
-          />
+               </div>
+               <img
+                  src="/public_assets/dateMore.svg"
+                  width="fit-content"
+                  height="fit-content"
+                  alt="profile"
+                  cursor="pointer"
+                  style={{ cursor: 'pointer' }}
+                  onClick={handleDivClick}
+               />
+               <DatePicker
+                  className="custom-startDate"
+                  selected={today && today}
+                  onChange={handleTodayDate}
+                  popperPlacement="bottom-start"
+                  withPortal
+                  showYearDropdown
+                  dateFormatCalendar="MMMM yyyy"
+                  // dateFormat="MMMM d, yyyy"
+                  style={{ cursor: 'pointer' }}
+                  dateFormat="yyyy"
+               />
+               <button className={styles.putEvent} onClick={openModal}>
+                  <p className={styles.putEventTxt}>일정등록</p>
+               </button>
+            </div>
 
-          <SetEventModal
-            className={styles.setEvnet}
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel="이벤트 등록"
-            startDay={startDay}
-            endDay={endDay}
-            title={title}
-            scheduleIndex={scheduleIndex}
-            eventColor={eventColor}
-            created={createdTime}
-            writer={writer}
-            note={note}
-            today={today}
-            setEventChange={setEventChange}
-          />
-        </div>
-      </div>
-    </>
-  );
+            <div className={styles.weekDay}>
+               {weekDay &&
+                  weekDay.map((day, index) => {
+                     if (day === 'Su' || day === 'Sa') {
+                        return (
+                           <span key={index} className={styles.weekends}>
+                              {day}
+                           </span>
+                        );
+                     } else {
+                        return (
+                           <span key={index} className={styles.weekdays} style={{ color: tm.subTextColor }}>
+                              {day}
+                           </span>
+                        );
+                     }
+                  })}
+            </div>
+            <div className={styles.cellBox}>
+               <CalDayGrid
+                  today={today && today}
+                  setStartDay={setStartDay}
+                  setEndDay={setEndDay}
+                  setTitle={setTitle}
+                  setNote={setNote}
+                  setIsModalOpen={setIsModalOpen}
+                  setScheduleIndex={setScheduleIndex}
+                  setEventColor={setEventColor}
+                  isModalOpen={isModalOpen}
+                  setCreatedTime={setCreatedTime}
+                  setWriter={setWriter}
+                  update={update}
+                  setUpdate={setUpdate}
+               />
+
+               <SetEventModal
+                  className={styles.setEvnet}
+                  isOpen={isModalOpen}
+                  onRequestClose={closeModal}
+                  contentLabel="이벤트 등록"
+                  startDay={startDay}
+                  endDay={endDay}
+                  title={title}
+                  scheduleIndex={scheduleIndex}
+                  eventColor={eventColor}
+                  created={createdTime}
+                  writer={writer}
+                  note={note}
+                  today={today && today}
+                  setEventChange={setEventChange}
+                  setUpdate={setUpdate}
+               />
+            </div>
+         </div>
+      </>
+   );
 }
