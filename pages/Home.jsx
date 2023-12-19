@@ -16,12 +16,17 @@ import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import StoryModal from "../components/StoryModal";
 import { getUserInterested } from "../APIs/userinfo";
+import ForMobile from "../components/common/ForMobile";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
 
   const [user, setUser] = useRecoilState(userState);
 
+  // const [backgroundImgs, setBackgroundImgs] = useState({
+  //   light: new Image("/public_assets/banner_light.jpeg"),
+  //   dark: new Image("/public_assets/banner_dark.jpeg"),
+  // });
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.home);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
