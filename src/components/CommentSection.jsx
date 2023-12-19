@@ -170,7 +170,7 @@ export default function CommentSection({ storyIdx }) {
               return;
             }
 
-            // handleWriteComment();
+            handleWriteComment();
           }}
         >
           <img src="/public_assets/icons/accentBtn.svg" alt="accentBtn" />
@@ -188,7 +188,7 @@ export default function CommentSection({ storyIdx }) {
               >
                 <div className="w-full flex items-center gap-4">
                   <img
-                    src={`public_assets/profileImg/profileImg_1.png`}
+                    src={`public_assets/profileImg/profileImg_${comment.user_img_index}.png`}
                     alt={`Skill Image ${comment.user_index}`}
                     className="w-12 h-12 rounded-full"
                   />

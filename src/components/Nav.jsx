@@ -104,7 +104,14 @@ export default function Nav({ isMainPage }) {
         }}
       >
         <div className="w-1/3 flex items-center gap-6">
-          <img src="/public_assets/icons/VPSpaceLogo.svg" alt="VPSpaceLogo" />
+          <img
+            src="/public_assets/icons/VPSpaceLogo.svg"
+            alt="VPSpaceLogo"
+            className="cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
         </div>
         <div className="flex gap-10 w-1/3 justify-center">
           <span

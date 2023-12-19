@@ -4,7 +4,6 @@ import useOutSideClick from "../hooks/useOutsideClick";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { getUserInfo } from "../APIs/userinfo";
 import styles from "../styles/modules/OnLogModal.module.css";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
@@ -142,7 +141,7 @@ function Modal({ onClose, loginModalRef }) {
           <img src="/public_assets/icons/darkMode.svg" alt="darkMode" />
         </div>
         다크모드
-        <div className="mr-[30px]"></div>
+        <div className="mr-[27px]"></div>
         <ToggleSwitch />
       </button>
       <button

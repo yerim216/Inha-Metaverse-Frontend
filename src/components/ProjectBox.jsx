@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/ProjectBox.module.css";
 import { useNavigate } from "react-router";
 import { ThemeModeContext } from "../contexts/ThemeProvider";
 import { theme } from "../theme/theme";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
+import RecruitingInfoModal from "./common/RecruitingInfoModal";
 
 export default function ProjectBox({
   projectName,
@@ -19,6 +20,16 @@ export default function ProjectBox({
   isInMyprofile,
 }) {
   const navigate = useNavigate();
+  const handleNavigate = () => {
+    if (!user) {
+      alert("먼저 로그인을 해주세요!");
+      return;
+    }
+
+    navigate("/profile", { state: { teamIndex: teamIndex } });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
   const [user, setUser] = useRecoilState(userState);
 
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
@@ -31,6 +42,27 @@ export default function ProjectBox({
 
   const [recruitmentNumber, setRecruitmentNumber] = useState(0);
 
+  // 모집중 우측 버튼을 누를 때는 navigate되면 안되기에, ref를 제공하고 영역 처리를 통한 예외 처리.
+  const projectBoxRef = useRef();
+  const modalBtnRef = useRef();
+  useEffect(() => {
+    // 이벤트 핸들러 함수
+    const handler = (e) => {
+      if (modalBtnRef.current && !modalBtnRef.current.contains(e.target)) {
+        handleNavigate();
+      }
+    };
+
+    // 이벤트 핸들러 등록
+    projectBoxRef.current &&
+      projectBoxRef.current.addEventListener("mousedown", handler);
+
+    return () => {
+      projectBoxRef.current &&
+        projectBoxRef.current.removeEventListener("mousedown", handler);
+    };
+  });
+
   useEffect(() => {
     if (jobs[0].job_name) {
       let num = 0;
@@ -41,7 +73,10 @@ export default function ProjectBox({
     }
   }, [jobs]);
 
-  // console.log(jobs);
+  const [recruitingInfoModalOpen, setRecruitingInfoModal] = useState(false);
+  const handleBtnClick = () => {
+    setRecruitingInfoModal((cur) => !cur);
+  };
 
   return (
     <div
@@ -61,16 +96,8 @@ export default function ProjectBox({
         flexDirection: "column",
         justifyContent: "space-between",
       }}
-      className={styles.pjb}
-      onClick={() => {
-        if (!user) {
-          alert("먼저 로그인을 해주세요!");
-          return;
-        }
-
-        navigate("/profile", { state: { teamIndex: teamIndex } });
-        window.scrollTo({ top: 0, behavior: "auto" });
-      }}
+      className={`${!isInMyprofile && styles.pjb}`}
+      ref={projectBoxRef}
     >
       <div
         style={{
@@ -156,7 +183,11 @@ export default function ProjectBox({
         {introduction}
       </div>
       <div className={styles.info}>
-        <div className="flex items-center gap-3">
+        <button
+          className="flex items-center gap-3"
+          onClick={handleBtnClick}
+          ref={modalBtnRef}
+        >
           {isRecruiting ? (
             <>
               <div
@@ -168,6 +199,16 @@ export default function ProjectBox({
               <span>
                 모집중 ( {numOfMembers}/{recruitmentNumber} )
               </span>
+              <button className="w-4 h-4 flex items-center justify-center relative">
+                <img
+                  src="/public_assets/icons/bottomArrow.svg"
+                  alt="bottomArrow"
+                  class={!recruitingInfoModalOpen && "rotate-180"}
+                ></img>
+                {recruitingInfoModalOpen && (
+                  <RecruitingInfoModal jobInfo={jobs} />
+                )}
+              </button>
             </>
           ) : (
             <>
@@ -177,7 +218,7 @@ export default function ProjectBox({
               </span>
             </>
           )}
-        </div>
+        </button>
         <div style={{ display: "flex" }}>
           <div
             style={{

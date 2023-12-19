@@ -90,7 +90,7 @@ export default function SignUpModal(props) {
 
   // recaptcha
   // https://blog.logrocket.com/implement-recaptcha-react-application/
-  const key = "6LfaiR4pAAAAAKD_n3hFiBWOCvetTzgbKgMjSsjz";
+  const key = process.env.REACT_APP_RECAPTCHA_SITEKEY;
   const [captchaDone, setCaptchaDone] = useState(false);
 
   // 두번째 화면에서 세번째 화면으로 넘어가면 "관심 분야를 알려 주세요!" 화면이 3초 뒤 열림. 이를 위해 변수 선언.

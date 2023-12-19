@@ -49,7 +49,10 @@ export default function PositionManage() {
       } else if (category === "디자인") {
         design.push(member);
       } else {
-        alert("지정되지 않은 직무 분야가 감지되었습니다!");
+        console.log(
+          "지정되지 않은 직무 분야가 감지되었습니다! 하단에 해당 멤버의 정보 출력."
+        );
+        console.log(member);
       }
     });
 

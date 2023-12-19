@@ -456,6 +456,13 @@ export default function ModifyProject() {
       .catch((err) => console.error(err));
   };
 
+  // 프로젝트 설명 크기 동적으로 조절
+  const textareaRef = useRef();
+  const handleResize = () => {
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+  };
+
   return (
     <>
       {judgeModalOpen && (
@@ -693,13 +700,15 @@ export default function ModifyProject() {
             <textarea
               placeholder="내용을 입력해주세요."
               maxLength={2000}
-              className="rounded-md font-medium w-full resize-none px-12 py-10 outline-none h-[920px] mt-8"
+              className="rounded-md font-medium w-full resize-none px-12 py-10 outline-none max-h-[920px] mt-8"
+              ref={textareaRef}
               style={{
                 backgroundColor: tm.inputBg,
                 color: tm.textColor,
               }}
               value={inputs.description}
               onChange={(e) => {
+                handleResize();
                 setInputs((cur) => {
                   return { ...cur, description: e.target.value };
                 });
@@ -724,7 +733,12 @@ export default function ModifyProject() {
             >
               {/* 분야, 스킬 표기 박스 */}
               <div className="w-[55%] h-5/6 flex flex-col justify-between">
-                <div className={styles.recruitmentBox_leftArea}>
+                <div
+                  className={styles.recruitmentBox_leftArea}
+                  style={{
+                    color: tm.textColor,
+                  }}
+                >
                   <h3
                     className={styles.recruitmentBox_title}
                     style={{
