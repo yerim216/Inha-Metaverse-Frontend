@@ -1,0 +1,10 @@
+{
+    "member" : [
+        {"id":1, "name": "홍길동", "intro": "안녕하세요,\n 저는 프로포즈 메니저입니다!", "image": "../../public/public_assets/pro.png","part1": "PO/PM","part2": "PM/PO" },
+        {"id":2, "name": "길동홍", "intro": "안녕하시렵니까,\n 저는 프로스트 메니저입니다!", "image": "../../public/public_assets/pro.png" ,"part1": "PO/PM","part2": "PM/PO","part3": "POPO"},
+        {"id":3, "name": "홍동길", "intro": "안녕하세요,\n 저는 프로젝트 메니저입니다!", "image": "../../public/public_assets/pro.png","part1": "PO/PM","part2": "PM/PO" },
+        {"id":4, "name": "홍동동", "intro": "안녕하세요,\n 저는 프로제티 메니저입니다!" , "image": "../../public/public_assets/pro.png","part1": "PO/PM","part2": "PM/PO"}
+
+    ]
+
+}
