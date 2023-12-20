@@ -20,7 +20,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.PERSONAL_REPO_SECRETE_FOR_VERCEL }}
         with:
-          source-directory: 'src'
+          source-directory: '.'
           destination-github-username: ${{ secrets.OFFICIAL_ACCOUNT_USERNAME }}
           destination-repository-name: Inha-Metaverse-Frontend
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
