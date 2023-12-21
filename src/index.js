@@ -16,6 +16,7 @@ if (localStorage.getItem("recoil-persist") === null) {
 let isMobile = navigator.userAgentData.mobile;
 
 // test code
+// test code 2
 
 root.render(
   <ThemeProvider>{isMobile ? <ForMobile /> : <App />}</ThemeProvider>
