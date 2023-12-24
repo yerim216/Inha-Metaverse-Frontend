@@ -16,7 +16,8 @@ if (localStorage.getItem("recoil-persist") === null) {
 let isMobile = navigator.userAgentData.mobile;
 
 root.render(
-  <ThemeProvider>{isMobile ? <ForMobile /> : <App />}</ThemeProvider>
+  // <ThemeProvider>{isMobile ? <ForMobile /> : <App />}</ThemeProvider>
+  <ThemeProvider>{<ForMobile />}</ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
