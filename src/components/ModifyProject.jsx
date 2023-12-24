@@ -436,7 +436,8 @@ export default function ModifyProject() {
     let inputData = {
       team: teamIndex,
       leader: userIndex,
-      name: inputs.teamName,
+      // 현재는 teamName이 삭제된 관계로, 임시로 projectName으로 teamName을 통일화함.
+      name: inputs.projectName,
       project: inputs.projectName,
       categories: selectedCategory,
       introduction: inputs.introduction,
@@ -482,7 +483,7 @@ export default function ModifyProject() {
             }}
           >
             <h2
-              className="font-bold text-[32px]"
+              className="font-bold text-[32px] whitespace-nowrap"
               style={{
                 color: tm.textColor,
               }}
@@ -566,12 +567,13 @@ export default function ModifyProject() {
           </div>
         </div>
         <div
-          className="flex items-center gap-6 border-b pb-12"
+          // className="flex items-center gap-6 border-b pb-12"
+          className="flex items-center gap-6 border-b"
           style={{
             borderColor: tm.border,
           }}
         >
-          <div className="flex w-full">
+          {/* <div className="flex w-full">
             <div
               className={`${styles.middleFont} w-1/6`}
               style={{
@@ -599,7 +601,7 @@ export default function ModifyProject() {
                 }}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           className="flex items-center gap-6 border-b pb-12"
@@ -609,7 +611,7 @@ export default function ModifyProject() {
         >
           <div className="w-full">
             <div
-              className={`${styles.middleFont} w-1/6`}
+              className={`${styles.middleFont} w-1/6 whitespace-nowrap`}
               style={{
                 color: tm.textColor,
               }}
@@ -975,6 +977,17 @@ export default function ModifyProject() {
               color: tm.btnText,
             }}
             onClick={async (e) => {
+              if (
+                inputs.projectName.trim() === "" ||
+                inputs.introduction.trim() === "" ||
+                inputs.description.trim() === ""
+              ) {
+                alert(
+                  "입력되지 않은 정보가 존재합니다(프로젝트 분야, 모집 제외). 다시 확인해주세요!"
+                );
+                return;
+              }
+
               e.preventDefault();
               openJudgeModal();
             }}
