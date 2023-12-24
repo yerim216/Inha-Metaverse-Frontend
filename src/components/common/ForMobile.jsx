@@ -13,7 +13,6 @@ export default function ForMobile() {
           "모바일 환경에 접속 중이신 것으로 보여요.\n모바일 환경은 준비 중이니 잠시만 기다려 주세요!"
         }
       </pre>
-      <img src="forum.png" alt="" />
     </section>
   );
 }
