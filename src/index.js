@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -16,11 +16,17 @@ if (localStorage.getItem("recoil-persist") === null) {
 // let isMobile = navigator.userAgentData.mobile;
 // alert(isMobile);
 
-alert("?");
+const isMobile = () => {
+  try {
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 root.render(
-  // <ThemeProvider>{isMobile ? <ForMobile /> : <App />}</ThemeProvider>
-  <ThemeProvider>{<ForMobile />}</ThemeProvider>
+  <ThemeProvider>{isMobile() ? <ForMobile /> : <App />}</ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
