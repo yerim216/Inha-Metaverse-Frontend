@@ -14,6 +14,7 @@ if (localStorage.getItem("recoil-persist") === null) {
 
 // 모바일인지를 감지하는 변수.
 let isMobile = navigator.userAgentData.mobile;
+alert(isMobile);
 
 root.render(
   // <ThemeProvider>{isMobile ? <ForMobile /> : <App />}</ThemeProvider>
