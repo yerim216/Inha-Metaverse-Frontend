@@ -611,7 +611,7 @@ export default function ModifyProject() {
         >
           <div className="w-full">
             <div
-              className={`${styles.middleFont} w-1/6`}
+              className={`${styles.middleFont} w-1/6 whitespace-nowrap`}
               style={{
                 color: tm.textColor,
               }}
