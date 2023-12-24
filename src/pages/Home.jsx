@@ -16,7 +16,6 @@ import SignInModal from "../components/SignInModal";
 import SignUpModal from "../components/SignUpModal";
 import StoryModal from "../components/StoryModal";
 import { getUserInterested } from "../APIs/userinfo";
-import ForMobile from "../components/common/ForMobile";
 
 export default function Home() {
   const { userInfo, userInfoSet } = useContext(UserInfoContext);
