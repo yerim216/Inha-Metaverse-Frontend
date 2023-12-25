@@ -980,10 +980,11 @@ export default function ModifyProject() {
               if (
                 inputs.projectName.trim() === "" ||
                 inputs.introduction.trim() === "" ||
-                inputs.description.trim() === ""
+                inputs.description.trim() === "" ||
+                selectedJobInputs.length === 0
               ) {
                 alert(
-                  "입력되지 않은 정보가 존재합니다(프로젝트 분야, 모집 제외). 다시 확인해주세요!"
+                  "입력되지 않은 정보가 존재합니다(프로젝트 분야 제외). 다시 확인해주세요!"
                 );
                 return;
               }
