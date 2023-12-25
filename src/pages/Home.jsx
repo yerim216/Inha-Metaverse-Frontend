@@ -4,7 +4,6 @@ import styles from "../styles/Home.module.css";
 import FilteredItem from "../components/FilteredItem";
 import ProjectLists from "../components/ProjectLists";
 import Stories from "../components/Stories";
-import { UserInfoContext } from "../contexts/UserInfoProvider";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
 import { useNavigate } from "react-router-dom";
@@ -18,14 +17,45 @@ import StoryModal from "../components/StoryModal";
 import { getUserInterested } from "../APIs/userinfo";
 
 export default function Home() {
-  const { userInfo, userInfoSet } = useContext(UserInfoContext);
-
   const [user, setUser] = useRecoilState(userState);
 
-  // const [backgroundImgs, setBackgroundImgs] = useState({
-  //   light: new Image("/public_assets/banner_light.jpeg"),
-  //   dark: new Image("/public_assets/banner_dark.jpeg"),
-  // });
+  // 배너 이미지를 미리 비동기적으로 로드.
+  const [backgroundImgs, setBackgroundImgs] = useState({
+    light: null,
+    dark: null,
+  });
+
+  useEffect(() => {
+    const loadImage = async (src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+      });
+    };
+
+    const preloadImages = async () => {
+      try {
+        const lightImage = await loadImage(
+          "/public_assets/banner/banner_light.png"
+        );
+        const darkImage = await loadImage(
+          "/public_assets/banner/banner_dark.png"
+        );
+
+        setBackgroundImgs({
+          light: lightImage,
+          dark: darkImage,
+        });
+      } catch (error) {
+        console.error("Error preloading images", error);
+      }
+    };
+
+    preloadImages();
+  }, []);
+
   const { themeMode, toggleTheme } = useContext(ThemeModeContext);
   const [tm, setTm] = useState(theme.lightTheme.home);
   // themeMode에 따라, theme.js에서 import해오는 요소를 바꿔줄 것.
@@ -35,7 +65,6 @@ export default function Home() {
   }, [themeMode]);
 
   const navigate = useNavigate();
-  const room = "forum";
 
   const [signInModalOpen, setSignInModalOpen] = useState(false);
   const openSignInModal = () => {
@@ -57,23 +86,23 @@ export default function Home() {
     freeScroll();
   };
 
-  const forumClick = () => {
-    if (user) {
-      // 이미 파일이 다운로드 되어있는지 확인.
-      // 만약 다운로드되어있다면 바로 해당 파일 실행, 아니라면 다운로드 페이지로 이동.
-      const confirm = window.confirm(
-        "해당 공간으로 이동하기 위해서는 추가적인 파일 다운로드가 필요합니다. 다운로드 페이지로 이동하시겠어요?"
-      );
-      if (confirm) {
-        navigate("/download");
-      }
+  // const forumClick = () => {
+  //   if (user) {
+  //     // 이미 파일이 다운로드 되어있는지 확인.
+  //     // 만약 다운로드되어있다면 바로 해당 파일 실행, 아니라면 다운로드 페이지로 이동.
+  //     const confirm = window.confirm(
+  //       "해당 공간으로 이동하기 위해서는 추가적인 파일 다운로드가 필요합니다. 다운로드 페이지로 이동하시겠어요?"
+  //     );
+  //     if (confirm) {
+  //       navigate("/download");
+  //     }
 
-      // const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
-      //   user.email
-      // )}&&room=${encodeURIComponent(room)}`;
-      // window.location.href = url;
-    }
-  };
+  //     // const url = `https://www.app.vpspace.net/?email=${encodeURIComponent(
+  //     //   user.email
+  //     // )}&&room=${encodeURIComponent(room)}`;
+  //     // window.location.href = url;
+  //   }
+  // };
 
   const blockScroll = () => {
     document.body.style.overflowY = "hidden";
@@ -214,19 +243,43 @@ export default function Home() {
         }}
       >
         <div className="relative">
-          {themeMode === "light" ? (
+          {/* {themeMode === "light"
+            ? // <img
+              //   src="/public_assets/banner_light.png"
+              //   alt="banner"
+              //   className="h-[100vh]"
+              // />
+              backgroundImgs.light && backgroundImgs.light
+            : // <img
+              //   src="/public_assets/banner_dark.jpeg"
+              //   alt="banner"
+              //   className="h-[100vh]"
+              // />
+              backgroundImgs.dark && backgroundImgs.dark} */}
+
+          {/* {backgroundImgs.light && backgroundImgs.dark && (
             <img
-              src="/public_assets/banner_light.jpeg"
+              src={`/public_assets/banner/banner_${themeMode}.png`}
               alt="banner"
               className="h-[100vh]"
             />
-          ) : (
-            <img
-              src="/public_assets/banner_dark.jpeg"
-              alt="banner"
-              className="h-[100vh]"
-            />
-          )}
+          )} */}
+
+          {themeMode === "light"
+            ? backgroundImgs.light && (
+                <img
+                  src={`/public_assets/banner/banner_light.png`}
+                  alt="banner"
+                  className="h-[100vh]"
+                />
+              )
+            : backgroundImgs.dark && (
+                <img
+                  src={`/public_assets/banner/banner_dark.png`}
+                  alt="banner"
+                  className="h-[100vh]"
+                />
+              )}
 
           {/* 버튼 : 하나의 이미지처럼 보이게끔, 위치 및 크기 요소를 동적으로 할당해 주었음. */}
           <button

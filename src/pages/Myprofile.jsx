@@ -5,7 +5,6 @@ import StarRating from "../components/StarRating";
 
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
-import user from "../db/user.json";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BiRightArrowCircle } from "react-icons/bi";
