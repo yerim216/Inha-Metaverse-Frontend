@@ -406,7 +406,8 @@ export default function CreateProject() {
 
     let inputData = {
       leader: userIndex,
-      name: inputs.teamName,
+      // 현재는 teamName이 삭제된 관계로, 임시로 projectName으로 teamName을 통일화함.
+      name: inputs.projectName,
       project: inputs.projectName,
       categories: selectedCategory,
       introduction: inputs.introduction,
@@ -542,12 +543,13 @@ export default function CreateProject() {
           </div>
         </div>
         <div
-          className="flex items-center gap-6 border-b pb-12"
+          // className="flex items-center gap-6 border-b pb-12"
+          className="flex items-center gap-6 border-b"
           style={{
             borderColor: tm.border,
           }}
         >
-          <div className="flex w-full">
+          {/* <div className="flex w-full">
             <div
               className={`${styles.middleFont} w-1/6`}
               style={{
@@ -575,7 +577,7 @@ export default function CreateProject() {
                 }}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           className="flex items-center gap-6 border-b pb-12"
@@ -585,7 +587,7 @@ export default function CreateProject() {
         >
           <div className="w-full">
             <div
-              className={`${styles.middleFont} w-1/6`}
+              className={`${styles.middleFont} w-1/6 whitespace-nowrap`}
               style={{
                 color: tm.textColor,
               }}
@@ -955,19 +957,19 @@ export default function CreateProject() {
             }}
             onClick={async (e) => {
               if (
-                inputs.teamName.trim() === "" ||
                 inputs.projectName.trim() === "" ||
                 inputs.introduction.trim() === "" ||
-                inputs.description.trim() === ""
+                inputs.description.trim() === "" ||
+                selectedJobInputs.length === 0
               ) {
                 alert(
-                  "입력되지 않은 정보가 존재합니다(프로젝트 분야, 모집 제외). 다시 확인해주세요!"
+                  "입력되지 않은 정보가 존재합니다(프로젝트 분야 제외). 다시 확인해주세요!"
                 );
                 return;
               }
 
-              openJudgeModal();
               e.preventDefault();
+              openJudgeModal();
             }}
           >
             프로젝트 제작하기

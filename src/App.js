@@ -97,8 +97,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  // window.baseURL = "https://app.vpspace.net/";
-  window.baseURL = "http://43.201.166.82:3000/";
+  window.baseURL = "https://app.vpspace.net/";
+  // window.baseURL = "http://43.201.166.82:3000/";
 
   return (
     <RecoilRoot>
