@@ -145,11 +145,9 @@ export default function ProjectManagerTools() {
       >
         <div
           style={{
-            paddingLeft: "100px",
-            paddingRight: "40px",
+            paddingLeft: "20px",
             height: "120px",
             width: "100%",
-            zIndex: 10,
             display: "flex",
             justifyContent: "center",
           }}
