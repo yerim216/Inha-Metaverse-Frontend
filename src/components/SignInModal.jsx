@@ -89,7 +89,14 @@ export default function SignInModal(props) {
       {open ? (
         <section className={styles.loginBox} ref={modalRef}>
           <section className={styles.fighteeingBox}>
-            <h1 className={styles.fighteeing}>안녕하세요!</h1>
+            <h1
+              className={styles.fighteeing}
+              style={{
+                whiteSpace: "nowrap",
+              }}
+            >
+              오늘도 힘내보아요!
+            </h1>
             <div className={styles.iconBox}>
               <img
                 src="/public_assets/icons/naver.svg"
@@ -124,16 +131,12 @@ export default function SignInModal(props) {
                 close();
                 openSignUpModal();
               }}
-              // className={styles.signUp}
-              // onClick={() => {
-              //   navigate("/signup");
-              // }}
             >
               3초만에 회원가입
             </span>
           </section>
           <form className={styles.loginInputBox}>
-            <span>Email Address</span>
+            <span>이메일</span>
             <input
               type="text"
               className={styles.emailInput}
@@ -146,32 +149,41 @@ export default function SignInModal(props) {
               }}
             />
             <div className="flex justify-between">
-              <span>Password</span>
+              <span>비밀번호</span>
+            </div>
+            <div className="w-full relative">
+              <input
+                type={hide ? "password" : "text"}
+                className={styles.passwordInput}
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") checkLogin();
+                }}
+              />
               <div
-                className="flex gap-1 cursor-pointer"
+                className="absolute right-4 top-4 flex gap-1 cursor-pointer"
                 onClick={() => {
                   setHide(!hide);
                 }}
               >
                 {hide ? (
-                  <img src="/public_assets/icons/hide.svg" alt="hide" />
+                  <img
+                    src="/public_assets/icons/hide.svg"
+                    className="w-6 h-4"
+                    alt="hide"
+                  />
                 ) : (
-                  <img src="/public_assets/icons/show.svg" alt="show" />
+                  <img
+                    src="/public_assets/icons/show.svg"
+                    className="w-6 h-4"
+                    alt="show"
+                  />
                 )}
-                <span>숨기기</span>
               </div>
             </div>
-            <input
-              type={hide ? "password" : "text"}
-              className={styles.passwordInput}
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              onKeyUp={(e) => {
-                if (e.key === "Enter") checkLogin();
-              }}
-            />
             <div className={styles.findPasswordAndErrorMsg}>
               <span className={styles.findPassword}>비밀번호 찾기</span>
               {errorMsg && <span className={styles.errorMsg}>{errorMsg}</span>}
@@ -183,7 +195,7 @@ export default function SignInModal(props) {
               checkLogin();
             }}
           >
-            Log in
+            로그인
           </button>
         </section>
       ) : null}
