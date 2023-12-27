@@ -140,8 +140,8 @@ export default function ProjectManagerTools() {
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
-          // backgroundColor: tm.background,
-          backgroundColor: "red",
+          backgroundColor: tm.background,
+          // backgroundColor: "red",
         }}
       >
         <Outlet context={{ teamIndex }} />
