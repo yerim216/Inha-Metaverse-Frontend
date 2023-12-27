@@ -582,9 +582,6 @@ export default function CalDayGrid(props) {
                                           // 밀리초를 일로 변환
                                           const daysDiff = timeDiff / (1000 * 60 * 60 * 24) + 1; //이벤트 전체 길이 반환
 
-                                          console.log(event);
-                                          // console.log(event.schedule_priority + event.schedule_title);
-                                          // console.log(typeof event.schedule_priority);
                                           dayEventLast.push({
                                              priority: event.schedule_priority,
                                              startDay: formattedDStart,

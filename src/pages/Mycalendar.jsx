@@ -104,7 +104,7 @@ export default function Mycalendar() {
    }, [eventChange]);
 
    const handleDivClick = () => {
-      setModalOpen(!modalOpen); // 모달의 열림/닫힘 상태를 토글합니다.
+      setModalOpen(true); // 모달의 열림/닫힘 상태를 토글합니다.
    };
    const location = useLocation();
    const navigate = useNavigate();
@@ -141,37 +141,30 @@ export default function Mycalendar() {
       <>
          <div className={`${styles.wrap}`}>
             <div className={styles.topDate}>
-               <div className={styles.datePointer} onClick={handleDivClick}>
-                  <span className={styles.year} style={{ color: tm.hazyTextColor }}>
+               <div className={styles.datePointer} onClick={() => handleDivClick()}>
+                  <span className={styles.month} onClick={handleDivClick} style={{ color: tm.hazyTextColor }}>
                      {currentMonth}
                   </span>
-                  <span className={styles.month} style={{ color: tm.dateColor }}>
+                  <span className={styles.year} onClick={handleDivClick} style={{ color: tm.dateColor }}>
                      {year}
                   </span>
+                  <DatePicker
+                     className="custom-startDate"
+                     selected={today && today}
+                     onChange={handleTodayDate}
+                     popperPlacement="bottom-start"
+                     withPortal
+                     showYearDropdown
+                     dateFormatCalendar="MMMM yyyy"
+                     // dateFormat="MMMM d, yyyy"
+                     style={{ cursor: 'pointer' }}
+                     dateFormat="yyyy"
+                  />
                </div>
-               <img
-                  src="/public_assets/dateMore.svg"
-                  width="fit-content"
-                  height="fit-content"
-                  alt="profile"
-                  cursor="pointer"
-                  style={{ cursor: 'pointer' }}
-                  onClick={handleDivClick}
-               />
-               <DatePicker
-                  className="custom-startDate"
-                  selected={today && today}
-                  onChange={handleTodayDate}
-                  popperPlacement="bottom-start"
-                  withPortal
-                  showYearDropdown
-                  dateFormatCalendar="MMMM yyyy"
-                  // dateFormat="MMMM d, yyyy"
-                  style={{ cursor: 'pointer' }}
-                  dateFormat="yyyy"
-               />
+
                <button className={styles.putEvent} onClick={openModal}>
-                  <p className={styles.putEventTxt}>일정등록</p>
+                  <p className={styles.putEventTxt}>일정추가</p>
+                  <p className={styles.putEventPlus}>+</p>
                </button>
             </div>
 
