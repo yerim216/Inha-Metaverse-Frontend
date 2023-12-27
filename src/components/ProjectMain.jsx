@@ -113,7 +113,7 @@ export default function ProjectMain() {
   };
 
   return (
-    <section className="w-full h-full p-4 overflow-auto hiddenScrollBar xl:pr-80 2xl:pr-96">
+    <section className="w-full p-4 hiddenScrollBar xl:pr-80 2xl:pr-96">
       {/* 우측에 팀원 프로필 보여주는 곳 */}
       <RightViewer activated={"main"} />
       <section>

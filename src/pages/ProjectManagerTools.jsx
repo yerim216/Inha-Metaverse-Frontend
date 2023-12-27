@@ -140,7 +140,13 @@ export default function ProjectManagerTools() {
           paddingBottom: "120px",
           width: "100vw",
           height: "100vh",
-          overflow: "hidden",
+          // 스크롤이 필요한 경우에는 auto를, 아닐 경우엔 hidden을 동적으로 할당해 줌.
+          overflow: `${
+            location.pathname.includes("board") ||
+            location.pathname.includes("stickerNote")
+              ? "hidden"
+              : "auto"
+          }`,
           backgroundColor: tm.background,
         }}
       >
