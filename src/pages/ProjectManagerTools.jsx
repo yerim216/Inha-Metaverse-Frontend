@@ -134,120 +134,117 @@ export default function ProjectManagerTools() {
     <>
       <div
         style={{
-          paddingTop: "180px",
+          paddingTop: "60px",
           paddingLeft: "80px",
           paddingRight: "20px",
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
           backgroundColor: tm.background,
-          // backgroundColor: "red",
         }}
       >
-        <Outlet context={{ teamIndex }} />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: "60px",
-          paddingLeft: "100px",
-          paddingRight: "40px",
-          height: "120px",
-          width: "100%",
-          zIndex: 10,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {/* 드롭다운으로 프로젝트 선택 가능하게 변경하는 부분. margin-right 값을 통해 우측 여백(팀원 상태표시 탭 여백만큼) 설정. */}
-        {/* 추가로 아직 캘린더 및 매니지먼트 페이지에는 우측 여백 필요 X. 이에 url 이용 예외처리 해 주었음. */}
         <div
-          className={`w-[100%] h-full border-b-[0.5px] border-[#7c7c7c] ${
-            isIncludeInUrl && "xl:mr-80 2xl:mr-96"
-          }`}
+          style={{
+            paddingLeft: "100px",
+            paddingRight: "40px",
+            height: "120px",
+            width: "100%",
+            zIndex: 10,
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
+          {/* 드롭다운으로 프로젝트 선택 가능하게 변경하는 부분. margin-right 값을 통해 우측 여백(팀원 상태표시 탭 여백만큼) 설정. */}
+          {/* 추가로 아직 캘린더 및 매니지먼트 페이지에는 우측 여백 필요 X. 이에 url 이용 예외처리 해 주었음. */}
           <div
-            className="text-xl font-extrabold flex flex-col justify-center h-full gap-3"
-            style={{
-              color: tm.mainTextColor,
-            }}
+            className={`w-[100%] h-full border-b-[0.5px] border-[#7c7c7c] ${
+              isIncludeInUrl && "xl:mr-80 2xl:mr-96"
+            }`}
           >
-            <div className="flex gap-2 hover:cursor-pointer items-center">
-              <h3
-                className="ml-1"
-                onClick={() => {
-                  setView(!view);
+            <div
+              className="text-xl font-extrabold flex flex-col justify-center h-full gap-3"
+              style={{
+                color: tm.mainTextColor,
+              }}
+            >
+              <div className="flex gap-2 hover:cursor-pointer items-center">
+                <h3
+                  className="ml-1"
+                  onClick={() => {
+                    setView(!view);
+                  }}
+                >
+                  {projectName}
+                </h3>
+                <div className="relative whitespace-nowrap">
+                  <img
+                    src="/public_assets/icons/bottomArrow.svg"
+                    alt="bottomArrow"
+                    className={`${view && "rotate-180"}`}
+                  />
+                  {view && (
+                    <div
+                      className="list-none absolute z-10 left-4 top-0 flex flex-col items-center p-3 rounded-lg gap-2 overflow-y-auto max-h-[600px]"
+                      style={{
+                        backgroundColor: tm.dropDownProjectListBg,
+                        color: tm.mainTextColor,
+                      }}
+                    >
+                      {filteredArray &&
+                        filteredArray.map((team) => {
+                          return (
+                            <li
+                              className="hover:scale-105 border-b w-full flex justify-center py-1"
+                              style={{
+                                borderColor: "lightgrey",
+                              }}
+                              onClick={() => {
+                                navigate(
+                                  `/projectmanagertools/${team.teamInfo.team_index}`,
+                                  {
+                                    state: {
+                                      teamIndex: team.teamInfo.team_index,
+                                    },
+                                  }
+                                );
+                                window.scrollTo({ top: 0, behavior: "auto" });
+                                window.location.reload();
+                              }}
+                            >
+                              {team.teamInfo.team_name}
+                            </li>
+                          );
+                        })}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="px-3 py-1 rounded-xl flex gap-2 items-center w-fit"
+                style={{
+                  backgroundColor: tm.skillsListBg,
                 }}
               >
-                {projectName}
-              </h3>
-              <div className="relative whitespace-nowrap">
-                <img
-                  src="/public_assets/icons/bottomArrow.svg"
-                  alt="bottomArrow"
-                  className={`${view && "rotate-180"}`}
-                />
-                {view && (
-                  <div
-                    className="list-none absolute z-10 left-4 top-0 flex flex-col items-center p-3 rounded-lg gap-2 overflow-y-auto max-h-[600px]"
-                    style={{
-                      backgroundColor: tm.dropDownProjectListBg,
-                      color: tm.mainTextColor,
-                    }}
-                  >
-                    {filteredArray &&
-                      filteredArray.map((team) => {
-                        return (
-                          <li
-                            className="hover:scale-105 border-b w-full flex justify-center py-1"
-                            style={{
-                              borderColor: "lightgrey",
-                            }}
-                            onClick={() => {
-                              navigate(
-                                `/projectmanagertools/${team.teamInfo.team_index}`,
-                                {
-                                  state: {
-                                    teamIndex: team.teamInfo.team_index,
-                                  },
-                                }
-                              );
-                              window.scrollTo({ top: 0, behavior: "auto" });
-                              window.location.reload();
-                            }}
-                          >
-                            {team.teamInfo.team_name}
-                          </li>
-                        );
-                      })}
-                  </div>
+                {/* <img src="/public_assets/skillsList.png" alt="skillsList" /> */}
+                {skills && skills[0].skill_index ? (
+                  skills.map((skillInfo) => {
+                    return (
+                      <img
+                        src={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}.svg`}
+                        alt={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}`}
+                        className="w-6"
+                      />
+                    );
+                  })
+                ) : (
+                  <span className="text-base">기술 스택 없음</span>
                 )}
               </div>
             </div>
-
-            <div
-              className="px-3 py-1 rounded-xl flex gap-2 items-center w-fit"
-              style={{
-                backgroundColor: tm.skillsListBg,
-              }}
-            >
-              {/* <img src="/public_assets/skillsList.png" alt="skillsList" /> */}
-              {skills && skills[0].skill_index ? (
-                skills.map((skillInfo) => {
-                  return (
-                    <img
-                      src={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}.svg`}
-                      alt={`/public_assets/skills/skill_img_${themeMode}_${skillInfo.skill_index}`}
-                      className="w-6"
-                    />
-                  );
-                })
-              ) : (
-                <span className="text-base">기술 스택 없음</span>
-              )}
-            </div>
           </div>
         </div>
+        <Outlet context={{ teamIndex }} />
       </div>
       <div
         style={{
