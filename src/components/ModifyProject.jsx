@@ -463,6 +463,11 @@ export default function ModifyProject() {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
   };
+  useEffect(() => {
+    if ((textareaRef, inputs.description !== "")) {
+      handleResize();
+    }
+  }, [textareaRef, inputs.description]);
 
   return (
     <>
