@@ -415,7 +415,8 @@ export default function SignUpModal(props) {
             <div className="walkthrough-body">
               <ul className="screens animate">
                 <li className="screen active z-10">
-                  <h1 className="title">시작해볼까요?</h1>
+                  <h1 className="title">VPSPACE에 오신걸</h1>
+                  <h1 className="title -mt-8">환영합니다.</h1>
                   <section className="first-input">
                     <form className={styles.signUpInputBox}>
                       <span className="mr-auto">이메일</span>
@@ -433,27 +434,8 @@ export default function SignUpModal(props) {
                       </div>
                       <div className="flex justify-between mt-5">
                         <span>비밀번호</span>
-                        <div
-                          className="flex gap-1 cursor-pointer"
-                          onClick={() => {
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
-                            <img
-                              src="/public_assets/icons/hide.svg"
-                              alt="kakao"
-                            />
-                          ) : (
-                            <img
-                              src="/public_assets/icons/show.svg"
-                              alt="kakao"
-                            />
-                          )}
-                          <span>숨기기</span>
-                        </div>
                       </div>
-                      <span className="relative">
+                      <div className="relative">
                         <input
                           type={hide ? "password" : "text"}
                           className={styles.passwordInput}
@@ -463,10 +445,30 @@ export default function SignUpModal(props) {
                           }}
                           placeholder="최소 6자리 이상의 숫자와 문자, 특수기호의 조합"
                         />
+                        <div
+                          className="absolute right-4 top-4 flex gap-1 cursor-pointer"
+                          onClick={() => {
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <img
+                              src="/public_assets/icons/hide.svg"
+                              className="w-6 h-4"
+                              alt="kakao"
+                            />
+                          ) : (
+                            <img
+                              src="/public_assets/icons/show.svg"
+                              className="w-6 h-4"
+                              alt="kakao"
+                            />
+                          )}
+                        </div>
                         <span className={styles.warning}>
                           {passwordWarning}
                         </span>
-                      </span>
+                      </div>
                     </form>
                   </section>
                   <button
@@ -522,6 +524,10 @@ export default function SignUpModal(props) {
                             setIndex((cur) => {
                               return cur + 1;
                             });
+                            setSecondNextBtnClicked(true);
+                            setTimeout(() => {
+                              test();
+                            }, 3000);
                           }
                         });
                       }}
@@ -536,7 +542,7 @@ export default function SignUpModal(props) {
                 </li>
 
                 {/* 직무&스킬 선택 화면 */}
-                <li className="screen">
+                {/* <li className="screen">
                   <pre className="title">
                     {"현재 맡고 계신 직무와\n스킬을 선택해 주세요!"}
                   </pre>
@@ -681,7 +687,7 @@ export default function SignUpModal(props) {
                   >
                     <img src="/public_assets/icons/nextBtn.svg" alt="nextBtn" />
                   </button>
-                </li>
+                </li> */}
 
                 <li className="screen thirdScreen" ref={thirdScreen}>
                   <h1 className={`title ${secondNextBtnClicked && "up"}`}>
