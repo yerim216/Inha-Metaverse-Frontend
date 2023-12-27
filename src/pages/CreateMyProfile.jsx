@@ -82,6 +82,9 @@ export default function CreateMyProfile() {
       else setTm(theme.darkTheme.createProject);
    }, [themeMode]);
 
+   // 선택된 기술 스택 리스트
+   const [selectedSkills, setSelectedSkills] = useState([]);
+
    const fetchData = () => {
       getUserInfo(userIdx).then(function (res) {
          setUsers(res.data[0]);
@@ -89,6 +92,7 @@ export default function CreateMyProfile() {
          setIntro(res.data[0].user_introduction);
          setUserProfileIdx(res.data[0].user_img_index);
          setSelectedJob(res.data[0].user_job);
+         setSelectedSkills(res.data[0].skills);
          console.log(res.data[0]);
       });
 
@@ -369,8 +373,6 @@ export default function CreateMyProfile() {
       setFilteredSkills(filtered);
    }, [skillSearch]);
 
-   // 선택된 기술 스택 리스트
-   const [selectedSkills, setSelectedSkills] = useState([]);
    const handleAddSelectedSkill = (skill) => {
       if (selectedSkills.length >= 5) {
          setErrorMessages((cur) => {

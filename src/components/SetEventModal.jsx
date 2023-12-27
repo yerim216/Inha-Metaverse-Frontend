@@ -54,9 +54,9 @@ function ModalComponent({
 
    const [selectedColor, setSelectedColor] = useState(null);
    const colors = [
-      { name: '기획', code: '#FBEFB5' },
-      { name: '개발', code: '#C1E8E4' },
-      { name: '디자인', code: '#FBEAE9' },
+      { name: '기획', code: '#E5FFD1' },
+      { name: '개발', code: '#DED9FF' },
+      { name: '디자인', code: '#FFE5BE' },
       { name: '그 외', code: '#E9F0FE' },
    ];
 
