@@ -427,13 +427,13 @@ input {
 }
 
 .fieldBtn:hover {
-  background-color: #7090b0;
+  background-color: #0c6eed;
   color: white;
   font-weight: 700;
 }
 
 .fieldBtn.coloredFieldBtn {
-  background-color: #7090b0;
+  background-color: #0c6eed;
   color: white;
 }
 
