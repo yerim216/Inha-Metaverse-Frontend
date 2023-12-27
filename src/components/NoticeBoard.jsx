@@ -58,7 +58,7 @@ export default function NoticeBoard({ teamIndex }) {
   }, [themeMode]);
 
   return (
-    <section className="mt-8">
+    <section className="mt-8 mb-[-120px]">
       <div className="w-full flex justify-between items-center">
         <span
           className="text-[18px]"
