@@ -137,6 +137,7 @@ export default function ProjectManagerTools() {
           paddingTop: "60px",
           paddingLeft: "80px",
           paddingRight: "20px",
+          paddingBottom: "120px",
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
