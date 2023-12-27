@@ -7,6 +7,7 @@ import { theme } from "../theme/theme";
 import { getTeamIndex } from "../APIs/userinfo";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil";
+import { red } from "@mui/material/colors";
 
 export default function ProjectManagerTools() {
   // 버튼 따라 현재 활성화된 프로젝트 관리 툴 실행 : 현재는 투두(board), 캘린더 존재
@@ -139,7 +140,8 @@ export default function ProjectManagerTools() {
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
-          backgroundColor: tm.background,
+          // backgroundColor: tm.background,
+          backgroundColor: "red",
         }}
       >
         <Outlet context={{ teamIndex }} />
