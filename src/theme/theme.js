@@ -52,7 +52,6 @@ export const lightTheme = {
       modifyBtn: '#6D758F',
       modifyCancelBtn: '#E7E7E7',
       hazyText: '#7C7C7C',
-      careerBg: '#FFF',
    },
    board: {
       whenModalBg: 'rgba(105, 105, 105, 0.8)',
@@ -101,8 +100,8 @@ export const lightTheme = {
    },
    calendar: {
       calBg: '#F1F3F7',
-      dateColor: 'black',
-      hazyTextColor: 'black',
+      dateColor: '#7C7C7C',
+      boldTextColor: '#0C6EED',
       subTextColor: '#7090B0',
    },
 };
@@ -164,11 +163,10 @@ export const darkTheme = {
       modifyBtn: '#394046',
       modifyCancelBtn: '#9B9B9B',
       hazyText: '#ADADAD',
-      careerBg: '#394046',
    },
    profile: {
       mainTextColor: 'white',
-      background: '#1C1D1E',
+      background: 'black',
       boxShadow: 'none',
       border: '0.3px solid rgba(255, 255, 255, 0.4)',
       txtBoxBackground: '#2C2C2C',
@@ -211,7 +209,7 @@ export const darkTheme = {
    calendar: {
       calBg: '#323232',
       dateColor: '#777',
-      hazyTextColor: '#c9c9c9',
+      boldTextColor: '#0C6EED',
       subTextColor: '#b3b3b3',
    },
 };

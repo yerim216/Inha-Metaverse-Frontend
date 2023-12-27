@@ -10,37 +10,35 @@
 
 .topDate {
    display: flex;
+   justify-content: space-between;
    align-items: center;
    margin-left: 1.3vw;
    gap: 0.3vw;
 }
 
-.year {
-   color: #c9c9c9;
-   font-size: 1.1vw;
+.month {
+   color: #0c6eed;
+   font-size: 15px;
    font-style: normal;
    font-weight: 600;
    line-height: 1vh;
 }
 
-.month {
-   /* color: #777; */
+.year {
    text-align: center;
    font-family: Inter;
-   font-size: 1.05vw;
+   font-size: 15px;
    font-style: normal;
    font-weight: 400;
-   line-height: 1vh;
    cursor: pointer;
 }
 
 .putEvent {
-   position: absolute;
-   right: 5vw;
-   top: 25vh;
-   border-radius: 6px;
-   background: #7090b0;
-   width: 6.2vw;
+   display: flex;
+   align-items: center;
+   padding: 10px 18px 10px 22px;
+   border-radius: 100px;
+   background: #0c6eed;
    height: 5vh;
    /* margin-left: 76vw; */
    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
@@ -49,7 +47,17 @@
 .putEventTxt {
    color: #fff;
    font-family: Avenir;
-   font-size: 1.07vw;
+   font-size: 12px;
+   font-style: normal;
+   font-weight: 500;
+   line-height: 1vh; /* 66.667% */
+}
+
+.putEventPlus {
+   margin-left: 6px;
+   color: #fff;
+   font-family: Avenir;
+   font-size: 12px;
    font-style: normal;
    font-weight: 500;
    line-height: 1vh; /* 66.667% */
@@ -67,7 +75,7 @@
 }
 
 .weekends {
-   color: #17a1fa;
+   color: #0c6eed;
    margin-right: 9.8vw;
 }
 
@@ -84,6 +92,9 @@
 }
 
 .datePointer {
+   display: flex;
+   gap: 5px;
+   align-items: center;
    cursor: pointer;
 }
 
