@@ -393,7 +393,8 @@ input {
 }
 
 .button.up {
-  transform: translateY(15vh);}
+  transform: translateY(15vh);
+}
 
 .otherSignUp {
   position: relative;
@@ -451,7 +452,7 @@ input {
 
 .nickNameWarning {
   position: absolute;
-  color: #7090b0;
+  color: #0c6eed;
   font-family: "SF Pro Text";
   font-style: normal;
   font-weight: 400;
