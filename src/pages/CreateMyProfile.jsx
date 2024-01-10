@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/CreateMyProfile.module.css';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil';
@@ -403,6 +404,7 @@ export default function CreateMyProfile() {
       });
    };
 
+   const navigate = useNavigate();
    const handleClickSave = () => {
       putUserJob(userIdx, selectedJob)
          .then(function (res) {
@@ -443,11 +445,21 @@ export default function CreateMyProfile() {
                });
          });
       }
+
+      navigate('/myprofile');
+      window.scrollTo(0, 0);
    };
 
    useEffect(() => {
       console.log(selectedSkills);
    }, [selectedSkills]);
+
+   const openModal = () => {
+      setModalIsOpen(true);
+   };
+
+   const [modalIsOpen, setModalIsOpen] = useState(false);
+
    return (
       <>
          <div className={styles.wrap}>
@@ -455,15 +467,21 @@ export default function CreateMyProfile() {
             <div className={styles.imgWrap}>
                <img
                   className={styles.profileImgCss}
+                  onClick={() => setModalIsOpen(1)}
+                  // onClose={() => setModalIsOpen(0)}
                   src={`/public_assets/profileImg/profileImg_${userProfileIdx}.png`}
                />
-               <span
-                  onClick={() => {
-                     setOpenImgSelect(1);
-                  }}
-               >
-                  <ImageSelector userProfileIdx={userProfileIdx} setUserProfileIdx={setUserProfileIdx} />
-               </span>
+               <button className={styles.imgtxt} onClick={() => setModalIsOpen(true)} style={{ color: tm.textColor }}>
+                  프로필 사진
+               </button>
+               {modalIsOpen && (
+                  <ImageSelector
+                     setModalIsOpen={setModalIsOpen}
+                     // onClose={() => setModalIsOpen(0)}
+                     userProfileIdx={userProfileIdx}
+                     setUserProfileIdx={setUserProfileIdx}
+                  />
+               )}
             </div>
             <div className={styles.topWrap}>
                <div className={styles.nameWrap}>

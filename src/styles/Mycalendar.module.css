@@ -92,12 +92,16 @@
 }
 
 .datePointer {
+   width: 300px;
+   height: fit-content;
+   position: relative;
    display: flex;
    gap: 5px;
    align-items: center;
    cursor: pointer;
 }
 
-.react-datepicker__input-containerP {
-   background-color: black !important;
+.moveMonth {
+   margin: 0 10px 0 10px;
+   z-index: 2;
 }

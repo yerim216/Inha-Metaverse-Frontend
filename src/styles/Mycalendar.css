@@ -1,8 +1,14 @@
 .custom-startDate {
    background: none;
-   margin-left: -3.45vw;
-   font-size: 1vw;
-   z-index: -1;
-   color: #c9c9c9;
+   /* margin-left: -3.45vw; */
+   /* font-size: 1vw; */
+   /* z-index: -1; */
+   /* color: #c9c9c9; */
+   /* color: black; */
    opacity: 0.01;
+   top: 0;
+   left: 0;
+   position: absolute;
+   cursor: pointer;
+   transform: translate(-50%, -50%);
 }

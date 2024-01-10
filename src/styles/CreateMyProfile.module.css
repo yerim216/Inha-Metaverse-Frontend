@@ -7,6 +7,17 @@
    position: relative;
 }
 
+.imgtxt {
+   cursor: pointer;
+   margin-top: 20px;
+   font-family: Alef;
+   font-size: 18px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+   outline: none;
+}
+
 .imgWrap {
    display: flex;
    width: 100%;
@@ -19,6 +30,8 @@
    height: 20%;
    border-radius: 20px;
    object-fit: cover;
+   cursor: pointer;
+   outline: none;
 }
 
 .topWrap {
@@ -68,7 +81,7 @@
 }
 
 .customInputBox {
-   border: 0;
+   outline: none;
    width: 100%;
    /* display: flex; */
    padding: 10px 15px;
@@ -80,7 +93,6 @@
 
    background: url('../../public/public_assets/moreArrowBlurry.svg') no-repeat 97% 50%/15px auto; /* Custom arrow image path */
    position: relative;
-   z-index: 2;
 
    padding-right: 30px; /* Adjust as needed */
 }

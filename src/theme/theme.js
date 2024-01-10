@@ -104,6 +104,9 @@ export const lightTheme = {
       boldTextColor: '#0C6EED',
       subTextColor: '#7090B0',
    },
+   modal: {
+      background: 'rgba(0,0,0,0.3)',
+   },
 };
 
 export const darkTheme = {
@@ -211,6 +214,9 @@ export const darkTheme = {
       dateColor: '#777',
       boldTextColor: '#0C6EED',
       subTextColor: '#b3b3b3',
+   },
+   modal: {
+      background: 'rgba(255,255,255,0.3)',
    },
 };
 

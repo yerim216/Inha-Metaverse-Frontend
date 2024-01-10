@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useOutletContext, BrowserRouter, Route, Link, Switch, useNavigate, useLocation } from 'react-router-dom';
+import { format, addMonths, subMonths } from 'date-fns';
 
 import styles from '../styles/Mycalendar.module.css';
 import SetEventModal from '../components/SetEventModal';
@@ -65,6 +66,7 @@ export default function Mycalendar() {
 
    const [today, setToday] = useState(new Date());
    const [dayMove, setDayMove] = useState(0);
+   // const [month, setMonth] = useState(today.getMonth());
 
    let month = today && today.getMonth(); //오늘 해당 달 mm
    let year = today && today.getFullYear(); //오늘 해당 년도 yyyy
@@ -137,91 +139,113 @@ export default function Mycalendar() {
       setUpdate(false);
    }
 
+   const dateColor = {
+      color: tm.dateColor,
+   };
+
+   const handleDecrease = () => {
+      month = (month - 1 + 12) % 12; // 0부터 11까지의 순환
+      console.log(month);
+   };
+
+   const handleIncrease = () => {
+      month = (month + 1) % 12; // 0부터 11까지의 순환
+      console.log(month);
+   };
+
    return (
-      <>
-         <div className={`${styles.wrap}`}>
-            <div className={styles.topDate}>
-               <div className={styles.datePointer} onClick={() => handleDivClick()}>
-                  <span className={styles.month} onClick={handleDivClick} style={{ color: tm.hazyTextColor }}>
-                     {currentMonth}
-                  </span>
-                  <span className={styles.year} onClick={handleDivClick} style={{ color: tm.dateColor }}>
-                     {year}
-                  </span>
-                  <DatePicker
-                     className="custom-startDate"
-                     selected={today && today}
-                     onChange={handleTodayDate}
-                     popperPlacement="bottom-start"
-                     withPortal
-                     showYearDropdown
-                     dateFormatCalendar="MMMM yyyy"
-                     // dateFormat="MMMM d, yyyy"
-                     style={{ cursor: 'pointer' }}
-                     dateFormat="yyyy"
-                  />
-               </div>
-
-               <button className={styles.putEvent} onClick={openModal}>
-                  <p className={styles.putEventTxt}>일정추가</p>
-                  <p className={styles.putEventPlus}>+</p>
-               </button>
-            </div>
-
-            <div className={styles.weekDay}>
-               {weekDay &&
-                  weekDay.map((day, index) => {
-                     if (day === 'Su' || day === 'Sa') {
-                        return (
-                           <span key={index} className={styles.weekends}>
-                              {day}
-                           </span>
-                        );
-                     } else {
-                        return (
-                           <span key={index} className={styles.weekdays} style={{ color: tm.subTextColor }}>
-                              {day}
-                           </span>
-                        );
-                     }
-                  })}
-            </div>
-            <div className={styles.cellBox}>
-               <CalDayGrid
-                  today={today && today}
-                  setStartDay={setStartDay}
-                  setEndDay={setEndDay}
-                  setTitle={setTitle}
-                  setNote={setNote}
-                  setIsModalOpen={setIsModalOpen}
-                  setScheduleIndex={setScheduleIndex}
-                  setEventColor={setEventColor}
-                  isModalOpen={isModalOpen}
-                  setCreatedTime={setCreatedTime}
-                  setWriter={setWriter}
-                  update={update}
-                  setUpdate={setUpdate}
+      <div className={`${styles.wrap}`}>
+         <div className={styles.topDate}>
+            <div className={styles.datePointer} onClick={() => handleDivClick()}>
+               <img
+                  className={styles.moveMonth}
+                  onClick={() => handleDecrease(1)}
+                  src={`/public_assets/left_vector.svg`}
                />
-
-               <SetEventModal
-                  className={styles.setEvnet}
-                  isOpen={isModalOpen}
-                  onRequestClose={closeModal}
-                  contentLabel="이벤트 등록"
-                  startDay={startDay}
-                  endDay={endDay}
-                  title={title}
-                  scheduleIndex={scheduleIndex}
-                  eventColor={eventColor}
-                  created={createdTime}
-                  writer={writer}
-                  note={note}
-                  today={today && today}
-                  setEventChange={setEventChange}
-                  setUpdate={setUpdate}
+               <span className={styles.month} onClick={handleDivClick} style={{ color: tm.hazyTextColor }}>
+                  {currentMonth}
+               </span>
+               <span className={styles.year} onClick={handleDivClick} style={{ color: tm.dateColor }}>
+                  {year}
+               </span>
+               <DatePicker
+                  className="custom-startDate"
+                  selected={today && today}
+                  onChange={handleTodayDate}
+                  popperPlacement="bottom-start"
+                  withPortal
+                  showYearDropdown
+                  dateFormatCalendar="MMMM yyyy"
+                  // dateFormat="MMMM d, yyyy"
+                  // style={dateColor}
+                  dateFormat="MMMM yyyy"
+               />
+               <img
+                  className={styles.moveMonth}
+                  onClick={() => handleIncrease(1)}
+                  src={`/public_assets/right_vector.svg`}
                />
             </div>
+
+            <button className={styles.putEvent} onClick={openModal}>
+               <p className={styles.putEventTxt}>일정추가</p>
+               <p className={styles.putEventPlus}>+</p>
+            </button>
          </div>
-      </>
+
+         <div className={styles.weekDay}>
+            {weekDay &&
+               weekDay.map((day, index) => {
+                  if (day === 'Su' || day === 'Sa') {
+                     return (
+                        <span key={index} className={styles.weekends}>
+                           {day}
+                        </span>
+                     );
+                  } else {
+                     return (
+                        <span key={index} className={styles.weekdays} style={{ color: tm.subTextColor }}>
+                           {day}
+                        </span>
+                     );
+                  }
+               })}
+         </div>
+         <div className={styles.cellBox}>
+            <CalDayGrid
+               today={today && today}
+               setStartDay={setStartDay}
+               setEndDay={setEndDay}
+               setTitle={setTitle}
+               setNote={setNote}
+               setIsModalOpen={setIsModalOpen}
+               setScheduleIndex={setScheduleIndex}
+               setEventColor={setEventColor}
+               isModalOpen={isModalOpen}
+               setCreatedTime={setCreatedTime}
+               setWriter={setWriter}
+               update={update}
+               setUpdate={setUpdate}
+            />
+
+            <SetEventModal
+               className={styles.setEvnet}
+               isOpen={isModalOpen}
+               onRequestClose={closeModal}
+               contentLabel="이벤트 등록"
+               startDay={startDay}
+               endDay={endDay}
+               title={title}
+               scheduleIndex={scheduleIndex}
+               eventColor={eventColor}
+               created={createdTime}
+               writer={writer}
+               note={note}
+               today={today && today}
+               setEventChange={setEventChange}
+               setUpdate={setUpdate}
+            />
+         </div>
+      </div>
    );
 }
